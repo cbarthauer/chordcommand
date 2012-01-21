@@ -32,6 +32,9 @@ COMMENT
     |   '/*' ( options {greedy=false;} : . )* '*/' {$channel=HIDDEN;}
     ;
 
+START_LIST : '[';
+END_LIST : ']';
+
 WS  :   ( ' '
         | '\t'
         | '\r'
@@ -42,6 +45,54 @@ WS  :   ( ' '
 START_BLOCK : '{' ;
 END_BLOCK : '}' ;
 
-compilationUnit : 'sequence'^ START_BLOCK! chord (','! chord)* END_BLOCK! EOF!;
+//Chord member tokens.
+ROOT : 'root';
+THIRD : 'third';
+FIFTH : 'fifth';
 
-chord : NOTE_NAME^ QUALITY;
+//Chord types.
+TRIADS : 'triads';
+
+UNIT : 'unit';
+VOICING : 'voicing';
+CHORD : 'chord';
+
+compilationUnit 
+    : voicingDef+ progressionDef* EOF -> ^(UNIT voicingDef+ progressionDef*)
+    ;
+    
+voicingDef :
+    'voicings' START_BLOCK
+      voicingTypeList+
+    END_BLOCK
+    -> ^('voicings' voicingTypeList+)
+    ;
+    
+voicingTypeList :
+    TRIADS ':' START_LIST
+      chordMemberList
+      (',' chordMemberList)*
+    END_LIST
+    -> ^(TRIADS chordMemberList+)
+    ;
+    
+chordMemberList
+    : START_BLOCK chordMember (',' chordMember)* END_BLOCK
+    -> ^(VOICING chordMember+)
+    ;
+    
+progressionDef :
+    'progression' START_BLOCK 
+        chord (',' chord)* 
+    END_BLOCK 
+    -> ^('progression' chord+)
+    ;
+
+chord 
+    : NOTE_NAME QUALITY
+    -> ^(CHORD NOTE_NAME QUALITY);
+
+chordMember : ROOT
+    | THIRD
+    | FIFTH
+    ;

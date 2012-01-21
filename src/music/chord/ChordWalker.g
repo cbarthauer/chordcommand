@@ -15,17 +15,58 @@ options {
 
 @members {
   List<Chord> chords = new ArrayList<Chord>();
+  VoicingManager voicingManager = new VoicingManager();
+  VoicingType currentVoicingType = null;
+  Voicing currentVoicing = null;
 }
 
-sequence returns [List<Chord> result]
-    :   ^('sequence' chordList) {result = chords;}
+
+compilationUnit returns [ChordGrammarFile result]
+    : ^(UNIT voicingDef+ progressionDef*) {
+        result = ChordGrammarFile.getInstance()
+            .setChordList(chords)
+            .setVoicingManager(voicingManager);
+    }
+    ;
+    
+voicingDef 
+    : ^('voicings' voicingTypeList+)
+    ;
+    
+voicingTypeList 
+    : ^(TRIADS { currentVoicingType = VoicingType.TRIAD; } chordMemberList+)
+    ;
+    
+chordMemberList 
+    : ^(VOICING { currentVoicing = Voicing.getInstance(); } 
+            (member=chordMember {currentVoicing.addChordMember(ChordMember.memberFromName($member.name));} )+ 
+       ) {         
+            switch(currentVoicingType) {
+                case TRIAD:
+                    voicingManager.addTriadVoicing(currentVoicing);
+                    break;
+                default:
+                    throw new RuntimeException("Illegal VoicingType: " + currentVoicingType);
+            }
+        }
+    ;
+    
+progressionDef 
+    : ^('progression' chord+)
     ;
 
-chordList
-    :   (^(NOTE_NAME QUALITY){chords.add(
+chord 
+    : ^(CHORD NOTE_NAME QUALITY){chords.add(
             new Chord(
                 NoteName.rootFromSymbol($NOTE_NAME.text), 
                 Quality.qualityFromAbbreviation($QUALITY.text)
             )
-         );})+ 
+         );}
     ;
+    
+chordMember returns [String name] 
+    : ROOT {name = "ROOT";}
+    | THIRD {name = "THIRD";}
+    | FIFTH {name = "FIFTH";}
+    ;
+    

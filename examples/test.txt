@@ -1,0 +1,8 @@
+voicings {
+  triads: [
+    {root, fifth, root, third},
+    {root, root, third, fifth}  
+  ]
+}
+
+progression { AbM, DbM, Bbm, EbM, Fm, Bbm, EbM, AbM }
