@@ -19,4 +19,8 @@ public class VoicingManager {
 				"    triadVoicingList: " + triadVoicingList + "\n" +
 			"}\n";
 	}
+
+	public List<Voicing> getTriadVoicingList() {
+		return triadVoicingList;
+	}
 }

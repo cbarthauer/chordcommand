@@ -5,16 +5,12 @@ import java.util.Collections;
 import java.util.List;
 
 public class ChordVoicer {
-	private List<VoicingStrategy> voicingList;
+	private static final int octaveShift = 48;
+	private List<Voicing> voicingList;
 	private VoicePartMap previousChordMap;
 	
-	public ChordVoicer() {
-		voicingList = new ArrayList<VoicingStrategy>();
-		voicingList.add(new Voicing1());
-		voicingList.add(new Voicing2());
-		voicingList.add(new Voicing3());
-		voicingList.add(new Voicing4());
-		voicingList.add(new Voicing5());
+	public ChordVoicer(List<Voicing> voicingList) {
+		this.voicingList = voicingList;
 		Collections.shuffle(voicingList);
 	}
 	
@@ -28,10 +24,10 @@ public class ChordVoicer {
 		return midiNumberList;
 	}
 
-	private VoicePartMap partMapFromChord(Chord chord, VoicingStrategy voicing) {
+	private VoicePartMap partMapFromChord(Chord chord, Voicing voicing) {
 		VoicePartMap partMap = new VoicePartMap();
 		List<Integer> midiNumberList = voicing.voice(chord);
-		midiNumberList = shiftUp(midiNumberList, 48);
+		midiNumberList = shiftUp(midiNumberList, octaveShift);
 		
 		partMap.put(VoicePart.BASS, midiNumberList.get(0));
 		partMap.put(VoicePart.BARITONE, midiNumberList.get(1));
@@ -44,24 +40,24 @@ public class ChordVoicer {
 
 	private VoicePartMap findClosest(Chord chord, VoicePartMap previousChordMap) {
 		VoicePartMap result = null;
-		VoicingStrategy selected = null;
+		Voicing selectedVoicing = null;
 		
 		if(previousChordMap == null) {
-			selected = voicingList.get(0);
-			result = partMapFromChord(chord, selected);
+			selectedVoicing = voicingList.get(0);
+			result = partMapFromChord(chord, selectedVoicing);
 		}
 		else {
-			for(VoicingStrategy strategy : voicingList) {
-				VoicePartMap currentMap = partMapFromChord(chord, strategy);
+			for(Voicing currentVoicing : voicingList) {
+				VoicePartMap currentMap = partMapFromChord(chord, currentVoicing);
 				
 				if(result == null || currentMap.difference(previousChordMap) < result.difference(previousChordMap)) {
 					result = currentMap;
-					selected = strategy;
+					selectedVoicing = currentVoicing;
 				}
 			}
 		}
 		
-		System.out.print(selected.getClass() + ": ");
+		System.out.print("Voicing - " + selectedVoicing + ": ");
 		
 		return result;
 	}

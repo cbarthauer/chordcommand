@@ -1,8 +1,13 @@
 voicings {
   triads: [
     {root, fifth, root, third},
-    {root, root, third, fifth}  
+    {root, root, third, fifth},
+    {root, third, fifth, root},
+    {root, fifth, third, root},
+    {fifth, root, third, fifth},
+    {fifth, third, fifth, root}
   ]
 }
 
-progression { AbM, DbM, Bbm, EbM, Fm, Bbm, EbM, AbM }
+progression { AbM, Ab+, DbM, Ddim, EbM, Edim, Fm, Bbm, EbM, AbM }
+//progression { DbM, GbM, Ebm, AbM, Bbm, Ebm, AbM, DbM }

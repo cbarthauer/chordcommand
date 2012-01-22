@@ -1,10 +1,12 @@
 package music.chord;
 
 public enum Interval {
-//	              chromaticHalfSteps diatonicSteps
-	MINOR_THIRD(  3,                 2),
-	MAJOR_THIRD(  4,                 2), 
-	PERFECT_FIFTH(7,                 4);
+//	                 chromaticHalfSteps diatonicSteps
+	MINOR_THIRD(     3,                 2),
+	MAJOR_THIRD(     4,                 2),
+	DIMINISHED_FIFTH(6,                 4),
+	PERFECT_FIFTH(   7,                 4),
+	AUGMENTED_FIFTH( 8,                 4);
 	
 	private int halfSteps;
 	private int diatonicSteps;

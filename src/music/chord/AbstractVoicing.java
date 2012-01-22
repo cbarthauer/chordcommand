@@ -1,8 +1,7 @@
 package music.chord;
 
 
-public abstract class AbstractVoicingStrategy implements VoicingStrategy {
-
+public abstract class AbstractVoicing implements VoicingStrategy {
 	protected int placeAbove(int upper, int lower) {
 		int result = upper;
 		

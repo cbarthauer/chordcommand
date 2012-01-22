@@ -22,19 +22,16 @@ ACCIDENTAL
     :   'b' | '#' | 'n'
     ;
 
-QUALITY : ('M' | 'm');
-//MAJOR : 'M';
-//    
-//MINOR : 'm';
+QUALITY : '+' | 'M' | 'm' | 'dim';
     	
 COMMENT
     :   '//' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}
     |   '/*' ( options {greedy=false;} : . )* '*/' {$channel=HIDDEN;}
     ;
 
-START_LIST : '[';
-END_LIST : ']';
 
+
+//Whitespace
 WS  :   ( ' '
         | '\t'
         | '\r'
@@ -42,8 +39,13 @@ WS  :   ( ' '
         )+ {$channel=HIDDEN;}
     ;
 
+//Blocks
 START_BLOCK : '{' ;
 END_BLOCK : '}' ;
+
+//Lists
+START_LIST : '[';
+END_LIST : ']';
 
 //Chord member tokens.
 ROOT : 'root';

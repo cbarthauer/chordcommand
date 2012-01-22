@@ -22,8 +22,6 @@ public class Test {
 	 */
 	public static void main(String[] args) throws RecognitionException, IOException {
 		CharStream charStream = new ANTLRFileStream("D:\\musicspace\\chordgrammar\\examples\\test.txt");
-//		CharStream charStream = new ANTLRStringStream("progression { F#m, BM, GM, CM, Fm, Bbm, EbM, AbM }");
-//		CharStream charStream = new ANTLRStringStream("progression { CM, C#M, DM, EbM, EM, FM, F#M, GM, AbM, AM, BbM, BM }");
 		ChordLexer lexer = new ChordLexer(charStream );
 		TokenStream tokenStream = new CommonTokenStream(lexer);
 		ChordParser parser = new ChordParser(tokenStream);
@@ -36,8 +34,9 @@ public class Test {
 		List<Chord> chordList = file.getChordList();
 		VoicingManager voicingManager = file.getVoicingManager();
 		
-		System.out.println(voicingManager);
-		ChordPlayer.play(chordList);
+		ChordVoicer voicer = new ChordVoicer(voicingManager.getTriadVoicingList());
+		ChordPlayer player = new ChordPlayer(voicer);
+		player.play(chordList);
 	}
 
 }

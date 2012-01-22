@@ -1,8 +1,10 @@
 package music.chord;
 
 public enum Quality {
+	AUGMENTED("+"),
 	MAJOR("M"),
-	MINOR("m");
+	MINOR("m"),
+	DIMINISHED("dim");
 	
 	public static Quality qualityFromAbbreviation(String abbreviation) {
 		Quality result = Quality.MAJOR;
