@@ -23,14 +23,14 @@ ACCIDENTAL
     ;
 
 QUALITY : '+' | 'M' | 'm' | 'dim';
-    	
+
+SEVEN : '7';
+
 COMMENT
     :   '//' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}
     |   '/*' ( options {greedy=false;} : . )* '*/' {$channel=HIDDEN;}
     ;
-
-
-
+    
 //Whitespace
 WS  :   ( ' '
         | '\t'
@@ -51,9 +51,11 @@ END_LIST : ']';
 ROOT : 'root';
 THIRD : 'third';
 FIFTH : 'fifth';
+SEVENTH : 'seventh';
 
 //Chord types.
 TRIADS : 'triads';
+SEVENTHS : 'sevenths';
 
 UNIT : 'unit';
 VOICING : 'voicing';
@@ -65,17 +67,23 @@ compilationUnit
     
 voicingDef :
     'voicings' START_BLOCK
-      voicingTypeList+
+      voicingTypeList
+      (',' voicingTypeList)*
     END_BLOCK
     -> ^('voicings' voicingTypeList+)
     ;
     
-voicingTypeList :
-    TRIADS ':' START_LIST
-      chordMemberList
-      (',' chordMemberList)*
-    END_LIST
-    -> ^(TRIADS chordMemberList+)
+voicingTypeList 
+    : TRIADS ':' START_LIST
+        chordMemberList
+        (',' chordMemberList)*
+      END_LIST
+      -> ^(TRIADS chordMemberList+)
+    | SEVENTHS ':' START_LIST
+        chordMemberList
+        (',' chordMemberList)*    
+      END_LIST
+      -> ^(SEVENTHS chordMemberList+)
     ;
     
 chordMemberList
@@ -92,9 +100,15 @@ progressionDef :
 
 chord 
     : NOTE_NAME QUALITY
-    -> ^(CHORD NOTE_NAME QUALITY);
+        -> ^(CHORD NOTE_NAME QUALITY)
+    | NOTE_NAME
+        -> ^(CHORD NOTE_NAME)
+    | NOTE_NAME SEVEN
+        -> ^(CHORD NOTE_NAME SEVEN)
+    ;
 
 chordMember : ROOT
     | THIRD
     | FIFTH
+    | SEVENTH
     ;

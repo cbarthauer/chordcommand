@@ -6,8 +6,17 @@ voicings {
     {root, fifth, third, root},
     {fifth, root, third, fifth},
     {fifth, third, fifth, root}
+  ],
+  sevenths: [
+    {root, third, fifth, seventh},
+    {root, fifth, seventh, third},
+    {root, seventh, third, fifth},
+    {fifth, seventh, root, third},
+    {fifth, root, third, seventh},
+    {fifth, third, seventh, root},
+    {third, fifth, seventh, root}
   ]
 }
 
-progression { AbM, Ab+, DbM, Ddim, EbM, Edim, Fm, Bbm, EbM, AbM }
+progression { Ab, Ab+, Db, Ddim, Eb, Edim, Fm, Bbm, Eb7, Ab7, Db, Eb7, Ab }
 //progression { DbM, GbM, Ebm, AbM, Bbm, Ebm, AbM, DbM }

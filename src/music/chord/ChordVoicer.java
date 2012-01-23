@@ -6,12 +6,15 @@ import java.util.List;
 
 public class ChordVoicer {
 	private static final int octaveShift = 48;
-	private List<Voicing> voicingList;
+	private List<Voicing> triadVoicingList;
 	private VoicePartMap previousChordMap;
+	private List<Voicing> seventhVoicingList;
 	
-	public ChordVoicer(List<Voicing> voicingList) {
-		this.voicingList = voicingList;
-		Collections.shuffle(voicingList);
+	public ChordVoicer(List<Voicing> triadVoicingList, List<Voicing> seventhVoicingList) {
+		this.triadVoicingList = triadVoicingList;
+		this.seventhVoicingList = seventhVoicingList;
+		Collections.shuffle(triadVoicingList);
+		Collections.shuffle(seventhVoicingList);
 	}
 	
 	public List<Integer> midiNumbersFromChord(Chord chord) {
@@ -24,21 +27,8 @@ public class ChordVoicer {
 		return midiNumberList;
 	}
 
-	private VoicePartMap partMapFromChord(Chord chord, Voicing voicing) {
-		VoicePartMap partMap = new VoicePartMap();
-		List<Integer> midiNumberList = voicing.voice(chord);
-		midiNumberList = shiftUp(midiNumberList, octaveShift);
-		
-		partMap.put(VoicePart.BASS, midiNumberList.get(0));
-		partMap.put(VoicePart.BARITONE, midiNumberList.get(1));
-		partMap.put(VoicePart.LEAD, midiNumberList.get(2));
-		partMap.put(VoicePart.TENOR, midiNumberList.get(3));
-		
-		return partMap;
-	}
-
-
 	private VoicePartMap findClosest(Chord chord, VoicePartMap previousChordMap) {
+		List<Voicing> voicingList = voicingListFromChord(chord);
 		VoicePartMap result = null;
 		Voicing selectedVoicing = null;
 		
@@ -60,6 +50,29 @@ public class ChordVoicer {
 		System.out.print("Voicing - " + selectedVoicing + ": ");
 		
 		return result;
+	}
+
+
+	private List<Voicing> voicingListFromChord(Chord chord) {
+		if(chord.isSeventh()) {
+			return seventhVoicingList;
+		}
+		else {
+			return triadVoicingList;
+		}
+	}
+
+	private VoicePartMap partMapFromChord(Chord chord, Voicing voicing) {
+		VoicePartMap partMap = new VoicePartMap();
+		List<Integer> midiNumberList = voicing.voice(chord);
+		midiNumberList = shiftUp(midiNumberList, octaveShift);
+		
+		partMap.put(VoicePart.BASS, midiNumberList.get(0));
+		partMap.put(VoicePart.BARITONE, midiNumberList.get(1));
+		partMap.put(VoicePart.LEAD, midiNumberList.get(2));
+		partMap.put(VoicePart.TENOR, midiNumberList.get(3));
+		
+		return partMap;
 	}
 
 

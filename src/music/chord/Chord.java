@@ -3,8 +3,10 @@ package music.chord;
 public class Chord {
 	private NoteName rootName;
 	private Quality triadQuality;
+	private Quality seventhQuality;
 	private Interval thirdInterval;
 	private Interval fifthInterval;
+	private Interval seventhInterval;
 	
 	public Chord(NoteName rootName, Quality triadQuality) {
 		this.rootName = rootName;
@@ -31,7 +33,23 @@ public class Chord {
 			throw new RuntimeException("Unrecognized triad quality: " + triadQuality);
 		}
 		
+		this.seventhQuality = Quality.NONE;
+	}
+	
+	public Chord(NoteName rootName, Quality triadQuality, Quality seventhQuality) {
+		this(rootName, triadQuality);
+		this.seventhQuality = seventhQuality;
 		
+		switch(seventhQuality) {
+		case MAJOR:
+			seventhInterval = Interval.MAJOR_SEVENTH;
+			break;
+		case MINOR:
+			seventhInterval = Interval.MINOR_SEVENTH;
+			break;
+		default:
+			throw new RuntimeException("Unrecognized seventh quality: " + seventhQuality);
+		}
 	}
 	
 	public NoteName getFifthNoteName() {
@@ -46,6 +64,12 @@ public class Chord {
 		return rootName.up(thirdInterval);		
 	}
 
+	public NoteName getSeventhNoteName() {
+		if(seventhInterval == null) throw new RuntimeException("Triads don't have sevenths!");
+		
+		return rootName.up(seventhInterval);
+	}
+	
 	public String toString() {
 		return "chord(" + rootName.toString() + " " + triadQuality.toString() + "): {\n" + 
 	           "  root: " + rootName.toString() + ",\n" + 
@@ -67,10 +91,17 @@ public class Chord {
 		case FIFTH:
 			result = getFifthNoteName().getChromaticIndex();
 			break;
+		case SEVENTH:
+			result = getSeventhNoteName().getChromaticIndex();
+			break;
 		default:
 			throw new RuntimeException("Unknown chord member: " + chordMember);
 		}
 		
 		return result;
+	}
+	
+	public boolean isSeventh() {
+		return seventhInterval != null;
 	}
 }

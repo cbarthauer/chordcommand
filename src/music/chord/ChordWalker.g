@@ -35,6 +35,7 @@ voicingDef
     
 voicingTypeList 
     : ^(TRIADS { currentVoicingType = VoicingType.TRIAD; } chordMemberList+)
+    | ^(SEVENTHS { currentVoicingType = VoicingType.SEVENTH; } chordMemberList+)
     ;
     
 chordMemberList 
@@ -44,6 +45,9 @@ chordMemberList
             switch(currentVoicingType) {
                 case TRIAD:
                     voicingManager.addTriadVoicing(currentVoicing);
+                    break;
+                case SEVENTH:
+                    voicingManager.addSeventhVoicing(currentVoicing);
                     break;
                 default:
                     throw new RuntimeException("Illegal VoicingType: " + currentVoicingType);
@@ -62,11 +66,25 @@ chord
                 Quality.qualityFromAbbreviation($QUALITY.text)
             )
          );}
+    | ^(CHORD NOTE_NAME){chords.add(
+            new Chord(
+                NoteName.rootFromSymbol($NOTE_NAME.text), 
+                Quality.MAJOR
+            )
+         );}
+    | ^(CHORD NOTE_NAME SEVEN) {chords.add(
+            new Chord(
+                NoteName.rootFromSymbol($NOTE_NAME.text), 
+                Quality.MAJOR,
+                Quality.MINOR
+            )
+         );}
     ;
     
 chordMember returns [String name] 
     : ROOT {name = "ROOT";}
     | THIRD {name = "THIRD";}
     | FIFTH {name = "FIFTH";}
+    | SEVENTH {name = "SEVENTH";}
     ;
     

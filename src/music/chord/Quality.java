@@ -4,7 +4,10 @@ public enum Quality {
 	AUGMENTED("+"),
 	MAJOR("M"),
 	MINOR("m"),
-	DIMINISHED("dim");
+	DIMINISHED("dim"), 
+	
+	//Placeholder for chords with missing members (i.e. triads don't have sevenths, etc.).
+	NONE("");
 	
 	public static Quality qualityFromAbbreviation(String abbreviation) {
 		Quality result = Quality.MAJOR;
