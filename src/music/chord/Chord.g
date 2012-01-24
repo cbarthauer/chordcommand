@@ -24,6 +24,7 @@ ACCIDENTAL
 
 QUALITY : '+' | 'M' | 'm' | 'dim';
 
+MINOR_SEVEN : 'm7';
 SEVEN : '7';
 
 COMMENT
@@ -105,6 +106,8 @@ chord
         -> ^(CHORD NOTE_NAME)
     | NOTE_NAME SEVEN
         -> ^(CHORD NOTE_NAME SEVEN)
+    | NOTE_NAME MINOR_SEVEN
+        -> ^(CHORD NOTE_NAME MINOR_SEVEN)
     ;
 
 chordMember : ROOT

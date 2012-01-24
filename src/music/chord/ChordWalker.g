@@ -79,6 +79,13 @@ chord
                 Quality.MINOR
             )
          );}
+    | ^(CHORD NOTE_NAME MINOR_SEVEN) {chords.add(
+            new Chord(
+                NoteName.rootFromSymbol($NOTE_NAME.text), 
+                Quality.MINOR,
+                Quality.MINOR
+            )
+         );}
     ;
     
 chordMember returns [String name] 
