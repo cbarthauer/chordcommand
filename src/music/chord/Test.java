@@ -32,7 +32,6 @@ public class Test {
 		ChordGrammarFile file = walker.compilationUnit();
 		List<Chord> chordList = file.getChordList();
 		VoicingManager voicingManager = file.getVoicingManager();
-		System.out.println(voicingManager);
 		
 		ChordVoicer voicer = new ChordVoicer(voicingManager.getTriadVoicingList(), voicingManager.getSeventhVoicingList());
 		ChordPlayer player = new ChordPlayer(voicer);

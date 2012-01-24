@@ -47,6 +47,9 @@ public class Chord {
 		case MINOR:
 			seventhInterval = Interval.MINOR_SEVENTH;
 			break;
+		case DIMINISHED:
+			seventhInterval = Interval.DIMINISHED_SEVENTH;
+			break;
 		default:
 			throw new RuntimeException("Unrecognized seventh quality: " + seventhQuality);
 		}
