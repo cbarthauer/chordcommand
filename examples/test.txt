@@ -18,5 +18,5 @@ voicings {
   ]
 }
 
-progression { Ab, Ab+, Db, Ddim, Eb, C7, Fm7, Bb7, Eb7, Ab7, Bbm7, Eb7, Ab }
-//progression { DbM, GbM, Ebm, AbM, Bbm, Ebm, AbM, DbM }
+//progression { Ab, Ab+, Db, Fm6, Eb, C7, Fm7, Bb7, Eb7, Ab7, Bbm7, Eb7, Ab }
+progression { F, Ddim, E7, Em6, D7, Gm7, C7, F }

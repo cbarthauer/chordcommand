@@ -86,6 +86,13 @@ chord
                 Quality.MINOR
             )
          );}
+    | ^(CHORD NOTE_NAME MINOR_SIX) {chords.add(
+            new Chord(
+                NoteName.rootFromSymbol($NOTE_NAME.text).up(Interval.MAJOR_SIXTH), 
+                Quality.DIMINISHED,
+                Quality.MINOR
+            )
+         );}
     ;
     
 chordMember returns [String name] 

@@ -7,6 +7,7 @@ public enum Interval {
 	DIMINISHED_FIFTH(6,                 4),
 	PERFECT_FIFTH(   7,                 4),
 	AUGMENTED_FIFTH( 8,                 4),
+	MAJOR_SIXTH(     9,                 5),
 	MINOR_SEVENTH(   10,                6),
 	MAJOR_SEVENTH(   11,                6);
 	
