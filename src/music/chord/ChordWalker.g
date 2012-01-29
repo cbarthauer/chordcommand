@@ -21,9 +21,9 @@ options {
 }
 
 
-compilationUnit returns [ChordGrammarFile result]
+compilationUnit returns [ChordProgression result]
     : ^(UNIT voicingDef+ progressionDef*) {
-        result = ChordGrammarFile.getInstance()
+        result = ChordProgression.getInstance()
             .setChordList(chords)
             .setVoicingManager(voicingManager);
     }

@@ -14,12 +14,6 @@ import javax.sound.midi.Track;
 public class ChordPlayer {
 	private static final int DEFAULT_CHANNEL = 0;
 	
-	private ChordVoicer voicer;
-
-	public ChordPlayer(ChordVoicer voicer) {
-		this.voicer = voicer;
-	}
-	
 	public void play(List<Chord> chordList) {
 		try {
 			Sequencer sequencer = MidiSystem.getSequencer();
@@ -56,7 +50,8 @@ public class ChordPlayer {
 
 	
 	private Track addChordToTrack(Chord chord, Track track, int startTick) throws InvalidMidiDataException {
-		List<Integer> midiNumberList = voicer.midiNumbersFromChord(chord);
+		List<Integer> midiNumberList = chord.getMidiNumberList();
+		
 		for(Integer number : midiNumberList) {
 			ShortMessage noteOnMessage = new ShortMessage();
 			noteOnMessage.setMessage(ShortMessage.NOTE_ON, DEFAULT_CHANNEL, number, 120);

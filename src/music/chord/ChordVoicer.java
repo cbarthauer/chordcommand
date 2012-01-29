@@ -17,14 +17,12 @@ public class ChordVoicer {
 		Collections.shuffle(seventhVoicingList);
 	}
 	
-	public List<Integer> midiNumbersFromChord(Chord chord) {
-		VoicePartMap partMap = findClosest(chord, previousChordMap);
-		List<Integer> midiNumberList = new ArrayList<Integer>();
-		midiNumberList.addAll(partMap.getMap().values());
-		previousChordMap = partMap;
-		Collections.sort(midiNumberList);
-		System.out.println(midiNumberList);
-		return midiNumberList;
+	public List<Chord> voice(List<Chord> chordList) {
+		for(Chord chord : chordList) {
+			chord.setMidiNumberList(midiNumbersFromChord(chord));
+		}
+		
+		return chordList;
 	}
 
 	private VoicePartMap findClosest(Chord chord, VoicePartMap previousChordMap) {
@@ -53,13 +51,14 @@ public class ChordVoicer {
 	}
 
 
-	private List<Voicing> voicingListFromChord(Chord chord) {
-		if(chord.isSeventh()) {
-			return seventhVoicingList;
-		}
-		else {
-			return triadVoicingList;
-		}
+	private List<Integer> midiNumbersFromChord(Chord chord) {
+		VoicePartMap partMap = findClosest(chord, previousChordMap);
+		List<Integer> midiNumberList = new ArrayList<Integer>();
+		midiNumberList.addAll(partMap.getMidiNumberMap().values());
+		previousChordMap = partMap;
+		Collections.sort(midiNumberList);
+		System.out.println(midiNumberList);
+		return midiNumberList;
 	}
 
 	private VoicePartMap partMapFromChord(Chord chord, Voicing voicing) {
@@ -82,5 +81,14 @@ public class ChordVoicer {
 		}
 		
 		return midiNumberList;
+	}
+
+	private List<Voicing> voicingListFromChord(Chord chord) {
+		if(chord.isSeventh()) {
+			return seventhVoicingList;
+		}
+		else {
+			return triadVoicingList;
+		}
 	}
 }

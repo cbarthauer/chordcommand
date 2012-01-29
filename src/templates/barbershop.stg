@@ -1,0 +1,59 @@
+group barbershop;
+
+score(tenorPitches, leadPitches, baritonePitches, bassPitches) ::= <<
+\language "english"
+
+\paper {
+  top-system-spacing #'basic-distance = #10
+  score-system-spacing #'basic-distance = #20
+  system-system-spacing #'basic-distance = #20
+  last-bottom-spacing #'basic-distance = #10
+}
+
+global = {
+  \key c \major
+  \time 4/4
+}
+
+tenorMusic = {
+  <tenorPitches>
+}
+
+leadMusic = \relative c {
+  <leadPitches>
+}
+
+baritoneMusic = \relative c' {
+  <baritonePitches>
+}
+
+bassMusic = \relative c {
+  <bassPitches>
+}
+
+\score {
+  \new ChoirStaff \<\<
+    \new Staff = "women" \<\<
+      \clef "treble_8"
+      \new Voice = "tenors" {
+        \voiceOne
+        \<\< \global \tenorMusic \>\>
+      }
+      \new Voice = "leads" {
+        \voiceTwo
+        \<\< \global \leadMusic \>\>
+      }
+    \>\>
+    \new Staff = "men" \<\<
+      \clef bass
+      \new Voice = "baritones" {
+        \voiceOne
+        \<\< \global \baritoneMusic \>\>
+      }
+      \new Voice = "basses" {
+        \voiceTwo \<\< \global \bassMusic \>\>
+      }
+    \>\>
+  \>\>
+}
+>>

@@ -2,9 +2,9 @@ package music.chord;
 
 import java.util.List;
 
-public class ChordGrammarFile {
-	public static ChordGrammarFile getInstance() {
-		return new ChordGrammarFile();
+public class ChordProgression {
+	public static ChordProgression getInstance() {
+		return new ChordProgression();
 	}
 	
 	private List<Chord> chordList;
@@ -18,12 +18,12 @@ public class ChordGrammarFile {
 		return voicingManager;
 	}
 	
-	public ChordGrammarFile setChordList(List<Chord> chordList) {
+	public ChordProgression setChordList(List<Chord> chordList) {
 		this.chordList = chordList;
 		return this;
 	}
 
-	public ChordGrammarFile setVoicingManager(VoicingManager voicingManager) {
+	public ChordProgression setVoicingManager(VoicingManager voicingManager) {
 		this.voicingManager = voicingManager;
 		return this;
 	}

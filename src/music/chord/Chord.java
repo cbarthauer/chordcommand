@@ -1,5 +1,7 @@
 package music.chord;
 
+import java.util.List;
+
 public class Chord {
 	private NoteName rootName;
 	private Quality triadQuality;
@@ -7,6 +9,7 @@ public class Chord {
 	private Interval thirdInterval;
 	private Interval fifthInterval;
 	private Interval seventhInterval;
+	private List<Integer> midiNumberList;
 	
 	public Chord(NoteName rootName, Quality triadQuality) {
 		this.rootName = rootName;
@@ -35,7 +38,7 @@ public class Chord {
 		
 		this.seventhQuality = Quality.NONE;
 	}
-	
+
 	public Chord(NoteName rootName, Quality triadQuality, Quality seventhQuality) {
 		this(rootName, triadQuality);
 		this.seventhQuality = seventhQuality;
@@ -55,32 +58,6 @@ public class Chord {
 		}
 	}
 	
-	public NoteName getFifthNoteName() {
-		return rootName.up(fifthInterval);
-	}
-	
-	public NoteName getRootNoteName() {
-		return rootName;
-	}
-
-	public NoteName getThirdNoteName() {
-		return rootName.up(thirdInterval);		
-	}
-
-	public NoteName getSeventhNoteName() {
-		if(seventhInterval == null) throw new RuntimeException("Triads don't have sevenths!");
-		
-		return rootName.up(seventhInterval);
-	}
-	
-	public String toString() {
-		return "chord(" + rootName.toString() + " " + triadQuality.toString() + "): {\n" + 
-	           "  root: " + rootName.toString() + ",\n" + 
-			   "  third: " + getThirdNoteName().toString() + "\n" +
-	           "  fifth: " + getFifthNoteName().toString() + "\n" +
-	           "}\n";
-	}
-
 	public int chromaticIndexFromChordMember(ChordMember chordMember) {
 		int result = 0;
 		
@@ -104,7 +81,41 @@ public class Chord {
 		return result;
 	}
 	
+	public NoteName getFifthNoteName() {
+		return rootName.up(fifthInterval);
+	}
+	
+	public List<Integer> getMidiNumberList() {
+		return midiNumberList;
+	}
+
+	public NoteName getRootNoteName() {
+		return rootName;
+	}
+
+	public NoteName getSeventhNoteName() {
+		if(seventhInterval == null) throw new RuntimeException("Triads don't have sevenths!");
+		
+		return rootName.up(seventhInterval);
+	}
+	
+	public NoteName getThirdNoteName() {
+		return rootName.up(thirdInterval);		
+	}
+
 	public boolean isSeventh() {
 		return seventhInterval != null;
+	}
+	
+	public void setMidiNumberList(List<Integer> midiNumberList) {
+		this.midiNumberList = midiNumberList;
+	}
+
+	public String toString() {
+		return "chord(" + rootName.toString() + " " + triadQuality.toString() + "): {\n" + 
+	           "  root: " + rootName.toString() + ",\n" + 
+			   "  third: " + getThirdNoteName().toString() + "\n" +
+	           "  fifth: " + getFifthNoteName().toString() + "\n" +
+	           "}\n";
 	}
 }

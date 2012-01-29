@@ -4,18 +4,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class VoicePartMap {
-	private Map<VoicePart, Integer> map;
+	private Map<VoicePart, Integer> voicePartToMidiNumberMap;
 	
 	public VoicePartMap() {
-		map = new HashMap<VoicePart, Integer>();
+		voicePartToMidiNumberMap = new HashMap<VoicePart, Integer>();
 	}
 	
-	public Map<VoicePart, Integer> getMap() {
-		return map;
+	public Map<VoicePart, Integer> getMidiNumberMap() {
+		return voicePartToMidiNumberMap;
 	}
 
 	public void put(VoicePart part, Integer midiNumber) {
-		map.put(part, midiNumber);
+		voicePartToMidiNumberMap.put(part, midiNumber);
 	}
 	
 	/**
@@ -25,8 +25,8 @@ public class VoicePartMap {
 	public int difference(VoicePartMap otherMap) {
 		int result = 0;
 		
-		for(VoicePart part : map.keySet()) {
-			result = result + Math.abs(map.get(part) - otherMap.map.get(part));
+		for(VoicePart part : voicePartToMidiNumberMap.keySet()) {
+			result = result + Math.abs(voicePartToMidiNumberMap.get(part) - otherMap.voicePartToMidiNumberMap.get(part));
 		}
 		
 		return result;
