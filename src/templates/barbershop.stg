@@ -19,15 +19,15 @@ tenorMusic = {
   <tenorPitches>
 }
 
-leadMusic = \relative c {
+leadMusic = {
   <leadPitches>
 }
 
-baritoneMusic = \relative c' {
+baritoneMusic = {
   <baritonePitches>
 }
 
-bassMusic = \relative c {
+bassMusic = {
   <bassPitches>
 }
 

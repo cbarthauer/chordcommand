@@ -1,6 +1,7 @@
 package music.chord;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class LilyPondConverter {
@@ -25,22 +26,48 @@ public class LilyPondConverter {
 		}
 	}
 	
-	public Map<ChordMember, String> pitchStringMapFromChord(Chord chord) {
-		Map<ChordMember, String> result = new HashMap<ChordMember, String>();
+
+	public String stringFromChordList(List<Chord> chordList, VoicePart voicePart) {
+		String result = "";
 		
-		NoteName noteName = chord.getRootNoteName();
-		result.put(ChordMember.ROOT, lySymbolMap.get(noteName));
+		for(Chord chord : chordList) {
+			NoteBean currentNote = chord.noteFromVoicePart(voicePart);
+			result = result + lyStringFromNoteBean(currentNote) + " ";
+		}
 		
-		noteName = chord.getThirdNoteName();
-		result.put(ChordMember.THIRD, lySymbolMap.get(noteName));
-		
-		noteName = chord.getFifthNoteName();
-		result.put(ChordMember.FIFTH, lySymbolMap.get(noteName));
-		
-		noteName = chord.getSeventhNoteName();
-		result.put(ChordMember.SEVENTH, lySymbolMap.get(noteName));
-		
+		return result.trim();
+	}
+
+
+	private String lyStringFromNoteBean(NoteBean currentNote) {
+		String result = lySymbolMap.get(currentNote.getNoteName());
+		result = result + lySuffixFromNoteBean(currentNote);
 		return result;
 	}
 
+
+	private String lySuffixFromNoteBean(NoteBean currentNote) {
+		int midiNumber = currentNote.getMidiNumber();
+		if(midiNumber < 36 || midiNumber >= 96) {throw new IllegalArgumentException("MIDI number " + midiNumber + " is out of range: 36-95.");}
+	
+		String result = "";
+		
+		if(36 <= midiNumber && midiNumber < 48) {
+			result = ",";
+		}
+		else if(48 <= midiNumber && midiNumber < 60) {
+			result = "";
+		}
+		else if(60 <= midiNumber && midiNumber < 72) {
+			result = "'";
+		}
+		else if(72 <= midiNumber && midiNumber < 84) {
+			result = "''";
+		}
+		else if(84 <= midiNumber && midiNumber < 96) {
+			result = "'''";
+		}
+		
+		return result;
+	}
 }

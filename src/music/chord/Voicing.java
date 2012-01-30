@@ -22,17 +22,24 @@ public class Voicing extends AbstractVoicing {
 		return chordMemberList.toString();
 	}
 
-	public List<Integer> voice(Chord chord) {
-		List<Integer> result = new ArrayList<Integer>();
-		int bass = chord.chromaticIndexFromChordMember(chordMemberList.get(0));
-		int baritone = placeAbove(chord.chromaticIndexFromChordMember(chordMemberList.get(1)), bass);
-		int lead = placeAbove(chord.chromaticIndexFromChordMember(chordMemberList.get(2)), baritone);
-		int tenor = placeAbove(chord.chromaticIndexFromChordMember(chordMemberList.get(3)), lead);
+	public List<NoteBean> voice(Chord chord) {
+		List<NoteBean> result = new ArrayList<NoteBean>();
 		
-		result.add(bass);
-		result.add(baritone);
-		result.add(lead);
-		result.add(tenor);
+		int bass = chord.chromaticIndexFromChordMember(chordMemberList.get(0));
+		NoteBean note = new NoteBean(chord.noteNameFromChordMember(chordMemberList.get(0)), bass);
+		result.add(note);
+		
+		int baritone = placeAbove(chord.chromaticIndexFromChordMember(chordMemberList.get(1)), bass);
+		note = new NoteBean(chord.noteNameFromChordMember(chordMemberList.get(1)), baritone);
+		result.add(note);
+		
+		int lead = placeAbove(chord.chromaticIndexFromChordMember(chordMemberList.get(2)), baritone);
+		note = new NoteBean(chord.noteNameFromChordMember(chordMemberList.get(2)), lead);
+		result.add(note);
+		
+		int tenor = placeAbove(chord.chromaticIndexFromChordMember(chordMemberList.get(3)), lead);
+		note = new NoteBean(chord.noteNameFromChordMember(chordMemberList.get(3)), tenor);
+		result.add(note);
 		
 		return result;
 	}

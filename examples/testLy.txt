@@ -1,0 +1,10 @@
+voicings {
+  triads: [
+    {root, fifth, root, third}
+  ],
+  sevenths: [
+    {root, third, fifth, seventh}
+  ]
+}
+
+progression { C, F, G, C }

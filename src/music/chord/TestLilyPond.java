@@ -25,12 +25,12 @@ public class TestLilyPond {
 	 * @throws RecognitionException 
 	 */
 	public static void main(String[] args) throws IOException, RecognitionException {
+//		CharStream charStream = new ANTLRFileStream("D:\\musicspace\\chordgrammar\\examples\\testLy.txt");
 		CharStream charStream = new ANTLRFileStream("D:\\musicspace\\chordgrammar\\examples\\test.txt");
 		ChordLexer lexer = new ChordLexer(charStream );
 		TokenStream tokenStream = new CommonTokenStream(lexer);
 		ChordParser parser = new ChordParser(tokenStream);
 		compilationUnit_return compilationUnit = parser.compilationUnit();
-		System.out.println(compilationUnit.tree.toStringTree());
 		
 		CommonTreeNodeStream nodeStream = new CommonTreeNodeStream(compilationUnit.tree);
 		ChordWalker walker = new ChordWalker(nodeStream);
@@ -41,14 +41,14 @@ public class TestLilyPond {
 		ChordVoicer voicer = new ChordVoicer(voicingManager.getTriadVoicingList(), voicingManager.getSeventhVoicingList());
 		chordList = voicer.voice(chordList);
 		
-		
+		LilyPondConverter ly = new LilyPondConverter();
 		STGroup group = new STGroupFile("src/templates/barbershop.stg");
 		ST st = group.getInstanceOf("score");
-		st.add("tenorPitches", "csharp' csharp' bsharp csharp'");
-		st.add("leadPitches", "eflat fflat dflat eflat");
-		st.add("baritonePitches", "gsharp asharp fsharp gsharp");
-		st.add("bassPitches", "csharp csharp gsharp csharp");
-		System.out.print(st.render());
+		st.add("tenorPitches", ly.stringFromChordList(chordList, VoicePart.TENOR));
+		st.add("leadPitches", ly.stringFromChordList(chordList, VoicePart.LEAD));
+		st.add("baritonePitches", ly.stringFromChordList(chordList, VoicePart.BARITONE));
+		st.add("bassPitches", ly.stringFromChordList(chordList, VoicePart.BASS));
+//		System.out.print(st.render());
 		PrintWriter pw = new PrintWriter("lilypond/barbershop.ly");
 		pw.print(st.render());
 		pw.flush();

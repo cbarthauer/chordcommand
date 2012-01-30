@@ -1,10 +1,10 @@
 voicings {
   triads: [
+    {fifth, root, third, fifth},
     {root, fifth, root, third},
     {root, root, third, fifth},
     {root, third, fifth, root},
-    {root, fifth, third, root},
-    {fifth, root, third, fifth},
+    //{root, fifth, third, root},
     {fifth, third, fifth, root}
   ],
   sevenths: [
@@ -18,5 +18,7 @@ voicings {
   ]
 }
 
-progression { Ab, Ab+, Db, Fm6, Eb, Edim7, Fm7, Bb7, Eb7, Ab7, Bbm7, Eb7, Ab }
+//progression { Ab, Ab+, Db }
+//progression { Ab, Ab+, Db, Fm6, Eb, Edim7, Fm7, Bb7, Eb7, Ab7, Bbm7, Eb7, Ab }
 //progression { F, Ddim, E7, Em6, F#dim7, D7, Em7, C7, Am7, D7, G }
+progression { Eb, Eb+, Ab, Cm6, Bb, Bdim7, Cm7, Fb7, Bb7, Eb7, Fbm7, Bb7, Eb }

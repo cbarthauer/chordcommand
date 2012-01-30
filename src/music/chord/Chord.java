@@ -1,5 +1,7 @@
 package music.chord;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Chord {
@@ -10,6 +12,7 @@ public class Chord {
 	private Interval fifthInterval;
 	private Interval seventhInterval;
 	private List<Integer> midiNumberList;
+	private List<NoteBean> noteList;
 	
 	public Chord(NoteName rootName, Quality triadQuality) {
 		this.rootName = rootName;
@@ -86,7 +89,11 @@ public class Chord {
 	}
 	
 	public List<Integer> getMidiNumberList() {
-		return midiNumberList;
+		List<Integer> result = new ArrayList<Integer>();
+		for(NoteBean note : noteList) {
+			result.add(note.getMidiNumber());
+		}
+		return result;
 	}
 
 	public NoteName getRootNoteName() {
@@ -98,17 +105,72 @@ public class Chord {
 		
 		return rootName.up(seventhInterval);
 	}
-	
+
 	public NoteName getThirdNoteName() {
 		return rootName.up(thirdInterval);		
 	}
-
+	
 	public boolean isSeventh() {
 		return seventhInterval != null;
 	}
-	
+
+	public NoteBean noteFromVoicePart(VoicePart voicePart) {
+		NoteBean result = null;
+		
+		switch(voicePart) {
+		case BASS:
+			result = noteList.get(0);
+			break;
+		case BARITONE:
+			result = noteList.get(1);
+			break;
+		case LEAD:
+			result = noteList.get(2);
+			break;
+		case TENOR:
+			result = noteList.get(3);
+			break;
+		default:
+			throw new RuntimeException("Unknown voice part: " + voicePart);
+		}
+		
+		return result;
+	}
+
+	public NoteName noteNameFromChordMember(ChordMember chordMember) {
+		NoteName result = null;
+		
+		switch(chordMember) {
+		case ROOT:
+			result = this.getRootNoteName();
+			break;
+		
+		case THIRD:
+			result = this.getThirdNoteName();
+			break;
+			
+		case FIFTH:
+			result = this.getFifthNoteName();
+			break;
+			
+		case SEVENTH:
+			result = this.getSeventhNoteName();
+			break;
+			
+		default:
+			throw new RuntimeException("Unrecognized chord member: " + chordMember);
+		}
+		
+		return result;
+	}
+
 	public void setMidiNumberList(List<Integer> midiNumberList) {
 		this.midiNumberList = midiNumberList;
+	}
+
+	public void setNoteBeanList(List<NoteBean> noteList) {
+		this.noteList = noteList;
+		Collections.sort(this.noteList);
 	}
 
 	public String toString() {
