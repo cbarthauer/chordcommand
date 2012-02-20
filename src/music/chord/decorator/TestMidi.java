@@ -20,7 +20,8 @@ public class TestMidi {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws RecognitionException, IOException {
-		CharStream charStream = new ANTLRFileStream("D:\\musicspace\\chordgrammar\\examples\\test.txt");
+		CharStream charStream = new ANTLRFileStream(
+			"D:\\musicspace\\chordgrammar\\examples\\test.txt");
 		ChordLexer lexer = new ChordLexer(charStream );
 		TokenStream tokenStream = new CommonTokenStream(lexer);
 		ChordParser parser = new ChordParser(tokenStream);

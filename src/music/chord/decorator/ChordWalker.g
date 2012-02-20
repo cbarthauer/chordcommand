@@ -18,6 +18,7 @@ options {
   VoicingManager voicingManager = new VoicingManager();
   VoicingType currentVoicingType = null;
   Voicing currentVoicing = null;
+  ChordBuilder chordBuilder = new ChordBuilder();
 }
 
 
@@ -61,40 +62,38 @@ progressionDef
 
 chord 
     : ^(CHORD NOTE_NAME QUALITY){chords.add(
-            new Triad(
-                NoteName.rootFromSymbol($NOTE_NAME.text), 
-                Quality.qualityFromAbbreviation($QUALITY.text)
-            )
+            chordBuilder.setRoot(NoteName.rootFromSymbol($NOTE_NAME.text))
+                .setTriadQuality(Quality.qualityFromAbbreviation($QUALITY.text))
+                .build()
          );}
     | ^(CHORD NOTE_NAME){chords.add(
-            new Triad(
-                NoteName.rootFromSymbol($NOTE_NAME.text), 
-                Quality.MAJOR
-            )
+            chordBuilder.setRoot(NoteName.rootFromSymbol($NOTE_NAME.text))
+                .setTriadQuality(Quality.MAJOR)
+                .build()
          );}
     | ^(CHORD NOTE_NAME SEVEN) {chords.add(
-            new SeventhChord(
-                new Triad(NoteName.rootFromSymbol($NOTE_NAME.text), Quality.MAJOR),
-                Quality.MINOR
-            )
+            chordBuilder.setRoot(NoteName.rootFromSymbol($NOTE_NAME.text))
+                .setTriadQuality(Quality.MAJOR)
+                .setSeventhQuality(Quality.MINOR)
+                .build()
          );}
     | ^(CHORD NOTE_NAME MINOR_SEVEN) {chords.add(
-            new SeventhChord(
-                new Triad(NoteName.rootFromSymbol($NOTE_NAME.text), Quality.MINOR),
-                Quality.MINOR
-            )
+            chordBuilder.setRoot(NoteName.rootFromSymbol($NOTE_NAME.text))
+                .setTriadQuality(Quality.MINOR)
+                .setSeventhQuality(Quality.MINOR)
+                .build()
          );}
     | ^(CHORD NOTE_NAME MINOR_SIX) {chords.add(
-            new SeventhChord(
-                new Triad(NoteName.rootFromSymbol($NOTE_NAME.text).up(Interval.MAJOR_SIXTH), Quality.DIMINISHED),
-                Quality.MINOR
-            )
+            chordBuilder.setRoot(NoteName.rootFromSymbol($NOTE_NAME.text).up(Interval.MAJOR_SIXTH))
+                .setTriadQuality(Quality.DIMINISHED)
+                .setSeventhQuality(Quality.MINOR)
+                .build()
          );}
     | ^(CHORD NOTE_NAME DIMINISHED_SEVEN) {chords.add(
-            new SeventhChord(
-                new Triad(NoteName.rootFromSymbol($NOTE_NAME.text), Quality.DIMINISHED),
-                Quality.DIMINISHED
-            )
+            chordBuilder.setRoot(NoteName.rootFromSymbol($NOTE_NAME.text))
+                .setTriadQuality(Quality.DIMINISHED)
+                .setSeventhQuality(Quality.DIMINISHED)
+                .build()
          );}
     ;
     
