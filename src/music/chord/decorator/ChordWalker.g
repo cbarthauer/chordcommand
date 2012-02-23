@@ -83,6 +83,12 @@ chord
                 .setSeventhQuality(Quality.MINOR)
                 .build()
          );}
+    | ^(CHORD NOTE_NAME MAJOR_SEVEN) {chords.add(
+            chordBuilder.setRoot(NoteName.rootFromSymbol($NOTE_NAME.text))
+                .setTriadQuality(Quality.MAJOR)
+                .setSeventhQuality(Quality.MAJOR)
+                .build()
+         );}
     | ^(CHORD NOTE_NAME MINOR_SIX) {chords.add(
             chordBuilder.setRoot(NoteName.rootFromSymbol($NOTE_NAME.text).up(Interval.MAJOR_SIXTH))
                 .setTriadQuality(Quality.DIMINISHED)
