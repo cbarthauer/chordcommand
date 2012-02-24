@@ -3,12 +3,9 @@ package music.chord.decorator;
 import java.util.ArrayList;
 import java.util.List;
 
-import music.chord.decorator.ChordMember;
-import music.chord.decorator.NoteBean;
-import music.chord.decorator.NoteName;
 
 public class Voicing extends AbstractVoicing {
-	private static final int octaveShift = 48;
+	private static final int octaveShift = 4;
 	
 	public static Voicing getInstance() {
 		return new Voicing();
@@ -46,9 +43,9 @@ public class Voicing extends AbstractVoicing {
 		return result;
 	}
 	
-	private List<NoteBean> shiftUp(List<NoteBean> noteBeanList, int numberHalfSteps) {
+	private List<NoteBean> shiftUp(List<NoteBean> noteBeanList, int octave) {
 		for(NoteBean noteBean : noteBeanList) {
-			noteBean.setMidiNumber(noteBean.getMidiNumber() + numberHalfSteps);
+			noteBean.setOctave(octave);
 		}
 		
 		return noteBeanList;

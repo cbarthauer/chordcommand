@@ -38,9 +38,11 @@ public class ChordPlayer {
 			}
 			
 			sequencer.close();
-		} catch (MidiUnavailableException e) {
+		} 
+		catch (MidiUnavailableException e) {
 			e.printStackTrace();
-		} catch (InvalidMidiDataException e) {
+		} 
+		catch (InvalidMidiDataException e) {
 			e.printStackTrace();
 		} 
 		catch (InterruptedException e) {
@@ -49,8 +51,10 @@ public class ChordPlayer {
 	}
 
 	
-	private Track addChordToTrack(VoicedChord chord, Track track, int startTick) throws InvalidMidiDataException {
-		List<Integer> midiNumberList = new MidiChord(chord).getMidiNumberList();
+	private Track addChordToTrack(VoicedChord chord, Track track, int startTick) 
+			throws InvalidMidiDataException {
+		
+		List<Integer> midiNumberList = chord.getMidiNumberList();
 		System.out.println("ChordPlayer.addChordToTrack() - midiNumberList: " + midiNumberList);
 		
 		for(Integer number : midiNumberList) {

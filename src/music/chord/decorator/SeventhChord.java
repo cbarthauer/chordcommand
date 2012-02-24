@@ -1,17 +1,11 @@
 package music.chord.decorator;
 
-import music.chord.decorator.ChordMember;
-import music.chord.decorator.Interval;
-import music.chord.decorator.NoteName;
-import music.chord.decorator.Quality;
 
 public class SeventhChord extends ForwardingChord {
-	private Quality seventhQuality;
 	private Interval seventhInterval;
 
 	public SeventhChord(Triad triad, Quality seventhQuality) {
 		super(triad);
-		this.seventhQuality = seventhQuality;
 		
 		switch(seventhQuality) {
 		case MAJOR:
@@ -28,15 +22,6 @@ public class SeventhChord extends ForwardingChord {
 		}
 	}
 
-	public NoteName getSeventhNoteName() {
-		return noteNameFromChordMember(ChordMember.ROOT)
-			.up(seventhInterval);
-	}
-	
-	public Quality getSeventhQuality() {
-		return seventhQuality;
-	}
-	
 	@Override
 	public NoteName noteNameFromChordMember(ChordMember chordMember) {
 		NoteName result = null;
@@ -57,5 +42,10 @@ public class SeventhChord extends ForwardingChord {
 				"Unknown chord member: " + chordMember);
 		}
 		return result;
+	}
+	
+	private NoteName getSeventhNoteName() {
+		return noteNameFromChordMember(ChordMember.ROOT)
+			.up(seventhInterval);
 	}
 }

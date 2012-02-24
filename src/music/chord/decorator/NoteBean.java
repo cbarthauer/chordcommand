@@ -1,23 +1,8 @@
 package music.chord.decorator;
 
-import java.util.List;
 
 public class NoteBean implements Comparable<NoteBean> {
-	public static int difference(List<NoteBean> list1, List<NoteBean> list2) {
-		if(list1.size() != list2.size()) { throw new IllegalArgumentException("Difference can only be computed on lists of the same size."); }
-		
-		int result = 0;
-		
-		for(int i = 0; i < list1.size(); i++) {
-			result = result + Math.abs(list1.get(i).getMidiNumber() - list2.get(i).getMidiNumber());
-		}
-		
-		System.err.println(list1 + " - " + list2 + " = " + result);
-		
-		return result;
-	}
-	
-	
+	private static final int HALF_STEPS_IN_OCTAVE = 12;
 	private NoteName noteName;
 	private Integer midiNumber;
 
@@ -38,11 +23,11 @@ public class NoteBean implements Comparable<NoteBean> {
 	public NoteName getNoteName() {
 		return noteName;
 	}
-
-	public void setMidiNumber(int midiNumber) {
-		this.midiNumber = midiNumber;
-	}
 	
+	public void setOctave(int octave) {
+		midiNumber = midiNumber + (octave * HALF_STEPS_IN_OCTAVE);
+	}
+
 	public String toString() {
 		return noteName + "(" + midiNumber + ")";
 	}

@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import music.chord.decorator.NoteBean;
-
 public class ChordVoicer {
 	private List<Voicing> triadVoicingList;
-	private List<NoteBean> previousNoteBeanList;
 	private List<Voicing> seventhVoicingList;
+	private VoicedChord previousVoicedChord;
 	
 	public ChordVoicer(List<Voicing> triadVoicingList, List<Voicing> seventhVoicingList) {
 		this.triadVoicingList = triadVoicingList;
@@ -30,33 +28,29 @@ public class ChordVoicer {
 
 	private VoicedChord voiceClosest(Chord chord) {
 		List<Voicing> voicingList = voicingListFromChord(chord);
-		List<NoteBean> result = null;
 		Voicing selectedVoicing = null;
+		VoicedChord result = null;
 		
-		if(previousNoteBeanList == null) {
+		if(previousVoicedChord == null) {
 			selectedVoicing = voicingList.get(0);
-			result = selectedVoicing.voice(chord);
+			result = new VoicedChord(chord, selectedVoicing);
 		}
 		else {
 			for(Voicing currentVoicing : voicingList) {
-				List<NoteBean> currentList = currentVoicing.voice(chord);
+				VoicedChord currentVoicedChord = new VoicedChord(chord, currentVoicing);
 				
 				if(
 					result == null 
-					|| NoteBean.difference(currentList, previousNoteBeanList) 
-						< NoteBean.difference(result, previousNoteBeanList)
+					|| currentVoicedChord.difference(previousVoicedChord) 
+						< result.difference(previousVoicedChord)
 				) {
-					result = currentList;
-					selectedVoicing = currentVoicing;
+					result = currentVoicedChord;
 				}
 			}
 		}
 		
-		previousNoteBeanList = result;
-		VoicedChord voicedChord = new VoicedChord(chord, selectedVoicing);
-		System.out.println("Selected " + result);
-		
-		return voicedChord;
+		previousVoicedChord = result;
+		return result;
 	}
 
 
