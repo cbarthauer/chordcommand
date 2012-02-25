@@ -1,0 +1,9 @@
+
+syntax: regexp
+^lilypond/barbershop\.ly$
+syntax: regexp
+^lilypond/barbershop\.pdf$
+syntax: regexp
+^lilypond/example1\.ly$
+syntax: regexp
+^lilypond/example1\.pdf$
