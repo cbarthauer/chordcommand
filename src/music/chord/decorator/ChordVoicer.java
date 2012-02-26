@@ -12,6 +12,7 @@ public class ChordVoicer {
 	public ChordVoicer(List<Voicing> triadVoicingList, List<Voicing> seventhVoicingList) {
 		this.triadVoicingList = triadVoicingList;
 		this.seventhVoicingList = seventhVoicingList;
+		
 		Collections.shuffle(triadVoicingList);
 		Collections.shuffle(seventhVoicingList);
 	}
@@ -20,7 +21,18 @@ public class ChordVoicer {
 		List<VoicedChord> result = new ArrayList<VoicedChord>();
 		
 		for(Chord chord : chordList) {
-			result.add(voiceClosest(chord));
+			VoicedChord voicedChord = null;
+			
+			if(chord instanceof VoicedChord) {
+				System.out.println("ChordVoicer.voice() - Found explicitly voiced chord: " + chord);
+				voicedChord = (VoicedChord) chord;
+			}
+			else {
+				voicedChord = voiceClosest(chord);
+			}
+			
+			result.add(voicedChord);
+			previousVoicedChord = voicedChord;
 		}
 		
 		return result;
@@ -49,7 +61,6 @@ public class ChordVoicer {
 			}
 		}
 		
-		previousVoicedChord = result;
 		return result;
 	}
 

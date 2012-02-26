@@ -34,7 +34,7 @@ public class Voicing extends AbstractVoicing {
 			NoteName noteName = chord.noteNameFromChordMember(chordMember);
 			chromaticIndex = placeAbove(noteName.getChromaticIndex(), chromaticIndex);
 			NoteBean note = new NoteBean(noteName, chromaticIndex);
-			System.out.println("Voicing.voice() - Adding note: " + note);
+//			System.out.println("Voicing.voice() - Adding note: " + note);
 			result.add(note);
 		}
 		

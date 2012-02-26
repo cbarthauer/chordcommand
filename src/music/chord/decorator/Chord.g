@@ -64,6 +64,8 @@ SEVENTHS : 'sevenths';
 UNIT : 'unit';
 VOICING : 'voicing';
 CHORD : 'chord';
+SPEC : 'spec';
+ATTR : 'attr';
 
 compilationUnit 
     : voicingDef+ progressionDef* EOF -> ^(UNIT voicingDef+ progressionDef*)
@@ -102,23 +104,35 @@ progressionDef :
     -> ^('progression' chord+)
     ;
 
-chord 
+chord
+    : chordSpec -> ^(CHORD chordSpec)
+    | chordSpec chordAttr -> ^(CHORD chordSpec chordAttr)
+    ;
+    
+chordSpec 
     : NOTE_NAME QUALITY
-        -> ^(CHORD NOTE_NAME QUALITY)
+        -> ^(SPEC NOTE_NAME QUALITY)
     | NOTE_NAME
-        -> ^(CHORD NOTE_NAME)
+        -> ^(SPEC NOTE_NAME)
     | NOTE_NAME SEVEN
-        -> ^(CHORD NOTE_NAME SEVEN)
+        -> ^(SPEC NOTE_NAME SEVEN)
     | NOTE_NAME MINOR_SEVEN
-        -> ^(CHORD NOTE_NAME MINOR_SEVEN)
+        -> ^(SPEC NOTE_NAME MINOR_SEVEN)
     | NOTE_NAME MAJOR_SEVEN
-        -> ^(CHORD NOTE_NAME MAJOR_SEVEN)
+        -> ^(SPEC NOTE_NAME MAJOR_SEVEN)
     | NOTE_NAME MINOR_SIX
-        -> ^(CHORD NOTE_NAME MINOR_SIX)
+        -> ^(SPEC NOTE_NAME MINOR_SIX)
     | NOTE_NAME DIMINISHED_SEVEN
-        -> ^(CHORD NOTE_NAME DIMINISHED_SEVEN)    
+        -> ^(SPEC NOTE_NAME DIMINISHED_SEVEN)    
     ;
 
+chordAttr
+    : START_BLOCK
+        'voicing' ':' chordMemberList
+    END_BLOCK
+    -> ^(ATTR chordMemberList)
+    ;
+    
 chordMember : ROOT
     | THIRD
     | FIFTH
