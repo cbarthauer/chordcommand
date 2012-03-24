@@ -55,7 +55,7 @@ public class ChordPlayer {
 			throws InvalidMidiDataException {
 		
 		List<Integer> midiNumberList = chord.getMidiNumberList();
-		System.out.println("ChordPlayer.addChordToTrack() - midiNumberList: " + midiNumberList);
+//		System.out.println("ChordPlayer.addChordToTrack() - midiNumberList: " + midiNumberList);
 		
 		for(Integer number : midiNumberList) {
 			ShortMessage noteOnMessage = new ShortMessage();

@@ -22,9 +22,11 @@ public class TestMidi {
 	public static void main(String[] args) throws RecognitionException, IOException {
 //		CharStream charStream = new ANTLRFileStream(
 //			"D:\\musicspace\\chordgrammar\\examples\\explicit_voicing.txt");
+//		CharStream charStream = new ANTLRFileStream(
+//				"D:\\musicspace\\chordgrammar\\examples\\test.txt");
 		CharStream charStream = new ANTLRFileStream(
-				"D:\\musicspace\\chordgrammar\\examples\\test.txt");
-		ChordLexer lexer = new ChordLexer(charStream );
+				"D:\\musicspace\\chordgrammar\\examples\\irish_lullaby.txt");
+		ChordLexer lexer = new ChordLexer(charStream);
 		TokenStream tokenStream = new CommonTokenStream(lexer);
 		ChordParser parser = new ChordParser(tokenStream);
 		compilationUnit_return compilationUnit = parser.compilationUnit();

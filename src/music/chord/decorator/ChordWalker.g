@@ -60,7 +60,7 @@ chordSpec returns [Chord chord]
                 .setTriadQuality(Quality.qualityFromAbbreviation($QUALITY.text))
                 .build();
          }
-    | ^(SPEC NOTE_NAME){chord =
+    | ^(SPEC NOTE_NAME) {chord =
             chordBuilder.setRoot(NoteName.rootFromSymbol($NOTE_NAME.text))
                 .setTriadQuality(Quality.MAJOR)
                 .build();
