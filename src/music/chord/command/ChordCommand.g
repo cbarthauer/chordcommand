@@ -11,9 +11,13 @@ options {
   import java.util.List;
   import music.chord.decorator.Chord;
   import music.chord.decorator.ChordBuilder;
+  import music.chord.decorator.ChordPlayer;
+  import music.chord.decorator.ChordVoicer;
   import music.chord.decorator.Interval;
   import music.chord.decorator.NoteName;
   import music.chord.decorator.Quality;
+  import music.chord.command.Command;
+  import music.chord.command.AddChord;
 }
 
 @lexer::header {
@@ -21,12 +25,23 @@ options {
 }
 
 @members {
+  List<Command> commandList = new ArrayList<Command>();
   ChordBuilder chordBuilder = new ChordBuilder();
   List<Chord> chordList;
+  ChordPlayer player;
+  ChordVoicer voicer;
 
   public void setChordList(List<Chord> chordList) {
     this.chordList = chordList;
   }
+  
+  public void setChordVoicer(ChordVoicer voicer) {
+    this.voicer = voicer;
+  }
+    
+  public void setChordPlayer(ChordPlayer player) {
+    this.player = player;
+  }  
 }
 
 NOTE_NAME
@@ -66,17 +81,29 @@ SEVENTHS : 'sevenths';
 
 //Commands.
 ADD : 'add';
+PLAY : 'play';
+QUIT : 'quit';
 
-program returns [List<Chord> result]
-  : command+ EOF { result = chordList; }
+program returns [List<Command> result]
+  : command+ EOF { result = commandList; }
   ;
   
 command
   : add
+  | play
+  | quit
   ;
   
 add
-  : ADD currentChord=chord {chordList.add($currentChord.chord);} 
+  : ADD currentChord=chord {commandList.add(new AddChord(chordList, $currentChord.chord));} 
+  ;
+
+play
+  : PLAY {commandList.add(new Play(chordList, voicer, player));}
+  ;
+  
+quit
+  : QUIT { commandList.add(new Quit()); }
   ;
   
 chord returns [Chord chord]

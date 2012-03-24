@@ -9,7 +9,6 @@ import music.chord.decorator.Chord;
 import music.chord.decorator.ChordPlayer;
 import music.chord.decorator.ChordVoicer;
 import music.chord.decorator.ChordVoicerFactory;
-import music.chord.decorator.VoicedChord;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CharStream;
@@ -31,18 +30,21 @@ public class Interpreter {
 			"D:\\musicspace\\chordgrammar\\examples\\voicings.txt");
 		List<Chord> chordList = new ArrayList<Chord>();
 		
-		while(!"quit".equals(line)) {
+		while(true) {
 			line = scanner.nextLine();
 			CharStream charStream = new ANTLRStringStream(line);
 			ChordCommandLexer lexer = new ChordCommandLexer(charStream);
 			TokenStream tokenStream = new CommonTokenStream(lexer);
 			ChordCommandParser parser = new ChordCommandParser(tokenStream);
 			parser.setChordList(chordList);
-			chordList = parser.program();
+			parser.setChordVoicer(voicer);
+			parser.setChordPlayer(new ChordPlayer());
 			
-			List<VoicedChord> voicedChordList = voicer.voice(chordList);
-			ChordPlayer player = new ChordPlayer();
-			player.play(voicedChordList);
+			List<Command> commandList = parser.program();
+			
+			for(Command command : commandList) {
+				command.execute();
+			}
 		}
 	}
 }
