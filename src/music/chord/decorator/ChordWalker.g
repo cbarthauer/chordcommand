@@ -16,8 +16,6 @@ options {
 @members {
   List<Chord> chords = new ArrayList<Chord>();
   VoicingManager voicingManager = new VoicingManager();
-  VoicingType currentVoicingType = null;
-  Voicing currentVoicing = null;
   ChordBuilder chordBuilder = new ChordBuilder();
 }
 
@@ -35,72 +33,72 @@ voicingDef
     ;
     
 voicingTypeList 
-    : ^(TRIADS { currentVoicingType = VoicingType.TRIAD; } chordMemberList+)
-    | ^(SEVENTHS { currentVoicingType = VoicingType.SEVENTH; } chordMemberList+)
+    : ^(TRIADS (currentList=chordMemberList {voicingManager.addTriadVoicing($currentList.voicing);})+)
+    | ^(SEVENTHS (currentList=chordMemberList {voicingManager.addSeventhVoicing($currentList.voicing);})+)
     ;
     
-chordMemberList 
-    : ^(VOICING { currentVoicing = Voicing.getInstance(); } 
-            (member=chordMember {currentVoicing.addChordMember(ChordMember.memberFromName($member.name));} )+ 
-       ) {         
-            switch(currentVoicingType) {
-                case TRIAD:
-                    voicingManager.addTriadVoicing(currentVoicing);
-                    break;
-                case SEVENTH:
-                    voicingManager.addSeventhVoicing(currentVoicing);
-                    break;
-                default:
-                    throw new RuntimeException("Illegal VoicingType: " + currentVoicingType);
-            }
-        }
+chordMemberList returns [Voicing voicing]
+    : ^(VOICING { voicing = Voicing.getInstance(); } 
+            (member=chordMember {voicing.addChordMember(ChordMember.memberFromName($member.name));} )+ 
+       )
     ;
     
 progressionDef 
-    : ^('progression' chord+)
+    : ^('progression' (currentChord=chord {chords.add($currentChord.value);} )+)
     ;
 
-chord 
-    : ^(CHORD NOTE_NAME QUALITY){chords.add(
+chord returns [Chord value]
+    : ^(CHORD currentSpec=chordSpec) {value = $currentSpec.chord;}
+    | ^(CHORD currentSpec=chordSpec currentAttr=chordAttr) {
+        value = new VoicedChord($currentSpec.chord, $currentAttr.voicing);
+    }
+    ;
+    
+chordSpec returns [Chord chord]
+    : ^(SPEC NOTE_NAME QUALITY){chord =
             chordBuilder.setRoot(NoteName.rootFromSymbol($NOTE_NAME.text))
                 .setTriadQuality(Quality.qualityFromAbbreviation($QUALITY.text))
-                .build()
-         );}
-    | ^(CHORD NOTE_NAME){chords.add(
+                .build();
+         }
+    | ^(SPEC NOTE_NAME) {chord =
             chordBuilder.setRoot(NoteName.rootFromSymbol($NOTE_NAME.text))
                 .setTriadQuality(Quality.MAJOR)
-                .build()
-         );}
-    | ^(CHORD NOTE_NAME SEVEN) {chords.add(
+                .build();
+         }
+    | ^(SPEC NOTE_NAME SEVEN) {chord =
             chordBuilder.setRoot(NoteName.rootFromSymbol($NOTE_NAME.text))
                 .setTriadQuality(Quality.MAJOR)
                 .setSeventhQuality(Quality.MINOR)
-                .build()
-         );}
-    | ^(CHORD NOTE_NAME MINOR_SEVEN) {chords.add(
+                .build();
+         }
+    | ^(SPEC NOTE_NAME MINOR_SEVEN) {chord =
             chordBuilder.setRoot(NoteName.rootFromSymbol($NOTE_NAME.text))
                 .setTriadQuality(Quality.MINOR)
                 .setSeventhQuality(Quality.MINOR)
-                .build()
-         );}
-    | ^(CHORD NOTE_NAME MAJOR_SEVEN) {chords.add(
+                .build();
+         }
+    | ^(SPEC NOTE_NAME MAJOR_SEVEN) {chord =
             chordBuilder.setRoot(NoteName.rootFromSymbol($NOTE_NAME.text))
                 .setTriadQuality(Quality.MAJOR)
                 .setSeventhQuality(Quality.MAJOR)
-                .build()
-         );}
-    | ^(CHORD NOTE_NAME MINOR_SIX) {chords.add(
+                .build();
+         }
+    | ^(SPEC NOTE_NAME MINOR_SIX) {chord =
             chordBuilder.setRoot(NoteName.rootFromSymbol($NOTE_NAME.text).up(Interval.MAJOR_SIXTH))
                 .setTriadQuality(Quality.DIMINISHED)
                 .setSeventhQuality(Quality.MINOR)
-                .build()
-         );}
-    | ^(CHORD NOTE_NAME DIMINISHED_SEVEN) {chords.add(
+                .build();
+         }
+    | ^(SPEC NOTE_NAME DIMINISHED_SEVEN) {chord =
             chordBuilder.setRoot(NoteName.rootFromSymbol($NOTE_NAME.text))
                 .setTriadQuality(Quality.DIMINISHED)
                 .setSeventhQuality(Quality.DIMINISHED)
-                .build()
-         );}
+                .build();
+         }
+    ;
+
+chordAttr returns [Voicing voicing]
+    : ^(ATTR currentList=chordMemberList) {voicing = $currentList.voicing;}
     ;
     
 chordMember returns [String name] 

@@ -27,7 +27,7 @@ public class VoicedChord extends ForwardingChord {
 			result = result + Math.abs(list1.get(i).getMidiNumber() - list2.get(i).getMidiNumber());
 		}
 		
-		System.err.println(list1 + " - " + list2 + " = " + result);
+//		System.err.println(list1 + " - " + list2 + " = " + result);
 		
 		return result;
 	}

@@ -18,7 +18,12 @@ voicings {
   ]
 }
 
-//progression { Ab, Ab+, Db }
-//progression { Ab, Ab+, Db, Fm6, Eb, Edim7, Fm7, Bb7, Eb7, Ab7, Bbm7, Eb7, Ab }
-//progression { F, Ddim, E7, Em6, F#dim7, D7, Em7, C7, Am7, D7, G }
-progression { Eb, Eb+, AbM7 {voicing: {root, fifth, seventh, third}}, Cm6, BbM7, Bdim7, Cm7, Fb7, Bb7, Eb7, Fbm7, Bb7, EbM7 }
+
+progression { 
+	Eb {
+		voicing: {root, fifth, root, third}
+	}, 
+	Ab {
+		voicing: {root, third, fifth, root}
+	}
+}
