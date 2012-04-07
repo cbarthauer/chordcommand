@@ -4,6 +4,8 @@ public class ChordBuilder {
 	private NoteName root;
 	private Quality triadQuality;
 	private Quality seventhQuality;
+	private Duration duration;
+	private Voicing voicing;
 	
 	public Chord build() {
 		Chord chord = new Triad(root, triadQuality);
@@ -12,9 +14,22 @@ public class ChordBuilder {
 			chord = new SeventhChord((Triad) chord, seventhQuality);
 		}
 		
+		if(voicing != null) {
+			chord = new VoicedChord(chord, voicing);
+			
+			if(duration != null) {
+				chord = new RealizedChord((VoicedChord) chord, duration);
+			}
+		}
+				
 		reset();
 		
 		return chord;
+	}
+	
+	public ChordBuilder setDuration(Duration duration) {
+		this.duration = duration;
+		return this;
 	}
 	
 	public ChordBuilder setRoot(NoteName root) {
@@ -32,9 +47,16 @@ public class ChordBuilder {
 		return this;
 	}
 	
+	public ChordBuilder setVoicing(Voicing voicing) {
+		this.voicing = voicing;
+		return this;
+	}
+	
 	private void reset() {
 		root = null;
 		triadQuality = null;
 		seventhQuality = null;
+		duration = null;
+		voicing = null;
 	}
 }

@@ -12,6 +12,7 @@ import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Track;
 
 public class ChordPlayer {
+	private static final int PPQ_VALUE = 4;
 	private static final int DEFAULT_CHANNEL = 0;
 	
 	public void play(List<VoicedChord> chordList) {
@@ -19,14 +20,14 @@ public class ChordPlayer {
 			Sequencer sequencer = MidiSystem.getSequencer();
 			sequencer.open();
 			
-			Sequence sequence = new Sequence(Sequence.PPQ, 4);
+			Sequence sequence = new Sequence(Sequence.PPQ, PPQ_VALUE);
 			Track track = sequence.createTrack();
 			
 			int startTick = 0;
 			
 			for(VoicedChord chord : chordList) {
 				track = addChordToTrack(chord, track, startTick);
-				startTick = startTick + 4;
+				startTick = startTick + chord.getTicks(PPQ_VALUE);
 			}
 			
 			sequencer.setSequence(sequence);
@@ -55,7 +56,6 @@ public class ChordPlayer {
 			throws InvalidMidiDataException {
 		
 		List<Integer> midiNumberList = chord.getMidiNumberList();
-//		System.out.println("ChordPlayer.addChordToTrack() - midiNumberList: " + midiNumberList);
 		
 		for(Integer number : midiNumberList) {
 			ShortMessage noteOnMessage = new ShortMessage();
@@ -65,7 +65,7 @@ public class ChordPlayer {
 			
 			ShortMessage noteOffMessage = new ShortMessage();
 			noteOffMessage.setMessage(ShortMessage.NOTE_OFF, DEFAULT_CHANNEL, number, 120);
-			MidiEvent noteOffEvent = new MidiEvent(noteOffMessage, startTick + 4);
+			MidiEvent noteOffEvent = new MidiEvent(noteOffMessage, startTick + chord.getTicks(PPQ_VALUE));
 			track.add(noteOffEvent);
 		}
 		

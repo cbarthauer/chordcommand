@@ -24,7 +24,6 @@ public class ChordVoicer {
 			VoicedChord voicedChord = null;
 			
 			if(chord instanceof VoicedChord) {
-//				System.out.println("ChordVoicer.voice() - Found explicitly voiced chord: " + chord);
 				voicedChord = (VoicedChord) chord;
 			}
 			else {

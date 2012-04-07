@@ -17,4 +17,8 @@ public class BasicChord implements Chord {
 		return chordMemberMap.get(chordMember);
 	}
 
+	@Override
+	public String toString() {
+		return noteNameFromChordMember(ChordMember.ROOT).name();
+	}
 }

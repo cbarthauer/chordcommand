@@ -15,5 +15,10 @@ public class ForwardingChord implements Chord {
 	public NoteName noteNameFromChordMember(ChordMember chordMember) {
 		return chord.noteNameFromChordMember(chordMember);
 	}
+	
+	@Override
+	public String toString() {
+		return chord.toString();
+	}
 
 }

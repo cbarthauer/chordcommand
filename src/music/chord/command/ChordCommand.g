@@ -11,11 +11,15 @@ options {
   import java.util.List;
   import music.chord.decorator.Chord;
   import music.chord.decorator.ChordBuilder;
+  import music.chord.decorator.ChordMember;
   import music.chord.decorator.ChordPlayer;
   import music.chord.decorator.ChordVoicer;
+  import music.chord.decorator.Duration;
   import music.chord.decorator.Interval;
   import music.chord.decorator.NoteName;
   import music.chord.decorator.Quality;
+  import music.chord.decorator.VoicedChord;
+  import music.chord.decorator.Voicing;
   import music.chord.command.Command;
   import music.chord.command.AddChord;
 }
@@ -30,6 +34,7 @@ options {
   List<Chord> chordList;
   ChordPlayer player;
   ChordVoicer voicer;
+  Duration defaultDuration = Duration.HALF;
 
   public void setChordList(List<Chord> chordList) {
     this.chordList = chordList;
@@ -79,10 +84,32 @@ SEVENTH : 'seventh';
 TRIADS : 'triads';
 SEVENTHS : 'sevenths';
 
-//Commands.
+//Keywords.
 ADD : 'add';
+DISPLAY : 'display';
+DURATION : 'duration';
+
+NOTE_LENGTH 
+  : 'sixteenth'
+  | 'eighth'
+  | 'quarter'
+  | 'half'
+  | 'whole'
+  ;
+
+VOICING : 'voicing';
+
+ON : 'on';
 PLAY : 'play';
 QUIT : 'quit';
+SET : 'set';
+
+//Lists
+START_LIST : '[';
+END_LIST : ']';
+
+//Other.
+INT : '0'..'9'('0'..'9')*;
 
 program returns [List<Command> result]
   : command+ EOF { result = commandList; }
@@ -90,18 +117,50 @@ program returns [List<Command> result]
   
 command
   : add
+  | display
   | play
+  | set
   | quit
   ;
   
 add
-  : ADD currentChord=chord {commandList.add(new AddChord(chordList, $currentChord.chord));} 
+  : ADD currentChord=chord {
+	    commandList.add(new AddChord(chordList, $currentChord.chord));
+	} 
   ;
 
+display
+  : DISPLAY {commandList.add(new Display(chordList));}
+  ; 
+  
 play
   : PLAY {commandList.add(new Play(chordList, voicer, player));}
   ;
-  
+
+set
+  : SET VOICING list=chordMemberList ON INT {
+      int index = Integer.parseInt($INT.text);
+      Chord chord = chordList.get(index);
+      chord = new VoicedChord(chord, $list.voicing);
+      chordList.set(index, chord); 
+  }
+  | SET DURATION NOTE_LENGTH ON INT {
+	  int index = Integer.parseInt($INT.text);
+	  Chord chord = chordList.get(index);
+	  chord = new VoicedChord((VoicedChord) chord, Duration.durationFromName($NOTE_LENGTH.text));
+	  chordList.set(index, chord);
+  }
+  ;
+
+chordMemberList returns [Voicing voicing]
+    : START_LIST {voicing = Voicing.getInstance();}
+      member1=chordMember {voicing.addChordMember(ChordMember.memberFromName($member1.name));}
+      ',' member2=chordMember {voicing.addChordMember(ChordMember.memberFromName($member2.name));}
+      ',' member3=chordMember {voicing.addChordMember(ChordMember.memberFromName($member3.name));}
+      ',' member4=chordMember {voicing.addChordMember(ChordMember.memberFromName($member4.name));}
+      END_LIST
+    ;
+      
 quit
   : QUIT { commandList.add(new Quit()); }
   ;
@@ -153,8 +212,9 @@ chordSpec returns [Chord chord]
          }    
     ;
     
-chordMember : ROOT
-    | THIRD
-    | FIFTH
-    | SEVENTH
+chordMember returns [String name]
+    : ROOT {name = "ROOT";}
+    | THIRD {name = "THIRD";}
+    | FIFTH {name = "FIFTH";}
+    | SEVENTH {name = "SEVENTH";}
     ;

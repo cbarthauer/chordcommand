@@ -4,9 +4,12 @@ package music.chord.decorator;
 public class Triad extends ForwardingChord {
 	private Interval thirdInterval;
 	private Interval fifthInterval;
+	private Quality triadQuality;
 	
 	public Triad(NoteName rootName, Quality triadQuality) {
 		super(new BasicChord(rootName));
+		
+		this.triadQuality = triadQuality;
 		
 		switch(triadQuality) {
 		case AUGMENTED:
@@ -55,6 +58,10 @@ public class Triad extends ForwardingChord {
 		return result;
 	}
 
+	public String toString() {
+		return super.toString() + " " + triadQuality;
+	}
+	
 	private NoteName getFifthNoteName() {
 		return noteNameFromChordMember(ChordMember.ROOT)
 			.up(fifthInterval);

@@ -5,11 +5,21 @@ import java.util.List;
 
 
 public class VoicedChord extends ForwardingChord {
+	private final static Duration DEFAULT_DURATION = Duration.QUARTER;
+	
 	private List<NoteBean> noteBeanList;
+	private Duration duration;
 
 	public VoicedChord(Chord chord, Voicing voicing) {
 		super(chord);
 		noteBeanList = voicing.voice(this);
+		duration = DEFAULT_DURATION;
+	}
+	
+	public VoicedChord(VoicedChord chord, Duration duration) {
+		super(chord);
+		this.noteBeanList = chord.noteBeanList;
+		this.duration = duration;
 	}
 
 	public int difference(VoicedChord chord) {
@@ -27,8 +37,6 @@ public class VoicedChord extends ForwardingChord {
 			result = result + Math.abs(list1.get(i).getMidiNumber() - list2.get(i).getMidiNumber());
 		}
 		
-//		System.err.println(list1 + " - " + list2 + " = " + result);
-		
 		return result;
 	}
 	
@@ -40,5 +48,9 @@ public class VoicedChord extends ForwardingChord {
 		}
 		
 		return midiNumberList;
+	}
+	
+	public int getTicks(int ppq) {
+		return Math.round(ppq * duration.getPpqConversionFactor());
 	}
 }

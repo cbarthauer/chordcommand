@@ -44,6 +44,10 @@ public class SeventhChord extends ForwardingChord {
 		return result;
 	}
 	
+	public String toString() {
+		return super.toString() + " " + seventhInterval;
+	}
+	
 	private NoteName getSeventhNoteName() {
 		return noteNameFromChordMember(ChordMember.ROOT)
 			.up(seventhInterval);
