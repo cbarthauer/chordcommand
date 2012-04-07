@@ -9,7 +9,6 @@ options {
   package music.chord.command;
 
   import java.util.List;
-  import music.chord.decorator.Chord;
   import music.chord.decorator.ChordBuilder;
   import music.chord.decorator.ChordMember;
   import music.chord.decorator.ChordPlayer;
@@ -31,12 +30,11 @@ options {
 @members {
   List<Command> commandList = new ArrayList<Command>();
   ChordBuilder chordBuilder = new ChordBuilder();
-  List<Chord> chordList;
+  List<VoicedChord> chordList;
   ChordPlayer player;
   ChordVoicer voicer;
-  Duration defaultDuration = Duration.HALF;
 
-  public void setChordList(List<Chord> chordList) {
+  public void setChordList(List<VoicedChord> chordList) {
     this.chordList = chordList;
   }
   
@@ -134,30 +132,36 @@ display
   ; 
   
 play
-  : PLAY {commandList.add(new Play(chordList, voicer, player));}
+  : PLAY {commandList.add(new Play(chordList, player));}
   ;
 
 set
   : SET VOICING list=chordMemberList ON INT {
       int index = Integer.parseInt($INT.text);
-      Chord chord = chordList.get(index);
-      chord = new VoicedChord(chord, $list.voicing);
+      VoicedChord chord = chordBuilder.setChord(chordList.get(index))
+        .setVoicing($list.voicing)
+        .build();
       chordList.set(index, chord); 
   }
   | SET DURATION NOTE_LENGTH ON INT {
 	  int index = Integer.parseInt($INT.text);
-	  Chord chord = chordList.get(index);
-	  chord = new VoicedChord((VoicedChord) chord, Duration.durationFromName($NOTE_LENGTH.text));
+	  VoicedChord chord = chordBuilder.setChord(chordList.get(index))
+        .setDuration(Duration.durationFromName($NOTE_LENGTH.text))
+        .build();
 	  chordList.set(index, chord);
   }
   ;
 
 chordMemberList returns [Voicing voicing]
     : START_LIST {voicing = Voicing.getInstance();}
-      member1=chordMember {voicing.addChordMember(ChordMember.memberFromName($member1.name));}
-      ',' member2=chordMember {voicing.addChordMember(ChordMember.memberFromName($member2.name));}
-      ',' member3=chordMember {voicing.addChordMember(ChordMember.memberFromName($member3.name));}
-      ',' member4=chordMember {voicing.addChordMember(ChordMember.memberFromName($member4.name));}
+      member1=chordMember 
+        {voicing.addChordMember(ChordMember.memberFromName($member1.name));}
+      ',' member2=chordMember 
+        {voicing.addChordMember(ChordMember.memberFromName($member2.name));}
+      ',' member3=chordMember 
+        {voicing.addChordMember(ChordMember.memberFromName($member3.name));}
+      ',' member4=chordMember 
+        {voicing.addChordMember(ChordMember.memberFromName($member4.name));}
       END_LIST
     ;
       
@@ -165,11 +169,11 @@ quit
   : QUIT { commandList.add(new Quit()); }
   ;
   
-chord returns [Chord chord]
+chord returns [VoicedChord chord]
     : currentSpec=chordSpec {chord = $currentSpec.chord;}
     ;
     
-chordSpec returns [Chord chord]
+chordSpec returns [VoicedChord chord]
     : NOTE_NAME QUALITY{ chord =
             chordBuilder.setRoot(NoteName.rootFromSymbol($NOTE_NAME.text))
                 .setTriadQuality(Quality.qualityFromAbbreviation($QUALITY.text))
@@ -199,7 +203,8 @@ chordSpec returns [Chord chord]
                 .build();
          }
     | NOTE_NAME MINOR_SIX {chord =
-            chordBuilder.setRoot(NoteName.rootFromSymbol($NOTE_NAME.text).up(Interval.MAJOR_SIXTH))
+            chordBuilder.setRoot(
+                  NoteName.rootFromSymbol($NOTE_NAME.text).up(Interval.MAJOR_SIXTH))
                 .setTriadQuality(Quality.DIMINISHED)
                 .setSeventhQuality(Quality.MINOR)
                 .build();

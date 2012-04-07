@@ -14,7 +14,7 @@ options {
 }
 
 @members {
-  List<Chord> chords = new ArrayList<Chord>();
+  List<VoicedChord> chords = new ArrayList<VoicedChord>();
   VoicingManager voicingManager = new VoicingManager();
   ChordBuilder chordBuilder = new ChordBuilder();
 }
@@ -47,14 +47,16 @@ progressionDef
     : ^('progression' (currentChord=chord {chords.add($currentChord.value);} )+)
     ;
 
-chord returns [Chord value]
+chord returns [VoicedChord value]
     : ^(CHORD currentSpec=chordSpec) {value = $currentSpec.chord;}
     | ^(CHORD currentSpec=chordSpec currentAttr=chordAttr) {
-        value = new VoicedChord($currentSpec.chord, $currentAttr.voicing);
+        value = chordBuilder.setChord($currentSpec.chord)
+            .setVoicing($currentAttr.voicing)
+            .build();
     }
     ;
     
-chordSpec returns [Chord chord]
+chordSpec returns [VoicedChord chord]
     : ^(SPEC NOTE_NAME QUALITY){chord =
             chordBuilder.setRoot(NoteName.rootFromSymbol($NOTE_NAME.text))
                 .setTriadQuality(Quality.qualityFromAbbreviation($QUALITY.text))

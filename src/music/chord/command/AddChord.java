@@ -2,14 +2,14 @@ package music.chord.command;
 
 import java.util.List;
 
-import music.chord.decorator.Chord;
+import music.chord.decorator.VoicedChord;
 
 public class AddChord implements Command {
 
-	private List<Chord> chordList;
-	private Chord chord;
+	private List<VoicedChord> chordList;
+	private VoicedChord chord;
 
-	public AddChord(List<Chord> chordList, Chord chord) {
+	public AddChord(List<VoicedChord> chordList, VoicedChord chord) {
 		this.chordList = chordList;
 		this.chord = chord;
 	}

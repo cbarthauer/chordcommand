@@ -8,6 +8,7 @@ public class ChordVoicer {
 	private List<Voicing> triadVoicingList;
 	private List<Voicing> seventhVoicingList;
 	private VoicedChord previousVoicedChord;
+	private ChordBuilder chordBuilder;
 	
 	public ChordVoicer(List<Voicing> triadVoicingList, List<Voicing> seventhVoicingList) {
 		this.triadVoicingList = triadVoicingList;
@@ -15,21 +16,17 @@ public class ChordVoicer {
 		
 		Collections.shuffle(triadVoicingList);
 		Collections.shuffle(seventhVoicingList);
+		
+		chordBuilder = new ChordBuilder();
 	}
 	
-	public List<VoicedChord> voice(List<Chord> chordList) {
+	public List<VoicedChord> voice(List<VoicedChord> chordList) {
+		System.out.println("ChordVoicer.voicer() - chordList: " + chordList);
+		
 		List<VoicedChord> result = new ArrayList<VoicedChord>();
 		
-		for(Chord chord : chordList) {
-			VoicedChord voicedChord = null;
-			
-			if(chord instanceof VoicedChord) {
-				voicedChord = (VoicedChord) chord;
-			}
-			else {
-				voicedChord = voiceClosest(chord);
-			}
-			
+		for(VoicedChord chord : chordList) {
+			VoicedChord voicedChord = voiceClosest(chord);			
 			result.add(voicedChord);
 			previousVoicedChord = voicedChord;
 		}
@@ -37,18 +34,22 @@ public class ChordVoicer {
 		return result;
 	}
 
-	private VoicedChord voiceClosest(Chord chord) {
+	private VoicedChord voiceClosest(VoicedChord chord) {
 		List<Voicing> voicingList = voicingListFromChord(chord);
 		Voicing selectedVoicing = null;
 		VoicedChord result = null;
 		
 		if(previousVoicedChord == null) {
 			selectedVoicing = voicingList.get(0);
-			result = new VoicedChord(chord, selectedVoicing);
+			result = chordBuilder.setChord(chord)
+				.setVoicing(selectedVoicing)
+				.build();
 		}
 		else {
 			for(Voicing currentVoicing : voicingList) {
-				VoicedChord currentVoicedChord = new VoicedChord(chord, currentVoicing);
+				VoicedChord currentVoicedChord = chordBuilder.setChord(chord)
+					.setVoicing(currentVoicing)
+					.build();
 				
 				if(
 					result == null 

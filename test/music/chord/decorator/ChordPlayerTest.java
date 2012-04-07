@@ -8,11 +8,17 @@ import org.junit.Test;
 public class ChordPlayerTest {
 	@Test
 	public void testPlay() {
-		List<Chord> chordList = new ArrayList<Chord>();
-		Chord chord1 = new SeventhChord(new Triad(NoteName.A_FLAT, Quality.MAJOR), Quality.MINOR);
+		ChordBuilder builder = new ChordBuilder();
+		List<VoicedChord> chordList = new ArrayList<VoicedChord>();
+		VoicedChord chord1 = builder.setRoot(NoteName.A_FLAT)
+			.setTriadQuality(Quality.MAJOR)
+			.setSeventhQuality(Quality.MINOR)
+			.build();
 		chordList.add(chord1);
 		
-		Chord chord2 = new Triad(NoteName.D_FLAT, Quality.MAJOR);
+		VoicedChord chord2 = builder.setRoot(NoteName.D_FLAT)
+			.setTriadQuality(Quality.MAJOR)
+			.build();
 		chordList.add(chord2);
 		
 		Voicing voicing1 = Voicing.getInstance();

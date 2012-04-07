@@ -2,9 +2,9 @@ package music.chord.command;
 
 import java.util.List;
 
-import music.chord.decorator.Chord;
 import music.chord.decorator.ChordPlayer;
 import music.chord.decorator.ChordVoicer;
+import music.chord.decorator.VoicedChord;
 
 import org.antlr.runtime.Parser;
 import org.antlr.runtime.RecognizerSharedState;
@@ -19,7 +19,7 @@ public abstract class AbstractParser extends Parser {
         super(input, state);
     }
     
-    public abstract void setChordList(List<Chord> chordList);
+    public abstract void setChordList(List<VoicedChord> chordList);
     
     public abstract void setChordVoicer(ChordVoicer voicer);
     

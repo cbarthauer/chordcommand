@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import music.chord.decorator.Chord;
 import music.chord.decorator.ChordPlayer;
 import music.chord.decorator.ChordVoicer;
 import music.chord.decorator.ChordVoicerFactory;
+import music.chord.decorator.VoicedChord;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CharStream;
@@ -28,7 +28,7 @@ public class Interpreter {
 		String line = "";
 		ChordVoicer voicer = ChordVoicerFactory.getInstance(
 			"D:\\musicspace\\chordgrammar\\examples\\voicings.txt");
-		List<Chord> chordList = new ArrayList<Chord>();
+		List<VoicedChord> chordList = new ArrayList<VoicedChord>();
 		
 		while(true) {
 			line = scanner.nextLine();

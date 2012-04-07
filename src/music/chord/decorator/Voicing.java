@@ -26,6 +26,8 @@ public class Voicing extends AbstractVoicing {
 	}
 
 	public List<NoteBean> voice(Chord chord) {
+		if(chord == null) throw new IllegalArgumentException("Chord cannot be null.");
+		
 		List<NoteBean> result = new ArrayList<NoteBean>();
 		
 		int chromaticIndex = -1;

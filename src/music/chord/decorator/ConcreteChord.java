@@ -4,27 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class VoicedChord extends ForwardingChord {
-	private final static Duration DEFAULT_DURATION = Duration.QUARTER;
-	
+class ConcreteChord extends ForwardingChord implements VoicedChord {	
 	private List<NoteBean> noteBeanList;
 	private Duration duration;
 
-	public VoicedChord(Chord chord, Voicing voicing) {
+	ConcreteChord(Chord chord, Voicing voicing, Duration duration) {
 		super(chord);
-		noteBeanList = voicing.voice(this);
-		duration = DEFAULT_DURATION;
-	}
-	
-	public VoicedChord(VoicedChord chord, Duration duration) {
-		super(chord);
-		this.noteBeanList = chord.noteBeanList;
+		noteBeanList = voicing.voice(chord);
 		this.duration = duration;
 	}
 
 	public int difference(VoicedChord chord) {
 		List<NoteBean> list1 = this.noteBeanList; 
-		List<NoteBean> list2 = chord.noteBeanList;
+		List<NoteBean> list2 = chord.getNoteBeanList();
 		
 		if(list1.size() != list2.size()) { 
 			throw new IllegalArgumentException(
@@ -52,5 +44,10 @@ public class VoicedChord extends ForwardingChord {
 	
 	public int getTicks(int ppq) {
 		return Math.round(ppq * duration.getPpqConversionFactor());
+	}
+
+	@Override
+	public List<NoteBean> getNoteBeanList() {
+		return noteBeanList;
 	}
 }

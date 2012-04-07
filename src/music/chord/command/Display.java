@@ -2,13 +2,13 @@ package music.chord.command;
 
 import java.util.List;
 
-import music.chord.decorator.Chord;
+import music.chord.decorator.VoicedChord;
 
 public class Display implements Command {
 
-	private List<Chord> chordList;
+	private List<VoicedChord> chordList;
 	
-	public Display(List<Chord> chordList) {
+	public Display(List<VoicedChord> chordList) {
 		this.chordList = chordList;
 	}
 	

@@ -35,7 +35,7 @@ public class TestMidi {
 		CommonTreeNodeStream nodeStream = new CommonTreeNodeStream(compilationUnit.tree);
 		ChordWalker walker = new ChordWalker(nodeStream);
 		ChordProgression progression = walker.compilationUnit();
-		List<Chord> chordList = progression.getChordList();
+		List<VoicedChord> chordList = progression.getChordList();
 		VoicingManager voicingManager = progression.getVoicingManager();
 		
 		ChordVoicer voicer = new ChordVoicer(

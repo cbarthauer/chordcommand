@@ -5,38 +5,62 @@ public class ChordBuilder {
 	private Quality triadQuality;
 	private Quality seventhQuality;
 	private Duration duration;
-	private Voicing voicing;
+	private Voicing triadVoicing;
+	private VoicedChord voicedChord;
+	private Voicing seventhVoicing;
 	
-	public Chord build() {
-		Chord chord = new Triad(root, triadQuality);
+	public ChordBuilder() {
+		reset();
+	}
+	
+	public VoicedChord build() {
+		VoicedChord resultChord = null;
 		
-		if(seventhQuality != null) {
-			chord = new SeventhChord((Triad) chord, seventhQuality);
-		}
-		
-		if(voicing != null) {
-			chord = new VoicedChord(chord, voicing);
+		if(voicedChord == null) {
+			System.out.println("ChordBuilder.build() - voicedChord: " + voicedChord);
 			
-			if(duration != null) {
-				chord = new RealizedChord((VoicedChord) chord, duration);
+			Chord chord = new Triad(root, triadQuality);
+			System.out.println("ChordBuilder.build() - chord: " + chord);
+			resultChord = new ConcreteChord(chord, triadVoicing, duration);
+			
+			if(seventhQuality != null) {
+				chord = new SeventhChord((Triad) chord, seventhQuality);
+				System.out.println("ChordBuilder.build() - chord: " + chord);
+				resultChord = new ConcreteChord(chord, seventhVoicing, duration);
 			}
 		}
-				
-		reset();
+		else {
+			if(voicedChord.noteNameFromChordMember(ChordMember.SEVENTH) == null) {
+				resultChord = new ConcreteChord(voicedChord, triadVoicing, duration);
+			}
+			else {
+				resultChord = new ConcreteChord(voicedChord, seventhVoicing, duration);
+			}
+		}
 		
-		return chord;
+		reset();
+		System.out.println("ChordBuilder.build() - Reset complete.");
+		System.out.println("ChordBuilder.build() - resultChord: " + resultChord);
+		System.out.println("ChordBuilder.build() - noteBeanList: " + resultChord.getNoteBeanList());
+		
+		return resultChord;
+	}
+	
+	public ChordBuilder setChord(VoicedChord voicedChord) {
+		this.voicedChord = voicedChord;
+		return this;
 	}
 	
 	public ChordBuilder setDuration(Duration duration) {
 		this.duration = duration;
 		return this;
 	}
-	
+
 	public ChordBuilder setRoot(NoteName root) {
 		this.root = root;
 		return this;
 	}
-
+	
 	public ChordBuilder setSeventhQuality(Quality seventhQuality) {
 		this.seventhQuality = seventhQuality;
 		return this;
@@ -48,15 +72,28 @@ public class ChordBuilder {
 	}
 	
 	public ChordBuilder setVoicing(Voicing voicing) {
-		this.voicing = voicing;
+		this.triadVoicing = voicing;
 		return this;
 	}
-	
+
 	private void reset() {
-		root = null;
-		triadQuality = null;
+		root = NoteName.C;
+		triadQuality = Quality.MAJOR;
 		seventhQuality = null;
-		duration = null;
-		voicing = null;
+		duration = Duration.QUARTER;
+		
+		triadVoicing = Voicing.getInstance();
+		triadVoicing.addChordMember(ChordMember.ROOT);
+		triadVoicing.addChordMember(ChordMember.THIRD);
+		triadVoicing.addChordMember(ChordMember.FIFTH);
+		triadVoicing.addChordMember(ChordMember.ROOT);
+		
+		seventhVoicing = Voicing.getInstance();
+		seventhVoicing.addChordMember(ChordMember.ROOT);
+		seventhVoicing.addChordMember(ChordMember.THIRD);
+		seventhVoicing.addChordMember(ChordMember.FIFTH);
+		seventhVoicing.addChordMember(ChordMember.SEVENTH);
+		
+		voicedChord = null;
 	}
 }

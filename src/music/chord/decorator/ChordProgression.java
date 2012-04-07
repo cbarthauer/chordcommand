@@ -7,10 +7,10 @@ public class ChordProgression {
 		return new ChordProgression();
 	}
 	
-	private List<Chord> chordList;
+	private List<VoicedChord> chordList;
 	private VoicingManager voicingManager;
 
-	public List<Chord> getChordList() {
+	public List<VoicedChord> getChordList() {
 		return chordList;
 	}
 	
@@ -18,7 +18,7 @@ public class ChordProgression {
 		return voicingManager;
 	}
 	
-	public ChordProgression setChordList(List<Chord> chordList) {
+	public ChordProgression setChordList(List<VoicedChord> chordList) {
 		this.chordList = chordList;
 		return this;
 	}

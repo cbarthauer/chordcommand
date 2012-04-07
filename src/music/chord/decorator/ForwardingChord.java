@@ -13,6 +13,8 @@ public class ForwardingChord implements Chord {
 	
 	@Override
 	public NoteName noteNameFromChordMember(ChordMember chordMember) {
+		System.out.println("ForwardingChord.noteNameFromChordMember() - chord: " + chord);
+		System.out.println("ForwardingChord.noteNameFromChordMember() - chordMember: " + chordMember);
 		return chord.noteNameFromChordMember(chordMember);
 	}
 	
