@@ -12,13 +12,23 @@ public class Voicing extends AbstractVoicing {
 	}
 	
 	private List<ChordMember> chordMemberList;
+	private boolean hasSeventh;
 	
 	private Voicing() {
 		chordMemberList = new ArrayList<ChordMember>();
+		hasSeventh = false;
 	}
-	
+
 	public void addChordMember(ChordMember member) {
 		chordMemberList.add(member);
+
+		if(ChordMember.SEVENTH.equals(member)) {
+			hasSeventh = true;
+		}
+	}
+	
+	public boolean hasSeventh() {
+		return hasSeventh;
 	}
 	
 	public String toString() {
@@ -36,7 +46,6 @@ public class Voicing extends AbstractVoicing {
 			NoteName noteName = chord.noteNameFromChordMember(chordMember);
 			chromaticIndex = placeAbove(noteName.getChromaticIndex(), chromaticIndex);
 			NoteBean note = new NoteBean(noteName, chromaticIndex);
-//			System.out.println("Voicing.voice() - Adding note: " + note);
 			result.add(note);
 		}
 		

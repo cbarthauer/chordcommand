@@ -1,6 +1,14 @@
 package music.chord.decorator;
 
+import org.apache.log4j.Logger;
+
 public class ChordBuilder {
+	private static Logger logger;
+	
+	static {
+		logger = Logger.getRootLogger();
+	}
+	
 	private NoteName root;
 	private Quality triadQuality;
 	private Quality seventhQuality;
@@ -17,15 +25,15 @@ public class ChordBuilder {
 		VoicedChord resultChord = null;
 		
 		if(voicedChord == null) {
-			System.out.println("ChordBuilder.build() - voicedChord: " + voicedChord);
+			logger.debug("voicedChord: " + voicedChord);
 			
 			Chord chord = new Triad(root, triadQuality);
-			System.out.println("ChordBuilder.build() - chord: " + chord);
+			logger.debug("chord: " + chord);
 			resultChord = new ConcreteChord(chord, triadVoicing, duration);
 			
 			if(seventhQuality != null) {
 				chord = new SeventhChord((Triad) chord, seventhQuality);
-				System.out.println("ChordBuilder.build() - chord: " + chord);
+				logger.debug("chord: " + chord);
 				resultChord = new ConcreteChord(chord, seventhVoicing, duration);
 			}
 		}
@@ -39,9 +47,9 @@ public class ChordBuilder {
 		}
 		
 		reset();
-		System.out.println("ChordBuilder.build() - Reset complete.");
-		System.out.println("ChordBuilder.build() - resultChord: " + resultChord);
-		System.out.println("ChordBuilder.build() - noteBeanList: " + resultChord.getNoteBeanList());
+		logger.trace("Reset complete.");
+		logger.debug("resultChord: " + resultChord);
+		logger.debug("noteBeanList: " + resultChord.getNoteBeanList());
 		
 		return resultChord;
 	}
@@ -72,7 +80,12 @@ public class ChordBuilder {
 	}
 	
 	public ChordBuilder setVoicing(Voicing voicing) {
-		this.triadVoicing = voicing;
+		if(voicing.hasSeventh()) {
+			seventhVoicing = voicing;
+		}
+		else {
+			triadVoicing = voicing;
+		}
 		return this;
 	}
 

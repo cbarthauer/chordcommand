@@ -2,11 +2,18 @@ package music.chord.command;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import music.chord.decorator.ChordPlayer;
 import music.chord.decorator.VoicedChord;
 
 public class Play implements Command {
-
+	private static Logger logger;
+	
+	static {
+		logger = Logger.getRootLogger();
+	}
+	
 	private List<VoicedChord> chordList;
 	private ChordPlayer player;
 	
@@ -17,7 +24,7 @@ public class Play implements Command {
 	
 	@Override
 	public void execute() {
-		System.out.println("Play.execute() - chordList: " + chordList);
+		logger.debug("chordList: " + chordList);
 		player.play(chordList);
 	}
 

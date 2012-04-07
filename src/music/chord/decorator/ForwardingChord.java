@@ -1,10 +1,14 @@
 package music.chord.decorator;
 
-import music.chord.decorator.ChordMember;
-import music.chord.decorator.NoteName;
+import org.apache.log4j.Logger;
 
 public class ForwardingChord implements Chord {
-
+	private static Logger logger;
+	
+	static {
+		logger = Logger.getRootLogger();
+	}
+	
 	private final Chord chord;
 	
 	public ForwardingChord(Chord chord) {
@@ -13,8 +17,8 @@ public class ForwardingChord implements Chord {
 	
 	@Override
 	public NoteName noteNameFromChordMember(ChordMember chordMember) {
-		System.out.println("ForwardingChord.noteNameFromChordMember() - chord: " + chord);
-		System.out.println("ForwardingChord.noteNameFromChordMember() - chordMember: " + chordMember);
+		logger.debug("chord: " + chord);
+		logger.debug("chordMember: " + chordMember);
 		return chord.noteNameFromChordMember(chordMember);
 	}
 	
