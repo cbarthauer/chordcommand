@@ -17,8 +17,8 @@ public class ForwardingChord implements Chord {
 	
 	@Override
 	public NoteName noteNameFromChordMember(ChordMember chordMember) {
-		logger.debug("chord: " + chord);
-		logger.debug("chordMember: " + chordMember);
+		logger.trace("chord: " + chord);
+		logger.trace("chordMember: " + chordMember);
 		return chord.noteNameFromChordMember(chordMember);
 	}
 	
