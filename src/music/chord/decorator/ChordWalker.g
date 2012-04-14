@@ -16,7 +16,7 @@ options {
 @members {
   List<VoicedChord> chords = new ArrayList<VoicedChord>();
   VoicingManager voicingManager = new VoicingManager();
-  ChordBuilder chordBuilder = new ChordBuilder();
+  ConcreteChordBuilder chordBuilder = new ConcreteChordBuilder();
 }
 
 

@@ -6,10 +6,12 @@ import java.util.List;
 
 class ConcreteChord extends ForwardingChord implements VoicedChord {	
 	private List<NoteBean> noteBeanList;
+	private Voicing voicing;
 	private Duration duration;
 
 	ConcreteChord(Chord chord, Voicing voicing, Duration duration) {
 		super(chord);
+		this.voicing = voicing;
 		noteBeanList = voicing.voice(chord);
 		this.duration = duration;
 	}
@@ -31,7 +33,11 @@ class ConcreteChord extends ForwardingChord implements VoicedChord {
 		
 		return result;
 	}
-	
+
+	public Duration getDuration() {
+		return duration;
+	}
+
 	public List<Integer> getMidiNumberList() {
 		List<Integer> midiNumberList = new ArrayList<Integer>();
 		
@@ -42,12 +48,16 @@ class ConcreteChord extends ForwardingChord implements VoicedChord {
 		return midiNumberList;
 	}
 	
+	@Override
+	public List<NoteBean> getNoteBeanList() {
+		return noteBeanList;
+	}
+	
 	public int getTicks(int ppq) {
 		return Math.round(ppq * duration.getPpqConversionFactor());
 	}
 
-	@Override
-	public List<NoteBean> getNoteBeanList() {
-		return noteBeanList;
+	public Voicing getVoicing() {
+		return voicing;
 	}
 }

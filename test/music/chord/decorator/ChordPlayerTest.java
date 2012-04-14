@@ -8,7 +8,7 @@ import org.junit.Test;
 public class ChordPlayerTest {
 	@Test
 	public void testPlay() {
-		ChordBuilder builder = new ChordBuilder();
+		ConcreteChordBuilder builder = new ConcreteChordBuilder();
 		List<VoicedChord> chordList = new ArrayList<VoicedChord>();
 		VoicedChord chord1 = builder.setRoot(NoteName.A_FLAT)
 			.setTriadQuality(Quality.MAJOR)
