@@ -8,7 +8,7 @@ public class ChordVoicer {
 	private List<Voicing> triadVoicingList;
 	private List<Voicing> seventhVoicingList;
 	private VoicedChord previousVoicedChord;
-	private ConcreteChordBuilder chordBuilder;
+	private DerivedChordBuilder chordBuilder;
 	
 	public ChordVoicer(List<Voicing> triadVoicingList, List<Voicing> seventhVoicingList) {
 		this.triadVoicingList = triadVoicingList;
@@ -17,7 +17,7 @@ public class ChordVoicer {
 		Collections.shuffle(triadVoicingList);
 		Collections.shuffle(seventhVoicingList);
 		
-		chordBuilder = new ConcreteChordBuilder();
+		chordBuilder = new DerivedChordBuilder();
 	}
 	
 	public List<VoicedChord> voice(List<VoicedChord> chordList) {
