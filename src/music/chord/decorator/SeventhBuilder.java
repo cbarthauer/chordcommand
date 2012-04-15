@@ -1,39 +1,41 @@
 package music.chord.decorator;
 
 public class SeventhBuilder implements ChordBuilder {
-	private NoteName root;
-	private Quality triadQuality;
 	private Quality seventhQuality;
 	private Duration duration;
 	private Voicing voicing;
+	private TriadBuilder triadBuilder;
 	
 	public SeventhBuilder() {
-		voicing = Voicing.getInstance();
+		voicing = SeventhVoicing.getInstance();
 		voicing.addChordMember(ChordMember.ROOT);
 		voicing.addChordMember(ChordMember.FIFTH);
 		voicing.addChordMember(ChordMember.SEVENTH);
 		voicing.addChordMember(ChordMember.THIRD);
+		
+		duration = Duration.QUARTER;
+		
+		triadBuilder = new TriadBuilder();
 	}
 	
 	@Override
-	public VoicedChord build() {
-		VoicedChord resultChord = null;
-		Chord chord = new SeventhChord(
-			new Triad(root, triadQuality), 
-			seventhQuality
-		);
-		resultChord = new ConcreteChord(chord, voicing, duration);
+	public VoicedChord buildVoicedChord() {
+		VoicedChord result = new ConcreteChord(buildSeventhChord(), voicing, duration);
 		reset();
-		return resultChord;
+		return result;
+	}
+	
+	SeventhChord buildSeventhChord() {
+		return new SeventhChord(triadBuilder.buildTriad(), seventhQuality);
 	}
 	
 	public SeventhBuilder setDuration(Duration duration) {
-		this.duration = duration;
+		triadBuilder.setDuration(duration);
 		return this;
 	}
 
 	public SeventhBuilder setRoot(NoteName root) {
-		this.root = root;
+		triadBuilder.setRoot(root);
 		return this;
 	}
 
@@ -43,7 +45,7 @@ public class SeventhBuilder implements ChordBuilder {
 	}
 	
 	public SeventhBuilder setTriadQuality(Quality triadQuality) {
-		this.triadQuality = triadQuality;
+		triadBuilder.setTriadQuality(triadQuality);
 		return this;
 	}
 	
@@ -53,8 +55,6 @@ public class SeventhBuilder implements ChordBuilder {
 	}
 	
 	private void reset() {
-		root = null;
-		triadQuality = null;
 		seventhQuality = null;
 		duration = null;
 		voicing = null;

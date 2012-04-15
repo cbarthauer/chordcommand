@@ -21,7 +21,7 @@ public class ConcreteChordBuilder implements ChordBuilder {
 		reset();
 	}
 	
-	public VoicedChord build() {
+	public VoicedChord buildVoicedChord() {
 		VoicedChord resultChord = null;
 		
 		if(voicedChord == null) {
@@ -79,13 +79,13 @@ public class ConcreteChordBuilder implements ChordBuilder {
 		return this;
 	}
 	
-	public ConcreteChordBuilder setVoicing(Voicing voicing) {
-		if(voicing.hasSeventh()) {
-			seventhVoicing = voicing;
-		}
-		else {
-			triadVoicing = voicing;
-		}
+	public ConcreteChordBuilder setVoicing(TriadVoicing voicing) {
+		triadVoicing = voicing;
+		return this;
+	}
+	
+	public ConcreteChordBuilder setVoicing(SeventhVoicing voicing) {
+		seventhVoicing = voicing;
 		return this;
 	}
 
@@ -95,13 +95,13 @@ public class ConcreteChordBuilder implements ChordBuilder {
 		seventhQuality = null;
 		duration = Duration.QUARTER;
 		
-		triadVoicing = Voicing.getInstance();
+		triadVoicing = TriadVoicing.getInstance();
 		triadVoicing.addChordMember(ChordMember.ROOT);
 		triadVoicing.addChordMember(ChordMember.THIRD);
 		triadVoicing.addChordMember(ChordMember.FIFTH);
 		triadVoicing.addChordMember(ChordMember.ROOT);
 		
-		seventhVoicing = Voicing.getInstance();
+		seventhVoicing = SeventhVoicing.getInstance();
 		seventhVoicing.addChordMember(ChordMember.ROOT);
 		seventhVoicing.addChordMember(ChordMember.THIRD);
 		seventhVoicing.addChordMember(ChordMember.FIFTH);

@@ -7,7 +7,7 @@ public class DerivedChordBuilder implements ChordBuilder {
 	private Voicing voicing;
 
 	@Override
-	public VoicedChord build() {
+	public VoicedChord buildVoicedChord() {
 		return new ConcreteChord(chord, voicing, duration);
 	}
 

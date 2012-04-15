@@ -31,11 +31,19 @@ public class ChordVoicer {
 			previousVoicedChord = voicedChord;
 		}
 		
+		reset();
+		
 		return result;
 	}
 
+	private void reset() {
+		previousVoicedChord = null;
+		Collections.shuffle(triadVoicingList);
+		Collections.shuffle(seventhVoicingList);
+	}
+
 	private VoicedChord voiceClosest(VoicedChord chord) {
-		List<Voicing> voicingList = voicingListFromChord(chord);
+		List<Voicing> voicingList = voicingListFromVoicing(chord.getVoicing());
 		Voicing selectedVoicing = null;
 		VoicedChord result = null;
 		
@@ -43,13 +51,13 @@ public class ChordVoicer {
 			selectedVoicing = voicingList.get(0);
 			result = chordBuilder.setChord(chord)
 				.setVoicing(selectedVoicing)
-				.build();
+				.buildVoicedChord();
 		}
 		else {
 			for(Voicing currentVoicing : voicingList) {
 				VoicedChord currentVoicedChord = chordBuilder.setChord(chord)
 					.setVoicing(currentVoicing)
-					.build();
+					.buildVoicedChord();
 				
 				if(
 					result == null 
@@ -65,8 +73,8 @@ public class ChordVoicer {
 	}
 
 
-	private List<Voicing> voicingListFromChord(Chord chord) {
-		if(chord instanceof SeventhChord) {
+	private List<Voicing> voicingListFromVoicing(Voicing voicing) {
+		if(voicing instanceof SeventhVoicing) {
 			return seventhVoicingList;
 		}
 		else {

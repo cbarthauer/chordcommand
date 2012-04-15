@@ -13,21 +13,21 @@ public class ChordPlayerTest {
 		VoicedChord chord1 = builder.setRoot(NoteName.A_FLAT)
 			.setTriadQuality(Quality.MAJOR)
 			.setSeventhQuality(Quality.MINOR)
-			.build();
+			.buildVoicedChord();
 		chordList.add(chord1);
 		
 		VoicedChord chord2 = builder.setRoot(NoteName.D_FLAT)
 			.setTriadQuality(Quality.MAJOR)
-			.build();
+			.buildVoicedChord();
 		chordList.add(chord2);
 		
-		Voicing voicing1 = Voicing.getInstance();
+		Voicing voicing1 = SeventhVoicing.getInstance();
 		voicing1.addChordMember(ChordMember.FIFTH);
 		voicing1.addChordMember(ChordMember.ROOT);
 		voicing1.addChordMember(ChordMember.THIRD);
 		voicing1.addChordMember(ChordMember.SEVENTH);		
 		
-		Voicing voicing2 = Voicing.getInstance();
+		Voicing voicing2 = TriadVoicing.getInstance();
 		voicing2.addChordMember(ChordMember.ROOT);
 		voicing2.addChordMember(ChordMember.FIFTH);
 		voicing2.addChordMember(ChordMember.ROOT);

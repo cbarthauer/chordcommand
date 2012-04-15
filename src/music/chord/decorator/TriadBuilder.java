@@ -8,27 +8,27 @@ public class TriadBuilder implements ChordBuilder {
 	private Voicing voicing;
 	
 	public TriadBuilder() {
-		voicing = Voicing.getInstance();
+		voicing = TriadVoicing.getInstance();
 		voicing.addChordMember(ChordMember.ROOT);
 		voicing.addChordMember(ChordMember.FIFTH);
 		voicing.addChordMember(ChordMember.ROOT);
 		voicing.addChordMember(ChordMember.THIRD);
+		
+		duration = Duration.QUARTER;
 	}
 	
 	@Override
-	public VoicedChord build() {
-		VoicedChord resultChord = null;
-		Chord chord = new Triad(root, triadQuality);
-		resultChord = new ConcreteChord(chord, voicing, duration);
+	public VoicedChord buildVoicedChord() {
+		VoicedChord result = new ConcreteChord(buildTriad(), voicing, duration);
 		reset();
-		return resultChord;
+		return result;
 	}
 
 	public TriadBuilder setDuration(Duration duration) {
 		this.duration = duration;
 		return this;
 	}
-
+	
 	public TriadBuilder setRoot(NoteName root) {
 		this.root = root;
 		return this;
@@ -38,7 +38,7 @@ public class TriadBuilder implements ChordBuilder {
 		this.triadQuality = triadQuality;
 		return this;
 	}
-	
+
 	public TriadBuilder setVoicing(Voicing voicing) {
 		this.voicing = voicing;
 		return this;
@@ -49,5 +49,9 @@ public class TriadBuilder implements ChordBuilder {
 		triadQuality = null;
 		duration = null;
 		voicing = null;
+	}
+	
+	Triad buildTriad() {
+		return new Triad(root, triadQuality);
 	}
 }
