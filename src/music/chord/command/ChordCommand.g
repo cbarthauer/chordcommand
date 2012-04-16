@@ -35,7 +35,7 @@ options {
 @members {
   List<Command> commandList = new ArrayList<Command>();
   TriadBuilder triadBuilder = new TriadBuilder();
-  SeventhBuilder seventhBuilder = new SeventhBuilder();
+  SeventhBuilder seventhBuilder = new SeventhBuilder(triadBuilder);
   DerivedChordBuilder derivedBuilder = new DerivedChordBuilder();
   List<VoicedChord> chordList;
   ChordPlayer player;
@@ -178,10 +178,10 @@ chordMemberList returns [Voicing voicing]
         {chordMemberList.add(ChordMember.memberFromName($member4.name));}
       END_LIST {
           if(chordMemberList.contains(ChordMember.SEVENTH)) {
-              voicing = SeventhVoicing.getInstance();
+              voicing = new SeventhVoicing();
           }
           else {
-              voicing = TriadVoicing.getInstance();
+              voicing = new TriadVoicing();
           }  
         
           for(ChordMember member : chordMemberList) {

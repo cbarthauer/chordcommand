@@ -21,13 +21,13 @@ public class ChordPlayerTest {
 			.buildVoicedChord();
 		chordList.add(chord2);
 		
-		Voicing voicing1 = SeventhVoicing.getInstance();
+		Voicing voicing1 = new SeventhVoicing();
 		voicing1.addChordMember(ChordMember.FIFTH);
 		voicing1.addChordMember(ChordMember.ROOT);
 		voicing1.addChordMember(ChordMember.THIRD);
 		voicing1.addChordMember(ChordMember.SEVENTH);		
 		
-		Voicing voicing2 = TriadVoicing.getInstance();
+		Voicing voicing2 = new TriadVoicing();
 		voicing2.addChordMember(ChordMember.ROOT);
 		voicing2.addChordMember(ChordMember.FIFTH);
 		voicing2.addChordMember(ChordMember.ROOT);

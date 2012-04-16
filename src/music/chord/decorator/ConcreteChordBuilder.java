@@ -95,13 +95,13 @@ public class ConcreteChordBuilder implements ChordBuilder {
 		seventhQuality = null;
 		duration = Duration.QUARTER;
 		
-		triadVoicing = TriadVoicing.getInstance();
+		triadVoicing = new TriadVoicing();
 		triadVoicing.addChordMember(ChordMember.ROOT);
 		triadVoicing.addChordMember(ChordMember.THIRD);
 		triadVoicing.addChordMember(ChordMember.FIFTH);
 		triadVoicing.addChordMember(ChordMember.ROOT);
 		
-		seventhVoicing = SeventhVoicing.getInstance();
+		seventhVoicing = new SeventhVoicing();
 		seventhVoicing.addChordMember(ChordMember.ROOT);
 		seventhVoicing.addChordMember(ChordMember.THIRD);
 		seventhVoicing.addChordMember(ChordMember.FIFTH);

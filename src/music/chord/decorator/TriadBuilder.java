@@ -8,7 +8,7 @@ public class TriadBuilder implements ChordBuilder {
 	private Voicing voicing;
 	
 	public TriadBuilder() {
-		voicing = TriadVoicing.getInstance();
+		voicing = new TriadVoicing();
 		voicing.addChordMember(ChordMember.ROOT);
 		voicing.addChordMember(ChordMember.FIFTH);
 		voicing.addChordMember(ChordMember.ROOT);

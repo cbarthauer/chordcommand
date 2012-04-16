@@ -18,7 +18,7 @@ options {
   VoicingManager voicingManager = new VoicingManager();
   DerivedChordBuilder chordBuilder = new DerivedChordBuilder();
   TriadBuilder triadBuilder = new TriadBuilder();
-  SeventhBuilder seventhBuilder = new SeventhBuilder();
+  SeventhBuilder seventhBuilder = new SeventhBuilder(triadBuilder);
 }
 
 
@@ -44,10 +44,10 @@ chordMemberList returns [Voicing voicing]
             (member=chordMember {chordMemberList.add(ChordMember.memberFromName($member.name));} )+ 
        ) {
           if(chordMemberList.contains(ChordMember.SEVENTH)) {
-              voicing = SeventhVoicing.getInstance();
+              voicing = new SeventhVoicing();
           }
           else {
-              voicing = TriadVoicing.getInstance();
+              voicing = new TriadVoicing();
           }  
         
           for(ChordMember currentMember : chordMemberList) {

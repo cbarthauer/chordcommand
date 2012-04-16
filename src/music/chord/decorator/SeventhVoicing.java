@@ -2,11 +2,6 @@ package music.chord.decorator;
 
 
 public class SeventhVoicing extends AbstractVoicing {
-	
-	public static Voicing getInstance() {
-		return new SeventhVoicing();
-	}
-	
 	@Override
 	void validateChordMember(ChordMember member) {
 		if(!(ChordMember.ROOT.equals(member)
@@ -17,5 +12,4 @@ public class SeventhVoicing extends AbstractVoicing {
 					"Invalid ChordMember for TriadVoicing: " + member);
 		}
 	}
-
 }

@@ -6,8 +6,8 @@ public class SeventhBuilder implements ChordBuilder {
 	private Voicing voicing;
 	private TriadBuilder triadBuilder;
 	
-	public SeventhBuilder() {
-		voicing = SeventhVoicing.getInstance();
+	public SeventhBuilder(TriadBuilder triadBuilder) {
+		voicing = new SeventhVoicing();
 		voicing.addChordMember(ChordMember.ROOT);
 		voicing.addChordMember(ChordMember.FIFTH);
 		voicing.addChordMember(ChordMember.SEVENTH);
@@ -15,7 +15,7 @@ public class SeventhBuilder implements ChordBuilder {
 		
 		duration = Duration.QUARTER;
 		
-		triadBuilder = new TriadBuilder();
+		this.triadBuilder = triadBuilder;
 	}
 	
 	@Override
