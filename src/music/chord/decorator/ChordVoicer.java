@@ -2,70 +2,115 @@ package music.chord.decorator;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ChordVoicer {
 	private List<Voicing> triadVoicingList;
 	private List<Voicing> seventhVoicingList;
-	private VoicedChord previousVoicedChord;
 	private DerivedChordBuilder chordBuilder;
 	
-	public ChordVoicer(List<Voicing> triadVoicingList, List<Voicing> seventhVoicingList) {
+	public ChordVoicer(
+			List<Voicing> triadVoicingList, 
+			List<Voicing> seventhVoicingList, 
+			DerivedChordBuilder chordBuilder) {
+		
 		this.triadVoicingList = triadVoicingList;
 		this.seventhVoicingList = seventhVoicingList;
-		
-		Collections.shuffle(triadVoicingList);
-		Collections.shuffle(seventhVoicingList);
-		
-		chordBuilder = new DerivedChordBuilder();
+		this.chordBuilder = chordBuilder;
 	}
 	
 	public List<VoicedChord> voice(List<VoicedChord> chordList) {
-		System.out.println("ChordVoicer.voicer() - chordList: " + chordList);
-		
 		List<VoicedChord> result = new ArrayList<VoicedChord>();
 		
-		for(VoicedChord chord : chordList) {
-			VoicedChord voicedChord = voiceClosest(chord);			
-			result.add(voicedChord);
-			previousVoicedChord = voicedChord;
+		if(chordList.size() == 1) {
+			result.add(chordList.get(0));
+		}
+		else {
+			result = voice(chordList.get(0), chordList.subList(1, chordList.size()));
 		}
 		
-		reset();
+		return result;
+	}
+	
+	public List<VoicedChord> voice(VoicedChord startingChord, List<VoicedChord> chordList) {
+		List<VoicedChord> result = new ArrayList<VoicedChord>();
+		result.add(startingChord);
+		
+		VoicedChord previousChord = startingChord;
+		
+		for(VoicedChord chord : chordList) {
+			VoicedChord voicedChord = voiceClosest(previousChord, chord);
+			result.add(voicedChord);
+			previousChord = voicedChord;
+		}
+		
 		
 		return result;
 	}
 
-	private void reset() {
-		previousVoicedChord = null;
-		Collections.shuffle(triadVoicingList);
-		Collections.shuffle(seventhVoicingList);
+	public Map<Integer, List<VoicedChord>> voicedChordDifferenceMap(
+			VoicedChord previousChord, 
+			VoicedChord newChord) {
+		
+		List<Voicing> voicingList = voicingListFromVoicing(newChord.getVoicing());
+		Map<Integer, List<VoicedChord>> diffMap = new HashMap<Integer, List<VoicedChord>>();
+		
+		for(Voicing voicing : voicingList) {
+			VoicedChord chord = chordBuilder.setChord(newChord)
+				.setVoicing(voicing)
+				.buildVoicedChord();
+			Integer difference = chord.difference(previousChord);
+			
+			List<VoicedChord> chordList = 
+				diffMap.get(difference) == null 
+				? new ArrayList<VoicedChord>() 
+				: diffMap.get(difference);
+			
+			chordList.add(chord);
+			
+			diffMap.put(difference, chordList);
+		}
+		
+		return diffMap;
 	}
-
-	private VoicedChord voiceClosest(VoicedChord chord) {
-		List<Voicing> voicingList = voicingListFromVoicing(chord.getVoicing());
-		Voicing selectedVoicing = null;
+	
+	public List<VoicingComparison> voicingComparisonList(
+			VoicedChord previousChord, 
+			VoicedChord newChord) {
+		
+		List<Voicing> voicingList = voicingListFromVoicing(newChord.getVoicing());
+		List<VoicingComparison> result = new ArrayList<VoicingComparison>();
+		
+		for(Voicing voicing : voicingList) {
+			VoicedChord chord = chordBuilder.setChord(newChord)
+				.setVoicing(voicing)
+				.buildVoicedChord();
+			Integer difference = chord.difference(previousChord);			
+			result.add(new VoicingComparison(difference, voicing));
+		}
+		
+		Collections.sort(result);
+		
+		return result;
+	}
+	
+	private VoicedChord voiceClosest(VoicedChord previousChord, VoicedChord newChord) {
+		List<Voicing> voicingList = voicingListFromVoicing(newChord.getVoicing());
 		VoicedChord result = null;
 		
-		if(previousVoicedChord == null) {
-			selectedVoicing = voicingList.get(0);
-			result = chordBuilder.setChord(chord)
-				.setVoicing(selectedVoicing)
+		for(Voicing currentVoicing : voicingList) {
+			VoicedChord currentVoicedChord = chordBuilder.setChord(newChord)
+				.setVoicing(currentVoicing)
 				.buildVoicedChord();
-		}
-		else {
-			for(Voicing currentVoicing : voicingList) {
-				VoicedChord currentVoicedChord = chordBuilder.setChord(chord)
-					.setVoicing(currentVoicing)
-					.buildVoicedChord();
-				
-				if(
-					result == null 
-					|| currentVoicedChord.difference(previousVoicedChord) 
-						< result.difference(previousVoicedChord)
-				) {
-					result = currentVoicedChord;
-				}
+			
+			if(
+				result == null 
+				|| currentVoicedChord.difference(previousChord) 
+					< result.difference(previousChord)
+			) {
+				result = currentVoicedChord;
 			}
 		}
 		

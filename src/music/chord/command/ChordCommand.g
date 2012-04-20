@@ -68,7 +68,7 @@ MINOR_SIX : 'm6';
 DIMINISHED_SEVEN : 'dim7';
 MINOR_SEVEN : 'm7';
 MAJOR_SEVEN : 'M7';
-SEVEN : '7';
+SEVEN : 'dom7';
 
 //Whitespace
 WS  
@@ -91,9 +91,12 @@ SEVENTHS : 'sevenths';
 
 //Keywords.
 ADD : 'add';
+REMOVE : 'remove';
+INSERT : 'insert';
 ALL : 'all';
 DISPLAY : 'display';
 DURATION : 'duration';
+BEFORE : 'before';
 
 NOTE_LENGTH 
   : 'sixteenth'
@@ -105,6 +108,7 @@ NOTE_LENGTH
 
 VOICE : 'voice';
 VOICING : 'voicing';
+VOICINGS : 'voicings';
 
 ON : 'on';
 PLAY : 'play';
@@ -124,6 +128,8 @@ program returns [List<Command> result]
   
 command
   : add
+  | remove
+  | insert
   | display
   | play
   | set
@@ -137,8 +143,30 @@ add
 	} 
   ;
 
+remove
+  : REMOVE index=INT {
+        commandList.add(new RemoveChord(chordList, Integer.parseInt($index.text)));
+    }
+  ;
+  
+insert
+  : INSERT currentChord=chord BEFORE INT {
+        commandList.add(
+            new InsertBefore(chordList, $currentChord.chord, Integer.parseInt($INT.text))
+        );
+    }
+  ;
+  
 display
   : DISPLAY {commandList.add(new Display(chordList));}
+  | DISPLAY VOICINGS startIndex=INT 'to' endIndex=INT {
+    commandList.add(
+        new VoicingComparisonList(
+            chordList, 
+            Integer.parseInt($startIndex.text), 
+            Integer.parseInt($endIndex.text), 
+            voicer
+        ));}
   ; 
   
 play

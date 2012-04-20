@@ -40,7 +40,8 @@ public class TestMidi {
 		
 		ChordVoicer voicer = new ChordVoicer(
 			voicingManager.getTriadVoicingList(), 
-			voicingManager.getSeventhVoicingList()
+			voicingManager.getSeventhVoicingList(),
+			new DerivedChordBuilder()
 		);
 		
 		List<VoicedChord> voicedChordList = voicer.voice(chordList);

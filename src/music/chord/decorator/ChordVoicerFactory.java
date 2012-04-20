@@ -26,7 +26,8 @@ public class ChordVoicerFactory {
 		
 		ChordVoicer voicer = new ChordVoicer(
 			voicingManager.getTriadVoicingList(), 
-			voicingManager.getSeventhVoicingList()
+			voicingManager.getSeventhVoicingList(),
+			new DerivedChordBuilder()
 		);		
 		
 		return voicer;

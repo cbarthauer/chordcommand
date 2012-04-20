@@ -15,7 +15,8 @@ public class Display implements Command {
 	@Override
 	public void execute() {
 		for(int i = 0; i < chordList.size(); i++) {
-			System.out.println(i + ": " + chordList.get(i));
+			VoicedChord chord = chordList.get(i);
+			System.out.println(i + ": " + chord + " " + chord.getVoicing());
 		}
 	}
 
