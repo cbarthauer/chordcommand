@@ -54,6 +54,10 @@ options {
   }  
 }
 
+//Miscellaneous Tokens.
+INT : '0'..'9'+;
+
+//Music Tokens
 NOTE_NAME
     :   'A'..'G' ACCIDENTAL?
     ;
@@ -68,7 +72,7 @@ MINOR_SIX : 'm6';
 DIMINISHED_SEVEN : 'dim7';
 MINOR_SEVEN : 'm7';
 MAJOR_SEVEN : 'M7';
-SEVEN : 'dom7';
+DOMINANT_SEVEN : 'dom7';
 
 //Whitespace
 WS  
@@ -119,8 +123,6 @@ SET : 'set';
 START_LIST : '[';
 END_LIST : ']';
 
-//Other.
-INT : '0'..'9'('0'..'9')*;
 
 program returns [List<Command> result]
   : command+ EOF { result = commandList; }
@@ -237,7 +239,7 @@ chordSpec returns [VoicedChord chord]
                 .setTriadQuality(Quality.MAJOR)
                 .buildVoicedChord();
          }
-    | NOTE_NAME SEVEN {chord =
+    | NOTE_NAME DOMINANT_SEVEN {chord =
             seventhBuilder.setRoot(NoteName.rootFromSymbol($NOTE_NAME.text))
                 .setTriadQuality(Quality.MAJOR)
                 .setSeventhQuality(Quality.MINOR)
