@@ -3,6 +3,9 @@ package music.chord.decorator;
 import java.util.HashMap;
 import java.util.Map;
 
+import music.chord.base.ChordMember;
+import music.chord.base.NoteName;
+
 
 public class BasicChord implements Chord {
 	private Map<ChordMember, NoteName> chordMemberMap;

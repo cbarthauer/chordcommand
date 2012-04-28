@@ -1,5 +1,7 @@
 package music.chord.decorator;
 
+import music.chord.base.ChordMember;
+
 
 public class SeventhVoicing extends AbstractVoicing {
 	@Override

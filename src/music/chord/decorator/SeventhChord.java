@@ -1,5 +1,10 @@
 package music.chord.decorator;
 
+import music.chord.base.ChordMember;
+import music.chord.base.Interval;
+import music.chord.base.NoteName;
+import music.chord.base.Quality;
+
 
 public class SeventhChord extends ForwardingChord {
 	private Interval seventhInterval;

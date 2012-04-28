@@ -3,6 +3,10 @@ package music.chord.decorator;
 import java.util.ArrayList;
 import java.util.List;
 
+import music.chord.base.ChordMember;
+import music.chord.base.NoteName;
+import music.chord.base.Quality;
+
 import org.junit.Test;
 
 public class ChordPlayerTest {

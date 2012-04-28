@@ -3,6 +3,9 @@ package music.chord.decorator;
 import java.util.ArrayList;
 import java.util.List;
 
+import music.chord.base.ChordMember;
+import music.chord.base.NoteName;
+
 
 public abstract class AbstractVoicing implements Voicing {
 	private static final int octaveShift = 4;

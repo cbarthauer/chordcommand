@@ -1,5 +1,10 @@
 package music.chord.decorator;
 
+import music.chord.base.ChordMember;
+import music.chord.base.Duration;
+import music.chord.base.NoteName;
+import music.chord.base.Quality;
+
 import org.apache.log4j.Logger;
 
 public class ConcreteChordBuilder implements ChordBuilder {

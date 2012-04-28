@@ -9,15 +9,15 @@ options {
   package music.chord.command;
 
   import java.util.List;
+  import music.chord.base.ChordMember;
+  import music.chord.base.Duration;
+  import music.chord.base.Interval;
+  import music.chord.base.NoteName;
+  import music.chord.base.Quality;
   import music.chord.decorator.ConcreteChordBuilder;
-  import music.chord.decorator.ChordMember;
   import music.chord.decorator.ChordPlayer;
   import music.chord.decorator.ChordVoicer;
   import music.chord.decorator.DerivedChordBuilder;
-  import music.chord.decorator.Duration;
-  import music.chord.decorator.Interval;
-  import music.chord.decorator.NoteName;
-  import music.chord.decorator.Quality;
   import music.chord.decorator.SeventhBuilder;
   import music.chord.decorator.SeventhVoicing;
   import music.chord.decorator.TriadBuilder;

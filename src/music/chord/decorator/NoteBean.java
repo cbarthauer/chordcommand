@@ -1,5 +1,7 @@
 package music.chord.decorator;
 
+import music.chord.base.NoteName;
+
 
 public class NoteBean implements Comparable<NoteBean> {
 	private static final int HALF_STEPS_IN_OCTAVE = 12;

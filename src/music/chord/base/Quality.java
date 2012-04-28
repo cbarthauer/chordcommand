@@ -1,4 +1,4 @@
-package music.chord.decorator;
+package music.chord.base;
 
 public enum Quality {
 	AUGMENTED("+"),

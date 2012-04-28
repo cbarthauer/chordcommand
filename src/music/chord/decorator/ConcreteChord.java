@@ -3,6 +3,8 @@ package music.chord.decorator;
 import java.util.ArrayList;
 import java.util.List;
 
+import music.chord.base.Duration;
+
 
 class ConcreteChord extends ForwardingChord implements VoicedChord {	
 	private List<NoteBean> noteBeanList;

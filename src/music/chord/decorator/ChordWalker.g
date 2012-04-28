@@ -11,6 +11,10 @@ options {
   
   import java.util.ArrayList;
   import java.util.List;
+  import music.chord.base.ChordMember;
+  import music.chord.base.Interval;
+  import music.chord.base.NoteName;
+  import music.chord.base.Quality;
 }
 
 @members {

@@ -1,5 +1,10 @@
 package music.chord.decorator;
 
+import music.chord.base.ChordMember;
+import music.chord.base.Duration;
+import music.chord.base.NoteName;
+import music.chord.base.Quality;
+
 public class SeventhBuilder implements ChordBuilder {
 	private Quality seventhQuality;
 	private Duration duration;

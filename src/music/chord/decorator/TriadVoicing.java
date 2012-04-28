@@ -1,5 +1,7 @@
 package music.chord.decorator;
 
+import music.chord.base.ChordMember;
+
 public class TriadVoicing extends AbstractVoicing {
 	@Override
 	void validateChordMember(ChordMember member) {

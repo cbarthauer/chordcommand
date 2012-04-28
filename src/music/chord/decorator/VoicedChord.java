@@ -2,6 +2,8 @@ package music.chord.decorator;
 
 import java.util.List;
 
+import music.chord.base.Duration;
+
 public interface VoicedChord extends Chord {
 	public Duration getDuration();
 	public List<Integer> getMidiNumberList();
