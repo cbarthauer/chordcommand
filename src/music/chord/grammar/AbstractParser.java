@@ -1,4 +1,4 @@
-package music.chord.command;
+package music.chord.grammar;
 
 import java.util.List;
 

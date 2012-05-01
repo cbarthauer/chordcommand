@@ -6,7 +6,7 @@ options {
 }
 
 @header {
-  package music.chord.command;
+  package music.chord.grammar;
 
   import java.util.List;
   import music.chord.base.ChordMember;
@@ -24,12 +24,19 @@ options {
   import music.chord.decorator.TriadVoicing;
   import music.chord.decorator.VoicedChord;
   import music.chord.decorator.Voicing;
-  import music.chord.command.Command;
   import music.chord.command.AddChord;
+  import music.chord.command.Command;
+  import music.chord.command.Display;
+  import music.chord.command.InsertBefore;
+  import music.chord.command.Play;
+  import music.chord.command.Quit;
+  import music.chord.command.RemoveChord;
+  import music.chord.command.VoiceChordList;
+  import music.chord.command.VoicingComparisonList;
 }
 
 @lexer::header {
-  package music.chord.command;
+  package music.chord.grammar;
 }
 
 @members {

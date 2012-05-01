@@ -7,11 +7,11 @@ options {
 }
 
 @header {
-  package music.chord.decorator;
+  package music.chord.grammar;
 }
 
 @lexer::header {
-  package music.chord.decorator;
+  package music.chord.grammar;
 }
 
 NOTE_NAME

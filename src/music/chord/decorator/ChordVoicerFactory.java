@@ -2,7 +2,10 @@ package music.chord.decorator;
 
 import java.io.IOException;
 
-import music.chord.decorator.ChordParser.compilationUnit_return;
+import music.chord.grammar.ChordLexer;
+import music.chord.grammar.ChordParser;
+import music.chord.grammar.ChordParser.compilationUnit_return;
+import music.chord.grammar.ChordWalker;
 
 import org.antlr.runtime.ANTLRFileStream;
 import org.antlr.runtime.CharStream;
@@ -19,7 +22,7 @@ public class ChordVoicerFactory {
 		ChordParser parser = new ChordParser(tokenStream);
 		compilationUnit_return compilationUnit = parser.compilationUnit();
 		
-		CommonTreeNodeStream nodeStream = new CommonTreeNodeStream(compilationUnit.tree);
+		CommonTreeNodeStream nodeStream = new CommonTreeNodeStream(compilationUnit.getTree());
 		ChordWalker walker = new ChordWalker(nodeStream);
 		ChordProgression progression = walker.compilationUnit();
 		VoicingManager voicingManager = progression.getVoicingManager();

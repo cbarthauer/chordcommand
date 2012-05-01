@@ -7,7 +7,7 @@ options {
 }
 
 @header {
-  package music.chord.decorator;
+  package music.chord.grammar;
   
   import java.util.ArrayList;
   import java.util.List;
@@ -15,6 +15,15 @@ options {
   import music.chord.base.Interval;
   import music.chord.base.NoteName;
   import music.chord.base.Quality;
+  import music.chord.decorator.VoicedChord;
+  import music.chord.decorator.VoicingManager;
+  import music.chord.decorator.DerivedChordBuilder;
+  import music.chord.decorator.TriadBuilder;
+  import music.chord.decorator.SeventhBuilder;
+  import music.chord.decorator.ChordProgression;
+  import music.chord.decorator.TriadVoicing;
+  import music.chord.decorator.SeventhVoicing;
+  import music.chord.decorator.Voicing;
 }
 
 @members {

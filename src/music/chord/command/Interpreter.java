@@ -9,6 +9,8 @@ import music.chord.decorator.ChordPlayer;
 import music.chord.decorator.ChordVoicer;
 import music.chord.decorator.ChordVoicerFactory;
 import music.chord.decorator.VoicedChord;
+import music.chord.grammar.ChordCommandLexer;
+import music.chord.grammar.ChordCommandParser;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CharStream;
