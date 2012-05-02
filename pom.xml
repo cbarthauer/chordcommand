@@ -1,0 +1,81 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>music.chord</groupId>
+  <artifactId>Interpreter</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>Chord Command Interpreter</name>
+  <url>http://maven.apache.org</url>
+  
+  <!-- Properties for SQL Server -->
+  <properties>
+	  <sonar.dynamicAnalysis>false</sonar.dynamicAnalysis>
+	  <sonar.jdbc.driverClassName>net.sourceforge.jtds.jdbc.Driver</sonar.jdbc.driverClassName>
+	  <sonar.jdbc.username>sonar</sonar.jdbc.username>
+	  <sonar.jdbc.password>sonar</sonar.jdbc.password>
+	  <sonar.jdbc.url>jdbc:jtds:sqlserver://localhost;databaseName=SONAR1;SelectMethod=Cursor</sonar.jdbc.url>
+  </properties>
+  
+  
+  <!-- Properties for development mode (Derby)
+  <properties>
+  	<sonar.host.url>http://localhost:9000/dev</sonar.host.url>
+  </properties>
+  -->
+  
+  <!-- Properties for Derby 
+  <properties>
+  	<sonar.host.url>http://localhost:9000</sonar.host.url>
+  </properties>
+  -->
+  
+  <!-- Sonar configuration settings (Oracle XE on CENTOS1).
+  <properties>
+    <sonar.host.url>http://centos1/sonar</sonar.host.url>
+    <sonar.jdbc.username>sonar</sonar.jdbc.username>
+    <sonar.jdbc.password>sonar</sonar.jdbc.password>
+    <sonar.jdbc.url>jdbc:oracle:thin:@centos1:1521:XE</sonar.jdbc.url>
+    <sonar.jdbc.driverClassName>oracle.jdbc.driver.OracleDriver</sonar.jdbc.driverClassName>  	
+  </properties>
+  -->
+  
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <build>
+    <sourceDirectory>src</sourceDirectory>
+	<outputDirectory>bin</outputDirectory>	
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>2.3</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>2.7</version>        
+      </plugin>
+    </plugins>
+  </build>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>2.3</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>2.7</version>
+      </plugin>
+    </plugins>
+  </reporting>
+</project>
