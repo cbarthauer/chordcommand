@@ -2,7 +2,7 @@ package music.chord.command;
 
 import java.util.List;
 
-import music.chord.decorator.VoicedChord;
+import music.chord.arrangement.VoicedChord;
 
 public class Display implements Command {
 

@@ -1,5 +1,7 @@
 package music.chord.decorator;
 
+import music.chord.arrangement.VoicedChord;
+import music.chord.arrangement.Voicing;
 import music.chord.base.Duration;
 
 public class DerivedChordBuilder implements ChordBuilder {

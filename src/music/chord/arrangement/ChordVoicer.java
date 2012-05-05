@@ -1,10 +1,12 @@
-package music.chord.decorator;
+package music.chord.arrangement;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import music.chord.decorator.DerivedChordBuilder;
 
 public class ChordVoicer {
 	private List<Voicing> triadVoicingList;

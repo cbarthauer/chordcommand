@@ -2,10 +2,10 @@ package music.chord.command;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
+import music.chord.arrangement.VoicedChord;
 import music.chord.decorator.ChordPlayer;
-import music.chord.decorator.VoicedChord;
+
+import org.apache.log4j.Logger;
 
 public class Play implements Command {
 	private static Logger logger;

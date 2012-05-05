@@ -3,6 +3,9 @@ package music.chord.decorator;
 import java.io.IOException;
 import java.util.List;
 
+import music.chord.arrangement.ChordVoicer;
+import music.chord.arrangement.VoicedChord;
+import music.chord.arrangement.VoicingManager;
 import music.chord.grammar.ChordLexer;
 import music.chord.grammar.ChordParser;
 import music.chord.grammar.ChordParser.compilationUnit_return;
@@ -13,8 +16,8 @@ import org.antlr.runtime.CharStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.TokenStream;
-import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.CommonTree;
+import org.antlr.runtime.tree.CommonTreeNodeStream;
 
 public class TestMidi {
 

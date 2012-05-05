@@ -1,4 +1,4 @@
-package music.chord.decorator;
+package music.chord.arrangement;
 
 public class VoicingComparison implements Comparable<VoicingComparison> {
 	private Integer difference;

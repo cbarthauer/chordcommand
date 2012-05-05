@@ -1,7 +1,9 @@
-package music.chord.decorator;
+package music.chord.arrangement;
 
 import java.io.IOException;
 
+import music.chord.decorator.ChordProgression;
+import music.chord.decorator.DerivedChordBuilder;
 import music.chord.grammar.ChordLexer;
 import music.chord.grammar.ChordParser;
 import music.chord.grammar.ChordParser.compilationUnit_return;

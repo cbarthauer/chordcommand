@@ -1,4 +1,4 @@
-package music.chord.decorator;
+package music.chord.arrangement;
 
 public enum VoicingType {
 	TRIAD, SEVENTH, ADD_NINE;

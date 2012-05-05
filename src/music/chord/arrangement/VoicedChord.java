@@ -1,8 +1,10 @@
-package music.chord.decorator;
+package music.chord.arrangement;
 
 import java.util.List;
 
 import music.chord.base.Duration;
+import music.chord.decorator.Chord;
+import music.chord.decorator.NoteBean;
 
 public interface VoicedChord extends Chord {
 	public Duration getDuration();

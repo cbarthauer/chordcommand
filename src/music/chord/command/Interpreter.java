@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import music.chord.arrangement.ChordVoicer;
+import music.chord.arrangement.ChordVoicerFactory;
+import music.chord.arrangement.VoicedChord;
 import music.chord.decorator.ChordPlayer;
-import music.chord.decorator.ChordVoicer;
-import music.chord.decorator.ChordVoicerFactory;
-import music.chord.decorator.VoicedChord;
 import music.chord.grammar.ChordCommandLexer;
 import music.chord.grammar.ChordCommandParser;
 

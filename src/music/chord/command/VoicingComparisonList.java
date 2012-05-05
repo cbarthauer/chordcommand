@@ -2,9 +2,9 @@ package music.chord.command;
 
 import java.util.List;
 
-import music.chord.decorator.ChordVoicer;
-import music.chord.decorator.VoicedChord;
-import music.chord.decorator.VoicingComparison;
+import music.chord.arrangement.ChordVoicer;
+import music.chord.arrangement.VoicedChord;
+import music.chord.arrangement.VoicingComparison;
 
 public class VoicingComparisonList implements Command {
 	

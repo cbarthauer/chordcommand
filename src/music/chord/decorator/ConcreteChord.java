@@ -3,6 +3,8 @@ package music.chord.decorator;
 import java.util.ArrayList;
 import java.util.List;
 
+import music.chord.arrangement.VoicedChord;
+import music.chord.arrangement.Voicing;
 import music.chord.base.Duration;
 
 

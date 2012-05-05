@@ -1,10 +1,12 @@
-package music.chord.decorator;
+package music.chord.arrangement;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import music.chord.base.ChordMember;
 import music.chord.base.NoteName;
+import music.chord.decorator.Chord;
+import music.chord.decorator.NoteBean;
 
 
 public abstract class AbstractVoicing implements Voicing {

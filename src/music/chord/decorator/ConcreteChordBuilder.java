@@ -1,5 +1,9 @@
 package music.chord.decorator;
 
+import music.chord.arrangement.SeventhVoicing;
+import music.chord.arrangement.TriadVoicing;
+import music.chord.arrangement.VoicedChord;
+import music.chord.arrangement.Voicing;
 import music.chord.base.ChordMember;
 import music.chord.base.Duration;
 import music.chord.base.NoteName;

@@ -11,6 +11,8 @@ import javax.sound.midi.Sequencer;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Track;
 
+import music.chord.arrangement.VoicedChord;
+
 public class ChordPlayer {
 	private static final int PPQ_VALUE = 4;
 	private static final int DEFAULT_CHANNEL = 0;

@@ -9,21 +9,25 @@ options {
   package music.chord.grammar;
 
   import java.util.List;
+  
+  import music.chord.arrangement.ChordVoicer;
+  import music.chord.arrangement.SeventhVoicing;
+  import music.chord.arrangement.TriadVoicing;
+  import music.chord.arrangement.VoicedChord;
+  import music.chord.arrangement.Voicing;
+  
   import music.chord.base.ChordMember;
   import music.chord.base.Duration;
   import music.chord.base.Interval;
   import music.chord.base.NoteName;
   import music.chord.base.Quality;
+  
   import music.chord.decorator.ConcreteChordBuilder;
   import music.chord.decorator.ChordPlayer;
-  import music.chord.decorator.ChordVoicer;
   import music.chord.decorator.DerivedChordBuilder;
   import music.chord.decorator.SeventhBuilder;
-  import music.chord.decorator.SeventhVoicing;
   import music.chord.decorator.TriadBuilder;
-  import music.chord.decorator.TriadVoicing;
-  import music.chord.decorator.VoicedChord;
-  import music.chord.decorator.Voicing;
+
   import music.chord.command.AddChord;
   import music.chord.command.Command;
   import music.chord.command.Display;
