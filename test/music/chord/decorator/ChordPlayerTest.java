@@ -14,13 +14,13 @@ public class ChordPlayerTest {
 	public void testPlay() {
 		ConcreteChordBuilder builder = new ConcreteChordBuilder();
 		List<VoicedChord> chordList = new ArrayList<VoicedChord>();
-		VoicedChord chord1 = builder.setRoot(NoteName.A_FLAT)
+		VoicedChord chord1 = builder.setRoot(NoteName.forSymbol("Ab"))
 			.setTriadQuality(Quality.MAJOR)
 			.setSeventhQuality(Quality.MINOR)
 			.buildVoicedChord();
 		chordList.add(chord1);
 		
-		VoicedChord chord2 = builder.setRoot(NoteName.D_FLAT)
+		VoicedChord chord2 = builder.setRoot(NoteName.forSymbol("Db"))
 			.setTriadQuality(Quality.MAJOR)
 			.buildVoicedChord();
 		chordList.add(chord2);

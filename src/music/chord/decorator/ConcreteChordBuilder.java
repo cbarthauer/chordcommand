@@ -95,7 +95,7 @@ public class ConcreteChordBuilder implements ChordBuilder {
 	}
 
 	private void reset() {
-		root = NoteName.C;
+		root = NoteName.forSymbol("C");
 		triadQuality = Quality.MAJOR;
 		seventhQuality = null;
 		duration = Duration.QUARTER;

@@ -7,3 +7,5 @@ syntax: regexp
 ^lilypond/example1\.ly$
 syntax: regexp
 ^lilypond/example1\.pdf$
+syntax: regexp
+^target$

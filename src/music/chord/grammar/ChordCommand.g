@@ -237,41 +237,41 @@ chord returns [VoicedChord chord]
     
 chordSpec returns [VoicedChord chord]
     : NOTE_NAME QUALITY{ chord =
-            triadBuilder.setRoot(NoteName.rootFromSymbol($NOTE_NAME.text))
+            triadBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
                 .setTriadQuality(Quality.qualityFromAbbreviation($QUALITY.text))
                 .buildVoicedChord();
          }
     | NOTE_NAME {chord =
-            triadBuilder.setRoot(NoteName.rootFromSymbol($NOTE_NAME.text))
+            triadBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
                 .setTriadQuality(Quality.MAJOR)
                 .buildVoicedChord();
          }
     | NOTE_NAME DOMINANT_SEVEN {chord =
-            seventhBuilder.setRoot(NoteName.rootFromSymbol($NOTE_NAME.text))
+            seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
                 .setTriadQuality(Quality.MAJOR)
                 .setSeventhQuality(Quality.MINOR)
                 .buildVoicedChord();
          }
     | NOTE_NAME MINOR_SEVEN {chord =
-            seventhBuilder.setRoot(NoteName.rootFromSymbol($NOTE_NAME.text))
+            seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
                 .setTriadQuality(Quality.MINOR)
                 .setSeventhQuality(Quality.MINOR)
                 .buildVoicedChord();
          }
     | NOTE_NAME MAJOR_SEVEN {chord =
-            seventhBuilder.setRoot(NoteName.rootFromSymbol($NOTE_NAME.text))
+            seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
                 .setTriadQuality(Quality.MAJOR)
                 .setSeventhQuality(Quality.MAJOR)
                 .buildVoicedChord();
          }
     | NOTE_NAME MINOR_SIX {chord =
-            seventhBuilder.setRoot(NoteName.rootFromSymbol($NOTE_NAME.text).up(Interval.MAJOR_SIXTH))
+            seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text).up(Interval.MAJOR_SIXTH))
                 .setTriadQuality(Quality.DIMINISHED)
                 .setSeventhQuality(Quality.MINOR)
                 .buildVoicedChord();
          }
     | NOTE_NAME DIMINISHED_SEVEN {chord =
-            seventhBuilder.setRoot(NoteName.rootFromSymbol($NOTE_NAME.text))
+            seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
                 .setTriadQuality(Quality.DIMINISHED)
                 .setSeventhQuality(Quality.DIMINISHED)
                 .buildVoicedChord();
