@@ -1,5 +1,6 @@
-package music.chord.decorator;
+package music.chord.builder;
 
+import music.chord.arrangement.ConcreteChord;
 import music.chord.arrangement.SeventhVoicing;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.Voicing;
@@ -7,6 +8,7 @@ import music.chord.base.ChordMember;
 import music.chord.base.Duration;
 import music.chord.base.NoteName;
 import music.chord.base.Quality;
+import music.chord.decorator.SeventhChord;
 
 public class SeventhBuilder implements ChordBuilder {
 	private Quality seventhQuality;

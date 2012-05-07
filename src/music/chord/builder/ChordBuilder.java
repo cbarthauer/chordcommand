@@ -1,4 +1,4 @@
-package music.chord.decorator;
+package music.chord.builder;
 
 import music.chord.arrangement.VoicedChord;
 

@@ -1,11 +1,14 @@
-package music.chord.decorator;
+package music.chord.main;
 
 import java.io.IOException;
 import java.util.List;
 
-import music.chord.arrangement.ChordVoicer;
+import music.chord.arrangement.ChordPlayer;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.VoicingManager;
+import music.chord.builder.ChordProgression;
+import music.chord.builder.ChordVoicer;
+import music.chord.builder.DerivedChordBuilder;
 import music.chord.grammar.ChordLexer;
 import music.chord.grammar.ChordParser;
 import music.chord.grammar.ChordParser.compilationUnit_return;

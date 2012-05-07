@@ -10,7 +10,7 @@ options {
 
   import java.util.List;
   
-  import music.chord.arrangement.ChordVoicer;
+  import music.chord.arrangement.ChordPlayer;
   import music.chord.arrangement.SeventhVoicing;
   import music.chord.arrangement.TriadVoicing;
   import music.chord.arrangement.VoicedChord;
@@ -22,12 +22,11 @@ options {
   import music.chord.base.NoteName;
   import music.chord.base.Quality;
   
-  import music.chord.decorator.ConcreteChordBuilder;
-  import music.chord.decorator.ChordPlayer;
-  import music.chord.decorator.DerivedChordBuilder;
-  import music.chord.decorator.SeventhBuilder;
-  import music.chord.decorator.TriadBuilder;
-
+  import music.chord.builder.ChordVoicer;
+  import music.chord.builder.DerivedChordBuilder;
+  import music.chord.builder.SeventhBuilder;
+  import music.chord.builder.TriadBuilder;
+  
   import music.chord.command.AddChord;
   import music.chord.command.Command;
   import music.chord.command.Display;

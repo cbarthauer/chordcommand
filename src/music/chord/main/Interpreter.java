@@ -1,14 +1,15 @@
-package music.chord.command;
+package music.chord.main;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import music.chord.arrangement.ChordVoicer;
-import music.chord.arrangement.ChordVoicerFactory;
+import music.chord.arrangement.ChordPlayer;
 import music.chord.arrangement.VoicedChord;
-import music.chord.decorator.ChordPlayer;
+import music.chord.builder.ChordVoicer;
+import music.chord.builder.ChordVoicerFactory;
+import music.chord.command.Command;
 import music.chord.grammar.ChordCommandLexer;
 import music.chord.grammar.ChordCommandParser;
 

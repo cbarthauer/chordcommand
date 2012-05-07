@@ -2,8 +2,8 @@ package music.chord.command;
 
 import java.util.List;
 
+import music.chord.arrangement.ChordPlayer;
 import music.chord.arrangement.VoicedChord;
-import music.chord.decorator.ChordPlayer;
 
 import org.apache.log4j.Logger;
 

@@ -1,19 +1,20 @@
-package music.chord.decorator;
+package music.chord.arrangement;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import music.chord.arrangement.VoicedChord;
-import music.chord.arrangement.Voicing;
 import music.chord.base.Duration;
+import music.chord.decorator.Chord;
+import music.chord.decorator.ForwardingChord;
+import music.chord.decorator.NoteBean;
 
 
-class ConcreteChord extends ForwardingChord implements VoicedChord {	
+public class ConcreteChord extends ForwardingChord implements VoicedChord {	
 	private List<NoteBean> noteBeanList;
 	private Voicing voicing;
 	private Duration duration;
 
-	ConcreteChord(Chord chord, Voicing voicing, Duration duration) {
+	public ConcreteChord(Chord chord, Voicing voicing, Duration duration) {
 		super(chord);
 		this.voicing = voicing;
 		noteBeanList = voicing.voice(chord);

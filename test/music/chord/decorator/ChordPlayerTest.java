@@ -3,7 +3,7 @@ package music.chord.decorator;
 import java.util.ArrayList;
 import java.util.List;
 
-import music.chord.arrangement.ChordVoicer;
+import music.chord.arrangement.ChordPlayer;
 import music.chord.arrangement.SeventhVoicing;
 import music.chord.arrangement.TriadVoicing;
 import music.chord.arrangement.VoicedChord;
@@ -12,13 +12,17 @@ import music.chord.arrangement.VoicingManager;
 import music.chord.base.ChordMember;
 import music.chord.base.NoteName;
 import music.chord.base.Quality;
+import music.chord.builder.ChordVoicer;
+import music.chord.builder.DerivedChordBuilder;
+import music.chord.builder.SeventhBuilder;
+import music.chord.builder.TriadBuilder;
 
 import org.junit.Test;
 
 public class ChordPlayerTest {
 	@Test
 	public void testPlay() {
-		ConcreteChordBuilder builder = new ConcreteChordBuilder();
+		SeventhBuilder builder = new SeventhBuilder(new TriadBuilder());
 		List<VoicedChord> chordList = new ArrayList<VoicedChord>();
 		VoicedChord chord1 = builder.setRoot(NoteName.forSymbol("Ab"))
 			.setTriadQuality(Quality.MAJOR)

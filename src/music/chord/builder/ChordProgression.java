@@ -1,4 +1,4 @@
-package music.chord.decorator;
+package music.chord.builder;
 
 import java.util.List;
 

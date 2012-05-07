@@ -1,5 +1,6 @@
-package music.chord.decorator;
+package music.chord.builder;
 
+import music.chord.arrangement.ConcreteChord;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.Voicing;
 import music.chord.base.Duration;

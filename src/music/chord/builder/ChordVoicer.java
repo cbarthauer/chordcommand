@@ -1,4 +1,4 @@
-package music.chord.arrangement;
+package music.chord.builder;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,7 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import music.chord.decorator.DerivedChordBuilder;
+import music.chord.arrangement.SeventhVoicing;
+import music.chord.arrangement.VoicedChord;
+import music.chord.arrangement.Voicing;
+import music.chord.arrangement.VoicingComparison;
 
 public class ChordVoicer {
 	private List<Voicing> triadVoicingList;

@@ -23,10 +23,10 @@ options {
   import music.chord.base.NoteName;
   import music.chord.base.Quality;
 
-  import music.chord.decorator.DerivedChordBuilder;
-  import music.chord.decorator.TriadBuilder;
-  import music.chord.decorator.SeventhBuilder;
-  import music.chord.decorator.ChordProgression;
+  import music.chord.builder.ChordProgression;
+  import music.chord.builder.DerivedChordBuilder;
+  import music.chord.builder.TriadBuilder;
+  import music.chord.builder.SeventhBuilder;
 }
 
 @members {

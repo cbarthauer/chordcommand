@@ -2,9 +2,9 @@ package music.chord.grammar;
 
 import java.util.List;
 
-import music.chord.arrangement.ChordVoicer;
+import music.chord.arrangement.ChordPlayer;
 import music.chord.arrangement.VoicedChord;
-import music.chord.decorator.ChordPlayer;
+import music.chord.builder.ChordVoicer;
 
 import org.antlr.runtime.Parser;
 import org.antlr.runtime.RecognizerSharedState;
