@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import music.chord.arrangement.ChordPlayer;
+import music.chord.arrangement.ClosestVoicingStrategy;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.VoicingManager;
 import music.chord.builder.ChordProgression;
@@ -49,10 +50,11 @@ public class TestMidi {
 		VoicingManager voicingManager = progression.getVoicingManager();
 		
 		ChordVoicer voicer = new ChordVoicer(
-			voicingManager.getTriadVoicingList(), 
-			voicingManager.getSeventhVoicingList(),
-			new DerivedChordBuilder()
-		);
+	            new ClosestVoicingStrategy(
+	                    voicingManager.getTriadVoicingList(), 
+	                    voicingManager.getSeventhVoicingList(),
+	                    new DerivedChordBuilder())
+	            );
 		
 		List<VoicedChord> voicedChordList = voicer.voice(chordList);
 		ChordPlayer player = new ChordPlayer();

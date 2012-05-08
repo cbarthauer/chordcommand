@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import music.chord.arrangement.ChordPlayer;
+import music.chord.arrangement.ClosestVoicingStrategy;
 import music.chord.arrangement.SeventhVoicing;
 import music.chord.arrangement.TriadVoicing;
 import music.chord.arrangement.VoicedChord;
@@ -51,10 +52,12 @@ public class ChordPlayerTest {
 		voicingManager.addSeventhVoicing(voicing1);
 		voicingManager.addTriadVoicing(voicing2);
 		
-		ChordVoicer voicer = new ChordVoicer(
-				voicingManager.getTriadVoicingList(), 
-				voicingManager.getSeventhVoicingList(),
-				new DerivedChordBuilder());
+        ChordVoicer voicer = new ChordVoicer(
+                new ClosestVoicingStrategy(
+                    voicingManager.getTriadVoicingList(), 
+                    voicingManager.getSeventhVoicingList(),
+                    new DerivedChordBuilder())
+            );
 		List<VoicedChord> voicedChordList = voicer.voice(chordList);
 		
 		ChordPlayer player = new ChordPlayer();

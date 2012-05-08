@@ -2,6 +2,7 @@ package music.chord.builder;
 
 import java.io.IOException;
 
+import music.chord.arrangement.ClosestVoicingStrategy;
 import music.chord.arrangement.VoicingManager;
 import music.chord.grammar.ChordLexer;
 import music.chord.grammar.ChordParser;
@@ -29,9 +30,10 @@ public class ChordVoicerFactory {
 		VoicingManager voicingManager = progression.getVoicingManager();
 		
 		ChordVoicer voicer = new ChordVoicer(
-			voicingManager.getTriadVoicingList(), 
-			voicingManager.getSeventhVoicingList(),
-			new DerivedChordBuilder()
+		    new ClosestVoicingStrategy(
+    			voicingManager.getTriadVoicingList(), 
+    			voicingManager.getSeventhVoicingList(),
+    			new DerivedChordBuilder())
 		);		
 		
 		return voicer;
