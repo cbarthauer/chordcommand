@@ -53,10 +53,9 @@ public class ChordPlayerTest {
 		voicingManager.addTriadVoicing(voicing2);
 		
         ChordVoicer voicer = new ChordVoicer(
-                new ClosestVoicingStrategy(
-                    voicingManager,
-                    new DerivedChordBuilder())
-            );
+            new ClosestVoicingStrategy(new DerivedChordBuilder()), 
+            voicingManager
+        );
 		List<VoicedChord> voicedChordList = voicer.voice(chordList);
 		
 		ChordPlayer player = new ChordPlayer();

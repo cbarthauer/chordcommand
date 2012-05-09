@@ -30,9 +30,8 @@ public class ChordVoicerFactory {
 		VoicingManager voicingManager = progression.getVoicingManager();
 		
 		ChordVoicer voicer = new ChordVoicer(
-		    new ClosestVoicingStrategy(
-    			voicingManager,
-    			new DerivedChordBuilder())
+		    new ClosestVoicingStrategy(new DerivedChordBuilder()),
+		    voicingManager
 		);		
 		
 		return voicer;

@@ -5,13 +5,16 @@ import java.util.List;
 
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.VoicingComparison;
+import music.chord.arrangement.VoicingManager;
 import music.chord.arrangement.VoicingStrategy;
 
 public class ChordVoicer {
 	private VoicingStrategy strategy;
+    private VoicingManager manager;
 	
-	public ChordVoicer(VoicingStrategy strategy) {	    
+	public ChordVoicer(VoicingStrategy strategy, VoicingManager manager) {	    
 		this.strategy = strategy;
+		this.manager = manager;
 	}
 	
 	public List<VoicedChord> voice(List<VoicedChord> chordList) {
@@ -34,7 +37,10 @@ public class ChordVoicer {
 		VoicedChord previousChord = startingChord;
 		
 		for(VoicedChord chord : chordList) {
-			VoicedChord voicedChord = strategy.voice(previousChord, chord);
+			VoicedChord voicedChord = strategy.voice(
+			        previousChord, 
+			        chord, 
+			        manager.voicingListFromVoicing(chord.getVoicing()));
 			result.add(voicedChord);
 			previousChord = voicedChord;
 		}
@@ -47,6 +53,10 @@ public class ChordVoicer {
 			VoicedChord previousChord, 
 			VoicedChord newChord) {
 		
-		return strategy.voicingComparisonList(previousChord, newChord);
+		return strategy.voicingComparisonList(
+	        previousChord, 
+	        newChord, 
+	        manager.voicingListFromVoicing(newChord.getVoicing())
+	    );
 	}
 }
