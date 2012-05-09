@@ -31,8 +31,7 @@ public class ChordVoicerFactory {
 		
 		ChordVoicer voicer = new ChordVoicer(
 		    new ClosestVoicingStrategy(
-    			voicingManager.getTriadVoicingList(), 
-    			voicingManager.getSeventhVoicingList(),
+    			voicingManager,
     			new DerivedChordBuilder())
 		);		
 		

@@ -2,7 +2,6 @@ package music.chord.builder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.VoicingComparison;
@@ -43,13 +42,6 @@ public class ChordVoicer {
 		
 		return result;
 	}
-
-//	public Map<Integer, List<VoicedChord>> voicedChordDifferenceMap(
-//			VoicedChord previousChord, 
-//			VoicedChord newChord) {
-//		
-//		return strategy.voicedChordDifferenceMap(previousChord, newChord);
-//	}
 	
 	public List<VoicingComparison> voicingComparisonList(
 			VoicedChord previousChord, 

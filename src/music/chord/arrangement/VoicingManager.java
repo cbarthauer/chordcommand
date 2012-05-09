@@ -28,10 +28,19 @@ public class VoicingManager {
 		return triadVoicingList;
 	}
 
-	public String toString() {
+    public String toString() {
 		return "voicingManager {\n" +
 				"    triadVoicingList: " + triadVoicingList + ",\n" +
 				"    seventhVoicingList: " + seventhVoicingList + ",\n" +
 			"}\n";
 	}
+    
+	public List<Voicing> voicingListFromVoicing(Voicing voicing) {
+        if(voicing instanceof SeventhVoicing) {
+            return seventhVoicingList;
+        }
+        else {
+            return triadVoicingList;
+        }
+    }
 }
