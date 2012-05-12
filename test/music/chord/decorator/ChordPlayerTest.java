@@ -4,16 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import music.chord.arrangement.ChordPlayer;
-import music.chord.arrangement.ClosestVoicingStrategy;
 import music.chord.arrangement.SeventhVoicing;
 import music.chord.arrangement.TriadVoicing;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.Voicing;
 import music.chord.arrangement.VoicingManager;
 import music.chord.base.ChordMember;
+import music.chord.base.Interval;
 import music.chord.base.NoteName;
-import music.chord.base.Quality;
+import music.chord.base.QualitySymbol;
+import music.chord.base.TriadQuality;
 import music.chord.builder.ChordVoicer;
+import music.chord.builder.ClosestVoicingStrategy;
 import music.chord.builder.DerivedChordBuilder;
 import music.chord.builder.SeventhBuilder;
 import music.chord.builder.TriadBuilder;
@@ -26,13 +28,13 @@ public class ChordPlayerTest {
 		SeventhBuilder builder = new SeventhBuilder(new TriadBuilder());
 		List<VoicedChord> chordList = new ArrayList<VoicedChord>();
 		VoicedChord chord1 = builder.setRoot(NoteName.forSymbol("Ab"))
-			.setTriadQuality(Quality.MAJOR)
-			.setSeventhQuality(Quality.MINOR)
+			.setTriadQuality(TriadQuality.MAJOR)
+			.setSeventhInterval(Interval.MINOR_SEVENTH)
 			.buildVoicedChord();
 		chordList.add(chord1);
 		
 		VoicedChord chord2 = builder.setRoot(NoteName.forSymbol("Db"))
-			.setTriadQuality(Quality.MAJOR)
+			.setTriadQuality(TriadQuality.MAJOR)
 			.buildVoicedChord();
 		chordList.add(chord2);
 		

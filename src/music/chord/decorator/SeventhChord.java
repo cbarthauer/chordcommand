@@ -3,28 +3,14 @@ package music.chord.decorator;
 import music.chord.base.ChordMember;
 import music.chord.base.Interval;
 import music.chord.base.NoteName;
-import music.chord.base.Quality;
 
 
 public class SeventhChord extends ForwardingChord {
 	private Interval seventhInterval;
 
-	public SeventhChord(Triad triad, Quality seventhQuality) {
+	public SeventhChord(Triad triad, Interval seventhInterval) {
 		super(triad);
-		
-		switch(seventhQuality) {
-		case MAJOR:
-			seventhInterval = Interval.MAJOR_SEVENTH;
-			break;
-		case MINOR:
-			seventhInterval = Interval.MINOR_SEVENTH;
-			break;
-		case DIMINISHED:
-			seventhInterval = Interval.DIMINISHED_SEVENTH;
-			break;
-		default:
-			throw new RuntimeException("Unrecognized seventh quality: " + seventhQuality);
-		}
+		this.seventhInterval = seventhInterval;
 	}
 
 	@Override

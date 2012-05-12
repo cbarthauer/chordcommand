@@ -3,7 +3,7 @@ package music.chord.base;
 import java.util.HashMap;
 import java.util.Map;
 
-public class NoteName {
+public final class NoteName {
 	private static Map<String, NoteNameEnum> symbolMap;
 	
 	static {

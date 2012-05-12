@@ -6,11 +6,10 @@ import java.util.List;
 import music.chord.base.Duration;
 import music.chord.decorator.Chord;
 import music.chord.decorator.ForwardingChord;
-import music.chord.decorator.NoteBean;
 
 
 public class ConcreteChord extends ForwardingChord implements VoicedChord {	
-	private List<NoteBean> noteBeanList;
+	private List<Note> noteBeanList;
 	private Voicing voicing;
 	private Duration duration;
 
@@ -22,8 +21,8 @@ public class ConcreteChord extends ForwardingChord implements VoicedChord {
 	}
 
 	public final int difference(VoicedChord chord) {
-		List<NoteBean> list1 = this.noteBeanList; 
-		List<NoteBean> list2 = chord.getNoteBeanList();
+		List<Note> list1 = this.noteBeanList; 
+		List<Note> list2 = chord.getNoteBeanList();
 		
 		if(list1.size() != list2.size()) { 
 			throw new IllegalArgumentException(
@@ -46,7 +45,7 @@ public class ConcreteChord extends ForwardingChord implements VoicedChord {
 	public final List<Integer> getMidiNumberList() {
 		List<Integer> midiNumberList = new ArrayList<Integer>();
 		
-		for(NoteBean note : noteBeanList) {
+		for(Note note : noteBeanList) {
 			midiNumberList.add(note.getMidiNumber());
 		}
 		
@@ -54,7 +53,7 @@ public class ConcreteChord extends ForwardingChord implements VoicedChord {
 	}
 	
 	@Override
-	public final List<NoteBean> getNoteBeanList() {
+	public final List<Note> getNoteBeanList() {
 		return noteBeanList;
 	}
 	

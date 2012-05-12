@@ -1,42 +1,16 @@
 package music.chord.decorator;
 
 import music.chord.base.ChordMember;
-import music.chord.base.Interval;
 import music.chord.base.NoteName;
-import music.chord.base.Quality;
+import music.chord.base.TriadQuality;
 
 
 public class Triad extends ForwardingChord {
-	private Interval thirdInterval;
-	private Interval fifthInterval;
-	private Quality triadQuality;
+	private TriadQuality triadQuality;
 	
-	public Triad(NoteName rootName, Quality triadQuality) {
-		super(new BasicChord(rootName));
-		
+	public Triad(NoteName rootName, TriadQuality triadQuality) {
+		super(new BasicChord(rootName));		
 		this.triadQuality = triadQuality;
-		
-		switch(triadQuality) {
-		case AUGMENTED:
-			this.thirdInterval = Interval.MAJOR_THIRD;
-			this.fifthInterval = Interval.AUGMENTED_FIFTH;
-			break;			
-		case MAJOR:
-			this.thirdInterval = Interval.MAJOR_THIRD;
-			this.fifthInterval = Interval.PERFECT_FIFTH;
-			break;
-		case MINOR:
-			this.thirdInterval = Interval.MINOR_THIRD;
-			this.fifthInterval = Interval.PERFECT_FIFTH;
-			break;
-		case DIMINISHED:
-			this.thirdInterval = Interval.MINOR_THIRD;
-			this.fifthInterval = Interval.DIMINISHED_FIFTH;
-			break;
-		default:
-			throw new RuntimeException(
-				"Unrecognized triad quality: " + triadQuality);
-		}
 	}
 	
 	@Override
@@ -69,11 +43,11 @@ public class Triad extends ForwardingChord {
 	
 	private NoteName getFifthNoteName() {
 		return noteNameFromChordMember(ChordMember.ROOT)
-			.up(fifthInterval);
+			.up(triadQuality.getFifthInterval());
 	}
 	
 	private NoteName getThirdNoteName() {
 		return noteNameFromChordMember(ChordMember.ROOT)
-			.up(thirdInterval);		
+			.up(triadQuality.getThirdInterval());		
 	}	
 }

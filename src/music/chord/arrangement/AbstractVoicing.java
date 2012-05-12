@@ -6,7 +6,6 @@ import java.util.List;
 import music.chord.base.ChordMember;
 import music.chord.base.NoteName;
 import music.chord.decorator.Chord;
-import music.chord.decorator.NoteBean;
 
 
 public abstract class AbstractVoicing implements Voicing {
@@ -27,34 +26,25 @@ public abstract class AbstractVoicing implements Voicing {
 		return chordMemberList.toString();
 	}
 
-	public final List<NoteBean> voice(Chord chord) {
+	public final List<Note> voice(Chord chord) {
 		if(chord == null) throw new IllegalArgumentException("Chord cannot be null.");
 		
-		List<NoteBean> result = new ArrayList<NoteBean>();
+		NoteListBuilder builder = new NoteListBuilder();
 		
-		int chromaticIndex = -1;
+		int midiNumber = -1;
 		
 		for(ChordMember chordMember : chordMemberList) {
 			NoteName noteName = chord.noteNameFromChordMember(chordMember);
-			chromaticIndex = placeAbove(noteName.getChromaticIndex(), chromaticIndex);
-			NoteBean note = new NoteBean(noteName, chromaticIndex);
-			result.add(note);
+			midiNumber = placeAbove(noteName.getChromaticIndex(), midiNumber);
+			builder.add(noteName, midiNumber);
 		}
 		
-		result = shiftUp(result, octaveShift);	
+		builder.shiftUp(octaveShift);	
 		
-		return result;
-	}
-	
-	private List<NoteBean> shiftUp(List<NoteBean> noteBeanList, int octave) {
-		for(NoteBean noteBean : noteBeanList) {
-			noteBean.setOctave(octave);
-		}
-		
-		return noteBeanList;
+		return builder.getNoteList();
 	}
 
-	protected final int placeAbove(int upper, int lower) {
+	private int placeAbove(int upper, int lower) {
 		int result = upper;
 		
 		while(result <= lower) {

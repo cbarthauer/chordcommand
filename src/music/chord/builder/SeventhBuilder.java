@@ -6,12 +6,13 @@ import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.Voicing;
 import music.chord.base.ChordMember;
 import music.chord.base.Duration;
+import music.chord.base.Interval;
 import music.chord.base.NoteName;
-import music.chord.base.Quality;
+import music.chord.base.TriadQuality;
 import music.chord.decorator.SeventhChord;
 
 public class SeventhBuilder implements ChordBuilder {
-	private Quality seventhQuality;
+	private Interval seventhInterval;
 	private Duration duration;
 	private Voicing voicing;
 	private TriadBuilder triadBuilder;
@@ -36,7 +37,7 @@ public class SeventhBuilder implements ChordBuilder {
 	}
 	
 	SeventhChord buildSeventhChord() {
-		return new SeventhChord(triadBuilder.buildTriad(), seventhQuality);
+		return new SeventhChord(triadBuilder.buildTriad(), seventhInterval);
 	}
 	
 	public SeventhBuilder setDuration(Duration duration) {
@@ -49,12 +50,12 @@ public class SeventhBuilder implements ChordBuilder {
 		return this;
 	}
 
-	public SeventhBuilder setSeventhQuality(Quality seventhQuality) {
-		this.seventhQuality = seventhQuality;
+	public SeventhBuilder setSeventhInterval(Interval seventhInterval) {
+		this.seventhInterval = seventhInterval;
 		return this;
 	}
 	
-	public SeventhBuilder setTriadQuality(Quality triadQuality) {
+	public SeventhBuilder setTriadQuality(TriadQuality triadQuality) {
 		triadBuilder.setTriadQuality(triadQuality);
 		return this;
 	}
@@ -65,7 +66,7 @@ public class SeventhBuilder implements ChordBuilder {
 	}
 	
 	private void reset() {
-		seventhQuality = null;
+	    seventhInterval = null;
 		duration = null;
 		voicing = null;
 	}

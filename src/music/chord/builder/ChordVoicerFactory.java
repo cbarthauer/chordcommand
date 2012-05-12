@@ -2,7 +2,6 @@ package music.chord.builder;
 
 import java.io.IOException;
 
-import music.chord.arrangement.ClosestVoicingStrategy;
 import music.chord.arrangement.VoicingManager;
 import music.chord.grammar.ChordLexer;
 import music.chord.grammar.ChordParser;

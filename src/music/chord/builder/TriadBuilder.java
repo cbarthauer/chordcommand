@@ -7,13 +7,13 @@ import music.chord.arrangement.Voicing;
 import music.chord.base.ChordMember;
 import music.chord.base.Duration;
 import music.chord.base.NoteName;
-import music.chord.base.Quality;
+import music.chord.base.TriadQuality;
 import music.chord.decorator.Triad;
 
 
 public class TriadBuilder implements ChordBuilder {
 	private NoteName root;
-	private Quality triadQuality;
+	private TriadQuality triadQuality;
 	private Duration duration;
 	private Voicing voicing;
 	
@@ -44,7 +44,7 @@ public class TriadBuilder implements ChordBuilder {
 		return this;
 	}
 
-	public TriadBuilder setTriadQuality(Quality triadQuality) {
+	public TriadBuilder setTriadQuality(TriadQuality triadQuality) {
 		this.triadQuality = triadQuality;
 		return this;
 	}

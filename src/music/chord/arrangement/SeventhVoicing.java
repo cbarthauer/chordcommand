@@ -1,17 +1,28 @@
 package music.chord.arrangement;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import music.chord.base.ChordMember;
 
 
 public class SeventhVoicing extends AbstractVoicing {
+    private List<ChordMember> validMemberList;
+    
+    public SeventhVoicing() {
+        super();
+        validMemberList = new ArrayList<ChordMember>();
+        validMemberList.add(ChordMember.ROOT);
+        validMemberList.add(ChordMember.THIRD);
+        validMemberList.add(ChordMember.FIFTH);
+        validMemberList.add(ChordMember.SEVENTH);
+    }
+    
 	@Override
 	void validateChordMember(ChordMember member) {
-		if(!(ChordMember.ROOT.equals(member)
-		|| ChordMember.THIRD.equals(member)
-		|| ChordMember.FIFTH.equals(member)
-		|| ChordMember.SEVENTH.equals(member))) {
+		if(!(validMemberList.contains(member))) {
 			throw new IllegalArgumentException(
-					"Invalid ChordMember for TriadVoicing: " + member);
+					"Invalid ChordMember for SeventhVoicing: " + member);
 		}
 	}
 }

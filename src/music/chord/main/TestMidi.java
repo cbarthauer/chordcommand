@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.util.List;
 
 import music.chord.arrangement.ChordPlayer;
-import music.chord.arrangement.ClosestVoicingStrategy;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.VoicingManager;
 import music.chord.builder.ChordProgression;
 import music.chord.builder.ChordVoicer;
+import music.chord.builder.ClosestVoicingStrategy;
 import music.chord.builder.DerivedChordBuilder;
 import music.chord.grammar.ChordLexer;
 import music.chord.grammar.ChordParser;

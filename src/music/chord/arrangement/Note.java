@@ -1,20 +1,20 @@
-package music.chord.decorator;
+package music.chord.arrangement;
 
 import music.chord.base.NoteName;
 
 
-public class NoteBean implements Comparable<NoteBean> {
+public class Note implements Comparable<Note> {
 	private static final int HALF_STEPS_IN_OCTAVE = 12;
 	private NoteName noteName;
 	private Integer midiNumber;
 
-	public NoteBean(NoteName noteName, Integer midiNumber) {
+	public Note(NoteName noteName, Integer midiNumber) {
 		this.noteName = noteName;
 		this.midiNumber = midiNumber;
 	}
 
 	@Override
-	public int compareTo(NoteBean otherNote) {
+	public int compareTo(Note otherNote) {
 		return midiNumber.compareTo(otherNote.midiNumber);
 	}
 
