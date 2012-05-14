@@ -12,7 +12,6 @@ import music.chord.arrangement.VoicingManager;
 import music.chord.base.ChordMember;
 import music.chord.base.Interval;
 import music.chord.base.NoteName;
-import music.chord.base.QualitySymbol;
 import music.chord.base.TriadQuality;
 import music.chord.builder.ChordVoicer;
 import music.chord.builder.ClosestVoicingStrategy;
@@ -25,7 +24,9 @@ import org.junit.Test;
 public class ChordPlayerTest {
 	@Test
 	public void testPlay() {
-		SeventhBuilder builder = new SeventhBuilder(new TriadBuilder());
+		SeventhBuilder builder = new SeventhBuilder(
+		       new TriadBuilder(new TriadVoicing(4)), 
+		       new SeventhVoicing(4));
 		List<VoicedChord> chordList = new ArrayList<VoicedChord>();
 		VoicedChord chord1 = builder.setRoot(NoteName.forSymbol("Ab"))
 			.setTriadQuality(TriadQuality.MAJOR)
@@ -38,13 +39,13 @@ public class ChordPlayerTest {
 			.buildVoicedChord();
 		chordList.add(chord2);
 		
-		Voicing voicing1 = new SeventhVoicing();
+		Voicing voicing1 = new SeventhVoicing(4);
 		voicing1.addChordMember(ChordMember.FIFTH);
 		voicing1.addChordMember(ChordMember.ROOT);
 		voicing1.addChordMember(ChordMember.THIRD);
 		voicing1.addChordMember(ChordMember.SEVENTH);		
 		
-		Voicing voicing2 = new TriadVoicing();
+		Voicing voicing2 = new TriadVoicing(4);
 		voicing2.addChordMember(ChordMember.ROOT);
 		voicing2.addChordMember(ChordMember.FIFTH);
 		voicing2.addChordMember(ChordMember.ROOT);

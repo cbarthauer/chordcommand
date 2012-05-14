@@ -45,8 +45,8 @@ options {
 
 @members {
   List<Command> commandList = new ArrayList<Command>();
-  TriadBuilder triadBuilder = new TriadBuilder();
-  SeventhBuilder seventhBuilder = new SeventhBuilder(triadBuilder);
+  TriadBuilder triadBuilder;  
+  SeventhBuilder seventhBuilder;
   DerivedChordBuilder derivedBuilder = new DerivedChordBuilder();
   List<VoicedChord> chordList;
   ChordPlayer player;
@@ -63,6 +63,14 @@ options {
   public void setChordPlayer(ChordPlayer player) {
     this.player = player;
   }  
+  
+  public void setSeventhBuilder(SeventhBuilder seventhBuilder) {
+    this.seventhBuilder = seventhBuilder;
+  }
+  
+  public void setTriadBuilder(TriadBuilder triadBuilder) {
+    this.triadBuilder = triadBuilder;
+  }
 }
 
 //Miscellaneous Tokens.
@@ -218,16 +226,7 @@ chordMemberList returns [Voicing voicing]
       ',' member4=chordMember 
         {chordMemberList.add(ChordMember.memberFromName($member4.name));}
       END_LIST {
-          if(chordMemberList.contains(ChordMember.SEVENTH)) {
-              voicing = new SeventhVoicing();
-          }
-          else {
-              voicing = new TriadVoicing();
-          }  
-        
-          for(ChordMember member : chordMemberList) {
-              voicing.addChordMember(member);
-          }
+          voicing = voicingFromChordMemberList(chordMemberList);
       }
     ;
       

@@ -8,8 +8,8 @@ import music.chord.base.ChordMember;
 public class TriadVoicing extends AbstractVoicing {
     private List<ChordMember> validMemberList;
     
-    public TriadVoicing() {
-        super();
+    public TriadVoicing(int octaveShift) {
+        super(octaveShift);
         validMemberList = new ArrayList<ChordMember>();
         validMemberList.add(ChordMember.ROOT);
         validMemberList.add(ChordMember.THIRD);

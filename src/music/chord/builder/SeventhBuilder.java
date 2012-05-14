@@ -4,7 +4,6 @@ import music.chord.arrangement.ConcreteChord;
 import music.chord.arrangement.SeventhVoicing;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.Voicing;
-import music.chord.base.ChordMember;
 import music.chord.base.Duration;
 import music.chord.base.Interval;
 import music.chord.base.NoteName;
@@ -16,16 +15,14 @@ public class SeventhBuilder implements ChordBuilder {
 	private Duration duration;
 	private Voicing voicing;
 	private TriadBuilder triadBuilder;
+    private Voicing defaultVoicing;
+    private Duration defaultDuration;
 	
-	public SeventhBuilder(TriadBuilder triadBuilder) {
-		voicing = new SeventhVoicing();
-		voicing.addChordMember(ChordMember.ROOT);
-		voicing.addChordMember(ChordMember.FIFTH);
-		voicing.addChordMember(ChordMember.SEVENTH);
-		voicing.addChordMember(ChordMember.THIRD);
-		
-		duration = Duration.QUARTER;
-		
+	public SeventhBuilder(TriadBuilder triadBuilder, SeventhVoicing defaultVoicing) {
+	    this.defaultVoicing = defaultVoicing;	
+	    this.voicing = defaultVoicing;
+	    this.defaultDuration = Duration.QUARTER;
+	    this.duration = defaultDuration;		
 		this.triadBuilder = triadBuilder;
 	}
 	
@@ -67,7 +64,7 @@ public class SeventhBuilder implements ChordBuilder {
 	
 	private void reset() {
 	    seventhInterval = null;
-		duration = null;
-		voicing = null;
+		duration = defaultDuration;
+		voicing = defaultVoicing;
 	}
 }

@@ -9,6 +9,8 @@ import music.chord.arrangement.ChordPlayer;
 import music.chord.arrangement.VoicedChord;
 import music.chord.builder.ChordVoicer;
 import music.chord.builder.ChordVoicerFactory;
+import music.chord.builder.SeventhBuilder;
+import music.chord.builder.TriadBuilder;
 import music.chord.command.Command;
 import music.chord.grammar.ChordCommandLexer;
 import music.chord.grammar.ChordCommandParser;
@@ -20,8 +22,7 @@ import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.TokenStream;
 
 public class Interpreter {
-
-	/**
+    /**
 	 * @param args
 	 * @throws IOException 
 	 * @throws RecognitionException 
@@ -32,6 +33,8 @@ public class Interpreter {
 		ChordVoicer voicer = ChordVoicerFactory.getInstance(
 			"D:\\musicspace\\chordgrammar\\examples\\voicings.txt");
 		List<VoicedChord> chordList = new ArrayList<VoicedChord>();
+		TriadBuilder triadBuilder = BuilderFactory.getTriadBuilder();
+		SeventhBuilder seventhBuilder = BuilderFactory.getSeventhBuilder(triadBuilder);
 		
 		while(true) {
 			line = scanner.nextLine();
@@ -42,6 +45,8 @@ public class Interpreter {
 			parser.setChordList(chordList);
 			parser.setChordVoicer(voicer);
 			parser.setChordPlayer(new ChordPlayer());
+			parser.setTriadBuilder(triadBuilder);
+			parser.setSeventhBuilder(seventhBuilder);
 			
 			List<Command> commandList = parser.program();
 			
@@ -50,4 +55,6 @@ public class Interpreter {
 			}
 		}
 	}
+
+
 }

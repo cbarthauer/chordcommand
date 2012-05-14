@@ -4,6 +4,7 @@ options {
   language = Java;
   tokenVocab = Chord;
   ASTLabelType = CommonTree;
+  superClass = AbstractTreeParser;
 }
 
 @header {
@@ -12,6 +13,7 @@ options {
   import java.util.ArrayList;
   import java.util.List;
   
+  import music.chord.arrangement.ChordPlayer;
   import music.chord.arrangement.VoicedChord;
   import music.chord.arrangement.VoicingManager;
   import music.chord.arrangement.SeventhVoicing;
@@ -24,6 +26,7 @@ options {
   import music.chord.base.TriadQuality;
 
   import music.chord.builder.ChordProgression;
+  import music.chord.builder.ChordVoicer;
   import music.chord.builder.DerivedChordBuilder;
   import music.chord.builder.TriadBuilder;
   import music.chord.builder.SeventhBuilder;
@@ -33,8 +36,16 @@ options {
   List<VoicedChord> chords = new ArrayList<VoicedChord>();
   VoicingManager voicingManager = new VoicingManager();
   DerivedChordBuilder chordBuilder = new DerivedChordBuilder();
-  TriadBuilder triadBuilder = new TriadBuilder();
-  SeventhBuilder seventhBuilder = new SeventhBuilder(triadBuilder);
+  TriadBuilder triadBuilder;
+  SeventhBuilder seventhBuilder; 
+  
+  public void setSeventhBuilder(SeventhBuilder seventhBuilder) {
+    this.seventhBuilder = seventhBuilder;
+  }
+  
+  public void setTriadBuilder(TriadBuilder triadBuilder) {
+    this.triadBuilder = triadBuilder;
+  }
 }
 
 
@@ -59,16 +70,7 @@ chordMemberList returns [Voicing voicing]
     : ^(VOICING { List<ChordMember> chordMemberList = new ArrayList<ChordMember>(); } 
             (member=chordMember {chordMemberList.add(ChordMember.memberFromName($member.name));} )+ 
        ) {
-          if(chordMemberList.contains(ChordMember.SEVENTH)) {
-              voicing = new SeventhVoicing();
-          }
-          else {
-              voicing = new TriadVoicing();
-          }  
-        
-          for(ChordMember currentMember : chordMemberList) {
-              voicing.addChordMember(currentMember);
-          }
+          voicing = voicingFromChordMemberList(chordMemberList);
       }
     ;
     

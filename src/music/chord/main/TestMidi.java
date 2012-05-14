@@ -10,6 +10,7 @@ import music.chord.builder.ChordProgression;
 import music.chord.builder.ChordVoicer;
 import music.chord.builder.ClosestVoicingStrategy;
 import music.chord.builder.DerivedChordBuilder;
+import music.chord.builder.TriadBuilder;
 import music.chord.grammar.ChordLexer;
 import music.chord.grammar.ChordParser;
 import music.chord.grammar.ChordParser.compilationUnit_return;
@@ -45,6 +46,10 @@ public class TestMidi {
 		
 		CommonTreeNodeStream nodeStream = new CommonTreeNodeStream(compilationUnit.getTree());
 		ChordWalker walker = new ChordWalker(nodeStream);
+		TriadBuilder triadBuilder = BuilderFactory.getTriadBuilder();
+		walker.setTriadBuilder(triadBuilder);
+		walker.setSeventhBuilder(BuilderFactory.getSeventhBuilder(triadBuilder));
+		
 		ChordProgression progression = walker.compilationUnit();
 		List<VoicedChord> chordList = progression.getChordList();
 		VoicingManager voicingManager = progression.getVoicingManager();

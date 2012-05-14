@@ -9,8 +9,8 @@ import music.chord.base.ChordMember;
 public class SeventhVoicing extends AbstractVoicing {
     private List<ChordMember> validMemberList;
     
-    public SeventhVoicing() {
-        super();
+    public SeventhVoicing(int octaveShift) {
+        super(octaveShift);
         validMemberList = new ArrayList<ChordMember>();
         validMemberList.add(ChordMember.ROOT);
         validMemberList.add(ChordMember.THIRD);

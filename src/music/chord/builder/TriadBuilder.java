@@ -4,7 +4,6 @@ import music.chord.arrangement.ConcreteChord;
 import music.chord.arrangement.TriadVoicing;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.Voicing;
-import music.chord.base.ChordMember;
 import music.chord.base.Duration;
 import music.chord.base.NoteName;
 import music.chord.base.TriadQuality;
@@ -16,15 +15,14 @@ public class TriadBuilder implements ChordBuilder {
 	private TriadQuality triadQuality;
 	private Duration duration;
 	private Voicing voicing;
+    private Voicing defaultVoicing;
+    private Duration defaultDuration;
 	
-	public TriadBuilder() {
-		voicing = new TriadVoicing();
-		voicing.addChordMember(ChordMember.ROOT);
-		voicing.addChordMember(ChordMember.FIFTH);
-		voicing.addChordMember(ChordMember.ROOT);
-		voicing.addChordMember(ChordMember.THIRD);
-		
-		duration = Duration.QUARTER;
+	public TriadBuilder(TriadVoicing defaultVoicing) {
+	    this.defaultVoicing = defaultVoicing;
+	    this.voicing = defaultVoicing;
+		this.defaultDuration = Duration.QUARTER;
+		this.duration = defaultDuration;
 	}
 	
 	@Override
@@ -57,8 +55,8 @@ public class TriadBuilder implements ChordBuilder {
 	private void reset() {
 		root = null;
 		triadQuality = null;
-		duration = null;
-		voicing = null;
+		duration = defaultDuration;
+		voicing = defaultVoicing;
 	}
 	
 	Triad buildTriad() {

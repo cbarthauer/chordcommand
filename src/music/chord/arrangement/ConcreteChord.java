@@ -58,7 +58,8 @@ public class ConcreteChord extends ForwardingChord implements VoicedChord {
 	}
 	
 	public final int getTicks(int ppq) {
-		return Math.round(ppq * duration.getPpqConversionFactor());
+	    float conversionFactor = duration.getPpqConversionFactor();
+		return Math.round(ppq * conversionFactor);
 	}
 
 	public final Voicing getVoicing() {

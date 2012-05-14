@@ -9,11 +9,13 @@ import music.chord.decorator.Chord;
 
 
 public abstract class AbstractVoicing implements Voicing {
-	private static final int octaveShift = 4;
 	
-	private List<ChordMember> chordMemberList;
+    private List<ChordMember> chordMemberList;
+	private int octaveShift;
 	
-	AbstractVoicing() {
+	
+	AbstractVoicing(int octaveShift) {
+	    this.octaveShift = octaveShift;
 		chordMemberList = new ArrayList<ChordMember>();
 	}
 	
