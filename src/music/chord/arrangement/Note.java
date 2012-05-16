@@ -1,10 +1,10 @@
 package music.chord.arrangement;
 
+import music.chord.base.Interval;
 import music.chord.base.NoteName;
 
 
 public class Note implements Comparable<Note> {
-	private static final int HALF_STEPS_IN_OCTAVE = 12;
 	private NoteName noteName;
 	private Integer midiNumber;
 
@@ -27,7 +27,7 @@ public class Note implements Comparable<Note> {
 	}
 	
 	public void setOctave(int octave) {
-		midiNumber = midiNumber + (octave * HALF_STEPS_IN_OCTAVE);
+		midiNumber = midiNumber + (octave * Interval.PERFECT_OCTAVE.getHalfSteps());
 	}
 
 	public String toString() {

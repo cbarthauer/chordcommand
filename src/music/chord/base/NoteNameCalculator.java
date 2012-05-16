@@ -2,9 +2,6 @@ package music.chord.base;
 
 
 class NoteNameCalculator {
-    private static final int DIATONIC_STEPS_IN_OCTAVE = 7;
-    private static final int HALF_STEPS_IN_OCTAVE = 12;
-    
     private NoteNameEnum initialNoteEnum;
     private NoteNameEnum finalNoteEnum;
     private int finalChromaticIndex;
@@ -20,7 +17,7 @@ class NoteNameCalculator {
 
     private NoteNameEnum nextDiatonic() {
         int diatonicIndex = 
-            finalNoteEnum.getDiatonicIndex() == DIATONIC_STEPS_IN_OCTAVE
+            finalNoteEnum.getDiatonicIndex() == Interval.PERFECT_OCTAVE.getDiatonicSteps()
             ? 1
             : finalNoteEnum.getDiatonicIndex() + 1;
         
@@ -35,8 +32,8 @@ class NoteNameCalculator {
     NoteNameCalculator upChromaticBy(int halfSteps) {
         finalChromaticIndex = initialNoteEnum.getChromaticIndex() + halfSteps;
         
-        if(finalChromaticIndex > HALF_STEPS_IN_OCTAVE) {
-            finalChromaticIndex = finalChromaticIndex % HALF_STEPS_IN_OCTAVE; 
+        if(finalChromaticIndex > Interval.PERFECT_OCTAVE.getHalfSteps()) {
+            finalChromaticIndex = finalChromaticIndex % Interval.PERFECT_OCTAVE.getHalfSteps(); 
         }
         
         return this;

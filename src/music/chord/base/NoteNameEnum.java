@@ -56,13 +56,13 @@ enum NoteNameEnum {
     
     static {
         diatonicMap = new HashMap<Integer, NoteNameEnum>();
-        diatonicMap.put(1, NoteNameEnum.C);
-        diatonicMap.put(2, NoteNameEnum.D);
-        diatonicMap.put(3, NoteNameEnum.E);
-        diatonicMap.put(4, NoteNameEnum.F);
-        diatonicMap.put(5, NoteNameEnum.G);
-        diatonicMap.put(6, NoteNameEnum.A);
-        diatonicMap.put(7, NoteNameEnum.B);
+        diatonicMap.put(NoteNameEnum.C.diatonicIndex, NoteNameEnum.C);
+        diatonicMap.put(NoteNameEnum.D.diatonicIndex, NoteNameEnum.D);
+        diatonicMap.put(NoteNameEnum.E.diatonicIndex, NoteNameEnum.E);
+        diatonicMap.put(NoteNameEnum.F.diatonicIndex, NoteNameEnum.F);
+        diatonicMap.put(NoteNameEnum.G.diatonicIndex, NoteNameEnum.G);
+        diatonicMap.put(NoteNameEnum.A.diatonicIndex, NoteNameEnum.A);
+        diatonicMap.put(NoteNameEnum.B.diatonicIndex, NoteNameEnum.B);
         
         chromaticMapByDiatonicIndex = new HashMap<Integer, Map<Integer, NoteNameEnum>>();
         for(NoteNameEnum note : values()) {

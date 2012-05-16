@@ -12,36 +12,32 @@ import music.chord.decorator.SeventhChord;
 
 public class SeventhBuilder implements ChordBuilder {
 	private Interval seventhInterval;
-	private Duration duration;
-	private Voicing voicing;
+	private Duration currentDuration;
+	private Voicing currentVoicing;
 	private TriadBuilder triadBuilder;
     private Voicing defaultVoicing;
     private Duration defaultDuration;
 	
 	public SeventhBuilder(TriadBuilder triadBuilder, SeventhVoicing defaultVoicing) {
 	    this.defaultVoicing = defaultVoicing;	
-	    this.voicing = defaultVoicing;
+	    this.currentVoicing = defaultVoicing;
 	    this.defaultDuration = Duration.QUARTER;
-	    this.duration = defaultDuration;		
+	    this.currentDuration = defaultDuration;		
 		this.triadBuilder = triadBuilder;
 	}
 	
 	@Override
 	public VoicedChord buildVoicedChord() {
-		VoicedChord result = new ConcreteChord(buildSeventhChord(), voicing, duration);
+		VoicedChord result = new ConcreteChord(buildSeventhChord(), currentVoicing, currentDuration);
 		reset();
 		return result;
-	}
-	
-	SeventhChord buildSeventhChord() {
-		return new SeventhChord(triadBuilder.buildTriad(), seventhInterval);
 	}
 	
 	public SeventhBuilder setDuration(Duration duration) {
 		triadBuilder.setDuration(duration);
 		return this;
 	}
-
+	
 	public SeventhBuilder setRoot(NoteName root) {
 		triadBuilder.setRoot(root);
 		return this;
@@ -51,20 +47,24 @@ public class SeventhBuilder implements ChordBuilder {
 		this.seventhInterval = seventhInterval;
 		return this;
 	}
-	
+
 	public SeventhBuilder setTriadQuality(TriadQuality triadQuality) {
 		triadBuilder.setTriadQuality(triadQuality);
 		return this;
 	}
 	
 	public SeventhBuilder setVoicing(Voicing voicing) {
-		this.voicing = voicing;
+		this.currentVoicing = voicing;
 		return this;
+	}
+	
+	private SeventhChord buildSeventhChord() {
+		return new SeventhChord(triadBuilder.buildTriad(), seventhInterval);
 	}
 	
 	private void reset() {
 	    seventhInterval = null;
-		duration = defaultDuration;
-		voicing = defaultVoicing;
+		currentDuration = defaultDuration;
+		currentVoicing = defaultVoicing;
 	}
 }

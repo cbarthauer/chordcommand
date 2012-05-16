@@ -10,7 +10,8 @@ public enum Interval {
 	MAJOR_SIXTH(       9,                 5),
 	DIMINISHED_SEVENTH(9,                 6),
 	MINOR_SEVENTH(     10,                6),
-	MAJOR_SEVENTH(     11,                6);
+	MAJOR_SEVENTH(     11,                6),
+	PERFECT_OCTAVE(    12,                7);
 	
 	private int halfSteps;
 	private int diatonicSteps;

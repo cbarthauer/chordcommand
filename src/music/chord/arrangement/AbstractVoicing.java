@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import music.chord.base.ChordMember;
+import music.chord.base.Interval;
 import music.chord.base.NoteName;
 import music.chord.decorator.Chord;
 
@@ -50,7 +51,7 @@ public abstract class AbstractVoicing implements Voicing {
 		int result = upper;
 		
 		while(result <= lower) {
-			result = result + 12;
+			result = result + Interval.PERFECT_OCTAVE.getHalfSteps();
 		}
 		
 		return result;

@@ -9,19 +9,19 @@ import music.chord.decorator.ForwardingChord;
 
 
 public class ConcreteChord extends ForwardingChord implements VoicedChord {	
-	private List<Note> noteBeanList;
+	private List<Note> noteList;
 	private Voicing voicing;
 	private Duration duration;
 
 	public ConcreteChord(Chord chord, Voicing voicing, Duration duration) {
 		super(chord);
 		this.voicing = voicing;
-		noteBeanList = voicing.voice(chord);
+		noteList = voicing.voice(chord);
 		this.duration = duration;
 	}
 
 	public final int difference(VoicedChord chord) {
-		List<Note> list1 = this.noteBeanList; 
+		List<Note> list1 = this.noteList; 
 		List<Note> list2 = chord.getNoteBeanList();
 		
 		if(list1.size() != list2.size()) { 
@@ -45,7 +45,7 @@ public class ConcreteChord extends ForwardingChord implements VoicedChord {
 	public final List<Integer> getMidiNumberList() {
 		List<Integer> midiNumberList = new ArrayList<Integer>();
 		
-		for(Note note : noteBeanList) {
+		for(Note note : noteList) {
 			midiNumberList.add(note.getMidiNumber());
 		}
 		
@@ -54,7 +54,7 @@ public class ConcreteChord extends ForwardingChord implements VoicedChord {
 	
 	@Override
 	public final List<Note> getNoteBeanList() {
-		return noteBeanList;
+		return noteList;
 	}
 	
 	public final int getTicks(int ppq) {
