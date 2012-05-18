@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import music.chord.arrangement.ChordPlayer;
+import music.chord.arrangement.ChordVoicer;
+import music.chord.arrangement.ClosestVoicingStrategy;
+import music.chord.arrangement.DerivedChordBuilder;
+import music.chord.arrangement.SeventhBuilder;
 import music.chord.arrangement.SeventhVoicing;
+import music.chord.arrangement.TriadBuilder;
 import music.chord.arrangement.TriadVoicing;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.Voicing;
@@ -14,11 +19,6 @@ import music.chord.base.Duration;
 import music.chord.base.Interval;
 import music.chord.base.NoteName;
 import music.chord.base.TriadQuality;
-import music.chord.builder.ChordVoicer;
-import music.chord.builder.ClosestVoicingStrategy;
-import music.chord.builder.DerivedChordBuilder;
-import music.chord.builder.SeventhBuilder;
-import music.chord.builder.TriadBuilder;
 
 import org.junit.Test;
 

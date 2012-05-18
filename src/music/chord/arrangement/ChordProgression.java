@@ -1,9 +1,6 @@
-package music.chord.builder;
+package music.chord.arrangement;
 
 import java.util.List;
-
-import music.chord.arrangement.VoicedChord;
-import music.chord.arrangement.VoicingManager;
 
 public class ChordProgression {
 	public static ChordProgression getInstance() {

@@ -1,6 +1,5 @@
-package music.chord.builder;
+package music.chord.arrangement;
 
-import music.chord.arrangement.VoicedChord;
 
 public interface ChordBuilder {
 	public VoicedChord buildVoicedChord();

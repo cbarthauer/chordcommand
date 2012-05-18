@@ -8,13 +8,13 @@ import music.chord.decorator.Chord;
 import music.chord.decorator.ForwardingChord;
 
 
-public class ConcreteChord extends ForwardingChord implements VoicedChord {	
+class ConcreteChord extends ForwardingChord implements VoicedChord {	
 	private List<Note> noteList;
 	private Voicing voicing;
 	private Duration duration;
     private int octave;
 
-	public ConcreteChord(Chord chord, Voicing voicing, int octave, Duration duration) {
+	ConcreteChord(Chord chord, Voicing voicing, int octave, Duration duration) {
 		super(chord);
 		this.voicing = voicing;
 		noteList = voicing.voice(chord, octave);
@@ -60,7 +60,7 @@ public class ConcreteChord extends ForwardingChord implements VoicedChord {
 	}
 	
 	@Override
-    public int getOctave() {
+    public final int getOctave() {
         return octave;
     }
 

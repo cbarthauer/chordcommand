@@ -1,12 +1,7 @@
-package music.chord.builder;
+package music.chord.arrangement;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import music.chord.arrangement.VoicedChord;
-import music.chord.arrangement.VoicingComparison;
-import music.chord.arrangement.VoicingManager;
-import music.chord.arrangement.VoicingStrategy;
 
 public class ChordVoicer {
 	private VoicingStrategy strategy;

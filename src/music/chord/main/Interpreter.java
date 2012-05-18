@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Scanner;
 
 import music.chord.arrangement.ChordPlayer;
+import music.chord.arrangement.ChordVoicer;
+import music.chord.arrangement.ChordVoicerFactory;
+import music.chord.arrangement.SeventhBuilder;
+import music.chord.arrangement.TriadBuilder;
 import music.chord.arrangement.VoicedChord;
-import music.chord.builder.ChordVoicer;
-import music.chord.builder.ChordVoicerFactory;
-import music.chord.builder.SeventhBuilder;
-import music.chord.builder.TriadBuilder;
 import music.chord.command.Command;
 import music.chord.grammar.ChordCommandLexer;
 import music.chord.grammar.ChordCommandParser;

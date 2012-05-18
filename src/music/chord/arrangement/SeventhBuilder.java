@@ -1,9 +1,5 @@
-package music.chord.builder;
+package music.chord.arrangement;
 
-import music.chord.arrangement.ConcreteChord;
-import music.chord.arrangement.SeventhVoicing;
-import music.chord.arrangement.VoicedChord;
-import music.chord.arrangement.Voicing;
 import music.chord.base.Duration;
 import music.chord.base.Interval;
 import music.chord.base.NoteName;

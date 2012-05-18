@@ -1,11 +1,11 @@
 package music.chord.main;
 
+import music.chord.arrangement.SeventhBuilder;
 import music.chord.arrangement.SeventhVoicing;
+import music.chord.arrangement.TriadBuilder;
 import music.chord.arrangement.TriadVoicing;
 import music.chord.base.ChordMember;
 import music.chord.base.Duration;
-import music.chord.builder.SeventhBuilder;
-import music.chord.builder.TriadBuilder;
 
 class BuilderFactory {
 

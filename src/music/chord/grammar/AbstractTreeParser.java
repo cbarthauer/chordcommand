@@ -2,10 +2,10 @@ package music.chord.grammar;
 
 import java.util.List;
 
+import music.chord.arrangement.SeventhBuilder;
+import music.chord.arrangement.TriadBuilder;
 import music.chord.arrangement.Voicing;
 import music.chord.base.ChordMember;
-import music.chord.builder.SeventhBuilder;
-import music.chord.builder.TriadBuilder;
 
 import org.antlr.runtime.RecognizerSharedState;
 import org.antlr.runtime.tree.TreeNodeStream;

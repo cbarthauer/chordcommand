@@ -1,9 +1,5 @@
-package music.chord.builder;
+package music.chord.arrangement;
 
-import music.chord.arrangement.ConcreteChord;
-import music.chord.arrangement.TriadVoicing;
-import music.chord.arrangement.VoicedChord;
-import music.chord.arrangement.Voicing;
 import music.chord.base.Duration;
 import music.chord.base.NoteName;
 import music.chord.base.TriadQuality;

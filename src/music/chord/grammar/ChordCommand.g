@@ -15,6 +15,10 @@ options {
   import music.chord.arrangement.TriadVoicing;
   import music.chord.arrangement.VoicedChord;
   import music.chord.arrangement.Voicing;
+  import music.chord.arrangement.DerivedChordBuilder;
+  import music.chord.arrangement.SeventhBuilder;
+  import music.chord.arrangement.TriadBuilder;
+  import music.chord.arrangement.ChordVoicer;
   
   import music.chord.base.ChordMember;
   import music.chord.base.Duration;
@@ -22,11 +26,6 @@ options {
   import music.chord.base.NoteName;
   import music.chord.base.QualitySymbol;
   import music.chord.base.TriadQuality;
-  
-  import music.chord.builder.ChordVoicer;
-  import music.chord.builder.DerivedChordBuilder;
-  import music.chord.builder.SeventhBuilder;
-  import music.chord.builder.TriadBuilder;
   
   import music.chord.command.AddChord;
   import music.chord.command.Command;

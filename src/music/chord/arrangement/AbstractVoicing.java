@@ -9,7 +9,7 @@ import music.chord.base.NoteName;
 import music.chord.decorator.Chord;
 
 
-public abstract class AbstractVoicing implements Voicing {
+abstract class AbstractVoicing implements Voicing {
 	
     private List<ChordMember> chordMemberList;
 	

@@ -1,8 +1,7 @@
-package music.chord.builder;
+package music.chord.arrangement;
 
 import java.io.IOException;
 
-import music.chord.arrangement.VoicingManager;
 import music.chord.grammar.ChordLexer;
 import music.chord.grammar.ChordParser;
 import music.chord.grammar.ChordParser.compilationUnit_return;

@@ -4,11 +4,11 @@ import music.chord.base.Interval;
 import music.chord.base.NoteName;
 
 
-public class Note implements Comparable<Note> {
+class Note implements Comparable<Note> {
 	private NoteName noteName;
 	private Integer midiNumber;
 
-	public Note(NoteName noteName, Integer midiNumber) {
+	Note(NoteName noteName, Integer midiNumber) {
 		this.noteName = noteName;
 		this.midiNumber = midiNumber;
 	}
@@ -18,15 +18,15 @@ public class Note implements Comparable<Note> {
 		return midiNumber.compareTo(otherNote.midiNumber);
 	}
 
-	public Integer getMidiNumber() {
+	Integer getMidiNumber() {
 		return midiNumber;
 	}
 
-	public NoteName getNoteName() {
+	NoteName getNoteName() {
 		return noteName;
 	}
 	
-	public void setOctave(int octave) {
+	void setOctave(int octave) {
 		midiNumber = midiNumber + (octave * Interval.PERFECT_OCTAVE.getHalfSteps());
 	}
 
