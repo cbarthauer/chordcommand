@@ -8,18 +8,16 @@ import music.chord.arrangement.Voicing;
 import music.chord.base.ChordMember;
 
 class VoicingFactory {
-    private static final int DEFAULT_OCTAVE_SHIFT = 4;
-    
     static Voicing instanceFromChordMemberList(
             List<ChordMember> chordMemberList) {
         
         Voicing voicing = null;
         
         if(chordMemberList.contains(ChordMember.SEVENTH)) {
-            voicing = new SeventhVoicing(DEFAULT_OCTAVE_SHIFT);
+            voicing = new SeventhVoicing();
         }
         else {
-            voicing = new TriadVoicing(DEFAULT_OCTAVE_SHIFT);
+            voicing = new TriadVoicing();
         }  
       
         for(ChordMember currentMember : chordMemberList) {

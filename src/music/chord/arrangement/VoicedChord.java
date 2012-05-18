@@ -9,6 +9,7 @@ public interface VoicedChord extends Chord {
 	public Duration getDuration();
 	public List<Integer> getMidiNumberList();
 	public List<Note> getNoteBeanList();
+	public int getOctave();
 	public int getTicks(int ppq);
 	public Voicing getVoicing();
 	public int difference(VoicedChord chord);

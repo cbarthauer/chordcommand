@@ -76,6 +76,15 @@ options {
 //Miscellaneous Tokens.
 INT : '0'..'9'+;
 
+//Whitespace
+WS  
+    : ( ' '
+    | '\t'
+    | '\r'
+    | '\n'
+    )+ {$channel=HIDDEN;}
+    ;
+
 //Music Tokens
 NOTE_NAME
     :   'A'..'G' ACCIDENTAL?
@@ -92,15 +101,6 @@ DIMINISHED_SEVEN : 'dim7';
 MINOR_SEVEN : 'm7';
 MAJOR_SEVEN : 'M7';
 DOMINANT_SEVEN : 'dom7';
-
-//Whitespace
-WS  
-    : ( ' '
-    | '\t'
-    | '\r'
-    | '\n'
-    )+ {$channel=HIDDEN;}
-    ;
 
 //Chord member tokens.
 ROOT : 'root';
@@ -195,19 +195,23 @@ play
   ;
 
 set
-  : SET VOICING list=chordMemberList ON INT {
-      int index = Integer.parseInt($INT.text);
-      VoicedChord chord = derivedBuilder.setChord(chordList.get(index))
+  : SET VOICING list=chordMemberList ON index=INT {
+      VoicedChord chord = derivedBuilder.setChord(chordList.get(Integer.parseInt($index.text)))
         .setVoicing($list.voicing)
         .buildVoicedChord();
-      chordList.set(index, chord); 
+      chordList.set(Integer.parseInt($index.text), chord); 
   }
-  | SET DURATION NOTE_LENGTH ON INT {
-	  int index = Integer.parseInt($INT.text);
-	  VoicedChord chord = derivedBuilder.setChord(chordList.get(index))
+  | SET DURATION NOTE_LENGTH ON index=INT {
+	  VoicedChord chord = derivedBuilder.setChord(chordList.get(Integer.parseInt($index.text)))
         .setDuration(Duration.durationFromName($NOTE_LENGTH.text))
         .buildVoicedChord();
-	  chordList.set(index, chord);
+	  chordList.set(Integer.parseInt($index.text), chord);
+  }
+  | SET 'octave' octave=INT ON index=INT {
+      VoicedChord chord = derivedBuilder.setChord(chordList.get(Integer.parseInt($index.text)))
+        .setOctave(Integer.parseInt($octave.text))
+        .buildVoicedChord();
+      chordList.set(Integer.parseInt($index.text), chord);
   }
   ;
 

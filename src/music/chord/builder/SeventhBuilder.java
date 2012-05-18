@@ -17,18 +17,29 @@ public class SeventhBuilder implements ChordBuilder {
 	private TriadBuilder triadBuilder;
     private Voicing defaultVoicing;
     private Duration defaultDuration;
+    private int defaultOctave;
+    private int currentOctave;
 	
-	public SeventhBuilder(TriadBuilder triadBuilder, SeventhVoicing defaultVoicing) {
+	public SeventhBuilder(
+	        TriadBuilder triadBuilder, 
+	        SeventhVoicing defaultVoicing, 
+	        int defaultOctave,
+	        Duration defaultDuration) {
+	    
+	    this.triadBuilder = triadBuilder;
+	    
 	    this.defaultVoicing = defaultVoicing;	
 	    this.currentVoicing = defaultVoicing;
-	    this.defaultDuration = Duration.QUARTER;
+	    this.defaultDuration = defaultDuration;
 	    this.currentDuration = defaultDuration;		
-		this.triadBuilder = triadBuilder;
+		this.defaultOctave = defaultOctave;
+		this.currentOctave = defaultOctave;
 	}
 	
 	@Override
 	public VoicedChord buildVoicedChord() {
-		VoicedChord result = new ConcreteChord(buildSeventhChord(), currentVoicing, currentDuration);
+		VoicedChord result = 
+		    new ConcreteChord(buildSeventhChord(), currentVoicing, currentOctave, currentDuration);
 		reset();
 		return result;
 	}
@@ -36,6 +47,11 @@ public class SeventhBuilder implements ChordBuilder {
 	public SeventhBuilder setDuration(Duration duration) {
 		triadBuilder.setDuration(duration);
 		return this;
+	}
+	
+	public SeventhBuilder setOctave(int octave) {
+	    this.currentOctave = octave;
+	    return this;
 	}
 	
 	public SeventhBuilder setRoot(NoteName root) {
@@ -66,5 +82,6 @@ public class SeventhBuilder implements ChordBuilder {
 	    seventhInterval = null;
 		currentDuration = defaultDuration;
 		currentVoicing = defaultVoicing;
+		currentOctave = defaultOctave;
 	}
 }

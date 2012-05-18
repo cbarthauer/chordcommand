@@ -12,11 +12,9 @@ import music.chord.decorator.Chord;
 public abstract class AbstractVoicing implements Voicing {
 	
     private List<ChordMember> chordMemberList;
-	private int octaveShift;
 	
 	
-	AbstractVoicing(int octaveShift) {
-	    this.octaveShift = octaveShift;
+	AbstractVoicing() {
 		chordMemberList = new ArrayList<ChordMember>();
 	}
 	
@@ -29,7 +27,7 @@ public abstract class AbstractVoicing implements Voicing {
 		return chordMemberList.toString();
 	}
 
-	public final List<Note> voice(Chord chord) {
+	public final List<Note> voice(Chord chord, int octave) {
 		if(chord == null) throw new IllegalArgumentException("Chord cannot be null.");
 		
 		NoteListBuilder builder = new NoteListBuilder();
@@ -42,7 +40,7 @@ public abstract class AbstractVoicing implements Voicing {
 			builder.add(noteName, midiNumber);
 		}
 		
-		builder.shiftUp(octaveShift);	
+		builder.shiftUp(octave);	
 		
 		return builder.getNoteList();
 	}

@@ -13,27 +13,36 @@ import music.chord.decorator.Triad;
 public class TriadBuilder implements ChordBuilder {
 	private NoteName root;
 	private TriadQuality triadQuality;
-	private Duration duration;
-	private Voicing voicing;
+	private Duration currentDuration;
+	private Voicing currentVoicing;
     private Voicing defaultVoicing;
     private Duration defaultDuration;
+    private int defaultOctave;
+    private int currentOctave;
 	
-	public TriadBuilder(TriadVoicing defaultVoicing) {
+	public TriadBuilder(
+	        TriadVoicing defaultVoicing,
+	        int defaultOctave,
+	        Duration defaultDuration) {
+	    
 	    this.defaultVoicing = defaultVoicing;
-	    this.voicing = defaultVoicing;
-		this.defaultDuration = Duration.QUARTER;
-		this.duration = defaultDuration;
+	    this.currentVoicing = defaultVoicing;
+		this.defaultDuration = defaultDuration;
+		this.currentDuration = defaultDuration;
+		this.defaultOctave = defaultOctave;
+		this.currentOctave = defaultOctave;
 	}
 	
 	@Override
 	public VoicedChord buildVoicedChord() {
-		VoicedChord result = new ConcreteChord(buildTriad(), voicing, duration);
+		VoicedChord result = 
+		    new ConcreteChord(buildTriad(), currentVoicing, currentOctave, currentDuration);
 		reset();
 		return result;
 	}
 
 	public TriadBuilder setDuration(Duration duration) {
-		this.duration = duration;
+		this.currentDuration = duration;
 		return this;
 	}
 	
@@ -48,15 +57,16 @@ public class TriadBuilder implements ChordBuilder {
 	}
 
 	public TriadBuilder setVoicing(Voicing voicing) {
-		this.voicing = voicing;
+		this.currentVoicing = voicing;
 		return this;
 	}
 	
 	private void reset() {
 		root = null;
 		triadQuality = null;
-		duration = defaultDuration;
-		voicing = defaultVoicing;
+		currentDuration = defaultDuration;
+		currentVoicing = defaultVoicing;
+		currentOctave = defaultOctave;
 	}
 	
 	Triad buildTriad() {

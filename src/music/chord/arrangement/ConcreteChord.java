@@ -12,12 +12,14 @@ public class ConcreteChord extends ForwardingChord implements VoicedChord {
 	private List<Note> noteList;
 	private Voicing voicing;
 	private Duration duration;
+    private int octave;
 
-	public ConcreteChord(Chord chord, Voicing voicing, Duration duration) {
+	public ConcreteChord(Chord chord, Voicing voicing, int octave, Duration duration) {
 		super(chord);
 		this.voicing = voicing;
-		noteList = voicing.voice(chord);
+		noteList = voicing.voice(chord, octave);
 		this.duration = duration;
+		this.octave = octave;
 	}
 
 	public final int difference(VoicedChord chord) {
@@ -57,12 +59,17 @@ public class ConcreteChord extends ForwardingChord implements VoicedChord {
 		return noteList;
 	}
 	
+	@Override
+    public int getOctave() {
+        return octave;
+    }
+
 	public final int getTicks(int ppq) {
 	    float conversionFactor = duration.getPpqConversionFactor();
 		return Math.round(ppq * conversionFactor);
 	}
 
-	public final Voicing getVoicing() {
+    public final Voicing getVoicing() {
 		return voicing;
 	}
 }
