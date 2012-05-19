@@ -6,6 +6,7 @@ import music.chord.arrangement.TriadBuilder;
 import music.chord.arrangement.TriadVoicing;
 import music.chord.base.ChordMember;
 import music.chord.base.Duration;
+import music.chord.base.VoicePart;
 
 class BuilderFactory {
 
@@ -17,11 +18,14 @@ class BuilderFactory {
         seventhVoicing.addChordMember(ChordMember.FIFTH);
         seventhVoicing.addChordMember(ChordMember.SEVENTH);
         seventhVoicing.addChordMember(ChordMember.THIRD);
+        
+        
         SeventhBuilder builder = new SeventhBuilder(
             triadBuilder, 
             seventhVoicing, 
             defaultOctaveShift, 
-            Duration.QUARTER);
+            Duration.QUARTER,
+            VoicePart.barbershopDefault());
         
         return builder;
     }
@@ -32,8 +36,11 @@ class BuilderFactory {
         triadVoicing.addChordMember(ChordMember.FIFTH);
         triadVoicing.addChordMember(ChordMember.ROOT);
         triadVoicing.addChordMember(ChordMember.THIRD);
-        TriadBuilder triadBuilder = 
-                new TriadBuilder(triadVoicing, defaultOctaveShift, Duration.QUARTER);
+        TriadBuilder triadBuilder = new TriadBuilder(
+            triadVoicing, 
+            defaultOctaveShift, 
+            Duration.QUARTER, 
+            VoicePart.barbershopDefault());
         
         return triadBuilder;
     }    

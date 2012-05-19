@@ -1,9 +1,12 @@
 package music.chord.arrangement;
 
+import java.util.List;
+
 import music.chord.base.Duration;
 import music.chord.base.Interval;
 import music.chord.base.NoteName;
 import music.chord.base.TriadQuality;
+import music.chord.base.VoicePart;
 import music.chord.decorator.SeventhChord;
 
 public class SeventhBuilder implements ChordBuilder {
@@ -15,12 +18,15 @@ public class SeventhBuilder implements ChordBuilder {
     private Duration defaultDuration;
     private int defaultOctave;
     private int currentOctave;
+    private List<VoicePart> defaultPartList;
+    private List<VoicePart> currentPartList;
 	
 	public SeventhBuilder(
 	        TriadBuilder triadBuilder, 
 	        SeventhVoicing defaultVoicing, 
 	        int defaultOctave,
-	        Duration defaultDuration) {
+	        Duration defaultDuration,
+	        List<VoicePart> defaultPartList) {
 	    
 	    this.triadBuilder = triadBuilder;
 	    
@@ -30,12 +36,19 @@ public class SeventhBuilder implements ChordBuilder {
 	    this.currentDuration = defaultDuration;		
 		this.defaultOctave = defaultOctave;
 		this.currentOctave = defaultOctave;
+		this.defaultPartList = defaultPartList;
+		this.currentPartList = defaultPartList;
 	}
 	
 	@Override
 	public VoicedChord buildVoicedChord() {
 		VoicedChord result = 
-		    new ConcreteChord(buildSeventhChord(), currentVoicing, currentOctave, currentDuration);
+		    new ConcreteChord(
+		        buildSeventhChord(), 
+		        currentVoicing, 
+		        currentOctave, 
+		        currentDuration, 
+		        currentPartList);
 		reset();
 		return result;
 	}
@@ -79,5 +92,6 @@ public class SeventhBuilder implements ChordBuilder {
 		currentDuration = defaultDuration;
 		currentVoicing = defaultVoicing;
 		currentOctave = defaultOctave;
+		currentPartList = defaultPartList;
 	}
 }

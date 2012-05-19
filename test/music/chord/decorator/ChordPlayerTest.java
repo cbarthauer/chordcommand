@@ -19,6 +19,7 @@ import music.chord.base.Duration;
 import music.chord.base.Interval;
 import music.chord.base.NoteName;
 import music.chord.base.TriadQuality;
+import music.chord.base.VoicePart;
 
 import org.junit.Test;
 
@@ -27,10 +28,15 @@ public class ChordPlayerTest {
 	@Test
 	public void testPlay() {
 		SeventhBuilder builder = new SeventhBuilder(
-		       new TriadBuilder(new TriadVoicing(), OCTAVE, Duration.QUARTER), 
+		       new TriadBuilder(
+		               new TriadVoicing(), 
+		               OCTAVE, 
+		               Duration.QUARTER, 
+		               VoicePart.barbershopDefault()), 
 		       new SeventhVoicing(),
 		       OCTAVE,
-		       Duration.QUARTER);
+		       Duration.QUARTER,
+		       VoicePart.barbershopDefault());
 		List<VoicedChord> chordList = new ArrayList<VoicedChord>();
 		VoicedChord chord1 = builder.setRoot(NoteName.forSymbol("Ab"))
 			.setTriadQuality(TriadQuality.MAJOR)

@@ -1,6 +1,10 @@
 package music.chord.arrangement;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import music.chord.base.Duration;
+import music.chord.base.VoicePart;
 
 public class DerivedChordBuilder implements ChordBuilder {
 
@@ -8,10 +12,11 @@ public class DerivedChordBuilder implements ChordBuilder {
 	private Duration duration;
 	private Voicing voicing;
     private int octave;
+    private List<VoicePart> partList;
 
 	@Override
 	public VoicedChord buildVoicedChord() {
-		return new ConcreteChord(chord, voicing, octave, duration);
+		return new ConcreteChord(chord, voicing, octave, duration, partList);
 	}
 
 	public DerivedChordBuilder setChord(VoicedChord chord) {
@@ -19,6 +24,7 @@ public class DerivedChordBuilder implements ChordBuilder {
 		this.duration = chord.getDuration();
 		this.voicing = chord.getVoicing();
 		this.octave = chord.getOctave();
+		this.partList = chord.getVoicePartList();
 		return this;
 	}
 	
@@ -29,6 +35,11 @@ public class DerivedChordBuilder implements ChordBuilder {
 	
 	public DerivedChordBuilder setOctave(int octave) {
 	    this.octave = octave;
+	    return this;
+	}
+	
+	public DerivedChordBuilder setVoicePartList(List<VoicePart> partList) {
+	    partList = new ArrayList<VoicePart>(partList);
 	    return this;
 	}
 	

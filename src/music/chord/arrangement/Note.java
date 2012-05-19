@@ -1,16 +1,19 @@
 package music.chord.arrangement;
 
+import music.chord.base.Duration;
 import music.chord.base.Interval;
 import music.chord.base.NoteName;
 
 
-class Note implements Comparable<Note> {
+public class Note implements Comparable<Note> {
 	private NoteName noteName;
 	private Integer midiNumber;
+    private Duration duration;
 
-	Note(NoteName noteName, Integer midiNumber) {
+	Note(NoteName noteName, Integer midiNumber, Duration duration) {
 		this.noteName = noteName;
 		this.midiNumber = midiNumber;
+		this.duration = duration;
 	}
 
 	@Override
@@ -18,11 +21,11 @@ class Note implements Comparable<Note> {
 		return midiNumber.compareTo(otherNote.midiNumber);
 	}
 
-	Integer getMidiNumber() {
+	public Integer getMidiNumber() {
 		return midiNumber;
 	}
 
-	NoteName getNoteName() {
+	public NoteName getNoteName() {
 		return noteName;
 	}
 	
@@ -33,4 +36,9 @@ class Note implements Comparable<Note> {
 	public String toString() {
 		return noteName + "(" + midiNumber + ")";
 	}
+
+    public int getTicks(int ppq) {
+        float conversionFactor = duration.getPpqConversionFactor();
+        return Math.round(ppq * conversionFactor);
+    }
 }

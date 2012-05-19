@@ -6,6 +6,7 @@ import music.chord.arrangement.ChordPlayer;
 import music.chord.arrangement.ChordVoicer;
 import music.chord.arrangement.SeventhBuilder;
 import music.chord.arrangement.TriadBuilder;
+import music.chord.arrangement.VoicePartPlayer;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.Voicing;
 import music.chord.base.ChordMember;
@@ -32,6 +33,8 @@ public abstract class AbstractParser extends Parser {
     public abstract void setSeventhBuilder(SeventhBuilder seventhBuilder);
     
     public abstract void setTriadBuilder(TriadBuilder triadBuilder);
+    
+    public abstract void setVoicePartPlayer(VoicePartPlayer voicePartPlayer);
     
     final Voicing voicingFromChordMemberList(List<ChordMember> chordMemberList) {
         return VoicingFactory.instanceFromChordMemberList(chordMemberList);

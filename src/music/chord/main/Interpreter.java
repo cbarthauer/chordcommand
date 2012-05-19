@@ -10,6 +10,7 @@ import music.chord.arrangement.ChordVoicer;
 import music.chord.arrangement.ChordVoicerFactory;
 import music.chord.arrangement.SeventhBuilder;
 import music.chord.arrangement.TriadBuilder;
+import music.chord.arrangement.VoicePartPlayer;
 import music.chord.arrangement.VoicedChord;
 import music.chord.command.Command;
 import music.chord.grammar.ChordCommandLexer;
@@ -47,6 +48,7 @@ public class Interpreter {
 			parser.setChordPlayer(new ChordPlayer());
 			parser.setTriadBuilder(triadBuilder);
 			parser.setSeventhBuilder(seventhBuilder);
+			parser.setVoicePartPlayer(new VoicePartPlayer());
 			
 			List<Command> commandList = parser.program();
 			

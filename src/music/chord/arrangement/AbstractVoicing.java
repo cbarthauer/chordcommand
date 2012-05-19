@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import music.chord.base.ChordMember;
+import music.chord.base.Duration;
 import music.chord.base.Interval;
 import music.chord.base.NoteName;
 import music.chord.decorator.Chord;
@@ -27,7 +28,7 @@ abstract class AbstractVoicing implements Voicing {
 		return chordMemberList.toString();
 	}
 
-	public final List<Note> voice(Chord chord, int octave) {
+	public final List<Note> voice(Chord chord, int octave, Duration duration) {
 		if(chord == null) throw new IllegalArgumentException("Chord cannot be null.");
 		
 		NoteListBuilder builder = new NoteListBuilder();
@@ -37,7 +38,7 @@ abstract class AbstractVoicing implements Voicing {
 		for(ChordMember chordMember : chordMemberList) {
 			NoteName noteName = chord.noteNameFromChordMember(chordMember);
 			midiNumber = placeAbove(noteName.getChromaticIndex(), midiNumber);
-			builder.add(noteName, midiNumber);
+			builder.add(noteName, midiNumber, duration);
 		}
 		
 		builder.shiftUp(octave);	

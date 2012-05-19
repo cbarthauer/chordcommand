@@ -3,6 +3,7 @@ package music.chord.arrangement;
 import java.util.ArrayList;
 import java.util.List;
 
+import music.chord.base.Duration;
 import music.chord.base.NoteName;
 
 class NoteListBuilder {
@@ -22,7 +23,7 @@ class NoteListBuilder {
         }
     }
 
-    void add(NoteName noteName, int midiNumber) {
-        list.add(new Note(noteName, midiNumber));
+    void add(NoteName noteName, int midiNumber, Duration duration) {
+        list.add(new Note(noteName, midiNumber, duration));
     }
 }

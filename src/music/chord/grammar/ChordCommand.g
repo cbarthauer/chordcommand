@@ -19,6 +19,7 @@ options {
   import music.chord.arrangement.SeventhBuilder;
   import music.chord.arrangement.TriadBuilder;
   import music.chord.arrangement.ChordVoicer;
+  import music.chord.arrangement.VoicePartPlayer;
   
   import music.chord.base.ChordMember;
   import music.chord.base.Duration;
@@ -26,12 +27,14 @@ options {
   import music.chord.base.NoteName;
   import music.chord.base.QualitySymbol;
   import music.chord.base.TriadQuality;
+  import music.chord.base.VoicePart;
   
   import music.chord.command.AddChord;
   import music.chord.command.Command;
   import music.chord.command.Display;
   import music.chord.command.InsertBefore;
   import music.chord.command.Play;
+  import music.chord.command.PlayVoicePart;
   import music.chord.command.Quit;
   import music.chord.command.RemoveChord;
   import music.chord.command.VoiceChordList;
@@ -50,6 +53,7 @@ options {
   List<VoicedChord> chordList;
   ChordPlayer player;
   ChordVoicer voicer;
+  VoicePartPlayer voicePartPlayer;
   
   public void setChordList(List<VoicedChord> chordList) {
     this.chordList = chordList;
@@ -69,6 +73,10 @@ options {
   
   public void setTriadBuilder(TriadBuilder triadBuilder) {
     this.triadBuilder = triadBuilder;
+  }
+  
+  public void setVoicePartPlayer(VoicePartPlayer voicePartPlayer) {
+    this.voicePartPlayer = voicePartPlayer;
   }
 }
 
@@ -95,6 +103,7 @@ ACCIDENTAL
 
 QUALITY : '+' | 'M' | 'm' | 'dim';
 
+//Chord qualities.
 MINOR_SIX : 'm6';
 DIMINISHED_SEVEN : 'dim7';
 MINOR_SEVEN : 'm7';
@@ -110,6 +119,12 @@ SEVENTH : 'seventh';
 //Chord types.
 TRIADS : 'triads';
 SEVENTHS : 'sevenths';
+
+//Voice parts.
+BASS : 'bass';
+BARITONE : 'baritone';
+LEAD : 'lead';
+TENOR : 'tenor';
 
 //Keywords.
 ADD : 'add';
@@ -191,6 +206,13 @@ display
   
 play
   : PLAY {commandList.add(new Play(chordList, player));}
+  | PLAY voicePart {
+      commandList.add(
+          new PlayVoicePart(
+              chordList, 
+              VoicePart.voicePartFromName($voicePart.name), 
+              voicePartPlayer));
+  }
   ;
 
 set
@@ -289,4 +311,11 @@ chordMember returns [String name]
     | THIRD {name = "THIRD";}
     | FIFTH {name = "FIFTH";}
     | SEVENTH {name = "SEVENTH";}
+    ;
+    
+voicePart returns [String name]
+    : BASS {name = "BASS";}
+    | BARITONE {name = "BARITONE";}
+    | LEAD {name = "LEAD";}
+    | TENOR {name = "TENOR";}
     ;
