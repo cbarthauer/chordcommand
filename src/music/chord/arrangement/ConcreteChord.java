@@ -18,15 +18,24 @@ class ConcreteChord extends ForwardingChord implements VoicedChord {
     private int octave;
     private Map<VoicePart, Note> voicePartMap;
     private List<VoicePart> partList;
+    private String symbol;
 
-	ConcreteChord(Chord chord, Voicing voicing, int octave, Duration duration, List<VoicePart> partList) {
+	ConcreteChord(
+	        Chord chord, 
+	        Voicing voicing, 
+	        int octave, 
+	        Duration duration, 
+	        List<VoicePart> partList,
+	        String symbol) {
+	    
 		super(chord);
 		this.voicing = voicing;
-		noteList = voicing.voice(chord, octave, duration);
+		this.noteList = voicing.voice(chord, octave, duration);
 		this.duration = duration;
 		this.octave = octave;
 		this.partList = partList;
 		this.voicePartMap = initVoicePartMap(partList, noteList);
+		this.symbol = symbol;
 	}
 
 	@Override
@@ -75,6 +84,11 @@ class ConcreteChord extends ForwardingChord implements VoicedChord {
     }
 	
 	@Override
+    public final String getSymbol() {
+        return symbol;
+    }
+
+	@Override
 	public final int getTicks(int ppq) {
 	    float conversionFactor = duration.getPpqConversionFactor();
 		return Math.round(ppq * conversionFactor);
@@ -85,13 +99,13 @@ class ConcreteChord extends ForwardingChord implements VoicedChord {
         return new ArrayList<VoicePart>(partList);
     }
 
-	@Override
+    @Override
     public final Voicing getVoicing() {
 		return voicing;
 	}
 
     @Override
-    public Note noteFromVoicePart(VoicePart part) {
+    public final Note noteFromVoicePart(VoicePart part) {
         return voicePartMap.get(part);
     }
 

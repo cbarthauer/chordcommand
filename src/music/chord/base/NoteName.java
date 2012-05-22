@@ -15,7 +15,7 @@ public final class NoteName {
 	}
 	
 	public static NoteName forSymbol(String symbol) {
-		return new NoteName(symbolMap.get(symbol.toLowerCase()));
+		return new NoteName(symbolMap.get(symbol));
 	}
 
 	private NoteNameEnum noteEnum;
@@ -26,26 +26,30 @@ public final class NoteName {
 		this.calculator = new NoteNameCalculator(noteEnum);
 	}
 	
-	public NoteName up(Interval interval) {
+	public final NoteName up(Interval interval) {
 		return new NoteName(
 			calculator.upChromaticBy(interval.getHalfSteps())
 				.upDiatonicBy(interval.getDiatonicSteps())
 				.result());
 	}	
 	
-	public int getChromaticIndex() {
+	public final int getChromaticIndex() {
 		return noteEnum.getChromaticIndex();
 	}
 
-	public int getDiatonicIndex() {
+	public final int getDiatonicIndex() {
 		return noteEnum.getDiatonicIndex();
 	}
 
-	public String getSymbol() {
+	public final String getSymbol() {
 		return noteEnum.getSymbol();
 	}
 
-	public String name() {
+	public final String name() {
 		return noteEnum.name();
+	}
+	
+	public final String toString() {
+	    return noteEnum.getSymbol();
 	}
 }

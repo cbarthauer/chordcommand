@@ -50,13 +50,26 @@ public class Interpreter {
 			parser.setSeventhBuilder(seventhBuilder);
 			parser.setVoicePartPlayer(new VoicePartPlayer());
 			
-			List<Command> commandList = parser.program();
+			List<Command> commandList = commandListFromParser(parser);
 			
 			for(Command command : commandList) {
 				command.execute();
 			}
 		}
 	}
+
+    private static List<Command> commandListFromParser(ChordCommandParser parser) 
+            throws RecognitionException {
+        
+        List<Command> result = parser.program();
+        
+        if(result == null) {
+            return new ArrayList<Command>();
+        }
+        else {
+            return result;
+        }
+    }
 
 
 }

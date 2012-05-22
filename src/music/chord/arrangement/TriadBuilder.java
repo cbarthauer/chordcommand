@@ -20,6 +20,7 @@ public class TriadBuilder implements ChordBuilder {
     private int currentOctave;
     private List<VoicePart> defaultPartList;
     private List<VoicePart> currentPartList;
+    private String symbol;
 	
 	public TriadBuilder(
 	        TriadVoicing defaultVoicing,
@@ -35,6 +36,7 @@ public class TriadBuilder implements ChordBuilder {
 		this.currentOctave = defaultOctave;
         this.defaultPartList = defaultPartList;
         this.currentPartList = defaultPartList;
+        this.symbol = "";
 	}
 	
 	@Override
@@ -45,7 +47,8 @@ public class TriadBuilder implements ChordBuilder {
 		        currentVoicing, 
 		        currentOctave, 
 		        currentDuration, 
-		        currentPartList);
+		        currentPartList,
+		        symbol);
 		reset();
 		return result;
 	}
@@ -60,6 +63,11 @@ public class TriadBuilder implements ChordBuilder {
 		return this;
 	}
 
+	public TriadBuilder setSymbol(String symbol) {
+	    this.symbol = symbol;
+	    return this;
+	}
+	
 	public TriadBuilder setTriadQuality(TriadQuality triadQuality) {
 		this.triadQuality = triadQuality;
 		return this;
@@ -77,6 +85,7 @@ public class TriadBuilder implements ChordBuilder {
 		currentVoicing = defaultVoicing;
 		currentOctave = defaultOctave;
         currentPartList = defaultPartList;
+        this.symbol = "";
 	}
 	
 	Triad buildTriad() {

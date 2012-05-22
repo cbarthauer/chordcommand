@@ -12,6 +12,7 @@ public interface VoicedChord extends Chord {
 	public List<Integer> getMidiNumberList();
 	public List<Note> getNoteList();
 	public int getOctave();
+	public String getSymbol();
 	public int getTicks(int ppq);
 	public List<VoicePart> getVoicePartList();
 	public Voicing getVoicing();
