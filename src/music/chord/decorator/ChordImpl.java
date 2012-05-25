@@ -1,6 +1,7 @@
 package music.chord.decorator;
 
 import music.chord.base.ChordMember;
+import music.chord.base.ChordSpec;
 import music.chord.base.NoteName;
 
 public class ChordImpl implements Chord {
@@ -15,7 +16,12 @@ public class ChordImpl implements Chord {
     
     @Override
     public NoteName noteNameFromChordMember(ChordMember chordMember) {
-        return spec.getNoteName(root, chordMember);
+        if(ChordMember.ROOT.equals(chordMember)) {
+            return root;
+        }
+        else {
+            return spec.getNoteName(root, chordMember);
+        }
     }
 
 }

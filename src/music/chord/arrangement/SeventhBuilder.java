@@ -92,7 +92,7 @@ public class SeventhBuilder implements ChordBuilder {
 	}
 	
 	private SeventhChord buildSeventhChord() {
-		return new SeventhChord(triadBuilder.buildTriad(), seventhInterval);
+		return new SeventhChord(triadBuilder.buildChord(), seventhInterval);
 	}
 	
 	private void reset() {

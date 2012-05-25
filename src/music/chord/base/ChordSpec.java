@@ -1,4 +1,4 @@
-package music.chord.decorator;
+package music.chord.base;
 
 import java.util.HashMap;
 import java.util.Map;

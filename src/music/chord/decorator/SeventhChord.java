@@ -8,7 +8,7 @@ import music.chord.base.NoteName;
 public class SeventhChord extends ForwardingChord {
 	private Interval seventhInterval;
 
-	public SeventhChord(Triad triad, Interval seventhInterval) {
+	public SeventhChord(Chord triad, Interval seventhInterval) {
 		super(triad);
 		this.seventhInterval = seventhInterval;
 	}

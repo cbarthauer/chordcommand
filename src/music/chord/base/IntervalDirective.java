@@ -1,4 +1,4 @@
-package music.chord.decorator;
+package music.chord.base;
 
 import music.chord.base.Interval;
 import music.chord.base.NoteName;

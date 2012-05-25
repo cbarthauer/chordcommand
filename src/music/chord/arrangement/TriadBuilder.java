@@ -6,7 +6,8 @@ import music.chord.base.Duration;
 import music.chord.base.NoteName;
 import music.chord.base.TriadQuality;
 import music.chord.base.VoicePart;
-import music.chord.decorator.Triad;
+import music.chord.decorator.Chord;
+import music.chord.decorator.ChordImpl;
 
 
 public class TriadBuilder implements ChordBuilder {
@@ -43,7 +44,7 @@ public class TriadBuilder implements ChordBuilder {
 	public VoicedChord buildVoicedChord() {
 		VoicedChord result = 
 		    new ConcreteChord(
-		        buildTriad(), 
+		        buildChord(), 
 		        currentVoicing, 
 		        currentOctave, 
 		        currentDuration, 
@@ -88,7 +89,7 @@ public class TriadBuilder implements ChordBuilder {
         this.symbol = "";
 	}
 	
-	Triad buildTriad() {
-		return new Triad(root, triadQuality);
+	Chord buildChord() {
+	    return new ChordImpl(root, triadQuality.getChordSpec());
 	}
 }

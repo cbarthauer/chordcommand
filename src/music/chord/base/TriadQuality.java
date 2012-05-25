@@ -33,10 +33,17 @@ public enum TriadQuality {
         this.fifthInterval = fifthInterval;
     }
 
+    public ChordSpec getChordSpec() {
+        Map<ChordMember, IntervalDirective> dirMap = new HashMap<ChordMember, IntervalDirective>();
+        dirMap.put(ChordMember.THIRD, new IntervalDirective(thirdInterval));
+        dirMap.put(ChordMember.FIFTH, new IntervalDirective(fifthInterval));
+        return new ChordSpec(dirMap);
+    }
+    
     public Interval getFifthInterval() {
         return fifthInterval;
     }
-    
+
     public QualitySymbol getSymbol() {
         return symbol;
     }
