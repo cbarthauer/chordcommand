@@ -28,6 +28,7 @@ options {
   import music.chord.base.ChordMember;
   import music.chord.base.Interval;
   import music.chord.base.NoteName;
+  import music.chord.base.SeventhQuality;
   import music.chord.base.TriadQuality;
 }
 
@@ -99,32 +100,27 @@ chordSpec returns [VoicedChord chord]
          }
     | ^(SPEC NOTE_NAME SEVEN) {chord =
             seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setTriadQuality(TriadQuality.MAJOR)
-                .setSeventhInterval(Interval.MINOR_SEVENTH)
+                .setSeventhQuality(SeventhQuality.DOMINANT)
                 .buildVoicedChord();
          }
     | ^(SPEC NOTE_NAME MINOR_SEVEN) {chord =
             seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setTriadQuality(TriadQuality.MINOR)
-                .setSeventhInterval(Interval.MINOR_SEVENTH)
+                .setSeventhQuality(SeventhQuality.MINOR)
                 .buildVoicedChord();
          }
     | ^(SPEC NOTE_NAME MAJOR_SEVEN) {chord =
             seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setTriadQuality(TriadQuality.MAJOR)
-                .setSeventhInterval(Interval.MAJOR_SEVENTH)
+                .setSeventhQuality(SeventhQuality.MAJOR)
                 .buildVoicedChord();
          }
     | ^(SPEC NOTE_NAME MINOR_SIX) {chord =
             seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text).up(Interval.MAJOR_SIXTH))
-                .setTriadQuality(TriadQuality.DIMINISHED)
-                .setSeventhInterval(Interval.MINOR_SEVENTH)
+                .setSeventhQuality(SeventhQuality.HALF_DIMINISHED)
                 .buildVoicedChord();
          }
     | ^(SPEC NOTE_NAME DIMINISHED_SEVEN) {chord =
             seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setTriadQuality(TriadQuality.DIMINISHED)
-                .setSeventhInterval(Interval.DIMINISHED_SEVENTH)
+                .setSeventhQuality(SeventhQuality.DIMINISHED)
                 .buildVoicedChord();
          }
     ;

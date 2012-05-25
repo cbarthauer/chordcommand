@@ -26,6 +26,7 @@ options {
   import music.chord.base.Interval;
   import music.chord.base.NoteName;
   import music.chord.base.QualitySymbol;
+  import music.chord.base.SeventhQuality;
   import music.chord.base.TriadQuality;
   import music.chord.base.VoicePart;
   
@@ -280,36 +281,31 @@ chordSpec returns [VoicedChord chord]
          }
     | NOTE_NAME DOMINANT_SEVEN {chord =
             seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setTriadQuality(TriadQuality.MAJOR)
-                .setSeventhInterval(Interval.MINOR_SEVENTH)
+                .setSeventhQuality(SeventhQuality.DOMINANT)
                 .setSymbol($NOTE_NAME.text + $DOMINANT_SEVEN.text)
                 .buildVoicedChord();
          }
     | NOTE_NAME MINOR_SEVEN {chord =
             seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setTriadQuality(TriadQuality.MINOR)
-                .setSeventhInterval(Interval.MINOR_SEVENTH)
+                .setSeventhQuality(SeventhQuality.MINOR)
                 .setSymbol($NOTE_NAME.text + $MINOR_SEVEN.text)
                 .buildVoicedChord();
          }
     | NOTE_NAME MAJOR_SEVEN {chord =
             seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setTriadQuality(TriadQuality.MAJOR)
-                .setSeventhInterval(Interval.MAJOR_SEVENTH)
+                .setSeventhQuality(SeventhQuality.MAJOR)
                 .setSymbol($NOTE_NAME.text + $MAJOR_SEVEN.text)
                 .buildVoicedChord();
          }
     | NOTE_NAME MINOR_SIX {chord =
             seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text).up(Interval.MAJOR_SIXTH))
-                .setTriadQuality(TriadQuality.DIMINISHED)
-                .setSeventhInterval(Interval.MINOR_SEVENTH)
+                .setSeventhQuality(SeventhQuality.HALF_DIMINISHED)
                 .setSymbol($NOTE_NAME.text + $MINOR_SIX.text)
                 .buildVoicedChord();
          }
     | NOTE_NAME DIMINISHED_SEVEN {chord =
             seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setTriadQuality(TriadQuality.DIMINISHED)
-                .setSeventhInterval(Interval.DIMINISHED_SEVENTH)
+                .setSeventhQuality(SeventhQuality.DIMINISHED)
                 .setSymbol($NOTE_NAME.text + $DIMINISHED_SEVEN.text)
                 .buildVoicedChord();
          }    

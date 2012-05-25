@@ -21,7 +21,6 @@ class BuilderFactory {
         
         
         SeventhBuilder builder = new SeventhBuilder(
-            triadBuilder, 
             seventhVoicing, 
             defaultOctaveShift, 
             Duration.QUARTER,

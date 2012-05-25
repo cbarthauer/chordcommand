@@ -3,17 +3,16 @@ package music.chord.arrangement;
 import java.util.List;
 
 import music.chord.base.Duration;
-import music.chord.base.Interval;
 import music.chord.base.NoteName;
-import music.chord.base.TriadQuality;
+import music.chord.base.SeventhQuality;
 import music.chord.base.VoicePart;
-import music.chord.decorator.SeventhChord;
+import music.chord.decorator.Chord;
+import music.chord.decorator.ChordImpl;
 
 public class SeventhBuilder implements ChordBuilder {
-	private Interval seventhInterval;
+	private SeventhQuality seventhQuality;
 	private Duration currentDuration;
 	private Voicing currentVoicing;
-	private TriadBuilder triadBuilder;
     private Voicing defaultVoicing;
     private Duration defaultDuration;
     private int defaultOctave;
@@ -21,15 +20,13 @@ public class SeventhBuilder implements ChordBuilder {
     private List<VoicePart> defaultPartList;
     private List<VoicePart> currentPartList;
     private String symbol;
+    private NoteName root;
 	
 	public SeventhBuilder(
-	        TriadBuilder triadBuilder, 
 	        SeventhVoicing defaultVoicing, 
 	        int defaultOctave,
 	        Duration defaultDuration,
 	        List<VoicePart> defaultPartList) {
-	    
-	    this.triadBuilder = triadBuilder;
 	    
 	    this.defaultVoicing = defaultVoicing;	
 	    this.currentVoicing = defaultVoicing;
@@ -46,7 +43,7 @@ public class SeventhBuilder implements ChordBuilder {
 	public VoicedChord buildVoicedChord() {
 		VoicedChord result = 
 		    new ConcreteChord(
-		        buildSeventhChord(), 
+		        buildChord(), 
 		        currentVoicing, 
 		        currentOctave, 
 		        currentDuration, 
@@ -57,7 +54,7 @@ public class SeventhBuilder implements ChordBuilder {
 	}
 	
 	public SeventhBuilder setDuration(Duration duration) {
-		triadBuilder.setDuration(duration);
+		this.currentDuration = duration;
 		return this;
 	}
 	
@@ -67,12 +64,12 @@ public class SeventhBuilder implements ChordBuilder {
 	}
 	
 	public SeventhBuilder setRoot(NoteName root) {
-		triadBuilder.setRoot(root);
+		this.root = root;
 		return this;
 	}
 
-	public SeventhBuilder setSeventhInterval(Interval seventhInterval) {
-		this.seventhInterval = seventhInterval;
+	public SeventhBuilder setSeventhQuality(SeventhQuality seventhQuality) {
+		this.seventhQuality = seventhQuality;
 		return this;
 	}
 
@@ -81,22 +78,17 @@ public class SeventhBuilder implements ChordBuilder {
 	    return this;
 	}
 	
-	public SeventhBuilder setTriadQuality(TriadQuality triadQuality) {
-		triadBuilder.setTriadQuality(triadQuality);
-		return this;
-	}
-	
 	public SeventhBuilder setVoicing(Voicing voicing) {
 		this.currentVoicing = voicing;
 		return this;
 	}
 	
-	private SeventhChord buildSeventhChord() {
-		return new SeventhChord(triadBuilder.buildChord(), seventhInterval);
+	private Chord buildChord() {
+		return new ChordImpl(root, seventhQuality.getChordSpec());
 	}
 	
 	private void reset() {
-	    seventhInterval = null;
+	    seventhQuality = null;
 		currentDuration = defaultDuration;
 		currentVoicing = defaultVoicing;
 		currentOctave = defaultOctave;
