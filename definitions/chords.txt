@@ -1,0 +1,35 @@
+Define Triad
+Begin
+  Quality: Major
+  Intervallic Structure:
+    [root,
+    up M3 to third,
+    up P5 to fifth]
+
+  Quality: Minor
+  Intervallic Structure:
+    [root,
+    up m3 to third,
+    up P5 to fifth]
+
+  Quality: Augmented
+  Intervallic Structure:
+    [root,
+    up M3 to third,
+    up +5 to fifth]
+
+  Quality: Diminished
+  Intervallic Structure:
+    [root,
+    up m3 to third,
+    up dim5 to fifth]
+  
+  Voicings:
+    [[fifth, root, third, fifth],
+    [root, fifth, root, third],
+    [root, root, third, fifth],
+    [root, third, fifth, root],
+    [root, fifth, third, root],
+    [fifth, third, fifth, root]]
+
+End Triad
