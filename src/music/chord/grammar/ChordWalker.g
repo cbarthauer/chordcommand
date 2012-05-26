@@ -20,7 +20,6 @@ options {
   import music.chord.arrangement.TriadVoicing;
   import music.chord.arrangement.Voicing;
   import music.chord.arrangement.DerivedChordBuilder;
-  import music.chord.arrangement.TriadBuilder;
   import music.chord.arrangement.ChordProgression;
   import music.chord.arrangement.ChordVoicer;
   import music.chord.arrangement.VoicedChordBuilder;

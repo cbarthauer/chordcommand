@@ -16,7 +16,6 @@ options {
   import music.chord.arrangement.VoicedChord;
   import music.chord.arrangement.Voicing;
   import music.chord.arrangement.DerivedChordBuilder;
-  import music.chord.arrangement.TriadBuilder;
   import music.chord.arrangement.ChordVoicer;
   import music.chord.arrangement.VoicePartPlayer;
   import music.chord.arrangement.VoicedChordBuilder;
