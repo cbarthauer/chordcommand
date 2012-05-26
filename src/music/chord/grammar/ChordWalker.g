@@ -21,9 +21,9 @@ options {
   import music.chord.arrangement.Voicing;
   import music.chord.arrangement.DerivedChordBuilder;
   import music.chord.arrangement.TriadBuilder;
-  import music.chord.arrangement.SeventhBuilder;
   import music.chord.arrangement.ChordProgression;
   import music.chord.arrangement.ChordVoicer;
+  import music.chord.arrangement.VoicedChordBuilder;
   
   import music.chord.base.ChordMember;
   import music.chord.base.Interval;
@@ -36,14 +36,14 @@ options {
   List<VoicedChord> chords = new ArrayList<VoicedChord>();
   VoicingManager voicingManager = new VoicingManager();
   DerivedChordBuilder chordBuilder = new DerivedChordBuilder();
-  TriadBuilder triadBuilder;
-  SeventhBuilder seventhBuilder; 
+  VoicedChordBuilder triadBuilder;
+  VoicedChordBuilder seventhBuilder; 
   
-  public void setSeventhBuilder(SeventhBuilder seventhBuilder) {
+  public void setSeventhBuilder(VoicedChordBuilder seventhBuilder) {
     this.seventhBuilder = seventhBuilder;
   }
   
-  public void setTriadBuilder(TriadBuilder triadBuilder) {
+  public void setTriadBuilder(VoicedChordBuilder triadBuilder) {
     this.triadBuilder = triadBuilder;
   }
 }
@@ -90,37 +90,37 @@ chord returns [VoicedChord value]
 chordSpec returns [VoicedChord chord]
     : ^(SPEC NOTE_NAME QUALITY){chord =
             triadBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setTriadQuality(TriadQuality.qualityFromSymbol($QUALITY.text))
+                .setChordSpec(TriadQuality.qualityFromSymbol($QUALITY.text).getChordSpec())
                 .buildVoicedChord();
          }
     | ^(SPEC NOTE_NAME) {chord =
             triadBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setTriadQuality(TriadQuality.MAJOR)
+                .setChordSpec(TriadQuality.MAJOR.getChordSpec())
                 .buildVoicedChord();
          }
     | ^(SPEC NOTE_NAME SEVEN) {chord =
             seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setSeventhQuality(SeventhQuality.DOMINANT)
+                .setChordSpec(SeventhQuality.DOMINANT.getChordSpec())
                 .buildVoicedChord();
          }
     | ^(SPEC NOTE_NAME MINOR_SEVEN) {chord =
             seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setSeventhQuality(SeventhQuality.MINOR)
+                .setChordSpec(SeventhQuality.MINOR.getChordSpec())
                 .buildVoicedChord();
          }
     | ^(SPEC NOTE_NAME MAJOR_SEVEN) {chord =
             seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setSeventhQuality(SeventhQuality.MAJOR)
+                .setChordSpec(SeventhQuality.MAJOR.getChordSpec())
                 .buildVoicedChord();
          }
     | ^(SPEC NOTE_NAME MINOR_SIX) {chord =
             seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text).up(Interval.MAJOR_SIXTH))
-                .setSeventhQuality(SeventhQuality.HALF_DIMINISHED)
+                .setChordSpec(SeventhQuality.HALF_DIMINISHED.getChordSpec())
                 .buildVoicedChord();
          }
     | ^(SPEC NOTE_NAME DIMINISHED_SEVEN) {chord =
             seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setSeventhQuality(SeventhQuality.DIMINISHED)
+                .setChordSpec(SeventhQuality.DIMINISHED.getChordSpec())
                 .buildVoicedChord();
          }
     ;

@@ -2,8 +2,7 @@ package music.chord.grammar;
 
 import java.util.List;
 
-import music.chord.arrangement.SeventhBuilder;
-import music.chord.arrangement.TriadBuilder;
+import music.chord.arrangement.VoicedChordBuilder;
 import music.chord.arrangement.Voicing;
 import music.chord.base.ChordMember;
 
@@ -20,8 +19,8 @@ public abstract class AbstractTreeParser extends TreeParser {
         super(input, state);
     }
 
-    public abstract void setSeventhBuilder(SeventhBuilder seventhBuilder);
-    public abstract void setTriadBuilder(TriadBuilder triadBuilder);
+    public abstract void setSeventhBuilder(VoicedChordBuilder seventhBuilder);
+    public abstract void setTriadBuilder(VoicedChordBuilder triadBuilder);
     
     final Voicing voicingFromChordMemberList(List<ChordMember> chordMemberList) {
         return VoicingFactory.instanceFromChordMemberList(chordMemberList);

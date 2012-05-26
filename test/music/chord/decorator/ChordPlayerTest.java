@@ -7,9 +7,9 @@ import music.chord.arrangement.ChordPlayer;
 import music.chord.arrangement.ChordVoicer;
 import music.chord.arrangement.ClosestVoicingStrategy;
 import music.chord.arrangement.DerivedChordBuilder;
-import music.chord.arrangement.SeventhBuilder;
 import music.chord.arrangement.SeventhVoicing;
 import music.chord.arrangement.VoicedChord;
+import music.chord.arrangement.VoicedChordBuilder;
 import music.chord.arrangement.Voicing;
 import music.chord.arrangement.VoicingManager;
 import music.chord.base.ChordMember;
@@ -24,14 +24,15 @@ public class ChordPlayerTest {
     private final static int OCTAVE = 4;
 	@Test
 	public void testPlay() {
-		SeventhBuilder seventhBuilder = new SeventhBuilder( 
+	    VoicedChordBuilder seventhBuilder = new VoicedChordBuilder(
+	           SeventhQuality.DOMINANT.getChordSpec(), 
 		       new SeventhVoicing(),
 		       OCTAVE,
 		       Duration.QUARTER,
 		       VoicePart.barbershopDefault());
 		List<VoicedChord> chordList = new ArrayList<VoicedChord>();
 		VoicedChord chord1 = seventhBuilder.setRoot(NoteName.forSymbol("Ab"))
-		    .setSeventhQuality(SeventhQuality.DOMINANT)
+		    .setChordSpec(SeventhQuality.DOMINANT.getChordSpec())
 			.buildVoicedChord();
 		chordList.add(chord1);
 		

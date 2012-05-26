@@ -8,10 +8,9 @@ import java.util.Scanner;
 import music.chord.arrangement.ChordPlayer;
 import music.chord.arrangement.ChordVoicer;
 import music.chord.arrangement.ChordVoicerFactory;
-import music.chord.arrangement.SeventhBuilder;
-import music.chord.arrangement.TriadBuilder;
 import music.chord.arrangement.VoicePartPlayer;
 import music.chord.arrangement.VoicedChord;
+import music.chord.arrangement.VoicedChordBuilder;
 import music.chord.command.Command;
 import music.chord.grammar.ChordCommandLexer;
 import music.chord.grammar.ChordCommandParser;
@@ -34,8 +33,8 @@ public class Interpreter {
 		ChordVoicer voicer = ChordVoicerFactory.getInstance(
 			"D:\\musicspace\\chordgrammar\\examples\\voicings.txt");
 		List<VoicedChord> chordList = new ArrayList<VoicedChord>();
-		TriadBuilder triadBuilder = BuilderFactory.getTriadBuilder();
-		SeventhBuilder seventhBuilder = BuilderFactory.getSeventhBuilder(triadBuilder);
+		VoicedChordBuilder triadBuilder = BuilderFactory.getTriadBuilder();
+		VoicedChordBuilder seventhBuilder = BuilderFactory.getSeventhBuilder();
 		
 		while(true) {
 			line = scanner.nextLine();
