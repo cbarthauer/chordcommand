@@ -5,13 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import music.chord.base.ChordMember;
 import music.chord.base.Duration;
+import music.chord.base.NoteName;
 import music.chord.base.VoicePart;
 import music.chord.decorator.Chord;
-import music.chord.decorator.ForwardingChord;
 
 
-class ConcreteChord extends ForwardingChord implements VoicedChord {	
+final class ConcreteChord implements Chord, VoicedChord {	
 	private List<Note> noteList;
 	private Voicing voicing;
 	private Duration duration;
@@ -19,6 +20,7 @@ class ConcreteChord extends ForwardingChord implements VoicedChord {
     private Map<VoicePart, Note> voicePartMap;
     private List<VoicePart> partList;
     private String symbol;
+    private Chord chord;
 
 	ConcreteChord(
 	        Chord chord, 
@@ -28,17 +30,17 @@ class ConcreteChord extends ForwardingChord implements VoicedChord {
 	        List<VoicePart> partList,
 	        String symbol) {
 	    
-		super(chord);
+		this.chord = chord;
 		this.voicing = voicing;
 		this.noteList = voicing.voice(chord, octave, duration);
 		this.duration = duration;
 		this.octave = octave;
 		this.partList = partList;
 		this.voicePartMap = initVoicePartMap(partList, noteList);
-		this.symbol = symbol;
+		this.symbol = symbol;		
 	}
 
-	@Override
+    @Override
 	public final int difference(VoicedChord chord) {
 		List<Note> list1 = this.noteList; 
 		List<Note> list2 = chord.getNoteList();
@@ -56,12 +58,12 @@ class ConcreteChord extends ForwardingChord implements VoicedChord {
 		
 		return result;
 	}
-	
-	@Override
+    
+    @Override
 	public final Duration getDuration() {
 		return duration;
 	}
-
+	    
 	@Override
 	public final List<Integer> getMidiNumberList() {
 		List<Integer> midiNumberList = new ArrayList<Integer>();
@@ -77,7 +79,7 @@ class ConcreteChord extends ForwardingChord implements VoicedChord {
 	public final List<Note> getNoteList() {
 		return new ArrayList<Note>(noteList);
 	}
-	
+
 	@Override
     public final int getOctave() {
         return octave;
@@ -87,7 +89,7 @@ class ConcreteChord extends ForwardingChord implements VoicedChord {
     public final String getSymbol() {
         return symbol;
     }
-
+	
 	@Override
 	public final int getTicks(int ppq) {
 	    float conversionFactor = duration.getPpqConversionFactor();
@@ -99,7 +101,7 @@ class ConcreteChord extends ForwardingChord implements VoicedChord {
         return new ArrayList<VoicePart>(partList);
     }
 
-    @Override
+	@Override
     public final Voicing getVoicing() {
 		return voicing;
 	}
@@ -107,6 +109,16 @@ class ConcreteChord extends ForwardingChord implements VoicedChord {
     @Override
     public final Note noteFromVoicePart(VoicePart part) {
         return voicePartMap.get(part);
+    }
+
+    @Override
+    public final NoteName noteNameFromChordMember(ChordMember chordMember) {
+        return chord.noteNameFromChordMember(chordMember);
+    }
+
+    @Override
+    public final String toString() {
+        return chord.toString();
     }
 
     private Map<VoicePart, Note> initVoicePartMap(List<VoicePart> partList,

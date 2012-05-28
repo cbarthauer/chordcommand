@@ -1,5 +1,6 @@
 package music.chord.arrangement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import music.chord.base.ChordSpec;
@@ -59,6 +60,15 @@ public class VoicedChordBuilder implements ChordBuilder {
         return result;
     }
     
+    public VoicedChordBuilder setChord(VoicedChord chord) {
+        this.currentDuration = chord.getDuration();
+        this.currentVoicing = chord.getVoicing();
+        this.currentOctave = chord.getOctave();
+        this.currentPartList = chord.getVoicePartList();
+        this.symbol = chord.getSymbol();
+        return this;
+    }
+    
     public VoicedChordBuilder setChordSpec(ChordSpec spec) {
         this.currentChordSpec = spec;
         return this;
@@ -81,6 +91,11 @@ public class VoicedChordBuilder implements ChordBuilder {
 
     public VoicedChordBuilder setSymbol(String symbol) {
         this.symbol = symbol;
+        return this;
+    }
+    
+    public VoicedChordBuilder setVoicePartList(List<VoicePart> partList) {
+        partList = new ArrayList<VoicePart>(partList);
         return this;
     }
     
