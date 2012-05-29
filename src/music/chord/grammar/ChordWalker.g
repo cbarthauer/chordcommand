@@ -63,6 +63,7 @@ voicingDef
 voicingTypeList 
     : ^(TRIADS (currentList=chordMemberList {voicingManager.addTriadVoicing($currentList.voicing);})+)
     | ^(SEVENTHS (currentList=chordMemberList {voicingManager.addSeventhVoicing($currentList.voicing);})+)
+    | ^(NINTHS (currentList=chordMemberList {voicingManager.addNinthVoicing($currentList.voicing);})+)
     ;
     
 chordMemberList returns [Voicing voicing]
@@ -133,5 +134,6 @@ chordMember returns [String name]
     | THIRD {name = "THIRD";}
     | FIFTH {name = "FIFTH";}
     | SEVENTH {name = "SEVENTH";}
+    | NINTH {name = "NINTH";}
     ;
     

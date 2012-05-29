@@ -2,6 +2,7 @@ package music.chord.grammar;
 
 import java.util.List;
 
+import music.chord.arrangement.NinthVoicing;
 import music.chord.arrangement.SeventhVoicing;
 import music.chord.arrangement.TriadVoicing;
 import music.chord.arrangement.Voicing;
@@ -13,7 +14,10 @@ class VoicingFactory {
         
         Voicing voicing = null;
         
-        if(chordMemberList.contains(ChordMember.SEVENTH)) {
+        if(chordMemberList.contains(ChordMember.NINTH)) {
+            voicing = new NinthVoicing();
+        }
+        else if(chordMemberList.contains(ChordMember.SEVENTH)) {
             voicing = new SeventhVoicing();
         }
         else {

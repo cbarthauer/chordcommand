@@ -27,6 +27,7 @@ options {
   import music.chord.base.QualitySymbol;
   import music.chord.base.SeventhQuality;
   import music.chord.base.TriadQuality;
+  import music.chord.base.NinthQuality;
   import music.chord.base.VoicePart;
   
   import music.chord.command.AddChord;
@@ -51,6 +52,7 @@ options {
   List<Command> commandList = new ArrayList<Command>();
   VoicedChordBuilder triadBuilder;  
   VoicedChordBuilder seventhBuilder;
+  VoicedChordBuilder ninthBuilder;
   DerivedChordBuilder derivedBuilder = new DerivedChordBuilder();
   List<VoicedChord> chordList;
   ChordPlayer player;
@@ -68,6 +70,10 @@ options {
   public void setChordPlayer(ChordPlayer player) {
     this.player = player;
   }  
+  
+  public void setNinthBuilder(VoicedChordBuilder ninthBuilder) {
+    this.ninthBuilder = ninthBuilder;
+  }
   
   public void setSeventhBuilder(VoicedChordBuilder seventhBuilder) {
     this.seventhBuilder = seventhBuilder;
@@ -111,6 +117,7 @@ DIMINISHED_SEVEN : 'dim7';
 MINOR_SEVEN : 'm7';
 MAJOR_SEVEN : 'M7';
 DOMINANT_SEVEN : 'dom7';
+DOMINANT_NINE : 'dom9';
 
 //Chord member tokens.
 ROOT : 'root';
@@ -307,7 +314,13 @@ chordSpec returns [VoicedChord chord]
                 .setChordSpec(SeventhQuality.DIMINISHED.getChordSpec())
                 .setSymbol($NOTE_NAME.text + $DIMINISHED_SEVEN.text)
                 .buildVoicedChord();
-         }    
+         }   
+    | NOTE_NAME DOMINANT_NINE {chord =
+            ninthBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
+                .setChordSpec(NinthQuality.DOMINANT.getChordSpec())
+                .setSymbol($NOTE_NAME.text + $DOMINANT_NINE.text)
+                .buildVoicedChord();
+         } 
     ;
     
 chordMember returns [String name]

@@ -35,6 +35,7 @@ public class Interpreter {
 		List<VoicedChord> chordList = new ArrayList<VoicedChord>();
 		VoicedChordBuilder triadBuilder = BuilderFactory.getTriadBuilder();
 		VoicedChordBuilder seventhBuilder = BuilderFactory.getSeventhBuilder();
+		VoicedChordBuilder ninthBuilder = BuilderFactory.getNinthBuilder();
 		
 		while(true) {
 			line = scanner.nextLine();
@@ -47,6 +48,7 @@ public class Interpreter {
 			parser.setChordPlayer(new ChordPlayer());
 			parser.setTriadBuilder(triadBuilder);
 			parser.setSeventhBuilder(seventhBuilder);
+			parser.setNinthBuilder(ninthBuilder);
 			parser.setVoicePartPlayer(new VoicePartPlayer());
 			
 			List<Command> commandList = commandListFromParser(parser);

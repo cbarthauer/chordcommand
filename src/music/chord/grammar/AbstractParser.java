@@ -29,6 +29,8 @@ public abstract class AbstractParser extends Parser {
     
     public abstract void setChordPlayer(ChordPlayer player);
     
+    public abstract void setNinthBuilder(VoicedChordBuilder ninthBuilder);
+    
     public abstract void setSeventhBuilder(VoicedChordBuilder seventhBuilder);
     
     public abstract void setTriadBuilder(VoicedChordBuilder triadBuilder);

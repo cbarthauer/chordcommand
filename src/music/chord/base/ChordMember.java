@@ -1,7 +1,7 @@
 package music.chord.base;
 
 public enum ChordMember {
-	ROOT, THIRD, FIFTH, SEVENTH;
+	ROOT, THIRD, FIFTH, SEVENTH, NINTH;
 	
 	public static ChordMember memberFromName(String name) {
 		ChordMember result = null;

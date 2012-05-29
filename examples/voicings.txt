@@ -15,5 +15,11 @@ voicings {
     {fifth, root, third, seventh},
     {fifth, third, seventh, root},
     {third, fifth, seventh, root}
+  ],
+  ninths: [
+    {root, seventh, ninth, third},
+    {root, third, ninth, seventh},
+    {root, ninth, third, seventh},
+    {root, third, seventh, ninth}
   ]
 }

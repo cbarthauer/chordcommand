@@ -56,10 +56,12 @@ ROOT : 'root';
 THIRD : 'third';
 FIFTH : 'fifth';
 SEVENTH : 'seventh';
+NINTH : 'ninth';
 
 //Chord types.
 TRIADS : 'triads';
 SEVENTHS : 'sevenths';
+NINTHS : 'ninths';
 
 UNIT : 'unit';
 VOICING : 'voicing';
@@ -90,6 +92,11 @@ voicingTypeList
         (',' chordMemberList)*    
       END_LIST
       -> ^(SEVENTHS chordMemberList+)
+    | NINTHS ':' START_LIST
+        chordMemberList
+        (',' chordMemberList)*
+      END_LIST
+      -> ^(NINTHS chordMemberList+)
     ;
     
 chordMemberList
@@ -137,4 +144,5 @@ chordMember : ROOT
     | THIRD
     | FIFTH
     | SEVENTH
+    | NINTH
     ;
