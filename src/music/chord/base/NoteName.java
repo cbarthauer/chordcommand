@@ -27,10 +27,11 @@ public final class NoteName {
 	}
 	
 	public final NoteName up(Interval interval) {
-		return new NoteName(
-			calculator.upChromaticBy(interval.getHalfSteps())
-				.upDiatonicBy(interval.getDiatonicSteps())
-				.result());
+	    NoteName noteName = new NoteName(
+            calculator.upChromaticBy(interval.getHalfSteps())
+                .upDiatonicBy(interval.getDiatonicSteps())
+                .result());
+		return noteName;
 	}	
 	
 	public final int getChromaticIndex() {

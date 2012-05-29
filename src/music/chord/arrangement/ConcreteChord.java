@@ -42,21 +42,7 @@ final class ConcreteChord implements Chord, VoicedChord {
 
     @Override
 	public final int difference(VoicedChord chord) {
-		List<Note> list1 = this.noteList; 
-		List<Note> list2 = chord.getNoteList();
-		
-		if(list1.size() != list2.size()) { 
-			throw new IllegalArgumentException(
-					"Difference can only be computed on lists of the same size."); 
-		}
-		
-		int result = 0;
-		
-		for(int i = 0; i < list1.size(); i++) {
-			result = result + Math.abs(list1.get(i).getMidiNumber() - list2.get(i).getMidiNumber());
-		}
-		
-		return result;
+		return VoicedChordCalculator.difference(this, chord);
 	}
     
     @Override

@@ -12,7 +12,12 @@ public class IntervalDirective {
     }
     
     public NoteName calculate(NoteName root) {
-        return root.up(interval);
+        NoteName noteName = root.up(interval);
+        return noteName;
+    }
+    
+    public String toString() {
+        return "IntervalDirective.toString(): Up " + interval;
     }
 
 }
