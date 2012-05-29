@@ -11,8 +11,6 @@ options {
   import java.util.List;
   
   import music.chord.arrangement.ChordPlayer;
-  import music.chord.arrangement.SeventhVoicing;
-  import music.chord.arrangement.TriadVoicing;
   import music.chord.arrangement.VoicedChord;
   import music.chord.arrangement.Voicing;
   import music.chord.arrangement.DerivedChordBuilder;

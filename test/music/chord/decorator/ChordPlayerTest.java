@@ -7,11 +7,12 @@ import music.chord.arrangement.ChordPlayer;
 import music.chord.arrangement.ChordVoicer;
 import music.chord.arrangement.ClosestVoicingStrategy;
 import music.chord.arrangement.DerivedChordBuilder;
-import music.chord.arrangement.SeventhVoicing;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.VoicedChordBuilder;
 import music.chord.arrangement.Voicing;
+import music.chord.arrangement.VoicingImpl;
 import music.chord.arrangement.VoicingManager;
+import music.chord.arrangement.VoicingValidator;
 import music.chord.base.ChordMember;
 import music.chord.base.Duration;
 import music.chord.base.NoteName;
@@ -26,7 +27,7 @@ public class ChordPlayerTest {
 	public void testPlay() {
 	    VoicedChordBuilder seventhBuilder = new VoicedChordBuilder(
 	           SeventhQuality.DOMINANT.getChordSpec(), 
-		       new SeventhVoicing(),
+		       new VoicingImpl(VoicingValidator.SEVENTH_VALIDATOR),
 		       OCTAVE,
 		       Duration.QUARTER,
 		       VoicePart.barbershopDefault());
@@ -36,7 +37,7 @@ public class ChordPlayerTest {
 			.buildVoicedChord();
 		chordList.add(chord1);
 		
-		Voicing voicing1 = new SeventhVoicing();
+		Voicing voicing1 = new VoicingImpl(VoicingValidator.SEVENTH_VALIDATOR);
 		voicing1.addChordMember(ChordMember.FIFTH);
 		voicing1.addChordMember(ChordMember.ROOT);
 		voicing1.addChordMember(ChordMember.THIRD);

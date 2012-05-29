@@ -3,6 +3,8 @@ package music.chord.arrangement;
 import java.util.ArrayList;
 import java.util.List;
 
+import music.chord.base.ChordMember;
+
 public class VoicingManager {
 	private List<Voicing> triadVoicingList;
 	private List<Voicing> seventhVoicingList;
@@ -47,13 +49,13 @@ public class VoicingManager {
 	}
     
 	public List<Voicing> voicingListFromVoicing(Voicing voicing) {
-        if(voicing instanceof SeventhVoicing) {
-            return seventhVoicingList;
-        }
-        else if(voicing instanceof NinthVoicing) {
+        if(voicing.contains(ChordMember.NINTH)) {
             return ninthVoicingList;
         }
-        else {
+	    if(voicing.contains(ChordMember.SEVENTH)) {
+            return seventhVoicingList;
+        }
+	    else {
             return triadVoicingList;
         }
     }

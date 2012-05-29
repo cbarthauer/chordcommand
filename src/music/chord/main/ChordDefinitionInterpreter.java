@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import music.chord.arrangement.DerivedChordBuilder;
-import music.chord.arrangement.TriadVoicing;
+import music.chord.arrangement.Voicing;
+import music.chord.arrangement.VoicingImpl;
+import music.chord.arrangement.VoicingValidator;
 import music.chord.base.ChordMember;
 import music.chord.base.ChordSpec;
 import music.chord.base.Interval;
@@ -54,8 +56,8 @@ public class ChordDefinitionInterpreter {
         return result;
     }
 
-    private static TriadVoicing getVoicing() {
-        TriadVoicing voicing = new TriadVoicing();
+    private static Voicing getVoicing() {
+        Voicing voicing = new VoicingImpl(VoicingValidator.TRIAD_VALIDATOR);
         voicing.addChordMember(ChordMember.THIRD);
         voicing.addChordMember(ChordMember.ROOT);
         voicing.addChordMember(ChordMember.FIFTH);

@@ -10,20 +10,27 @@ import music.chord.base.NoteName;
 import music.chord.decorator.Chord;
 
 
-abstract class AbstractVoicing implements Voicing {
+public class VoicingImpl implements Voicing {
 	
     private List<ChordMember> chordMemberList;
+    private VoicingValidator validator;
 	
 	
-	AbstractVoicing() {
+    public VoicingImpl(VoicingValidator validator) {
 		chordMemberList = new ArrayList<ChordMember>();
+		this.validator = validator;
 	}
 	
 	public final void addChordMember(ChordMember member) {
-		validateChordMember(member);
+		validator.validateChordMember(member);
 		chordMemberList.add(member);
 	}
 	
+	@Override
+    public boolean contains(ChordMember member) {
+        return chordMemberList.contains(member);
+    }
+
 	public final String toString() {
 		return chordMemberList.toString();
 	}
@@ -46,7 +53,7 @@ abstract class AbstractVoicing implements Voicing {
 		return builder.getNoteList();
 	}
 
-	private int placeAbove(int upper, int lower) {
+    private int placeAbove(int upper, int lower) {
 		int result = upper;
 		
 		while(result <= lower) {
@@ -55,6 +62,4 @@ abstract class AbstractVoicing implements Voicing {
 		
 		return result;
 	}
-	
-	abstract void validateChordMember(ChordMember member);
 }

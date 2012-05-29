@@ -2,10 +2,9 @@ package music.chord.grammar;
 
 import java.util.List;
 
-import music.chord.arrangement.NinthVoicing;
-import music.chord.arrangement.SeventhVoicing;
-import music.chord.arrangement.TriadVoicing;
 import music.chord.arrangement.Voicing;
+import music.chord.arrangement.VoicingImpl;
+import music.chord.arrangement.VoicingValidator;
 import music.chord.base.ChordMember;
 
 class VoicingFactory {
@@ -15,13 +14,13 @@ class VoicingFactory {
         Voicing voicing = null;
         
         if(chordMemberList.contains(ChordMember.NINTH)) {
-            voicing = new NinthVoicing();
+            voicing = new VoicingImpl(VoicingValidator.NINTH_VALIDATOR);
         }
         else if(chordMemberList.contains(ChordMember.SEVENTH)) {
-            voicing = new SeventhVoicing();
+            voicing = new VoicingImpl(VoicingValidator.SEVENTH_VALIDATOR);
         }
         else {
-            voicing = new TriadVoicing();
+            voicing = new VoicingImpl(VoicingValidator.TRIAD_VALIDATOR);
         }  
       
         for(ChordMember currentMember : chordMemberList) {
