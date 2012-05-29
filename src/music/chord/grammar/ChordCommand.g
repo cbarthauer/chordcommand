@@ -116,6 +116,8 @@ MINOR_SEVEN : 'm7';
 MAJOR_SEVEN : 'M7';
 DOMINANT_SEVEN : 'dom7';
 DOMINANT_NINE : 'dom9';
+MINOR_NINE : 'm9';
+MAJOR_NINE : 'M9';
 
 //Chord member tokens.
 ROOT : 'root';
@@ -319,6 +321,18 @@ chordSpec returns [VoicedChord chord]
                 .setSymbol($NOTE_NAME.text + $DOMINANT_NINE.text)
                 .buildVoicedChord();
          } 
+    | NOTE_NAME MINOR_NINE {chord =
+            ninthBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
+                .setChordSpec(NinthQuality.MINOR.getChordSpec())
+                .setSymbol($NOTE_NAME.text + $MINOR_NINE.text)
+                .buildVoicedChord();
+         }
+    | NOTE_NAME MAJOR_NINE {chord =
+            ninthBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
+                .setChordSpec(NinthQuality.MAJOR.getChordSpec())
+                .setSymbol($NOTE_NAME.text + $MAJOR_NINE.text)
+                .buildVoicedChord();
+         }
     ;
     
 chordMember returns [String name]
