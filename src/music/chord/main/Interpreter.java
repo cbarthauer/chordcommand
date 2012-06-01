@@ -11,6 +11,8 @@ import music.chord.arrangement.ChordVoicerFactory;
 import music.chord.arrangement.VoicePartPlayer;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.VoicedChordBuilder;
+import music.chord.base.ChordDefinitionStructure;
+import music.chord.base.ChordDefinitionStructureFactory;
 import music.chord.command.Command;
 import music.chord.grammar.ChordCommandLexer;
 import music.chord.grammar.ChordCommandParser;
@@ -30,8 +32,9 @@ public class Interpreter {
 	public static void main(String[] args) throws IOException, RecognitionException {
 		Scanner scanner = new Scanner(System.in);
 		String line = "";
-		ChordVoicer voicer = ChordVoicerFactory.getInstance(
-			"D:\\musicspace\\chordgrammar\\examples\\voicings.txt");
+		ChordDefinitionStructure struct = ChordDefinitionStructureFactory.getInstance(
+		        "D:\\musicspace\\chordgrammar\\definitions\\chords.txt");
+		ChordVoicer voicer = ChordVoicerFactory.getInstance(struct);
 		List<VoicedChord> chordList = new ArrayList<VoicedChord>();
 		VoicedChordBuilder triadBuilder = BuilderFactory.getTriadBuilder();
 		VoicedChordBuilder seventhBuilder = BuilderFactory.getSeventhBuilder();
@@ -43,6 +46,7 @@ public class Interpreter {
 			ChordCommandLexer lexer = new ChordCommandLexer(charStream);
 			TokenStream tokenStream = new CommonTokenStream(lexer);
 			ChordCommandParser parser = new ChordCommandParser(tokenStream);
+			parser.setChordDefinitionStructure(struct);
 			parser.setChordList(chordList);
 			parser.setChordVoicer(voicer);
 			parser.setChordPlayer(new ChordPlayer());

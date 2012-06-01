@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import music.chord.arrangement.DerivedChordBuilder;
 import music.chord.arrangement.Voicing;
 import music.chord.arrangement.VoicingImpl;
 import music.chord.arrangement.VoicingValidator;
+import music.chord.base.ChordDefinitionStructure;
 import music.chord.base.ChordMember;
 import music.chord.base.ChordSpec;
 import music.chord.base.Interval;
@@ -40,10 +40,10 @@ public class ChordDefinitionInterpreter {
         ChordDefinitionLexer lexer = new ChordDefinitionLexer(charStream);
         TokenStream tokenStream = new CommonTokenStream(lexer);
         ChordDefinitionParser parser = new ChordDefinitionParser(tokenStream);
-        parser.program();
-        System.out.println("Done.");
+        ChordDefinitionStructure struct = parser.program();
+        System.out.println(struct.toString());
         
-        DerivedChordBuilder builder = new DerivedChordBuilder();
+//        DerivedChordBuilder builder = new DerivedChordBuilder();
 //        builder.setChord(getMajorChord(NoteName.forSymbol("Bb")));
     }
     

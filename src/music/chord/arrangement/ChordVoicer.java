@@ -3,16 +3,18 @@ package music.chord.arrangement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChordVoicer {
+import music.chord.base.ChordDefinitionStructure;
+
+public final class ChordVoicer {
 	private VoicingStrategy strategy;
-    private VoicingManager manager;
+    private ChordDefinitionStructure struct;
 	
-	public ChordVoicer(VoicingStrategy strategy, VoicingManager manager) {	    
+	public ChordVoicer(VoicingStrategy strategy, ChordDefinitionStructure struct) {	    
 		this.strategy = strategy;
-		this.manager = manager;
+		this.struct = struct;
 	}
 	
-	public List<VoicedChord> voice(List<VoicedChord> chordList) {
+	public final List<VoicedChord> voice(List<VoicedChord> chordList) {
 		List<VoicedChord> result = new ArrayList<VoicedChord>();
 		
 		if(chordList.size() == 1) {
@@ -25,7 +27,7 @@ public class ChordVoicer {
 		return result;
 	}
 	
-	public List<VoicedChord> voice(VoicedChord startingChord, List<VoicedChord> chordList) {
+	public final List<VoicedChord> voice(VoicedChord startingChord, List<VoicedChord> chordList) {
 		List<VoicedChord> result = new ArrayList<VoicedChord>();
 		result.add(startingChord);
 		
@@ -35,7 +37,7 @@ public class ChordVoicer {
 			VoicedChord voicedChord = strategy.voice(
 			        previousChord, 
 			        chord, 
-			        manager.voicingListFromVoicing(chord.getVoicing()));
+			        struct.getCongruentVoicings(chord.getVoicing()));
 			result.add(voicedChord);
 			previousChord = voicedChord;
 		}
@@ -44,14 +46,14 @@ public class ChordVoicer {
 		return result;
 	}
 	
-	public List<VoicingComparison> voicingComparisonList(
+	public final List<VoicingComparison> voicingComparisonList(
 			VoicedChord previousChord, 
 			VoicedChord newChord) {
 		
 		return strategy.voicingComparisonList(
 	        previousChord, 
 	        newChord, 
-	        manager.voicingListFromVoicing(newChord.getVoicing())
+	        struct.getCongruentVoicings(newChord.getVoicing())
 	    );
 	}
 }

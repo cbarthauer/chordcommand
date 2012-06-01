@@ -23,6 +23,12 @@ Begin
     [root,
     up m3 to third,
     up dim5 to fifth]
+    
+  Quality: Suspended
+  Intervallic Structure:
+    [root,
+    up P4 to third,
+    up P5 to fifth]
   
   Voicings:
     [[fifth, root, third, fifth],
@@ -31,5 +37,91 @@ Begin
     [root, third, fifth, root],
     [root, fifth, third, root],
     [fifth, third, fifth, root]]
-
 End Triad
+
+Define Seventh
+Begin
+  Quality: Dominant
+  Intervallic Structure:
+    [root,
+    up M3 to third,
+    up P5 to fifth,
+    up m7 to seventh]
+    
+  Quality: Minor
+  Intervallic Structure:
+    [root,
+    up m3 to third,
+    up P5 to fifth,
+    up m7 to seventh]
+  
+  Quality: Major
+  Intervallic Structure:
+    [root,
+    up M3 to third,
+    up P5 to fifth,
+    up M7 to seventh]
+    
+  Quality: Half_Diminished
+  Intervallic Structure:
+    [root,
+    up m3 to third,
+    up dim5 to fifth,
+    up m7 to seventh]
+    
+  Quality: Diminished
+  Intervallic Structure:
+    [root,
+    up m3 to third,
+    up dim5 to fifth,
+    up dim7 to seventh]
+
+  Quality: Suspended
+  Intervallic Structure:
+    [root,
+    up P4 to third,
+    up P5 to fifth,
+    up m7 to seventh]
+        
+  Voicings:
+    [[root, third, fifth, seventh],
+    [root, fifth, seventh, third],
+    [root, seventh, third, fifth],
+    [fifth, seventh, root, third],
+    [fifth, root, third, seventh],
+    [fifth, third, seventh, root],
+    [third, fifth, seventh, root]]
+End Seventh
+
+Define Ninth
+Begin
+  Quality: Dominant
+  Intervallic Structure:
+    [root,
+    up M3 to third,
+    up P5 to fifth,
+    up m7 to seventh,
+    up M9 to ninth]
+    
+  Quality: Minor
+  Intervallic Structure:
+    [root,
+    up m3 to third,
+    up P5 to fifth,
+    up m7 to seventh,
+    up M9 to ninth]
+
+  Quality: Major
+  Intervallic Structure:
+    [root,
+    up M3 to third,
+    up P5 to fifth,
+    up M7 to seventh,
+    up M9 to ninth]
+          
+  Voicings:
+    [[root, seventh, ninth, third],
+    [root, third, ninth, seventh],
+    [root, ninth, third, seventh],
+    [root, third, seventh, ninth]]
+End Ninth

@@ -10,7 +10,7 @@ import music.chord.base.NoteName;
 import music.chord.decorator.Chord;
 
 
-public class VoicingImpl implements Voicing {
+public final class VoicingImpl implements Voicing {
 	
     private List<ChordMember> chordMemberList;
     private VoicingValidator validator;
@@ -27,15 +27,29 @@ public class VoicingImpl implements Voicing {
 	}
 	
 	@Override
-    public boolean contains(ChordMember member) {
+    public final boolean contains(ChordMember member) {
         return chordMemberList.contains(member);
     }
 
-	public final String toString() {
+	@Override
+    public final List<ChordMember> getChordMembers() {
+        return new ArrayList<ChordMember>(chordMemberList);
+    }
+
+	@Override
+    public final boolean isCongruentTo(Voicing voicing) {
+        List<ChordMember> otherMembers = voicing.getChordMembers();
+        return chordMemberList.containsAll(otherMembers) 
+                && otherMembers.containsAll(chordMemberList);
+    }
+
+	@Override
+    public final String toString() {
 		return chordMemberList.toString();
 	}
 
-	public final List<Note> voice(Chord chord, int octave, Duration duration) {
+	@Override
+    public final List<Note> voice(Chord chord, int octave, Duration duration) {
 		if(chord == null) throw new IllegalArgumentException("Chord cannot be null.");
 		
 		NoteListBuilder builder = new NoteListBuilder();

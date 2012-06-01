@@ -8,6 +8,7 @@ import music.chord.arrangement.VoicePartPlayer;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.VoicedChordBuilder;
 import music.chord.arrangement.Voicing;
+import music.chord.base.ChordDefinitionStructure;
 import music.chord.base.ChordMember;
 
 import org.antlr.runtime.Parser;
@@ -22,6 +23,8 @@ public abstract class AbstractParser extends Parser {
     public AbstractParser(TokenStream input, RecognizerSharedState state) {
         super(input, state);
     }
+    
+    public abstract void setChordDefinitionStructure(ChordDefinitionStructure struct);
     
     public abstract void setChordList(List<VoicedChord> chordList);
     

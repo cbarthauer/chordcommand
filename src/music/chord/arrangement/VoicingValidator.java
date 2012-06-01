@@ -32,6 +32,7 @@ public class VoicingValidator {
         ninthList.add(ChordMember.NINTH);
         NINTH_VALIDATOR = new VoicingValidator(ninthList);
     }
+    
     private List<ChordMember> validMemberList;
     
     public VoicingValidator(List<ChordMember> validMemberList) {

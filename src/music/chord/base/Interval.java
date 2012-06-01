@@ -4,6 +4,7 @@ public enum Interval {
 //	                   chromaticHalfSteps diatonicSteps
 	MINOR_THIRD(       3,                 2),
 	MAJOR_THIRD(       4,                 2),
+	PERFECT_FOURTH(    5,                 3),
 	DIMINISHED_FIFTH(  6,                 4),
 	PERFECT_FIFTH(     7,                 4),
 	AUGMENTED_FIFTH(   8,                 4),

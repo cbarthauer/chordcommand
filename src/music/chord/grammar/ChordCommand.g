@@ -18,10 +18,12 @@ options {
   import music.chord.arrangement.VoicePartPlayer;
   import music.chord.arrangement.VoicedChordBuilder;
   
+  import music.chord.base.ChordDefinitionStructure;
   import music.chord.base.ChordMember;
   import music.chord.base.Duration;
   import music.chord.base.Interval;
   import music.chord.base.NoteName;
+  import music.chord.base.Quality;
   import music.chord.base.QualitySymbol;
   import music.chord.base.SeventhQuality;
   import music.chord.base.TriadQuality;
@@ -56,6 +58,11 @@ options {
   ChordPlayer player;
   ChordVoicer voicer;
   VoicePartPlayer voicePartPlayer;
+  ChordDefinitionStructure struct;
+  
+  public void setChordDefinitionStructure(ChordDefinitionStructure struct) {
+    this.struct = struct;
+  }
   
   public void setChordList(List<VoicedChord> chordList) {
     this.chordList = chordList;
@@ -107,14 +114,21 @@ ACCIDENTAL
     :   'b' | '#' | 'n'
     ;
 
-QUALITY : '+' | 'M' | 'm' | 'dim';
+//QUALITY : '+' | 'M' | 'm' | 'dim';
 
 //Chord qualities.
+MAJOR : 'M';
+MINOR : 'm';
+AUGMENTED : '+';
+DIMINISHED : 'dim';
+SUSPENDED : 'sus';
 MINOR_SIX : 'm6';
 DIMINISHED_SEVEN : 'dim7';
 MINOR_SEVEN : 'm7';
 MAJOR_SEVEN : 'M7';
 DOMINANT_SEVEN : 'dom7';
+HALF_DIMINISHED_SEVEN : 'hdim7';
+SUSPENDED_SEVEN : 'sus7';
 DOMINANT_NINE : 'dom9';
 MINOR_NINE : 'm9';
 MAJOR_NINE : 'M9';
@@ -124,6 +138,7 @@ ROOT : 'root';
 THIRD : 'third';
 FIFTH : 'fifth';
 SEVENTH : 'seventh';
+NINTH : 'ninth';
 
 //Chord types.
 TRIADS : 'triads';
@@ -273,73 +288,38 @@ chord returns [VoicedChord chord]
     ;
     
 chordSpec returns [VoicedChord chord]
-    : NOTE_NAME QUALITY{ chord =
+    : NOTE_NAME tquality=triadQuality { chord =
             triadBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setChordSpec(TriadQuality.qualityFromSymbol($QUALITY.text).getChordSpec())
-                .setSymbol($NOTE_NAME.text + $QUALITY.text)
+                .setChordSpec(struct.getChordSpec("Triad", $tquality.value))
+                .setSymbol($NOTE_NAME.text + $tquality.text)
                 .buildVoicedChord();
          }
     | NOTE_NAME {chord =
             triadBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setChordSpec(TriadQuality.MAJOR.getChordSpec())
+                .setChordSpec(struct.getChordSpec("Triad", Quality.MAJOR))
                 .setSymbol($NOTE_NAME.text)
                 .buildVoicedChord();
          }
-    | NOTE_NAME DOMINANT_SEVEN {chord =
+    | NOTE_NAME squality=seventhQuality {chord =
             seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setChordSpec(SeventhQuality.DOMINANT.getChordSpec())
-                .setSymbol($NOTE_NAME.text + $DOMINANT_SEVEN.text)
+                .setChordSpec(struct.getChordSpec("Seventh", $squality.value))
+                .setSymbol($NOTE_NAME.text + $squality.text)
                 .buildVoicedChord();
          }
-    | NOTE_NAME MINOR_SEVEN {chord =
-            seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setChordSpec(SeventhQuality.MINOR.getChordSpec())
-                .setSymbol($NOTE_NAME.text + $MINOR_SEVEN.text)
-                .buildVoicedChord();
-         }
-    | NOTE_NAME MAJOR_SEVEN {chord =
-            seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setChordSpec(SeventhQuality.MAJOR.getChordSpec())
-                .setSymbol($NOTE_NAME.text + $MAJOR_SEVEN.text)
-                .buildVoicedChord();
-         }
-    | NOTE_NAME MINOR_SIX {chord =
-            seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text).up(Interval.MAJOR_SIXTH))
-                .setChordSpec(SeventhQuality.HALF_DIMINISHED.getChordSpec())
-                .setSymbol($NOTE_NAME.text + $MINOR_SIX.text)
-                .buildVoicedChord();
-         }
-    | NOTE_NAME DIMINISHED_SEVEN {chord =
-            seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setChordSpec(SeventhQuality.DIMINISHED.getChordSpec())
-                .setSymbol($NOTE_NAME.text + $DIMINISHED_SEVEN.text)
-                .buildVoicedChord();
-         }   
-    | NOTE_NAME DOMINANT_NINE {chord =
+    | NOTE_NAME nquality=ninthQuality {chord =
             ninthBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setChordSpec(NinthQuality.DOMINANT.getChordSpec())
-                .setSymbol($NOTE_NAME.text + $DOMINANT_NINE.text)
-                .buildVoicedChord();
-         } 
-    | NOTE_NAME MINOR_NINE {chord =
-            ninthBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setChordSpec(NinthQuality.MINOR.getChordSpec())
-                .setSymbol($NOTE_NAME.text + $MINOR_NINE.text)
-                .buildVoicedChord();
-         }
-    | NOTE_NAME MAJOR_NINE {chord =
-            ninthBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setChordSpec(NinthQuality.MAJOR.getChordSpec())
-                .setSymbol($NOTE_NAME.text + $MAJOR_NINE.text)
+                .setChordSpec(struct.getChordSpec("Ninth", $nquality.value))
+                .setSymbol($NOTE_NAME.text + $nquality.text)
                 .buildVoicedChord();
          }
     ;
-    
+
 chordMember returns [String name]
     : ROOT {name = "ROOT";}
     | THIRD {name = "THIRD";}
     | FIFTH {name = "FIFTH";}
     | SEVENTH {name = "SEVENTH";}
+    | NINTH {name = "NINTH";}
     ;
     
 voicePart returns [String name]
@@ -347,4 +327,27 @@ voicePart returns [String name]
     | BARITONE {name = "BARITONE";}
     | LEAD {name = "LEAD";}
     | TENOR {name = "TENOR";}
+    ;
+    
+triadQuality returns [Quality value]
+    : MAJOR { $value = Quality.MAJOR; }
+    | MINOR { $value = Quality.MINOR; }
+    | AUGMENTED { $value = Quality.AUGMENTED; }
+    | DIMINISHED { $value = Quality.DIMINISHED; }
+    | SUSPENDED { $value = Quality.SUSPENDED; }
+    ;
+    
+seventhQuality returns [Quality value]
+    : DOMINANT_SEVEN { $value = Quality.DOMINANT; }
+    | MINOR_SEVEN { $value = Quality.MINOR; }
+    | MAJOR_SEVEN { $value = Quality.MAJOR; }
+    | DIMINISHED_SEVEN { $value = Quality.DIMINISHED; }
+    | HALF_DIMINISHED_SEVEN { $value = Quality.HALF_DIMINISHED; }
+    | SUSPENDED_SEVEN { $value = Quality.SUSPENDED; }
+    ;
+    
+ninthQuality returns [Quality value]
+    : DOMINANT_NINE { $value = Quality.DOMINANT; }
+    | MINOR_NINE { $value = Quality.MINOR; }
+    | MAJOR_NINE { $value = Quality.MAJOR; }
     ;

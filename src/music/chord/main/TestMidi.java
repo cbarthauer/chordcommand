@@ -6,10 +6,10 @@ import java.util.List;
 import music.chord.arrangement.ChordPlayer;
 import music.chord.arrangement.ChordProgression;
 import music.chord.arrangement.ChordVoicer;
-import music.chord.arrangement.ClosestVoicingStrategy;
-import music.chord.arrangement.DerivedChordBuilder;
+import music.chord.arrangement.ChordVoicerFactory;
 import music.chord.arrangement.VoicedChord;
-import music.chord.arrangement.VoicingManager;
+import music.chord.base.ChordDefinitionStructure;
+import music.chord.base.ChordDefinitionStructureFactory;
 import music.chord.grammar.ChordLexer;
 import music.chord.grammar.ChordParser;
 import music.chord.grammar.ChordParser.compilationUnit_return;
@@ -50,12 +50,10 @@ public class TestMidi {
 		
 		ChordProgression progression = walker.compilationUnit();
 		List<VoicedChord> chordList = progression.getChordList();
-		VoicingManager voicingManager = progression.getVoicingManager();
 		
-		ChordVoicer voicer = new ChordVoicer(
-            new ClosestVoicingStrategy(new DerivedChordBuilder()),
-            voicingManager
-        );
+		ChordDefinitionStructure struct = ChordDefinitionStructureFactory.getInstance(
+		        "D:\\musicspace\\chordgrammar\\definitions\\chords.txt");
+		ChordVoicer voicer = ChordVoicerFactory.getInstance(struct);
 		
 		List<VoicedChord> voicedChordList = voicer.voice(chordList);
 		ChordPlayer player = new ChordPlayer();
