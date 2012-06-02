@@ -1,11 +1,14 @@
-package music.chord.base;
+package music.chord.arrangement;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import music.chord.arrangement.Voicing;
+import music.chord.base.ChordMember;
+import music.chord.base.ChordSpec;
+import music.chord.base.IntervalDirective;
+import music.chord.base.Quality;
 
 public final class ChordDefinitionStructure {
     private Map<String, Map<Quality, ChordSpec>> chordMap;

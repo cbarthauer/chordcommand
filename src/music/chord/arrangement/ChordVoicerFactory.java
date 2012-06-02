@@ -2,8 +2,6 @@ package music.chord.arrangement;
 
 import java.io.IOException;
 
-import music.chord.base.ChordDefinitionStructure;
-
 import org.antlr.runtime.RecognitionException;
 
 public final class ChordVoicerFactory {

@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.util.List;
 
 import music.chord.arrangement.BuilderFactory;
+import music.chord.arrangement.ChordDefinitionStructure;
 import music.chord.arrangement.ChordPlayer;
 import music.chord.arrangement.ChordProgression;
 import music.chord.arrangement.ChordVoicer;
 import music.chord.arrangement.ChordVoicerFactory;
 import music.chord.arrangement.VoicedChord;
-import music.chord.base.ChordDefinitionStructure;
-import music.chord.base.ChordDefinitionStructureFactory;
+import music.chord.grammar.ChordDefinitionStructureFactory;
 import music.chord.grammar.ChordLexer;
 import music.chord.grammar.ChordParser;
 import music.chord.grammar.ChordParser.compilationUnit_return;

@@ -10,6 +10,7 @@ options {
 
   import java.util.List;
   
+  import music.chord.arrangement.ChordDefinitionStructure;
   import music.chord.arrangement.ChordFinder;
   import music.chord.arrangement.ChordPlayer;
   import music.chord.arrangement.VoicedChord;
@@ -19,7 +20,6 @@ options {
   import music.chord.arrangement.VoicePartPlayer;
   import music.chord.arrangement.VoicedChordBuilder;
   
-  import music.chord.base.ChordDefinitionStructure;
   import music.chord.base.ChordMember;
   import music.chord.base.Duration;
   import music.chord.base.Interval;

@@ -6,17 +6,17 @@ import java.util.List;
 import java.util.Scanner;
 
 import music.chord.arrangement.BuilderFactory;
+import music.chord.arrangement.ChordDefinitionStructure;
 import music.chord.arrangement.ChordPlayer;
 import music.chord.arrangement.ChordVoicer;
 import music.chord.arrangement.ChordVoicerFactory;
 import music.chord.arrangement.VoicePartPlayer;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.VoicedChordBuilder;
-import music.chord.base.ChordDefinitionStructure;
-import music.chord.base.ChordDefinitionStructureFactory;
 import music.chord.command.Command;
 import music.chord.grammar.ChordCommandLexer;
 import music.chord.grammar.ChordCommandParser;
+import music.chord.grammar.ChordDefinitionStructureFactory;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CharStream;

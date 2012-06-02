@@ -4,10 +4,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import music.chord.base.ChordDefinitionStructure;
-import music.chord.base.ChordDefinitionStructureFactory;
 import music.chord.base.ChordMember;
 import music.chord.base.NoteName;
+import music.chord.grammar.ChordDefinitionStructureFactory;
 
 import org.junit.Before;
 import org.junit.Ignore;

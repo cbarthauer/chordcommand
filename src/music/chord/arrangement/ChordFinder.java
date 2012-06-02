@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import music.chord.base.ChordDefinitionStructure;
 import music.chord.base.ChordMember;
 import music.chord.base.ChordSpec;
 import music.chord.base.NoteName;

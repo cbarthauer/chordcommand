@@ -3,8 +3,6 @@ package music.chord.arrangement;
 import java.util.ArrayList;
 import java.util.List;
 
-import music.chord.base.ChordDefinitionStructure;
-
 public final class ChordVoicer {
 	private VoicingStrategy strategy;
     private ChordDefinitionStructure struct;

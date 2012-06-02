@@ -12,9 +12,9 @@ options {
     import java.util.List;
     import java.util.Map;
     
+    import music.chord.arrangement.ChordDefinitionStructure;
     import music.chord.arrangement.Voicing;
     
-    import music.chord.base.ChordDefinitionStructure;
     import music.chord.base.ChordMember;
     import music.chord.base.Interval;
     import music.chord.base.IntervalDirective;

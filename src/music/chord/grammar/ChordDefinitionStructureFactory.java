@@ -1,9 +1,8 @@
-package music.chord.base;
+package music.chord.grammar;
 
 import java.io.IOException;
 
-import music.chord.grammar.ChordDefinitionLexer;
-import music.chord.grammar.ChordDefinitionParser;
+import music.chord.arrangement.ChordDefinitionStructure;
 
 import org.antlr.runtime.ANTLRFileStream;
 import org.antlr.runtime.CharStream;
