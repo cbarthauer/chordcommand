@@ -26,9 +26,6 @@ options {
   import music.chord.base.NoteName;
   import music.chord.base.Quality;
   import music.chord.base.QualitySymbol;
-  import music.chord.base.SeventhQuality;
-  import music.chord.base.TriadQuality;
-  import music.chord.base.NinthQuality;
   import music.chord.base.VoicePart;
   
   import music.chord.command.AddChord;
@@ -116,10 +113,8 @@ NOTE_NAME
     ;
     
 ACCIDENTAL
-    :   'b' | '#' | 'n'
+    :   'b' | '#' | 'bb' | '##'
     ;
-
-//QUALITY : '+' | 'M' | 'm' | 'dim';
 
 //Chord qualities.
 MAJOR : 'M';
@@ -245,7 +240,7 @@ play
       commandList.add(
           new PlayVoicePart(
               chordList, 
-              VoicePart.voicePartFromName($voicePart.name), 
+              $voicePart.value, 
               voicePartPlayer));
   }
   ;
@@ -280,7 +275,7 @@ find
       commandList.add(
           new FindChordsByChordMember(
               NoteName.forSymbol($NOTE_NAME.text), 
-              ChordMember.memberFromName($member.name),
+              $member.value,
               chordFinder
           ));
   }
@@ -296,13 +291,13 @@ find
 chordMemberList returns [Voicing voicing]
     : START_LIST { List<ChordMember> chordMemberList = new ArrayList<ChordMember>(); }
       member1=chordMember 
-        {chordMemberList.add(ChordMember.memberFromName($member1.name));}
+        {chordMemberList.add($member1.value);}
       ',' member2=chordMember 
-        {chordMemberList.add(ChordMember.memberFromName($member2.name));}
+        {chordMemberList.add($member2.value);}
       ',' member3=chordMember 
-        {chordMemberList.add(ChordMember.memberFromName($member3.name));}
+        {chordMemberList.add($member3.value);}
       ',' member4=chordMember 
-        {chordMemberList.add(ChordMember.memberFromName($member4.name));}
+        {chordMemberList.add($member4.value);}
       END_LIST {
           voicing = voicingFromChordMemberList(chordMemberList);
       }
@@ -343,19 +338,12 @@ chordSpec returns [VoicedChord chord]
          }
     ;
 
-chordMember returns [String name]
-    : ROOT {name = "ROOT";}
-    | THIRD {name = "THIRD";}
-    | FIFTH {name = "FIFTH";}
-    | SEVENTH {name = "SEVENTH";}
-    | NINTH {name = "NINTH";}
-    ;
-    
-voicePart returns [String name]
-    : BASS {name = "BASS";}
-    | BARITONE {name = "BARITONE";}
-    | LEAD {name = "LEAD";}
-    | TENOR {name = "TENOR";}
+chordMember returns [ChordMember value]
+    : ROOT {$value = ChordMember.ROOT;}
+    | THIRD {$value = ChordMember.THIRD;}
+    | FIFTH {$value = ChordMember.FIFTH;}
+    | SEVENTH {$value = ChordMember.SEVENTH;}
+    | NINTH {$value = ChordMember.NINTH;}
     ;
     
 triadQuality returns [Quality value]
@@ -379,4 +367,11 @@ ninthQuality returns [Quality value]
     : DOMINANT_NINE { $value = Quality.DOMINANT; }
     | MINOR_NINE { $value = Quality.MINOR; }
     | MAJOR_NINE { $value = Quality.MAJOR; }
+    ;
+    
+voicePart returns [VoicePart value]
+    : BASS {$value = VoicePart.BASS;}
+    | BARITONE {$value = VoicePart.BARITONE;}
+    | LEAD {$value = VoicePart.LEAD;}
+    | TENOR {$value = VoicePart.TENOR;}
     ;
