@@ -3,6 +3,7 @@ package music.chord.main;
 import java.io.IOException;
 import java.util.List;
 
+import music.chord.arrangement.BuilderFactory;
 import music.chord.arrangement.ChordPlayer;
 import music.chord.arrangement.ChordProgression;
 import music.chord.arrangement.ChordVoicer;

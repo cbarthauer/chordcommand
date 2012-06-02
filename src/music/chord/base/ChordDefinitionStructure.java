@@ -70,4 +70,8 @@ public final class ChordDefinitionStructure {
         
         return result;
     }
+
+    public final Map<Quality, ChordSpec> qualityMapFromType(String type) {
+        return new HashMap<Quality, ChordSpec>(chordMap.get(type));
+    }
 }

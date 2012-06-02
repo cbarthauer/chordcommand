@@ -10,6 +10,7 @@ options {
 
   import java.util.List;
   
+  import music.chord.arrangement.ChordFinder;
   import music.chord.arrangement.ChordPlayer;
   import music.chord.arrangement.VoicedChord;
   import music.chord.arrangement.Voicing;
@@ -33,6 +34,8 @@ options {
   import music.chord.command.AddChord;
   import music.chord.command.Command;
   import music.chord.command.Display;
+  import music.chord.command.FindChordsByChordMember;
+  import music.chord.command.FindChordsContainingNoteName;
   import music.chord.command.InsertBefore;
   import music.chord.command.Play;
   import music.chord.command.PlayVoicePart;
@@ -59,9 +62,11 @@ options {
   ChordVoicer voicer;
   VoicePartPlayer voicePartPlayer;
   ChordDefinitionStructure struct;
+  ChordFinder chordFinder;
   
   public void setChordDefinitionStructure(ChordDefinitionStructure struct) {
     this.struct = struct;
+    this.chordFinder = new ChordFinder(struct);
   }
   
   public void setChordList(List<VoicedChord> chordList) {
@@ -158,6 +163,11 @@ ALL : 'all';
 DISPLAY : 'display';
 DURATION : 'duration';
 BEFORE : 'before';
+FIND : 'find';
+CHORDS : 'chords';
+WHERE : 'where';
+IS : 'is';
+CONTAINING : 'containing';
 
 NOTE_LENGTH 
   : 'sixteenth'
@@ -194,6 +204,7 @@ command
   | set
   | quit
   | voice
+  | find
   ;
   
 add
@@ -262,6 +273,24 @@ set
 
 voice
   : VOICE ALL {commandList.add(new VoiceChordList(chordList, voicer));}
+  ;
+  
+find
+  : FIND CHORDS WHERE member=chordMember IS NOTE_NAME {
+      commandList.add(
+          new FindChordsByChordMember(
+              NoteName.forSymbol($NOTE_NAME.text), 
+              ChordMember.memberFromName($member.name),
+              chordFinder
+          ));
+  }
+  | FIND CHORDS CONTAINING NOTE_NAME {
+      commandList.add(
+          new FindChordsContainingNoteName(
+              NoteName.forSymbol($NOTE_NAME.text), 
+              chordFinder
+          ));
+  }
   ;
   
 chordMemberList returns [Voicing voicing]

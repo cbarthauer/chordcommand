@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import music.chord.arrangement.BuilderFactory;
 import music.chord.arrangement.ChordPlayer;
 import music.chord.arrangement.ChordVoicer;
 import music.chord.arrangement.ChordVoicerFactory;

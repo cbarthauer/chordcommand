@@ -17,7 +17,12 @@ public class ChordSpec {
     
     public NoteName getNoteName(NoteName root, ChordMember chordMember) {
         IntervalDirective directive = intervalDirectiveMap.get(chordMember);
-        NoteName result = directive.calculate(root);
+        NoteName result = null;
+        
+        if(directive != null) {
+            result = directive.calculate(root);
+        }
+        
         return result;
     }
 

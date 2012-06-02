@@ -1,6 +1,8 @@
 package music.chord.base;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public final class NoteName {
@@ -12,6 +14,16 @@ public final class NoteName {
 		for(NoteNameEnum noteName : NoteNameEnum.values()) {
 			symbolMap.put(noteName.getSymbol(), noteName);
 		}
+	}
+	
+	public static List<NoteName> all() {
+	    List<NoteName> noteList = new ArrayList<NoteName>();
+	    
+	    for(NoteNameEnum noteEnum : NoteNameEnum.values()) {
+	        noteList.add(new NoteName(noteEnum));
+	    }
+	    
+	    return noteList;
 	}
 	
 	public static NoteName forSymbol(String symbol) {
@@ -26,13 +38,19 @@ public final class NoteName {
 		this.calculator = new NoteNameCalculator(noteEnum);
 	}
 	
-	public final NoteName up(Interval interval) {
-	    NoteName noteName = new NoteName(
-            calculator.upChromaticBy(interval.getHalfSteps())
-                .upDiatonicBy(interval.getDiatonicSteps())
-                .result());
-		return noteName;
-	}	
+	@Override
+    public final boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        NoteName other = (NoteName) obj;
+        if (noteEnum != other.noteEnum)
+            return false;
+        return true;
+    }	
 	
 	public final int getChromaticIndex() {
 		return noteEnum.getChromaticIndex();
@@ -46,11 +64,28 @@ public final class NoteName {
 		return noteEnum.getSymbol();
 	}
 
+	@Override
+    public final int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result
+                + ((noteEnum == null) ? 0 : noteEnum.hashCode());
+        return result;
+    }
+	
 	public final String name() {
 		return noteEnum.name();
 	}
-	
-	public final String toString() {
+
+    public final String toString() {
 	    return noteEnum.getSymbol();
+	}
+
+    public final NoteName up(Interval interval) {
+	    NoteNameEnum noteEnum = calculator.upChromaticBy(interval.getHalfSteps())
+                .upDiatonicBy(interval.getDiatonicSteps())
+                .result();
+	    NoteName noteName = new NoteName(noteEnum);
+		return noteName;
 	}
 }

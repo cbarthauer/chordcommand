@@ -1,9 +1,5 @@
-package music.chord.main;
+package music.chord.arrangement;
 
-import music.chord.arrangement.VoicedChordBuilder;
-import music.chord.arrangement.Voicing;
-import music.chord.arrangement.VoicingImpl;
-import music.chord.arrangement.VoicingValidator;
 import music.chord.base.ChordMember;
 import music.chord.base.Duration;
 import music.chord.base.NinthQuality;
@@ -11,11 +7,11 @@ import music.chord.base.SeventhQuality;
 import music.chord.base.TriadQuality;
 import music.chord.base.VoicePart;
 
-class BuilderFactory {
+public class BuilderFactory {
 
     private static final int defaultOctaveShift = 4;
     
-    static VoicedChordBuilder getNinthBuilder() {
+    public static VoicedChordBuilder getNinthBuilder() {
         Voicing ninthVoicing = new VoicingImpl(VoicingValidator.NINTH_VALIDATOR);
         ninthVoicing.addChordMember(ChordMember.ROOT);
         ninthVoicing.addChordMember(ChordMember.SEVENTH);
@@ -31,7 +27,7 @@ class BuilderFactory {
         return ninthBuilder;
     }   
     
-    static VoicedChordBuilder getSeventhBuilder() {
+    public static VoicedChordBuilder getSeventhBuilder() {
         Voicing seventhVoicing = new VoicingImpl(VoicingValidator.SEVENTH_VALIDATOR);
         seventhVoicing.addChordMember(ChordMember.ROOT);
         seventhVoicing.addChordMember(ChordMember.FIFTH);
@@ -48,7 +44,7 @@ class BuilderFactory {
         return builder;
     }
 
-    static VoicedChordBuilder getTriadBuilder() {
+    public static VoicedChordBuilder getTriadBuilder() {
         Voicing triadVoicing = new VoicingImpl(VoicingValidator.TRIAD_VALIDATOR);
         triadVoicing.addChordMember(ChordMember.ROOT);
         triadVoicing.addChordMember(ChordMember.FIFTH);
