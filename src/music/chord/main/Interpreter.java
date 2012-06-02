@@ -37,9 +37,9 @@ public class Interpreter {
 		        "D:\\musicspace\\chordgrammar\\definitions\\chords.txt");
 		ChordVoicer voicer = ChordVoicerFactory.getInstance(struct);
 		List<VoicedChord> chordList = new ArrayList<VoicedChord>();
-		VoicedChordBuilder triadBuilder = BuilderFactory.getTriadBuilder();
-		VoicedChordBuilder seventhBuilder = BuilderFactory.getSeventhBuilder();
-		VoicedChordBuilder ninthBuilder = BuilderFactory.getNinthBuilder();
+		VoicedChordBuilder triadBuilder = BuilderFactory.getTriadBuilder(struct);
+		VoicedChordBuilder seventhBuilder = BuilderFactory.getSeventhBuilder(struct);
+		VoicedChordBuilder ninthBuilder = BuilderFactory.getNinthBuilder(struct);
 		
 		while(true) {
 			line = scanner.nextLine();

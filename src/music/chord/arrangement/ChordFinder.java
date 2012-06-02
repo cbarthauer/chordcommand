@@ -13,9 +13,9 @@ public class ChordFinder {
     private List<VoicedChord> chordList;
 
     public ChordFinder(ChordDefinitionStructure struct) {
-        VoicedChordBuilder triadBuilder = BuilderFactory.getTriadBuilder();
-        VoicedChordBuilder seventhBuilder = BuilderFactory.getSeventhBuilder();
-        VoicedChordBuilder ninthBuilder = BuilderFactory.getNinthBuilder();
+        VoicedChordBuilder triadBuilder = BuilderFactory.getTriadBuilder(struct);
+        VoicedChordBuilder seventhBuilder = BuilderFactory.getSeventhBuilder(struct);
+        VoicedChordBuilder ninthBuilder = BuilderFactory.getNinthBuilder(struct);
         
         chordList = new ArrayList<VoicedChord>();
         

@@ -43,17 +43,21 @@ public class TestMidi {
 		ChordParser parser = new ChordParser(tokenStream);
 		compilationUnit_return compilationUnit = parser.compilationUnit();
 		System.out.println(((CommonTree) compilationUnit.getTree()).toStringTree());
-		
+
+	    ChordDefinitionStructure struct = ChordDefinitionStructureFactory.getInstance(
+	        "D:\\musicspace\\chordgrammar\\definitions\\chords.txt");
+	      
 		CommonTreeNodeStream nodeStream = new CommonTreeNodeStream(compilationUnit.getTree());
 		ChordWalker walker = new ChordWalker(nodeStream);
-		walker.setTriadBuilder(BuilderFactory.getTriadBuilder());
-		walker.setSeventhBuilder(BuilderFactory.getSeventhBuilder());
+		walker.setChordDefinitionStructure(struct);
+		walker.setTriadBuilder(BuilderFactory.getTriadBuilder(struct));
+		walker.setSeventhBuilder(BuilderFactory.getSeventhBuilder(struct));
+		walker.setNinthBuilder(BuilderFactory.getNinthBuilder(struct));
 		
 		ChordProgression progression = walker.compilationUnit();
 		List<VoicedChord> chordList = progression.getChordList();
 		
-		ChordDefinitionStructure struct = ChordDefinitionStructureFactory.getInstance(
-		        "D:\\musicspace\\chordgrammar\\definitions\\chords.txt");
+
 		ChordVoicer voicer = ChordVoicerFactory.getInstance(struct);
 		
 		List<VoicedChord> voicedChordList = voicer.voice(chordList);

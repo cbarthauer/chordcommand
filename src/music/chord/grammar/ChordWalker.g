@@ -13,6 +13,7 @@ options {
   import java.util.ArrayList;
   import java.util.List;
   
+  import music.chord.arrangement.ChordDefinitionStructure;
   import music.chord.arrangement.ChordPlayer;
   import music.chord.arrangement.VoicedChord;
   import music.chord.arrangement.VoicingManager;
@@ -25,8 +26,7 @@ options {
   import music.chord.base.ChordMember;
   import music.chord.base.Interval;
   import music.chord.base.NoteName;
-  import music.chord.base.SeventhQuality;
-  import music.chord.base.TriadQuality;
+  import music.chord.base.Quality;
 }
 
 @members {
@@ -35,7 +35,17 @@ options {
   DerivedChordBuilder chordBuilder = new DerivedChordBuilder();
   VoicedChordBuilder triadBuilder;
   VoicedChordBuilder seventhBuilder; 
+  VoicedChordBuilder ninthBuilder;
+  ChordDefinitionStructure struct;
   
+  public void setChordDefinitionStructure(ChordDefinitionStructure struct) {
+    this.struct = struct;
+  }
+  
+  public void setNinthBuilder(VoicedChordBuilder ninthBuilder) {
+    this.ninthBuilder = ninthBuilder;
+  }
+    
   public void setSeventhBuilder(VoicedChordBuilder seventhBuilder) {
     this.seventhBuilder = seventhBuilder;
   }
@@ -66,7 +76,7 @@ voicingTypeList
     
 chordMemberList returns [Voicing voicing]
     : ^(VOICING { List<ChordMember> chordMemberList = new ArrayList<ChordMember>(); } 
-            (member=chordMember {chordMemberList.add(ChordMember.memberFromName($member.name));} )+ 
+            (member=chordMember {chordMemberList.add($member.value);} )+ 
        ) {
           voicing = voicingFromChordMemberList(chordMemberList);
       }
@@ -84,41 +94,26 @@ chord returns [VoicedChord value]
             .buildVoicedChord();
     }
     ;
-    
+
 chordSpec returns [VoicedChord chord]
-    : ^(SPEC NOTE_NAME QUALITY){chord =
+    : ^(SPEC NOTE_NAME tquality=triadQuality) { chord =
             triadBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setChordSpec(TriadQuality.qualityFromSymbol($QUALITY.text).getChordSpec())
+                .setChordSpec(struct.getChordSpec("Triad", $tquality.value))
                 .buildVoicedChord();
          }
     | ^(SPEC NOTE_NAME) {chord =
             triadBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setChordSpec(TriadQuality.MAJOR.getChordSpec())
+                .setChordSpec(struct.getChordSpec("Triad", Quality.MAJOR))
                 .buildVoicedChord();
          }
-    | ^(SPEC NOTE_NAME SEVEN) {chord =
+    | ^(SPEC NOTE_NAME squality=seventhQuality) {chord =
             seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setChordSpec(SeventhQuality.DOMINANT.getChordSpec())
+                .setChordSpec(struct.getChordSpec("Seventh", $squality.value))
                 .buildVoicedChord();
          }
-    | ^(SPEC NOTE_NAME MINOR_SEVEN) {chord =
-            seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setChordSpec(SeventhQuality.MINOR.getChordSpec())
-                .buildVoicedChord();
-         }
-    | ^(SPEC NOTE_NAME MAJOR_SEVEN) {chord =
-            seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setChordSpec(SeventhQuality.MAJOR.getChordSpec())
-                .buildVoicedChord();
-         }
-    | ^(SPEC NOTE_NAME MINOR_SIX) {chord =
-            seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text).up(Interval.MAJOR_SIXTH))
-                .setChordSpec(SeventhQuality.HALF_DIMINISHED.getChordSpec())
-                .buildVoicedChord();
-         }
-    | ^(SPEC NOTE_NAME DIMINISHED_SEVEN) {chord =
-            seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setChordSpec(SeventhQuality.DIMINISHED.getChordSpec())
+    | ^(SPEC NOTE_NAME nquality=ninthQuality) {chord =
+            ninthBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
+                .setChordSpec(struct.getChordSpec("Ninth", $nquality.value))
                 .buildVoicedChord();
          }
     ;
@@ -127,11 +122,33 @@ chordAttr returns [Voicing voicing]
     : ^(ATTR currentList=chordMemberList) {voicing = $currentList.voicing;}
     ;
     
-chordMember returns [String name] 
-    : ROOT {name = "ROOT";}
-    | THIRD {name = "THIRD";}
-    | FIFTH {name = "FIFTH";}
-    | SEVENTH {name = "SEVENTH";}
-    | NINTH {name = "NINTH";}
+chordMember returns [ChordMember value]
+    : ROOT {$value = ChordMember.ROOT;}
+    | THIRD {$value = ChordMember.THIRD;}
+    | FIFTH {$value = ChordMember.FIFTH;}
+    | SEVENTH {$value = ChordMember.SEVENTH;}
+    | NINTH {$value = ChordMember.NINTH;}
     ;
     
+triadQuality returns [Quality value]
+    : MAJOR { $value = Quality.MAJOR; }
+    | MINOR { $value = Quality.MINOR; }
+    | AUGMENTED { $value = Quality.AUGMENTED; }
+    | DIMINISHED { $value = Quality.DIMINISHED; }
+    | SUSPENDED { $value = Quality.SUSPENDED; }
+    ;
+    
+seventhQuality returns [Quality value]
+    : DOMINANT_SEVEN { $value = Quality.DOMINANT; }
+    | MINOR_SEVEN { $value = Quality.MINOR; }
+    | MAJOR_SEVEN { $value = Quality.MAJOR; }
+    | DIMINISHED_SEVEN { $value = Quality.DIMINISHED; }
+    | HALF_DIMINISHED_SEVEN { $value = Quality.HALF_DIMINISHED; }
+    | SUSPENDED_SEVEN { $value = Quality.SUSPENDED; }
+    ;
+    
+ninthQuality returns [Quality value]
+    : DOMINANT_NINE { $value = Quality.DOMINANT; }
+    | MINOR_NINE { $value = Quality.MINOR; }
+    | MAJOR_NINE { $value = Quality.MAJOR; }
+    ;

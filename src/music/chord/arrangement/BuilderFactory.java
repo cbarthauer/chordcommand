@@ -2,16 +2,14 @@ package music.chord.arrangement;
 
 import music.chord.base.ChordMember;
 import music.chord.base.Duration;
-import music.chord.base.NinthQuality;
-import music.chord.base.SeventhQuality;
-import music.chord.base.TriadQuality;
+import music.chord.base.Quality;
 import music.chord.base.VoicePart;
 
 public class BuilderFactory {
 
     private static final int defaultOctaveShift = 4;
     
-    public static VoicedChordBuilder getNinthBuilder() {
+    public static VoicedChordBuilder getNinthBuilder(ChordDefinitionStructure struct) {
         Voicing ninthVoicing = new VoicingImpl(VoicingValidator.NINTH_VALIDATOR);
         ninthVoicing.addChordMember(ChordMember.ROOT);
         ninthVoicing.addChordMember(ChordMember.SEVENTH);
@@ -19,7 +17,7 @@ public class BuilderFactory {
         ninthVoicing.addChordMember(ChordMember.THIRD);
         
         VoicedChordBuilder ninthBuilder = new VoicedChordBuilder(
-            NinthQuality.DOMINANT.getChordSpec(),
+            struct.getChordSpec("Ninth", Quality.DOMINANT),
             ninthVoicing,
             defaultOctaveShift,
             Duration.QUARTER,
@@ -27,7 +25,7 @@ public class BuilderFactory {
         return ninthBuilder;
     }   
     
-    public static VoicedChordBuilder getSeventhBuilder() {
+    public static VoicedChordBuilder getSeventhBuilder(ChordDefinitionStructure struct) {
         Voicing seventhVoicing = new VoicingImpl(VoicingValidator.SEVENTH_VALIDATOR);
         seventhVoicing.addChordMember(ChordMember.ROOT);
         seventhVoicing.addChordMember(ChordMember.FIFTH);
@@ -35,7 +33,7 @@ public class BuilderFactory {
         seventhVoicing.addChordMember(ChordMember.THIRD);
         
         VoicedChordBuilder builder = new VoicedChordBuilder(
-            SeventhQuality.DOMINANT.getChordSpec(), 
+            struct.getChordSpec("Seventh", Quality.DOMINANT), 
             seventhVoicing, 
             defaultOctaveShift, 
             Duration.QUARTER,
@@ -44,7 +42,7 @@ public class BuilderFactory {
         return builder;
     }
 
-    public static VoicedChordBuilder getTriadBuilder() {
+    public static VoicedChordBuilder getTriadBuilder(ChordDefinitionStructure struct) {
         Voicing triadVoicing = new VoicingImpl(VoicingValidator.TRIAD_VALIDATOR);
         triadVoicing.addChordMember(ChordMember.ROOT);
         triadVoicing.addChordMember(ChordMember.FIFTH);
@@ -52,7 +50,7 @@ public class BuilderFactory {
         triadVoicing.addChordMember(ChordMember.THIRD);
         
         VoicedChordBuilder triadBuilder = new VoicedChordBuilder(
-            TriadQuality.MAJOR.getChordSpec(), 
+            struct.getChordSpec("Triad", Quality.MAJOR), 
             triadVoicing,
             defaultOctaveShift, 
             Duration.QUARTER, 

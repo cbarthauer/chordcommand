@@ -22,19 +22,19 @@ progression {
   Eb {
     voicing: {root, third, fifth, root}
   }, 
-  G7, 
+  Gdom7, 
   Cm, 
-  Bb7 {
+  Bbdom7 {
     voicing: {root, fifth, seventh, third}
   }, 
   Eb {
     voicing: {root, third, fifth, root}
   }, 
-  E7, 
-  F7, 
-  F7, 
-  Cm6, 
-  Abm6, 
-  Bb7, 
+  Edom7, 
+  Fdom7, 
+  Fdom7, 
+  Ahdim7, 
+  Fhdim7, 
+  Bbdom7, 
   Eb 
 }

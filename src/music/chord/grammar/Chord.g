@@ -19,16 +19,24 @@ NOTE_NAME
     ;
     
 ACCIDENTAL
-    :   'b' | '#' | 'n'
+    :   'b' | '#' | 'bb' | '##'
     ;
 
-QUALITY : '+' | 'M' | 'm' | 'dim';
-
-MINOR_SIX : 'm6';
+//Chord qualities.
+MAJOR : 'M';
+MINOR : 'm';
+AUGMENTED : '+';
+DIMINISHED : 'dim';
+SUSPENDED : 'sus';
 DIMINISHED_SEVEN : 'dim7';
 MINOR_SEVEN : 'm7';
 MAJOR_SEVEN : 'M7';
-SEVEN : '7';
+DOMINANT_SEVEN : 'dom7';
+HALF_DIMINISHED_SEVEN : 'hdim7';
+SUSPENDED_SEVEN : 'sus7';
+DOMINANT_NINE : 'dom9';
+MINOR_NINE : 'm9';
+MAJOR_NINE : 'M9';
 
 COMMENT
     :   '//' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}
@@ -117,20 +125,14 @@ chord
     ;
     
 chordSpec 
-    : NOTE_NAME QUALITY
-        -> ^(SPEC NOTE_NAME QUALITY)
+    : NOTE_NAME triadQuality
+        -> ^(SPEC NOTE_NAME triadQuality)
     | NOTE_NAME
         -> ^(SPEC NOTE_NAME)
-    | NOTE_NAME SEVEN
-        -> ^(SPEC NOTE_NAME SEVEN)
-    | NOTE_NAME MINOR_SEVEN
-        -> ^(SPEC NOTE_NAME MINOR_SEVEN)
-    | NOTE_NAME MAJOR_SEVEN
-        -> ^(SPEC NOTE_NAME MAJOR_SEVEN)
-    | NOTE_NAME MINOR_SIX
-        -> ^(SPEC NOTE_NAME MINOR_SIX)
-    | NOTE_NAME DIMINISHED_SEVEN
-        -> ^(SPEC NOTE_NAME DIMINISHED_SEVEN)    
+    | NOTE_NAME seventhQuality
+        -> ^(SPEC NOTE_NAME seventhQuality)
+    | NOTE_NAME ninthQuality
+        -> ^(SPEC NOTE_NAME ninthQuality)
     ;
 
 chordAttr
@@ -145,4 +147,27 @@ chordMember : ROOT
     | FIFTH
     | SEVENTH
     | NINTH
+    ;
+    
+triadQuality
+    : MAJOR
+    | MINOR
+    | AUGMENTED
+    | DIMINISHED
+    | SUSPENDED
+    ;
+    
+seventhQuality
+    : DOMINANT_SEVEN
+    | MINOR_SEVEN
+    | MAJOR_SEVEN
+    | DIMINISHED_SEVEN
+    | HALF_DIMINISHED_SEVEN
+    | SUSPENDED_SEVEN
+    ;
+    
+ninthQuality
+    : DOMINANT_NINE
+    | MINOR_NINE
+    | MAJOR_NINE
     ;
