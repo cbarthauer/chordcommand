@@ -17,7 +17,7 @@ public class BuilderFactory {
         ninthVoicing.addChordMember(ChordMember.THIRD);
         
         VoicedChordBuilder ninthBuilder = new VoicedChordBuilder(
-            struct.getChordSpec("Ninth", Quality.DOMINANT),
+            struct.getChordSpec("Ninth", Quality.DOMINANT_NINTH),
             ninthVoicing,
             defaultOctaveShift,
             Duration.QUARTER,
@@ -33,7 +33,7 @@ public class BuilderFactory {
         seventhVoicing.addChordMember(ChordMember.THIRD);
         
         VoicedChordBuilder builder = new VoicedChordBuilder(
-            struct.getChordSpec("Seventh", Quality.DOMINANT), 
+            struct.getChordSpec("Seventh", Quality.DOMINANT_SEVENTH), 
             seventhVoicing, 
             defaultOctaveShift, 
             Duration.QUARTER,
@@ -50,7 +50,7 @@ public class BuilderFactory {
         triadVoicing.addChordMember(ChordMember.THIRD);
         
         VoicedChordBuilder triadBuilder = new VoicedChordBuilder(
-            struct.getChordSpec("Triad", Quality.MAJOR), 
+            struct.getChordSpec("Triad", Quality.MAJOR_TRIAD), 
             triadVoicing,
             defaultOctaveShift, 
             Duration.QUARTER, 

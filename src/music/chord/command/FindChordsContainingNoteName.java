@@ -4,7 +4,6 @@ import java.util.List;
 
 import music.chord.arrangement.ChordFinder;
 import music.chord.arrangement.VoicedChord;
-import music.chord.base.ChordMember;
 import music.chord.base.NoteName;
 
 public class FindChordsContainingNoteName implements Command {
@@ -22,8 +21,7 @@ public class FindChordsContainingNoteName implements Command {
         List<VoicedChord> chordList = finder.find(note);
         
         for(VoicedChord chord : chordList) {
-            System.out.println(
-                    chord.noteNameFromChordMember(ChordMember.ROOT) + " " + chord.getSymbol());
+            System.out.println(chord.getSymbol());
         }
     }
 

@@ -100,7 +100,7 @@ chordStructure:
       dir1=intervalDirective {dirMap.putAll($dir1.value);}
       (',' dir2=intervalDirective {dirMap.putAll($dir2.value);})*
     END_LIST
-    { struct.addQuality(currentType, Quality.forName($NAME.text), dirMap); }
+    { struct.addQuality(currentType, Quality.forName($NAME.text + "_" + currentType), dirMap); }
   ;
   
 intervalDirective returns [Map<ChordMember, IntervalDirective> value]

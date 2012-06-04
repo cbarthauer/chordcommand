@@ -103,7 +103,7 @@ chordSpec returns [VoicedChord chord]
          }
     | ^(SPEC NOTE_NAME) {chord =
             triadBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setChordSpec(struct.getChordSpec("Triad", Quality.MAJOR))
+                .setChordSpec(struct.getChordSpec("Triad", Quality.MAJOR_TRIAD))
                 .buildVoicedChord();
          }
     | ^(SPEC NOTE_NAME squality=seventhQuality) {chord =
@@ -131,24 +131,24 @@ chordMember returns [ChordMember value]
     ;
     
 triadQuality returns [Quality value]
-    : MAJOR { $value = Quality.MAJOR; }
-    | MINOR { $value = Quality.MINOR; }
-    | AUGMENTED { $value = Quality.AUGMENTED; }
-    | DIMINISHED { $value = Quality.DIMINISHED; }
-    | SUSPENDED { $value = Quality.SUSPENDED; }
+    : MAJOR { $value = Quality.MAJOR_TRIAD; }
+    | MINOR { $value = Quality.MINOR_TRIAD; }
+    | AUGMENTED { $value = Quality.AUGMENTED_TRIAD; }
+    | DIMINISHED { $value = Quality.DIMINISHED_TRIAD; }
+    | SUSPENDED { $value = Quality.SUSPENDED_TRIAD; }
     ;
     
 seventhQuality returns [Quality value]
-    : DOMINANT_SEVEN { $value = Quality.DOMINANT; }
-    | MINOR_SEVEN { $value = Quality.MINOR; }
-    | MAJOR_SEVEN { $value = Quality.MAJOR; }
-    | DIMINISHED_SEVEN { $value = Quality.DIMINISHED; }
-    | HALF_DIMINISHED_SEVEN { $value = Quality.HALF_DIMINISHED; }
-    | SUSPENDED_SEVEN { $value = Quality.SUSPENDED; }
+    : DOMINANT_SEVEN { $value = Quality.DOMINANT_SEVENTH; }
+    | MINOR_SEVEN { $value = Quality.MINOR_SEVENTH; }
+    | MAJOR_SEVEN { $value = Quality.MAJOR_SEVENTH; }
+    | DIMINISHED_SEVEN { $value = Quality.DIMINISHED_SEVENTH; }
+    | HALF_DIMINISHED_SEVEN { $value = Quality.HALF_DIMINISHED_SEVENTH; }
+    | SUSPENDED_SEVEN { $value = Quality.SUSPENDED_SEVENTH; }
     ;
     
 ninthQuality returns [Quality value]
-    : DOMINANT_NINE { $value = Quality.DOMINANT; }
-    | MINOR_NINE { $value = Quality.MINOR; }
-    | MAJOR_NINE { $value = Quality.MAJOR; }
+    : DOMINANT_NINE { $value = Quality.DOMINANT_NINTH; }
+    | MINOR_NINE { $value = Quality.MINOR_NINTH; }
+    | MAJOR_NINE { $value = Quality.MAJOR_NINTH; }
     ;

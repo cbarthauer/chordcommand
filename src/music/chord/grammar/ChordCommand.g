@@ -315,25 +315,25 @@ chordSpec returns [VoicedChord chord]
     : NOTE_NAME tquality=triadQuality { chord =
             triadBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
                 .setChordSpec(struct.getChordSpec("Triad", $tquality.value))
-                .setSymbol($NOTE_NAME.text + $tquality.text)
+                .setQuality($tquality.value)
                 .buildVoicedChord();
          }
     | NOTE_NAME {chord =
             triadBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setChordSpec(struct.getChordSpec("Triad", Quality.MAJOR))
-                .setSymbol($NOTE_NAME.text)
+                .setChordSpec(struct.getChordSpec("Triad", Quality.MAJOR_TRIAD))
+                .setQuality(Quality.MAJOR_TRIAD)
                 .buildVoicedChord();
          }
     | NOTE_NAME squality=seventhQuality {chord =
             seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
                 .setChordSpec(struct.getChordSpec("Seventh", $squality.value))
-                .setSymbol($NOTE_NAME.text + $squality.text)
+                .setQuality($squality.value)
                 .buildVoicedChord();
          }
     | NOTE_NAME nquality=ninthQuality {chord =
             ninthBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
                 .setChordSpec(struct.getChordSpec("Ninth", $nquality.value))
-                .setSymbol($NOTE_NAME.text + $nquality.text)
+                .setQuality($nquality.value)
                 .buildVoicedChord();
          }
     ;
@@ -347,26 +347,26 @@ chordMember returns [ChordMember value]
     ;
     
 triadQuality returns [Quality value]
-    : MAJOR { $value = Quality.MAJOR; }
-    | MINOR { $value = Quality.MINOR; }
-    | AUGMENTED { $value = Quality.AUGMENTED; }
-    | DIMINISHED { $value = Quality.DIMINISHED; }
-    | SUSPENDED { $value = Quality.SUSPENDED; }
+    : MAJOR { $value = Quality.MAJOR_TRIAD; }
+    | MINOR { $value = Quality.MINOR_TRIAD; }
+    | AUGMENTED { $value = Quality.AUGMENTED_TRIAD; }
+    | DIMINISHED { $value = Quality.DIMINISHED_TRIAD; }
+    | SUSPENDED { $value = Quality.SUSPENDED_TRIAD; }
     ;
     
 seventhQuality returns [Quality value]
-    : DOMINANT_SEVEN { $value = Quality.DOMINANT; }
-    | MINOR_SEVEN { $value = Quality.MINOR; }
-    | MAJOR_SEVEN { $value = Quality.MAJOR; }
-    | DIMINISHED_SEVEN { $value = Quality.DIMINISHED; }
-    | HALF_DIMINISHED_SEVEN { $value = Quality.HALF_DIMINISHED; }
-    | SUSPENDED_SEVEN { $value = Quality.SUSPENDED; }
+    : DOMINANT_SEVEN { $value = Quality.DOMINANT_SEVENTH; }
+    | MINOR_SEVEN { $value = Quality.MINOR_SEVENTH; }
+    | MAJOR_SEVEN { $value = Quality.MAJOR_SEVENTH; }
+    | DIMINISHED_SEVEN { $value = Quality.DIMINISHED_SEVENTH; }
+    | HALF_DIMINISHED_SEVEN { $value = Quality.HALF_DIMINISHED_SEVENTH; }
+    | SUSPENDED_SEVEN { $value = Quality.SUSPENDED_SEVENTH; }
     ;
     
 ninthQuality returns [Quality value]
-    : DOMINANT_NINE { $value = Quality.DOMINANT; }
-    | MINOR_NINE { $value = Quality.MINOR; }
-    | MAJOR_NINE { $value = Quality.MAJOR; }
+    : DOMINANT_NINE { $value = Quality.DOMINANT_NINTH; }
+    | MINOR_NINE { $value = Quality.MINOR_NINTH; }
+    | MAJOR_NINE { $value = Quality.MAJOR_NINTH; }
     ;
     
 voicePart returns [VoicePart value]

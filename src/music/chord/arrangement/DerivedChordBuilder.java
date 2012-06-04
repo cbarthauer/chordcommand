@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import music.chord.base.Duration;
+import music.chord.base.Quality;
 import music.chord.base.VoicePart;
 
 public class DerivedChordBuilder implements ChordBuilder {
@@ -13,11 +14,11 @@ public class DerivedChordBuilder implements ChordBuilder {
 	private Voicing voicing;
     private int octave;
     private List<VoicePart> partList;
-    private String symbol;
+    private Quality quality;
 
 	@Override
 	public VoicedChord buildVoicedChord() {
-		return new ConcreteChord(chord, voicing, octave, duration, partList, symbol);
+		return new ConcreteChord(chord, voicing, octave, duration, partList, quality);
 	}
 
 	public DerivedChordBuilder setChord(VoicedChord chord) {
@@ -26,7 +27,7 @@ public class DerivedChordBuilder implements ChordBuilder {
 		this.voicing = chord.getVoicing();
 		this.octave = chord.getOctave();
 		this.partList = chord.getVoicePartList();
-		this.symbol = chord.getSymbol();
+		this.quality = chord.getQuality();
 		return this;
 	}
 	

@@ -8,6 +8,7 @@ import java.util.Map;
 import music.chord.base.ChordMember;
 import music.chord.base.Duration;
 import music.chord.base.NoteName;
+import music.chord.base.Quality;
 import music.chord.base.VoicePart;
 import music.chord.decorator.Chord;
 
@@ -19,7 +20,7 @@ final class ConcreteChord implements Chord, VoicedChord {
     private int octave;
     private Map<VoicePart, Note> voicePartMap;
     private List<VoicePart> partList;
-    private String symbol;
+    private Quality quality;
     private Chord chord;
 
 	ConcreteChord(
@@ -28,7 +29,9 @@ final class ConcreteChord implements Chord, VoicedChord {
 	        int octave, 
 	        Duration duration, 
 	        List<VoicePart> partList,
-	        String symbol) {
+	        Quality quality) {
+	    
+	    if(quality == null) throw new IllegalArgumentException("Quality can't be null.");
 	    
 		this.chord = chord;
 		this.voicing = voicing;
@@ -37,7 +40,7 @@ final class ConcreteChord implements Chord, VoicedChord {
 		this.octave = octave;
 		this.partList = partList;
 		this.voicePartMap = initVoicePartMap(partList, noteList);
-		this.symbol = symbol;		
+		this.quality = quality;		
 	}
 
     @Override
@@ -72,10 +75,15 @@ final class ConcreteChord implements Chord, VoicedChord {
     }
 	
 	@Override
-    public final String getSymbol() {
-        return symbol;
+    public Quality getQuality() {
+        return quality;
     }
 	
+	@Override
+    public final String getSymbol() {
+        return noteNameFromChordMember(ChordMember.ROOT) + quality.getSymbol();
+    }
+
 	@Override
 	public final int getTicks(int ppq) {
 	    float conversionFactor = duration.getPpqConversionFactor();
@@ -87,7 +95,7 @@ final class ConcreteChord implements Chord, VoicedChord {
         return new ArrayList<VoicePart>(partList);
     }
 
-	@Override
+    @Override
     public final Voicing getVoicing() {
 		return voicing;
 	}

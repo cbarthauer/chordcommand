@@ -6,6 +6,7 @@ import java.util.List;
 import music.chord.base.ChordSpec;
 import music.chord.base.Duration;
 import music.chord.base.NoteName;
+import music.chord.base.Quality;
 import music.chord.base.VoicePart;
 import music.chord.decorator.Chord;
 import music.chord.decorator.ChordImpl;
@@ -22,7 +23,7 @@ public class VoicedChordBuilder implements ChordBuilder {
     private int defaultOctave;
     private List<VoicePart> currentPartList;
     private List<VoicePart> defaultPartList;
-    private String symbol;
+    private Quality quality;
     private NoteName root;
     
     
@@ -55,7 +56,7 @@ public class VoicedChordBuilder implements ChordBuilder {
                 currentOctave, 
                 currentDuration, 
                 currentPartList,
-                symbol);
+                quality);
         reset();
         return result;
     }
@@ -65,7 +66,7 @@ public class VoicedChordBuilder implements ChordBuilder {
         this.currentVoicing = chord.getVoicing();
         this.currentOctave = chord.getOctave();
         this.currentPartList = chord.getVoicePartList();
-        this.symbol = chord.getSymbol();
+        this.quality = chord.getQuality();
         return this;
     }
     
@@ -84,13 +85,13 @@ public class VoicedChordBuilder implements ChordBuilder {
         return this;
     }
     
-    public VoicedChordBuilder setRoot(NoteName root) {
-        this.root = root;
+    public VoicedChordBuilder setQuality(Quality quality) {
+        this.quality = quality;
         return this;
     }
 
-    public VoicedChordBuilder setSymbol(String symbol) {
-        this.symbol = symbol;
+    public VoicedChordBuilder setRoot(NoteName root) {
+        this.root = root;
         return this;
     }
     

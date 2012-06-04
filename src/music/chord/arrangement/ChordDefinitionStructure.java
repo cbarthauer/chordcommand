@@ -54,14 +54,6 @@ public final class ChordDefinitionStructure {
         return chordMap.get(type).get(quality);
     }
 
-    public final List<Voicing> getVoicings(String type) {
-        return voicingMap.get(type);
-    }
-    
-    public final String toString() {
-        return chordMap.toString() + "\n" + voicingMap;
-    }
-
     public final List<Voicing> getCongruentVoicings(Voicing voicing) {
         List<Voicing> result = new ArrayList<Voicing>();
         
@@ -73,8 +65,16 @@ public final class ChordDefinitionStructure {
         
         return result;
     }
+    
+    public final List<Voicing> getVoicings(String type) {
+        return voicingMap.get(type);
+    }
 
     public final Map<Quality, ChordSpec> qualityMapFromType(String type) {
         return new HashMap<Quality, ChordSpec>(chordMap.get(type));
+    }
+
+    public final String toString() {
+        return chordMap.toString() + "\n" + voicingMap;
     }
 }

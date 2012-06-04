@@ -64,7 +64,7 @@ public class ChordFinder {
             chordList.add(
                 builder.setRoot(name)
                     .setChordSpec(qualityMap.get(quality))
-                    .setSymbol(quality + " " + type)
+                    .setQuality(quality)
                     .buildVoicedChord());
         }
     }

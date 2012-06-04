@@ -24,8 +24,7 @@ public class FindChordsByChordMember implements Command {
         List<VoicedChord> chordList = finder.find(note, member);
         
         for(VoicedChord chord : chordList) {
-            System.out.println(
-                    chord.noteNameFromChordMember(ChordMember.ROOT) + " " + chord.getSymbol());
+            System.out.println(chord.getSymbol());
         }
     }
 
