@@ -25,7 +25,6 @@ options {
   import music.chord.base.Interval;
   import music.chord.base.NoteName;
   import music.chord.base.Quality;
-  import music.chord.base.QualitySymbol;
   import music.chord.base.VoicePart;
   
   import music.chord.command.AddChord;
