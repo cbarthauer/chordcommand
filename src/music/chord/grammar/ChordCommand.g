@@ -34,10 +34,12 @@ options {
   import music.chord.command.FindChordsByChordMember;
   import music.chord.command.FindChordsContainingNoteName;
   import music.chord.command.InsertBefore;
+  import music.chord.command.Load;
   import music.chord.command.Play;
   import music.chord.command.PlayVoicePart;
   import music.chord.command.Quit;
   import music.chord.command.RemoveChord;
+  import music.chord.command.Save;
   import music.chord.command.VoiceChordList;
   import music.chord.command.VoicingComparisonList;
   
@@ -97,6 +99,8 @@ options {
 
 //Miscellaneous Tokens.
 INT : '0'..'9'+;
+
+STRING : '"' ('a'..'z' | 'A'..'Z' | '0'..'9' | '\\' | '.' | ':')+ '"';
 
 //Whitespace
 WS  
@@ -163,6 +167,9 @@ CHORDS : 'chords';
 WHERE : 'where';
 IS : 'is';
 CONTAINING : 'containing';
+SAVE : 'save';
+AS : 'as';
+LOAD : 'load';
 
 NOTE_LENGTH 
   : 'sixteenth'
@@ -185,7 +192,6 @@ SET : 'set';
 START_LIST : '[';
 END_LIST : ']';
 
-
 program returns [List<Command> result]
   : command+ EOF { result = commandList; }
   ;
@@ -200,6 +206,8 @@ command
   | quit
   | voice
   | find
+  | save
+  | load
   ;
   
 add
@@ -288,6 +296,22 @@ find
   }
   ;
   
+save
+  : SAVE AS fileName=STRING {
+      commandList.add(new Save(chordList, $fileName.text.replaceAll("\"", "")));
+  }
+  ;
+
+load
+  : LOAD fileName=STRING {
+      commandList.add(new Load(chordList, struct, $fileName.text.replaceAll("\"", "")));
+  }
+  ;
+    
+quit
+  : QUIT { commandList.add(new Quit()); }
+  ;
+    
 chordMemberList returns [Voicing voicing]
     : START_LIST { List<ChordMember> chordMemberList = new ArrayList<ChordMember>(); }
       member1=chordMember 
@@ -302,10 +326,6 @@ chordMemberList returns [Voicing voicing]
           voicing = voicingFromChordMemberList(chordMemberList);
       }
     ;
-      
-quit
-  : QUIT { commandList.add(new Quit()); }
-  ;
   
 chord returns [VoicedChord chord]
     : currentSpec=chordSpec {chord = $currentSpec.chord;}

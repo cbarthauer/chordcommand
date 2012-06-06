@@ -1,0 +1,9 @@
+progression: { 
+  F: {
+    voicing: [third, fifth, root, fifth],
+    octave: 3
+  },
+  Bb: {
+    octave: 3
+  }
+}

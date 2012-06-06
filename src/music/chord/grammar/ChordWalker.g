@@ -24,6 +24,7 @@ options {
   import music.chord.arrangement.VoicedChordBuilder;
   
   import music.chord.base.ChordMember;
+  import music.chord.base.Duration;
   import music.chord.base.Interval;
   import music.chord.base.NoteName;
   import music.chord.base.Quality;
@@ -57,7 +58,7 @@ options {
 
 
 compilationUnit returns [ChordProgression result]
-    : ^(UNIT voicingDef+ progressionDef*) {
+    : ^(UNIT voicingDef* progressionDef*) {
         result = ChordProgression.getInstance()
             .setChordList(chords)
             .setVoicingManager(voicingManager);
@@ -69,9 +70,12 @@ voicingDef
     ;
     
 voicingTypeList 
-    : ^(TRIADS (currentList=chordMemberList {voicingManager.addTriadVoicing($currentList.voicing);})+)
-    | ^(SEVENTHS (currentList=chordMemberList {voicingManager.addSeventhVoicing($currentList.voicing);})+)
-    | ^(NINTHS (currentList=chordMemberList {voicingManager.addNinthVoicing($currentList.voicing);})+)
+    : ^(TRIADS (currentList=chordMemberList {
+        voicingManager.addTriadVoicing($currentList.voicing);})+)
+    | ^(SEVENTHS (currentList=chordMemberList {
+        voicingManager.addSeventhVoicing($currentList.voicing);})+)
+    | ^(NINTHS (currentList=chordMemberList {
+        voicingManager.addNinthVoicing($currentList.voicing);})+)
     ;
     
 chordMemberList returns [Voicing voicing]
@@ -83,43 +87,53 @@ chordMemberList returns [Voicing voicing]
     ;
     
 progressionDef 
-    : ^('progression' (currentChord=chord {chords.add($currentChord.value);} )+)
+    : ^('progression' (currentChord=chord {chords.add($currentChord.value);} )*)
     ;
 
 chord returns [VoicedChord value]
     : ^(CHORD currentSpec=chordSpec) {value = $currentSpec.chord;}
-    | ^(CHORD currentSpec=chordSpec currentAttr=chordAttr) {
-        value = chordBuilder.setChord($currentSpec.chord)
-            .setVoicing($currentAttr.voicing)
-            .buildVoicedChord();
-    }
+    | ^(CHORD currentSpec=chordSpec {chordBuilder.setChord($currentSpec.chord);} 
+        chordAttrList[chordBuilder]) {value = chordBuilder.buildVoicedChord();}
     ;
 
 chordSpec returns [VoicedChord chord]
     : ^(SPEC NOTE_NAME tquality=triadQuality) { chord =
             triadBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
                 .setChordSpec(struct.getChordSpec("Triad", $tquality.value))
+                .setQuality($tquality.value)
                 .buildVoicedChord();
          }
     | ^(SPEC NOTE_NAME) {chord =
             triadBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
                 .setChordSpec(struct.getChordSpec("Triad", Quality.MAJOR_TRIAD))
+                .setQuality(Quality.MAJOR_TRIAD)
                 .buildVoicedChord();
          }
     | ^(SPEC NOTE_NAME squality=seventhQuality) {chord =
             seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
                 .setChordSpec(struct.getChordSpec("Seventh", $squality.value))
+                .setQuality($squality.value)
                 .buildVoicedChord();
          }
     | ^(SPEC NOTE_NAME nquality=ninthQuality) {chord =
             ninthBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
                 .setChordSpec(struct.getChordSpec("Ninth", $nquality.value))
+                .setQuality($nquality.value)
                 .buildVoicedChord();
          }
     ;
 
-chordAttr returns [Voicing voicing]
-    : ^(ATTR currentList=chordMemberList) {voicing = $currentList.voicing;}
+chordAttrList[DerivedChordBuilder builder]
+    : ^(ATTR_LIST chordAttr[builder]+)
+    ;
+
+chordAttr[DerivedChordBuilder builder]
+    : currentList=chordMemberList 
+        {$builder.setVoicing($currentList.voicing);}
+    | ^(OCTAVE INT) 
+        {$builder.setOctave(Integer.parseInt($INT.text));}
+    | ^(DURATION NOTE_LENGTH) 
+        {$builder.setDuration(Duration.durationFromName($NOTE_LENGTH.text));}
     ;
     
 chordMember returns [ChordMember value]

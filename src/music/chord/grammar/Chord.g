@@ -14,6 +14,32 @@ options {
   package music.chord.grammar;
 }
 
+//Miscellaneous Tokens.
+INT : '0'..'9'+;
+
+//Comments.
+COMMENT
+    :   '//' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}
+    |   '/*' ( options {greedy=false;} : . )* '*/' {$channel=HIDDEN;}
+    ;
+    
+//Whitespace.
+WS  :   ( ' '
+        | '\t'
+        | '\r'
+        | '\n'
+        )+ {$channel=HIDDEN;}
+    ;
+
+//Blocks.
+START_BLOCK : '{' ;
+END_BLOCK : '}' ;
+
+//Lists.
+START_LIST : '[';
+END_LIST : ']';
+
+//Music Tokens.
 NOTE_NAME
     :   'A'..'G' ACCIDENTAL?
     ;
@@ -38,27 +64,6 @@ DOMINANT_NINE : 'dom9';
 MINOR_NINE : 'm9';
 MAJOR_NINE : 'M9';
 
-COMMENT
-    :   '//' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}
-    |   '/*' ( options {greedy=false;} : . )* '*/' {$channel=HIDDEN;}
-    ;
-    
-//Whitespace
-WS  :   ( ' '
-        | '\t'
-        | '\r'
-        | '\n'
-        )+ {$channel=HIDDEN;}
-    ;
-
-//Blocks
-START_BLOCK : '{' ;
-END_BLOCK : '}' ;
-
-//Lists
-START_LIST : '[';
-END_LIST : ']';
-
 //Chord member tokens.
 ROOT : 'root';
 THIRD : 'third';
@@ -71,18 +76,28 @@ TRIADS : 'triads';
 SEVENTHS : 'sevenths';
 NINTHS : 'ninths';
 
+NOTE_LENGTH 
+  : 'SIXTEENTH'
+  | 'EIGHTH'
+  | 'QUARTER'
+  | 'HALF'
+  | 'WHOLE'
+  ;
+  
 UNIT : 'unit';
 VOICING : 'voicing';
+OCTAVE: 'octave';
+DURATION: 'duration';
 CHORD : 'chord';
 SPEC : 'spec';
-ATTR : 'attr';
+ATTR_LIST : 'attr_list';
 
 compilationUnit 
-    : voicingDef+ progressionDef* EOF -> ^(UNIT voicingDef+ progressionDef*)
+    : voicingDef* progressionDef* EOF -> ^(UNIT voicingDef* progressionDef*)
     ;
     
 voicingDef :
-    'voicings' START_BLOCK
+    'voicings' ':' START_BLOCK
       voicingTypeList
       (',' voicingTypeList)*
     END_BLOCK
@@ -108,12 +123,12 @@ voicingTypeList
     ;
     
 chordMemberList
-    : START_BLOCK chordMember (',' chordMember)* END_BLOCK
+    : START_LIST chordMember (',' chordMember)* END_LIST
     -> ^(VOICING chordMember+)
     ;
     
 progressionDef :
-    'progression' START_BLOCK 
+    'progression' ':' START_BLOCK 
         chord (',' chord)* 
     END_BLOCK 
     -> ^('progression' chord+)
@@ -121,7 +136,7 @@ progressionDef :
 
 chord
     : chordSpec -> ^(CHORD chordSpec)
-    | chordSpec chordAttr -> ^(CHORD chordSpec chordAttr)
+    | chordSpec ':' chordAttrList -> ^(CHORD chordSpec chordAttrList)
     ;
     
 chordSpec 
@@ -135,11 +150,18 @@ chordSpec
         -> ^(SPEC NOTE_NAME ninthQuality)
     ;
 
-chordAttr
+chordAttrList
     : START_BLOCK
-        'voicing' ':' chordMemberList
+        chordAttr
+        (',' chordAttr)*
     END_BLOCK
-    -> ^(ATTR chordMemberList)
+    -> ^(ATTR_LIST chordAttr+)
+    ;
+
+chordAttr
+    : VOICING ':' chordMemberList -> chordMemberList
+    | OCTAVE ':' INT -> ^(OCTAVE INT)
+    | DURATION ':' NOTE_LENGTH -> ^(DURATION NOTE_LENGTH)
     ;
     
 chordMember : ROOT

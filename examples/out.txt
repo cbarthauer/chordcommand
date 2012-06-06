@@ -1,0 +1,62 @@
+progression: {
+  DM7: {
+    voicing: [root, fifth, seventh, third],
+    octave: 4,
+    duration: QUARTER
+  },
+  Em7: {
+    voicing: [root, fifth, seventh, third],
+    octave: 4,
+    duration: QUARTER
+  },
+  Adom7: {
+    voicing: [root, seventh, third, fifth],
+    octave: 3,
+    duration: QUARTER
+  },
+  Bm7: {
+    voicing: [root, seventh, third, fifth],
+    octave: 3,
+    duration: QUARTER
+  },
+  Ddom7: {
+    voicing: [root, fifth, seventh, third],
+    octave: 4,
+    duration: QUARTER
+  },
+  Gm7: {
+    voicing: [fifth, root, third, seventh],
+    octave: 4,
+    duration: QUARTER
+  },
+  Edim7: {
+    voicing: [root, third, fifth, seventh],
+    octave: 4,
+    duration: QUARTER
+  },
+  FM7: {
+    voicing: [root, third, fifth, seventh],
+    octave: 4,
+    duration: QUARTER
+  },
+  Dm7: {
+    voicing: [third, fifth, seventh, root],
+    octave: 4,
+    duration: QUARTER
+  },
+  Gdom9: {
+    voicing: [root, ninth, third, seventh],
+    octave: 4,
+    duration: QUARTER
+  },
+  DbM7: {
+    voicing: [fifth, seventh, root, third],
+    octave: 4,
+    duration: QUARTER
+  },
+  CM7: {
+    voicing: [fifth, seventh, root, third],
+    octave: 4,
+    duration: QUARTER
+  }
+}

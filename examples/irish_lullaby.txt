@@ -1,34 +1,37 @@
-voicings {
-  triads: [
-    {fifth, root, third, fifth},
-    {root, fifth, root, third},
-    {root, root, third, fifth},
-    {root, third, fifth, root},
-    //{root, fifth, third, root},
-    {fifth, third, fifth, root}
-  ],
-  sevenths: [
-    {root, third, fifth, seventh},
-    {root, fifth, seventh, third},
-    {root, seventh, third, fifth},
-    {fifth, seventh, root, third},
-    {fifth, root, third, seventh},
-    {fifth, third, seventh, root},
-    {third, fifth, seventh, root}
-  ]
-}
+//voicings: {
+//  triads: [
+//    [fifth, root, third, fifth],
+//    [root, fifth, root, third],
+//    [root, root, third, fifth],
+//    [root, third, fifth, root],
+//    [root, fifth, third, root],
+//    [fifth, third, fifth, root]
+//  ],
+//  sevenths: [
+//    [root, third, fifth, seventh],
+//    [root, fifth, seventh, third],
+//    [root, seventh, third, fifth],
+//    [fifth, seventh, root, third],
+//    [fifth, root, third, seventh],
+//    [fifth, third, seventh, root],
+//    [third, fifth, seventh, root]
+//  ]
+//}
 
-progression { 
-  Eb {
-    voicing: {root, third, fifth, root}
+progression: { 
+  Eb: {
+    voicing: [root, third, fifth, root],
+    octave: 4
   }, 
-  Gdom7, 
+  Gdom7: {
+    octave: 3
+  }, 
   Cm, 
-  Bbdom7 {
-    voicing: {root, fifth, seventh, third}
+  Bbdom7: {
+    voicing: [root, fifth, seventh, third]
   }, 
-  Eb {
-    voicing: {root, third, fifth, root}
+  Eb: {
+    voicing: [root, third, fifth, root]
   }, 
   Edom7, 
   Fdom7, 

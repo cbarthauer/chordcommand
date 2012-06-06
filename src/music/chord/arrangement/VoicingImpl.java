@@ -45,7 +45,8 @@ public final class VoicingImpl implements Voicing {
 
 	@Override
     public final String toString() {
-		return chordMemberList.toString();
+		return chordMemberList.toString()
+		        .toLowerCase();
 	}
 
 	@Override
