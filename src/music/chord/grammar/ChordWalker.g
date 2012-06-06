@@ -16,10 +16,8 @@ options {
   import music.chord.arrangement.ChordDefinitionStructure;
   import music.chord.arrangement.ChordPlayer;
   import music.chord.arrangement.VoicedChord;
-  import music.chord.arrangement.VoicingManager;
   import music.chord.arrangement.Voicing;
   import music.chord.arrangement.DerivedChordBuilder;
-  import music.chord.arrangement.ChordProgression;
   import music.chord.arrangement.ChordVoicer;
   import music.chord.arrangement.VoicedChordBuilder;
   
@@ -32,7 +30,6 @@ options {
 
 @members {
   List<VoicedChord> chords = new ArrayList<VoicedChord>();
-  VoicingManager voicingManager = new VoicingManager();
   DerivedChordBuilder chordBuilder = new DerivedChordBuilder();
   VoicedChordBuilder triadBuilder;
   VoicedChordBuilder seventhBuilder; 
@@ -57,25 +54,10 @@ options {
 }
 
 
-compilationUnit returns [ChordProgression result]
-    : ^(UNIT voicingDef* progressionDef*) {
-        result = ChordProgression.getInstance()
-            .setChordList(chords)
-            .setVoicingManager(voicingManager);
+compilationUnit returns [List<VoicedChord> result]
+    : ^(UNIT progressionDef*) {
+        result = chords;
     }
-    ;
-    
-voicingDef 
-    : ^('voicings' voicingTypeList+)
-    ;
-    
-voicingTypeList 
-    : ^(TRIADS (currentList=chordMemberList {
-        voicingManager.addTriadVoicing($currentList.voicing);})+)
-    | ^(SEVENTHS (currentList=chordMemberList {
-        voicingManager.addSeventhVoicing($currentList.voicing);})+)
-    | ^(NINTHS (currentList=chordMemberList {
-        voicingManager.addNinthVoicing($currentList.voicing);})+)
     ;
     
 chordMemberList returns [Voicing voicing]

@@ -29,7 +29,7 @@ progression: {
     octave: 4,
     duration: QUARTER
   },
-  Edim7: {
+  Ehdim7: {
     voicing: [root, third, fifth, seventh],
     octave: 4,
     duration: QUARTER

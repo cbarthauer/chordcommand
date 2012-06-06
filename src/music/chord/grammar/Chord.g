@@ -93,33 +93,7 @@ SPEC : 'spec';
 ATTR_LIST : 'attr_list';
 
 compilationUnit 
-    : voicingDef* progressionDef* EOF -> ^(UNIT voicingDef* progressionDef*)
-    ;
-    
-voicingDef :
-    'voicings' ':' START_BLOCK
-      voicingTypeList
-      (',' voicingTypeList)*
-    END_BLOCK
-    -> ^('voicings' voicingTypeList+)
-    ;
-    
-voicingTypeList 
-    : TRIADS ':' START_LIST
-        chordMemberList
-        (',' chordMemberList)*
-      END_LIST
-      -> ^(TRIADS chordMemberList+)
-    | SEVENTHS ':' START_LIST
-        chordMemberList
-        (',' chordMemberList)*    
-      END_LIST
-      -> ^(SEVENTHS chordMemberList+)
-    | NINTHS ':' START_LIST
-        chordMemberList
-        (',' chordMemberList)*
-      END_LIST
-      -> ^(NINTHS chordMemberList+)
+    : progressionDef* EOF -> ^(UNIT progressionDef*)
     ;
     
 chordMemberList

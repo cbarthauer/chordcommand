@@ -5,12 +5,11 @@ import java.util.List;
 
 import music.chord.arrangement.BuilderFactory;
 import music.chord.arrangement.ChordDefinitionStructure;
-import music.chord.arrangement.ChordProgression;
 import music.chord.arrangement.VoicedChord;
 import music.chord.grammar.ChordLexer;
 import music.chord.grammar.ChordParser;
-import music.chord.grammar.ChordWalker;
 import music.chord.grammar.ChordParser.compilationUnit_return;
+import music.chord.grammar.ChordWalker;
 
 import org.antlr.runtime.ANTLRFileStream;
 import org.antlr.runtime.CharStream;
@@ -47,9 +46,8 @@ public class Load implements Command {
             walker.setSeventhBuilder(BuilderFactory.getSeventhBuilder(struct));
             walker.setNinthBuilder(BuilderFactory.getNinthBuilder(struct));
             
-            ChordProgression progression = walker.compilationUnit();
             chordList.clear();
-            chordList.addAll(progression.getChordList());
+            chordList.addAll(walker.compilationUnit());
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (RecognitionException e) {

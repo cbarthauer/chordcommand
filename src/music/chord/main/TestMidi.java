@@ -6,7 +6,6 @@ import java.util.List;
 import music.chord.arrangement.BuilderFactory;
 import music.chord.arrangement.ChordDefinitionStructure;
 import music.chord.arrangement.ChordPlayer;
-import music.chord.arrangement.ChordProgression;
 import music.chord.arrangement.ChordVoicer;
 import music.chord.arrangement.ChordVoicerFactory;
 import music.chord.arrangement.VoicedChord;
@@ -56,8 +55,7 @@ public class TestMidi {
 		walker.setSeventhBuilder(BuilderFactory.getSeventhBuilder(struct));
 		walker.setNinthBuilder(BuilderFactory.getNinthBuilder(struct));
 		
-		ChordProgression progression = walker.compilationUnit();
-		List<VoicedChord> chordList = progression.getChordList();
+		List<VoicedChord> chordList = walker.compilationUnit();
 		
 
 		ChordVoicer voicer = ChordVoicerFactory.getInstance(struct);
