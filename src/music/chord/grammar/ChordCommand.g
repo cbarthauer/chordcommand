@@ -233,7 +233,7 @@ add
       }
   }	
   ;
-  
+
 display
   : DISPLAY {commandList.add(new Display(chordListMap.get(DEFAULT), new VerboseFormatter()));}
   | DISPLAY IDENTIFIER {
@@ -367,13 +367,36 @@ chord returns [VoicedChord chord]
     ;
 
 chordList returns [List<VoicedChord> value]
+@init {value = new ArrayList<VoicedChord>();}
   : first=chord {
-        value = new ArrayList<VoicedChord>();
         value.add($first.chord);
       } 
     (',' subsequent=chord {value.add($subsequent.chord);})*
+  | IDENTIFIER START_LIST range END_LIST {
+        List<VoicedChord> existingList = chordListMap.get($IDENTIFIER.text);
+        for(Integer i : $range.value) {
+          value.add(existingList.get(i));
+        }
+      }
   ;
+
+range returns [List<Integer> value]
+@init {$value = new ArrayList<Integer>();}
+  : rangeAtom[$value] (',' rangeAtom[$value])*
+  ;
+
+rangeAtom[List<Integer> value]
+  : INT {value.add(Integer.parseInt($INT.text));}
+  | firstInt=INT '-' lastInt=INT {
+      int begin = Integer.parseInt($firstInt.text);
+      int end = Integer.parseInt($lastInt.text);
       
+      for(int i = begin; i <= end; i++) {
+        value.add(i);
+      }
+    }
+  ;
+        
 chordSpec returns [VoicedChord chord]
     : NOTE_NAME tquality=triadQuality { chord =
             triadBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
