@@ -8,7 +8,9 @@ options {
 @header {
   package music.chord.grammar;
 
+  import java.util.ArrayList;
   import java.util.List;
+  import java.util.Map;
   
   import music.chord.arrangement.ChordDefinitionStructure;
   import music.chord.arrangement.ChordFinder;
@@ -50,12 +52,13 @@ options {
 }
 
 @members {
+  final String DEFAULT = "default";
   List<Command> commandList = new ArrayList<Command>();
   VoicedChordBuilder triadBuilder;  
   VoicedChordBuilder seventhBuilder;
   VoicedChordBuilder ninthBuilder;
   DerivedChordBuilder derivedBuilder = new DerivedChordBuilder();
-  List<VoicedChord> chordList;
+  Map<String, List<VoicedChord>> chordListMap;
   ChordPlayer player;
   ChordVoicer voicer;
   VoicePartPlayer voicePartPlayer;
@@ -67,8 +70,8 @@ options {
     this.chordFinder = new ChordFinder(struct);
   }
   
-  public void setChordList(List<VoicedChord> chordList) {
-    this.chordList = chordList;
+  public void setChordListMap(Map<String, List<VoicedChord>> chordListMap) {
+    this.chordListMap = chordListMap;
   }
   
   public void setChordVoicer(ChordVoicer voicer) {
@@ -96,19 +99,6 @@ options {
   }
 }
 
-//Miscellaneous Tokens.
-INT : '0'..'9'+;
-
-STRING : '"' ('a'..'z' | 'A'..'Z' | '0'..'9' | '\\' | '.' | ':')+ '"';
-
-//Whitespace
-WS  
-    : ( ' '
-    | '\t'
-    | '\r'
-    | '\n'
-    )+ {$channel=HIDDEN;}
-    ;
 
 //Music Tokens
 NOTE_NAME
@@ -169,6 +159,7 @@ CONTAINING : 'containing';
 SAVE : 'save';
 AS : 'as';
 LOAD : 'load';
+TO : 'to';
 
 NOTE_LENGTH 
   : 'sixteenth'
@@ -187,6 +178,22 @@ PLAY : 'play';
 QUIT : 'quit';
 SET : 'set';
 
+//Miscellaneous Tokens.
+INT : '0'..'9'+;
+
+STRING : '"' ('a'..'z' | 'A'..'Z' | '0'..'9' | '\\' | '.' | ':')+ '"';
+
+IDENTIFIER : 'a'..'z' ('a'..'z' | 'A'..'Z' | '0'..'9')*;
+
+//Whitespace
+WS  
+    : ( ' '
+    | '\t'
+    | '\r'
+    | '\n'
+    )+ {$channel=HIDDEN;}
+    ;
+    
 //Lists
 START_LIST : '[';
 END_LIST : ']';
@@ -197,86 +204,51 @@ program returns [List<Command> result]
   
 command
   : add
-  | remove
-  | insert
   | display
-  | play
-  | set
-  | quit
-  | voice
   | find
-  | save
+  | insert
   | load
+  | play
+  | quit
+  | remove
+  | save
+  | set
+  | voice
   ;
   
 add
   : ADD currentChord=chord {
-	    commandList.add(new AddChord(chordList, $currentChord.chord));
+	    commandList.add(new AddChord(chordListMap.get(DEFAULT), $currentChord.chord));
 	} 
-  ;
-
-remove
-  : REMOVE index=INT {
-        commandList.add(new RemoveChord(chordList, Integer.parseInt($index.text)));
-    }
-  ;
-  
-insert
-  : INSERT currentChord=chord BEFORE INT {
-        commandList.add(
-            new InsertBefore(chordList, $currentChord.chord, Integer.parseInt($INT.text))
-        );
-    }
+  | ADD newList=chordList TO IDENTIFIER {
+      List<VoicedChord> currentList = chordListMap.get($IDENTIFIER.text);
+      
+      if(currentList == null) {
+          currentList = new ArrayList<VoicedChord>();
+          chordListMap.put($IDENTIFIER.text, currentList);
+      }
+      
+      for(VoicedChord chord : $newList.value) {
+          commandList.add(new AddChord(chordListMap.get($IDENTIFIER.text), chord));
+      }
+  }	
   ;
   
 display
-  : DISPLAY {commandList.add(new Display(chordList, new VerboseFormatter()));}
-  | DISPLAY VOICINGS startIndex=INT 'to' endIndex=INT {
+  : DISPLAY {commandList.add(new Display(chordListMap.get(DEFAULT), new VerboseFormatter()));}
+  | DISPLAY IDENTIFIER {
+    commandList.add(new Display(chordListMap.get($IDENTIFIER.text), new VerboseFormatter()));
+  }
+  | DISPLAY VOICINGS startIndex=INT TO endIndex=INT {
     commandList.add(
         new VoicingComparisonList(
-            chordList, 
+            chordListMap.get(DEFAULT), 
             Integer.parseInt($startIndex.text), 
             Integer.parseInt($endIndex.text), 
             voicer
         ));}
-  ; 
-  
-play
-  : PLAY {commandList.add(new Play(chordList, player));}
-  | PLAY voicePart {
-      commandList.add(
-          new PlayVoicePart(
-              chordList, 
-              $voicePart.value, 
-              voicePartPlayer));
-  }
   ;
 
-set
-  : SET VOICING list=chordMemberList ON index=INT {
-      VoicedChord chord = derivedBuilder.setChord(chordList.get(Integer.parseInt($index.text)))
-        .setVoicing($list.voicing)
-        .buildVoicedChord();
-      chordList.set(Integer.parseInt($index.text), chord); 
-  }
-  | SET DURATION NOTE_LENGTH ON index=INT {
-	  VoicedChord chord = derivedBuilder.setChord(chordList.get(Integer.parseInt($index.text)))
-        .setDuration(Duration.durationFromName($NOTE_LENGTH.text))
-        .buildVoicedChord();
-	  chordList.set(Integer.parseInt($index.text), chord);
-  }
-  | SET 'octave' octave=INT ON index=INT {
-      VoicedChord chord = derivedBuilder.setChord(chordList.get(Integer.parseInt($index.text)))
-        .setOctave(Integer.parseInt($octave.text))
-        .buildVoicedChord();
-      chordList.set(Integer.parseInt($index.text), chord);
-  }
-  ;
-
-voice
-  : VOICE ALL {commandList.add(new VoiceChordList(chordList, voicer));}
-  ;
-  
 find
   : FIND CHORDS WHERE member=chordMember IS NOTE_NAME {
       commandList.add(
@@ -294,21 +266,85 @@ find
           ));
   }
   ;
-  
-save
-  : SAVE AS fileName=STRING {
-      commandList.add(new Save(chordList, $fileName.text.replaceAll("\"", "")));
-  }
+
+insert
+  : INSERT currentChord=chord BEFORE INT {
+        commandList.add(
+            new InsertBefore(
+                chordListMap.get(DEFAULT), 
+                $currentChord.chord, 
+                Integer.parseInt($INT.text))
+        );
+    }
   ;
 
 load
   : LOAD fileName=STRING {
-      commandList.add(new Load(chordList, struct, $fileName.text.replaceAll("\"", "")));
+      commandList.add(
+        new Load(
+          chordListMap.get(DEFAULT), 
+          struct, 
+          $fileName.text.replaceAll("\"", "")));
   }
   ;
-    
+
+play
+  : PLAY {commandList.add(new Play(chordListMap.get(DEFAULT), player));}
+  | PLAY IDENTIFIER {commandList.add(new Play(chordListMap.get($IDENTIFIER.text), player));}
+  | PLAY voicePart {
+      commandList.add(
+          new PlayVoicePart(
+              chordListMap.get(DEFAULT), 
+              $voicePart.value, 
+              voicePartPlayer));
+  }
+  ;
+
 quit
   : QUIT { commandList.add(new Quit()); }
+  ;
+            
+remove
+  : REMOVE index=INT {
+        commandList.add(new RemoveChord(chordListMap.get(DEFAULT), Integer.parseInt($index.text)));
+    }
+  ;
+  
+save
+  : SAVE AS fileName=STRING {
+      commandList.add(new Save(chordListMap.get(DEFAULT), $fileName.text.replaceAll("\"", "")));
+  }
+  ;
+
+set
+  : SET VOICING list=chordMemberList ON index=INT {
+      VoicedChord chord = 
+        derivedBuilder.setChord(chordListMap.get(DEFAULT).get(Integer.parseInt($index.text)))
+        .setVoicing($list.voicing)
+        .buildVoicedChord();
+      chordListMap.get(DEFAULT).set(Integer.parseInt($index.text), chord); 
+  }
+  | SET DURATION NOTE_LENGTH ON index=INT {
+	  VoicedChord chord = 
+	    derivedBuilder.setChord(chordListMap.get(DEFAULT).get(Integer.parseInt($index.text)))
+        .setDuration(Duration.durationFromName($NOTE_LENGTH.text))
+        .buildVoicedChord();
+	  chordListMap.get(DEFAULT).set(Integer.parseInt($index.text), chord);
+  }
+  | SET 'octave' octave=INT ON index=INT {
+      VoicedChord chord = 
+        derivedBuilder.setChord(chordListMap.get(DEFAULT).get(Integer.parseInt($index.text)))
+        .setOctave(Integer.parseInt($octave.text))
+        .buildVoicedChord();
+      chordListMap.get(DEFAULT).set(Integer.parseInt($index.text), chord);
+  }
+  ;
+
+voice
+  : VOICE ALL {commandList.add(new VoiceChordList(chordListMap.get(DEFAULT), voicer));}
+  | VOICE ALL IDENTIFIER {
+      commandList.add(new VoiceChordList(chordListMap.get($IDENTIFIER.text), voicer));
+  }
   ;
     
 chordMemberList returns [Voicing voicing]
@@ -329,7 +365,15 @@ chordMemberList returns [Voicing voicing]
 chord returns [VoicedChord chord]
     : currentSpec=chordSpec {chord = $currentSpec.chord;}
     ;
-    
+
+chordList returns [List<VoicedChord> value]
+  : first=chord {
+        value = new ArrayList<VoicedChord>();
+        value.add($first.chord);
+      } 
+    (',' subsequent=chord {value.add($subsequent.chord);})*
+  ;
+      
 chordSpec returns [VoicedChord chord]
     : NOTE_NAME tquality=triadQuality { chord =
             triadBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))

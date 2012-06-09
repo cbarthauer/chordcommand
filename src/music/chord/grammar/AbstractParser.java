@@ -1,6 +1,7 @@
 package music.chord.grammar;
 
 import java.util.List;
+import java.util.Map;
 
 import music.chord.arrangement.ChordDefinitionStructure;
 import music.chord.arrangement.ChordPlayer;
@@ -26,7 +27,7 @@ public abstract class AbstractParser extends Parser {
     
     public abstract void setChordDefinitionStructure(ChordDefinitionStructure struct);
     
-    public abstract void setChordList(List<VoicedChord> chordList);
+    public abstract void setChordListMap(Map<String, List<VoicedChord>> chordListMap);
     
     public abstract void setChordVoicer(ChordVoicer voicer);
     
