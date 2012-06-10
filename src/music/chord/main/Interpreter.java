@@ -38,7 +38,7 @@ public class Interpreter {
 		ChordDefinitionStructure struct = ChordDefinitionStructureFactory.getInstance(
 		        "D:\\musicspace\\chordgrammar\\definitions\\chords.txt");
 		ChordVoicer voicer = ChordVoicerFactory.getInstance(struct);
-		Map<String, List<VoicedChord>> chordListMap = chordListMap();
+		Map<String, List<VoicedChord>> chordListMap = new HashMap<String, List<VoicedChord>>();
 		VoicedChordBuilder triadBuilder = BuilderFactory.getTriadBuilder(struct);
 		VoicedChordBuilder seventhBuilder = BuilderFactory.getSeventhBuilder(struct);
 		VoicedChordBuilder ninthBuilder = BuilderFactory.getNinthBuilder(struct);
@@ -65,13 +65,6 @@ public class Interpreter {
 			}
 		}
 	}
-
-    private static Map<String, List<VoicedChord>> chordListMap() {
-        List<VoicedChord> chordList = new ArrayList<VoicedChord>();
-        Map<String, List<VoicedChord>> chordListMap = new HashMap<String, List<VoicedChord>>();
-        chordListMap.put("default", chordList);
-        return chordListMap;
-    }
 
     private static List<Command> commandListFromParser(ChordCommandParser parser) 
             throws RecognitionException {

@@ -52,7 +52,6 @@ options {
 }
 
 @members {
-  final String DEFAULT = "default";
   List<Command> commandList = new ArrayList<Command>();
   VoicedChordBuilder triadBuilder;  
   VoicedChordBuilder seventhBuilder;
@@ -287,8 +286,7 @@ load
   ;
 
 play
-  : PLAY {commandList.add(new Play(chordListMap.get(DEFAULT), player));}
-  | PLAY IDENTIFIER {commandList.add(new Play(chordListMap.get($IDENTIFIER.text), player));}
+  : PLAY IDENTIFIER {commandList.add(new Play(chordListMap.get($IDENTIFIER.text), player));}
   | PLAY IDENTIFIER voicePart {
       commandList.add(
           new PlayVoicePart(
@@ -321,32 +319,37 @@ save
   ;
 
 set
-  : SET VOICING list=chordMemberList ON index=INT {
-      VoicedChord chord = 
-        derivedBuilder.setChord(chordListMap.get(DEFAULT).get(Integer.parseInt($index.text)))
-        .setVoicing($list.voicing)
-        .buildVoicedChord();
-      chordListMap.get(DEFAULT).set(Integer.parseInt($index.text), chord); 
+  : SET VOICING list=chordMemberList ON IDENTIFIER START_LIST range END_LIST {
+      for(Integer i : $range.value) {
+	      VoicedChord chord = 
+	          derivedBuilder.setChord(chordListMap.get($IDENTIFIER.text).get(i))
+	              .setVoicing($list.voicing)
+	              .buildVoicedChord();
+	      chordListMap.get($IDENTIFIER.text).set(i, chord);
+      } 
   }
-  | SET DURATION NOTE_LENGTH ON index=INT {
-	  VoicedChord chord = 
-	    derivedBuilder.setChord(chordListMap.get(DEFAULT).get(Integer.parseInt($index.text)))
-        .setDuration(Duration.durationFromName($NOTE_LENGTH.text))
-        .buildVoicedChord();
-	  chordListMap.get(DEFAULT).set(Integer.parseInt($index.text), chord);
+  | SET DURATION NOTE_LENGTH ON IDENTIFIER START_LIST range END_LIST {
+      for(Integer i : $range.value) {
+		  VoicedChord chord = 
+		      derivedBuilder.setChord(chordListMap.get($IDENTIFIER.text).get(i))
+	              .setDuration(Duration.durationFromName($NOTE_LENGTH.text))
+	              .buildVoicedChord();
+		  chordListMap.get($IDENTIFIER.text).set(i, chord);
+      }
   }
-  | SET 'octave' octave=INT ON index=INT {
-      VoicedChord chord = 
-        derivedBuilder.setChord(chordListMap.get(DEFAULT).get(Integer.parseInt($index.text)))
-        .setOctave(Integer.parseInt($octave.text))
-        .buildVoicedChord();
-      chordListMap.get(DEFAULT).set(Integer.parseInt($index.text), chord);
+  | SET 'octave' octave=INT ON IDENTIFIER START_LIST range END_LIST {
+      for(Integer i : $range.value) {
+          VoicedChord chord = 
+              derivedBuilder.setChord(chordListMap.get($IDENTIFIER.text).get(i))
+                  .setOctave(Integer.parseInt($octave.text))
+                  .buildVoicedChord();
+          chordListMap.get($IDENTIFIER.text).set(i, chord);
+      }
   }
   ;
 
 voice
-  : VOICE ALL {commandList.add(new VoiceChordList(chordListMap.get(DEFAULT), voicer));}
-  | VOICE ALL IDENTIFIER {
+  : VOICE ALL IDENTIFIER {
       commandList.add(new VoiceChordList(chordListMap.get($IDENTIFIER.text), voicer));
   }
   ;
