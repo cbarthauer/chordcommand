@@ -160,6 +160,7 @@ SAVE : 'save';
 AS : 'as';
 LOAD : 'load';
 TO : 'to';
+FOR : 'for';
 
 NOTE_LENGTH 
   : 'sixteenth'
@@ -216,11 +217,8 @@ command
   | voice
   ;
   
-add
-  : ADD currentChord=chord {
-	    commandList.add(new AddChord(chordListMap.get(DEFAULT), $currentChord.chord));
-	} 
-  | ADD newList=chordList TO IDENTIFIER {
+add 
+  : ADD newList=chordList TO IDENTIFIER {
       List<VoicedChord> currentList = chordListMap.get($IDENTIFIER.text);
       
       if(currentList == null) {
@@ -235,14 +233,13 @@ add
   ;
 
 display
-  : DISPLAY {commandList.add(new Display(chordListMap.get(DEFAULT), new VerboseFormatter()));}
-  | DISPLAY IDENTIFIER {
+  : DISPLAY IDENTIFIER {
     commandList.add(new Display(chordListMap.get($IDENTIFIER.text), new VerboseFormatter()));
   }
-  | DISPLAY VOICINGS startIndex=INT TO endIndex=INT {
+  | DISPLAY VOICINGS FOR IDENTIFIER START_LIST startIndex=INT TO endIndex=INT END_LIST {
     commandList.add(
         new VoicingComparisonList(
-            chordListMap.get(DEFAULT), 
+            chordListMap.get($IDENTIFIER.text), 
             Integer.parseInt($startIndex.text), 
             Integer.parseInt($endIndex.text), 
             voicer
@@ -268,21 +265,22 @@ find
   ;
 
 insert
-  : INSERT currentChord=chord BEFORE INT {
+  : INSERT newList=chordList BEFORE IDENTIFIER START_LIST INT END_LIST {
         commandList.add(
             new InsertBefore(
-                chordListMap.get(DEFAULT), 
-                $currentChord.chord, 
-                Integer.parseInt($INT.text))
+                $newList.value, 
+                Integer.parseInt($INT.text),
+                chordListMap.get($IDENTIFIER.text))
         );
     }
   ;
 
 load
-  : LOAD fileName=STRING {
+  : LOAD fileName=STRING AS IDENTIFIER {
+      chordListMap.put($IDENTIFIER.text, new ArrayList<VoicedChord>());
       commandList.add(
         new Load(
-          chordListMap.get(DEFAULT), 
+          chordListMap.get($IDENTIFIER.text), 
           struct, 
           $fileName.text.replaceAll("\"", "")));
   }

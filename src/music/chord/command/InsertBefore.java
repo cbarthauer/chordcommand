@@ -1,30 +1,31 @@
 package music.chord.command;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import music.chord.arrangement.VoicedChord;
 
 public class InsertBefore implements Command {
 
-	private List<VoicedChord> chordList;
-	private VoicedChord chord;
-	private int index;
+    private List<VoicedChord> chordsForInsert;
+    private int insertionIndex;
+    private List<VoicedChord> existingList;
 	
-	public InsertBefore(List<VoicedChord> chordList, VoicedChord chord, int index) {
-		this.chordList = chordList;
-		this.chord = chord;
-		this.index = index;
+	public InsertBefore(
+	        List<VoicedChord> chordsForInsert, 
+	        int insertionIndex, 
+	        List<VoicedChord> existingList) {
+	    this.chordsForInsert = chordsForInsert;
+	    this.insertionIndex = insertionIndex;
+	    this.existingList = existingList;
 	}
 	
 	@Override
 	public void execute() {
-		chordList.add(null);
-		
-		for(int i = chordList.size() - 1; i > index ; i--) {
-			chordList.set(i, chordList.get(i - 1));
-		}
-		
-		chordList.set(index, chord);
+	    LinkedList<VoicedChord> tmpList = new LinkedList<VoicedChord>(existingList);
+		tmpList.addAll(insertionIndex, chordsForInsert);
+		existingList.clear();
+		existingList.addAll(tmpList);
 	}
 
 }
