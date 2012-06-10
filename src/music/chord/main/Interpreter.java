@@ -2,7 +2,9 @@ package music.chord.main;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import music.chord.arrangement.BuilderFactory;
@@ -36,7 +38,7 @@ public class Interpreter {
 		ChordDefinitionStructure struct = ChordDefinitionStructureFactory.getInstance(
 		        "D:\\musicspace\\chordgrammar\\definitions\\chords.txt");
 		ChordVoicer voicer = ChordVoicerFactory.getInstance(struct);
-		List<VoicedChord> chordList = new ArrayList<VoicedChord>();
+		Map<String, List<VoicedChord>> chordListMap = new HashMap<String, List<VoicedChord>>();
 		VoicedChordBuilder triadBuilder = BuilderFactory.getTriadBuilder(struct);
 		VoicedChordBuilder seventhBuilder = BuilderFactory.getSeventhBuilder(struct);
 		VoicedChordBuilder ninthBuilder = BuilderFactory.getNinthBuilder(struct);
@@ -48,7 +50,7 @@ public class Interpreter {
 			TokenStream tokenStream = new CommonTokenStream(lexer);
 			ChordCommandParser parser = new ChordCommandParser(tokenStream);
 			parser.setChordDefinitionStructure(struct);
-			parser.setChordList(chordList);
+			parser.setChordListMap(chordListMap);
 			parser.setChordVoicer(voicer);
 			parser.setChordPlayer(new ChordPlayer());
 			parser.setTriadBuilder(triadBuilder);

@@ -49,14 +49,19 @@ progression: {
     octave: 4,
     duration: QUARTER
   },
+  Abdim7: {
+    voicing: [fifth, root, third, seventh],
+    octave: 4,
+    duration: QUARTER
+  },
   DbM7: {
-    voicing: [fifth, seventh, root, third],
+    voicing: [root, fifth, seventh, third],
     octave: 4,
     duration: QUARTER
   },
   CM7: {
-    voicing: [fifth, seventh, root, third],
+    voicing: [root, fifth, seventh, third],
     octave: 4,
-    duration: QUARTER
+    duration: HALF
   }
 }
