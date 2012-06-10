@@ -289,10 +289,10 @@ load
 play
   : PLAY {commandList.add(new Play(chordListMap.get(DEFAULT), player));}
   | PLAY IDENTIFIER {commandList.add(new Play(chordListMap.get($IDENTIFIER.text), player));}
-  | PLAY voicePart {
+  | PLAY IDENTIFIER voicePart {
       commandList.add(
           new PlayVoicePart(
-              chordListMap.get(DEFAULT), 
+              chordListMap.get($IDENTIFIER.text), 
               $voicePart.value, 
               voicePartPlayer));
   }
@@ -303,14 +303,20 @@ quit
   ;
             
 remove
-  : REMOVE index=INT {
-        commandList.add(new RemoveChord(chordListMap.get(DEFAULT), Integer.parseInt($index.text)));
+  : REMOVE IDENTIFIER START_LIST range END_LIST {        
+      commandList.add(
+          new RemoveChord( 
+              $range.value,
+              chordListMap.get($IDENTIFIER.text)));
     }
   ;
   
 save
-  : SAVE AS fileName=STRING {
-      commandList.add(new Save(chordListMap.get(DEFAULT), $fileName.text.replaceAll("\"", "")));
+  : SAVE IDENTIFIER AS fileName=STRING {
+      commandList.add(
+          new Save(
+              chordListMap.get($IDENTIFIER.text), 
+              $fileName.text.replaceAll("\"", "")));
   }
   ;
 
