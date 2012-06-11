@@ -35,6 +35,7 @@ options {
   import music.chord.command.FindChordsByChordMember;
   import music.chord.command.FindChordsContainingNoteName;
   import music.chord.command.InsertBefore;
+  import music.chord.command.WriteLilyPondFile;
   import music.chord.command.Load;
   import music.chord.command.Play;
   import music.chord.command.PlayVoicePart;
@@ -311,10 +312,20 @@ remove
   
 save
   : SAVE IDENTIFIER AS fileName=STRING {
-      commandList.add(
-          new Save(
-              chordListMap.get($IDENTIFIER.text), 
-              $fileName.text.replaceAll("\"", "")));
+      String outFile = $fileName.text.replaceAll("\"", "");
+      
+      if(outFile.endsWith(".ly")) {
+          commandList.add(
+              new WriteLilyPondFile(
+                  chordListMap.get($IDENTIFIER.text),
+                  outFile));
+      }
+      else {
+	      commandList.add(
+	          new Save(
+	              chordListMap.get($IDENTIFIER.text), 
+	              outFile));
+	  }
   }
   ;
 

@@ -9,8 +9,9 @@ public class Note implements Comparable<Note> {
 	private NoteName noteName;
 	private Integer midiNumber;
     private Duration duration;
+    private int octave;
 
-	Note(NoteName noteName, Integer midiNumber, Duration duration) {
+    Note(NoteName noteName, Integer midiNumber, Duration duration) {
 		this.noteName = noteName;
 		this.midiNumber = midiNumber;
 		this.duration = duration;
@@ -21,6 +22,10 @@ public class Note implements Comparable<Note> {
 		return midiNumber.compareTo(otherNote.midiNumber);
 	}
 
+    public Duration getDuration() {
+        return duration;
+    }
+
 	public Integer getMidiNumber() {
 		return midiNumber;
 	}
@@ -28,17 +33,22 @@ public class Note implements Comparable<Note> {
 	public NoteName getNoteName() {
 		return noteName;
 	}
+
+	public int getOctave() {
+        return octave;
+    }
 	
-	void setOctave(int octave) {
-		midiNumber = midiNumber + (octave * Interval.PERFECT_OCTAVE.getHalfSteps());
-	}
+	public int getTicks(int ppq) {
+        float conversionFactor = duration.getPpqConversionFactor();
+        return Math.round(ppq * conversionFactor);
+    }
 
 	public String toString() {
 		return noteName + "(" + midiNumber + ")";
 	}
 
-    public int getTicks(int ppq) {
-        float conversionFactor = duration.getPpqConversionFactor();
-        return Math.round(ppq * conversionFactor);
-    }
+    void setOctave(int octave) {
+	    this.octave = octave;
+		midiNumber = midiNumber + (octave * Interval.PERFECT_OCTAVE.getHalfSteps());
+	}
 }

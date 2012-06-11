@@ -10,8 +10,8 @@ progression: {
     duration: QUARTER
   },
   Adom7: {
-    voicing: [root, seventh, third, fifth],
-    octave: 3,
+    voicing: [fifth, root, third, seventh],
+    octave: 4,
     duration: QUARTER
   },
   Bm7: {
@@ -62,6 +62,6 @@ progression: {
   CM7: {
     voicing: [root, fifth, seventh, third],
     octave: 4,
-    duration: HALF
+    duration: WHOLE
   }
 }

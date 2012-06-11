@@ -69,7 +69,7 @@ public final class VoicingImpl implements Voicing {
 	}
 
     private int placeAbove(int upper, int lower) {
-		int result = upper;
+		int result = upper - 1;
 		
 		while(result <= lower) {
 			result = result + Interval.PERFECT_OCTAVE.getHalfSteps();
