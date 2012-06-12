@@ -1,6 +1,7 @@
 package music.chord.notation;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ public class LilyPondConverter {
 	private static Map<NoteName, String> lySymbolMap;
 	private static Map<Integer, String> lySuffixMap;
 	private static Map<Duration, String> lyDurationMap;
+	private static Map<Integer, Integer> lySuffixRange;
 	
 	static {
 		lySymbolMap = new HashMap<NoteName, String>();
@@ -48,6 +50,15 @@ public class LilyPondConverter {
 		lyDurationMap.put(Duration.QUARTER, "4");
 		lyDurationMap.put(Duration.EIGHTH, "8");
 		lyDurationMap.put(Duration.SIXTEENTH, "16");
+		
+		lySuffixRange = new LinkedHashMap<Integer, Integer>();
+		lySuffixRange.put(24, 1);
+		lySuffixRange.put(36, 2);
+		lySuffixRange.put(48, 3);
+		lySuffixRange.put(60, 4);
+		lySuffixRange.put(72, 5);
+		lySuffixRange.put(84, 6);
+		lySuffixRange.put(96, 7);
 	}
 	
 
@@ -79,33 +90,20 @@ public class LilyPondConverter {
     private String lySuffixFromNote(Note currentNote) {
 		int midiNumber = currentNote.getMidiNumber();
 		
-		if(midiNumber < 12 || midiNumber >= 96) {
+		if(midiNumber < 12 || 95 < midiNumber) {
 		    throw new IllegalArgumentException(
-		            "MIDI number " + midiNumber + " is out of range: 12-95.");
+		            "MIDI number " + midiNumber 
+		            + " for note " + currentNote 
+		            + " is out of range: 12-95.");
 		}
 	
-		int lyOctave = 0;
+		int lyOctave = lySuffixRange.size();
 		
-		if(12 <= midiNumber && midiNumber < 24) {
-		    lyOctave = 1;
-		}
-		else if(24 <= midiNumber && midiNumber < 36) {
-		    lyOctave = 2;
-		}
-		else if(36 <= midiNumber && midiNumber < 48) {
-		    lyOctave = 3;
-		}
-		else if(48 <= midiNumber && midiNumber < 60) {
-		    lyOctave = 4;
-		}
-		else if(60 <= midiNumber && midiNumber < 72) {
-		    lyOctave = 5;
-		}
-		else if(72 <= midiNumber && midiNumber < 84) {
-		    lyOctave = 6;
-		}
-		else if(84 <= midiNumber && midiNumber < 96) {
-		    lyOctave = 7;
+		for(Integer rangeLimit : lySuffixRange.keySet()) {
+		    if(midiNumber < rangeLimit) {
+		        lyOctave = lySuffixRange.get(rangeLimit);
+		        break;
+		    }
 		}
 		
 		String symbol = currentNote.getNoteName().getSymbol();

@@ -49,8 +49,8 @@ progression: {
     octave: 4,
     duration: QUARTER
   },
-  Abdim7: {
-    voicing: [fifth, root, third, seventh],
+  Bdim7: {
+    voicing: [third, seventh, root, fifth],
     octave: 4,
     duration: QUARTER
   },

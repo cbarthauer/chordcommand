@@ -1,6 +1,7 @@
 group barbershop;
 
 score(tenorPitches, leadPitches, baritonePitches, bassPitches) ::= <<
+\version "2.14.2"
 \language "english"
 
 \paper {
