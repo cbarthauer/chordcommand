@@ -33,7 +33,7 @@ options {
   import music.chord.command.Command;
   import music.chord.command.Display;
   import music.chord.command.FindChordsByChordMember;
-  import music.chord.command.FindChordsContainingNoteName;
+  import music.chord.command.FindChordsContainingNoteNames;
   import music.chord.command.InsertBefore;
   import music.chord.command.WriteLilyPondFile;
   import music.chord.command.Load;
@@ -255,15 +255,23 @@ find
               chordFinder
           ));
   }
-  | FIND CHORDS CONTAINING NOTE_NAME {
+  | FIND CHORDS CONTAINING noteNameList {
       commandList.add(
-          new FindChordsContainingNoteName(
-              NoteName.forSymbol($NOTE_NAME.text), 
+          new FindChordsContainingNoteNames(
+              $noteNameList.value, 
               chordFinder
           ));
   }
   ;
 
+noteNameList returns [List<NoteName> value]
+@init{value = new ArrayList<NoteName>();}
+  : first=NOTE_NAME 
+      {value.add(NoteName.forSymbol($first.text));} 
+    (',' subsequent=NOTE_NAME 
+      {value.add(NoteName.forSymbol($subsequent.text));})*
+  ;
+  
 insert
   : INSERT newList=chordList BEFORE IDENTIFIER START_LIST INT END_LIST {
         commandList.add(

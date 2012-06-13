@@ -25,20 +25,6 @@ public class ChordFinder {
             addChords(struct, name, "Ninth", ninthBuilder);
         }
     }
-    
-    public List<VoicedChord> find(NoteName note) {
-        List<VoicedChord> result = new ArrayList<VoicedChord>();
-        
-        for(VoicedChord chord : chordList) {
-            for(ChordMember member : ChordMember.values()) {
-                if(note.equals(chord.noteNameFromChordMember(member))) {
-                    result.add(chord);
-                }
-            }
-        }
-        
-        return result;
-    }
 
     public List<VoicedChord> find(NoteName note, ChordMember member) {
         List<VoicedChord> result = new ArrayList<VoicedChord>();
@@ -52,6 +38,18 @@ public class ChordFinder {
         return result;
     }
 
+    public List<VoicedChord> find(List<NoteName> noteList) {
+        List<VoicedChord> result = new ArrayList<VoicedChord>();
+        
+        for(VoicedChord chord : chordList) {
+            if(chord.containsNoteNames(noteList)) {
+                result.add(chord);
+            }
+        }
+        
+        return result;
+    }
+    
     private void addChords(
             ChordDefinitionStructure struct,
             NoteName name,

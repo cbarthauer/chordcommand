@@ -2,6 +2,7 @@ package music.chord.arrangement;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import music.chord.base.ChordMember;
@@ -37,12 +38,13 @@ public class ChordFinderTest {
     }
     
     @Test
-    public void testFindByNote() {
-        List<VoicedChord> chordList = finder.find(NoteName.forSymbol("F#"));
+    public void testFindByNoteList() {
+        List<NoteName> noteList = new ArrayList<NoteName>();
+        noteList.add(NoteName.forSymbol("F#"));
+        List<VoicedChord> chordList = finder.find(noteList);
         
         for(VoicedChord chord : chordList) {
-            System.out.println(
-                    chord.noteNameFromChordMember(ChordMember.ROOT) + " " + chord.getSymbol());
+            System.out.println(chord.getSymbol());
         }
         
         assertTrue("Found " + chordList.size() + " chords.", chordList.size() > 0);

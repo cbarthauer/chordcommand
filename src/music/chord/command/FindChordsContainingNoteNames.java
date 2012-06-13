@@ -6,19 +6,19 @@ import music.chord.arrangement.ChordFinder;
 import music.chord.arrangement.VoicedChord;
 import music.chord.base.NoteName;
 
-public class FindChordsContainingNoteName implements Command {
+public class FindChordsContainingNoteNames implements Command {
 
-    private NoteName note;
+    private List<NoteName> noteNameList;
     private ChordFinder finder;
 
-    public FindChordsContainingNoteName(NoteName note, ChordFinder finder) {
-        this.note = note;
+    public FindChordsContainingNoteNames(List<NoteName> noteNameList, ChordFinder finder) {
+        this.noteNameList = noteNameList;
         this.finder = finder;
     }
     
     @Override
     public void execute() {
-        List<VoicedChord> chordList = finder.find(note);
+        List<VoicedChord> chordList = finder.find(noteNameList);
         
         for(VoicedChord chord : chordList) {
             System.out.println(chord.getSymbol());
