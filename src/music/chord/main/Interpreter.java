@@ -19,6 +19,7 @@ import music.chord.command.Command;
 import music.chord.grammar.ChordCommandLexer;
 import music.chord.grammar.ChordCommandParser;
 import music.chord.grammar.ChordDefinitionStructureFactory;
+import music.chord.grammar.ChordListRegistry;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CharStream;
@@ -38,10 +39,10 @@ public class Interpreter {
 		ChordDefinitionStructure struct = ChordDefinitionStructureFactory.getInstance(
 		        "D:\\musicspace\\chordgrammar\\definitions\\chords.txt");
 		ChordVoicer voicer = ChordVoicerFactory.getInstance(struct);
-		Map<String, List<VoicedChord>> chordListMap = new HashMap<String, List<VoicedChord>>();
 		VoicedChordBuilder triadBuilder = BuilderFactory.getTriadBuilder(struct);
 		VoicedChordBuilder seventhBuilder = BuilderFactory.getSeventhBuilder(struct);
 		VoicedChordBuilder ninthBuilder = BuilderFactory.getNinthBuilder(struct);
+		ChordListRegistry reg = new ChordListRegistry();
 		
 		while(true) {
 			line = scanner.nextLine();
@@ -50,7 +51,7 @@ public class Interpreter {
 			TokenStream tokenStream = new CommonTokenStream(lexer);
 			ChordCommandParser parser = new ChordCommandParser(tokenStream);
 			parser.setChordDefinitionStructure(struct);
-			parser.setChordListMap(chordListMap);
+			parser.setChordListRegistry(reg);
 			parser.setChordVoicer(voicer);
 			parser.setChordPlayer(new ChordPlayer());
 			parser.setTriadBuilder(triadBuilder);

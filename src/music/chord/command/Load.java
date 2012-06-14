@@ -1,12 +1,11 @@
 package music.chord.command;
 
 import java.io.IOException;
-import java.util.List;
 
 import music.chord.arrangement.BuilderFactory;
 import music.chord.arrangement.ChordDefinitionStructure;
-import music.chord.arrangement.VoicedChord;
 import music.chord.grammar.ChordLexer;
+import music.chord.grammar.ChordListRegistry;
 import music.chord.grammar.ChordParser;
 import music.chord.grammar.ChordParser.compilationUnit_return;
 import music.chord.grammar.ChordWalker;
@@ -20,14 +19,21 @@ import org.antlr.runtime.tree.CommonTreeNodeStream;
 
 public class Load implements Command {
 
-    private List<VoicedChord> chordList;
-    private String fileName;
+    private String identifier;
     private ChordDefinitionStructure struct;
+    private String fileName;    
+    private ChordListRegistry reg;
 
-    public Load(List<VoicedChord> chordList, ChordDefinitionStructure struct, String fileName) {
-        this.chordList = chordList;
+    public Load(
+            String identifier, 
+            ChordDefinitionStructure struct, 
+            String fileName, 
+            ChordListRegistry reg) {
+        
+        this.identifier = identifier;
         this.struct = struct;
         this.fileName = fileName;
+        this.reg = reg;
     }
     
     @Override
@@ -46,8 +52,7 @@ public class Load implements Command {
             walker.setSeventhBuilder(BuilderFactory.getSeventhBuilder(struct));
             walker.setNinthBuilder(BuilderFactory.getNinthBuilder(struct));
             
-            chordList.clear();
-            chordList.addAll(walker.compilationUnit());
+            reg.put(identifier, walker.compilationUnit());
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (RecognitionException e) {
