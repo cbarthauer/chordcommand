@@ -6,6 +6,7 @@ import java.util.Map;
 
 import music.chord.base.ChordMember;
 import music.chord.base.ChordSpec;
+import music.chord.base.ChordType;
 import music.chord.base.NoteName;
 import music.chord.base.Quality;
 
@@ -53,10 +54,10 @@ public class ChordFinder {
     private void addChords(
             ChordDefinitionStructure struct,
             NoteName name,
-            String type,
+            String typeName,
             VoicedChordBuilder builder) {
 
-        Map<Quality, ChordSpec> qualityMap = struct.qualityMapFromType(type);
+        Map<Quality, ChordSpec> qualityMap = struct.qualityMapFromType(ChordType.forName(typeName));
         
         for(Quality quality : qualityMap.keySet()) {
             chordList.add(

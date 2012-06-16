@@ -7,22 +7,23 @@ import java.util.Map;
 
 import music.chord.base.ChordMember;
 import music.chord.base.ChordSpec;
+import music.chord.base.ChordType;
 import music.chord.base.IntervalDirective;
 import music.chord.base.Quality;
 
 public final class ChordDefinitionStructure {
-    private Map<String, Map<Quality, ChordSpec>> chordMap;
-    private Map<String, List<Voicing>> voicingMap;
+    private Map<ChordType, Map<Quality, ChordSpec>> chordMap;
+    private Map<ChordType, List<Voicing>> voicingMap;
     private List<Voicing> allVoicings;
     
     public ChordDefinitionStructure() {
-        chordMap = new HashMap<String, Map<Quality, ChordSpec>>();
-        voicingMap = new HashMap<String, List<Voicing>>();
+        chordMap = new HashMap<ChordType, Map<Quality, ChordSpec>>();
+        voicingMap = new HashMap<ChordType, List<Voicing>>();
         allVoicings = new ArrayList<Voicing>();
     }
     
     public final void addQuality(
-            String type, 
+            ChordType type, 
             Quality quality, 
             Map<ChordMember, IntervalDirective> dirMap) {
         
@@ -37,7 +38,7 @@ public final class ChordDefinitionStructure {
         chordMap.put(type, qualityMap);
     }
     
-    public final void addVoicing(String type, Voicing voicing) {
+    public final void addVoicing(ChordType type, Voicing voicing) {
         List<Voicing> voicingList = voicingMap.get(type);
         
         if(voicingList == null) {
@@ -50,7 +51,7 @@ public final class ChordDefinitionStructure {
         allVoicings.add(voicing);
     }
 
-    public final ChordSpec getChordSpec(String type, Quality quality) {
+    public final ChordSpec getChordSpec(ChordType type, Quality quality) {
         return chordMap.get(type).get(quality);
     }
 
@@ -70,7 +71,7 @@ public final class ChordDefinitionStructure {
         return voicingMap.get(type);
     }
 
-    public final Map<Quality, ChordSpec> qualityMapFromType(String type) {
+    public final Map<Quality, ChordSpec> qualityMapFromType(ChordType type) {
         return new HashMap<Quality, ChordSpec>(chordMap.get(type));
     }
 

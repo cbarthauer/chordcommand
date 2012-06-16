@@ -16,6 +16,7 @@ options {
     import music.chord.arrangement.Voicing;
     
     import music.chord.base.ChordMember;
+    import music.chord.base.ChordType;
     import music.chord.base.Interval;
     import music.chord.base.IntervalDirective;
     import music.chord.base.Quality;
@@ -27,7 +28,7 @@ options {
 
 @members {
     ChordDefinitionStructure struct = new ChordDefinitionStructure();
-    String currentType;
+    ChordType currentType;
 }
 
 //Whitespace
@@ -82,7 +83,7 @@ program returns [ChordDefinitionStructure chordDefinitionStructure]
   ;
 
 definition:
-  DEFINE name1=NAME { currentType = $name1.text; }
+  DEFINE name1=NAME { currentType = ChordType.forName($name1.text); }
   BEGIN
     chordStructure+
     voicingList

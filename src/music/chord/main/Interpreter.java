@@ -2,9 +2,7 @@ package music.chord.main;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 import music.chord.arrangement.BuilderFactory;
@@ -13,7 +11,6 @@ import music.chord.arrangement.ChordPlayer;
 import music.chord.arrangement.ChordVoicer;
 import music.chord.arrangement.ChordVoicerFactory;
 import music.chord.arrangement.VoicePartPlayer;
-import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.VoicedChordBuilder;
 import music.chord.command.Command;
 import music.chord.grammar.ChordCommandLexer;

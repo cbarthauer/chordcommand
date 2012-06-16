@@ -9,6 +9,7 @@ import music.chord.arrangement.BuilderFactory;
 import music.chord.arrangement.ChordDefinitionStructure;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.VoicedChordBuilder;
+import music.chord.base.ChordType;
 import music.chord.base.NoteName;
 import music.chord.base.Quality;
 
@@ -31,7 +32,7 @@ public class ChordListRegistryTest {
 
     @Test
     public void testAdd() {
-        VoicedChord chord1 = getChord("C", "Triad", Quality.MAJOR_TRIAD);
+        VoicedChord chord1 = getChord("C", ChordType.TRIAD, Quality.MAJOR_TRIAD);
         reg.add("c1", chord1);
         reg.add("c1", chord1);
         
@@ -41,7 +42,7 @@ public class ChordListRegistryTest {
     
     @Test
     public void testByIdentifier() {
-        VoicedChord chord1 = getChord("C", "Triad", Quality.MAJOR_TRIAD);
+        VoicedChord chord1 = getChord("C", ChordType.TRIAD, Quality.MAJOR_TRIAD);
             
         List<VoicedChord> chordList = new ArrayList<VoicedChord>();
         chordList.add(chord1);
@@ -63,7 +64,7 @@ public class ChordListRegistryTest {
 
     @Test
     public void testGetChord() {
-        VoicedChord chord1 = getChord("C", "Triad", Quality.MAJOR_TRIAD);
+        VoicedChord chord1 = getChord("C", ChordType.TRIAD, Quality.MAJOR_TRIAD);
         reg.add("c1", chord1);
         
         VoicedChord fromReg = reg.getChord("c1", 0);
@@ -72,16 +73,16 @@ public class ChordListRegistryTest {
     
     @Test
     public void testSet() {
-        VoicedChord chord1 = getChord("C", "Triad", Quality.MAJOR_TRIAD);
+        VoicedChord chord1 = getChord("C", ChordType.TRIAD, Quality.MAJOR_TRIAD);
         reg.add("c1", chord1);
         
-        VoicedChord chord2 = getChord("D", "Seventh", Quality.DIMINISHED_SEVENTH);
+        VoicedChord chord2 = getChord("D", ChordType.SEVENTH, Quality.DIMINISHED_SEVENTH);
         reg.set("c1", 0, chord2);
         
         assertTrue(reg.byIdentifier("c1").get(0).getSymbol().equals(chord2.getSymbol()));
     }    
 
-    private VoicedChord getChord(String root, String type, Quality quality) {
+    private VoicedChord getChord(String root, ChordType type, Quality quality) {
         return builder.setRoot(NoteName.forSymbol(root))
                 .setChordSpec(struct.getChordSpec(type, quality))
                 .setQuality(quality)

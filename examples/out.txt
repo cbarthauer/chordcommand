@@ -57,7 +57,7 @@ progression: {
   DbM7: {
     voicing: [root, fifth, seventh, third],
     octave: 4,
-    duration: QUARTER
+    duration: HALF
   },
   CM7: {
     voicing: [root, fifth, seventh, third],
