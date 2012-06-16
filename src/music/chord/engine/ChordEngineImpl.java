@@ -46,7 +46,7 @@ class ChordEngineImpl implements ChordEngine {
                 .setChordSpec(spec)
                 .setQuality(request.getQuality())
                 .buildVoicedChord();
-            registry.add(request.getIdentifier().getName(), chord);
+            registry.add(request.getIdentifier(), chord);
         }
         
         return this;
@@ -54,7 +54,7 @@ class ChordEngineImpl implements ChordEngine {
 
     @Override
     public final List<VoicedChord> byIdentifier(Identifier id) {
-        return registry.byIdentifier(id.getName());
+        return registry.byIdentifier(id);
     }
 
     @Override
@@ -65,7 +65,7 @@ class ChordEngineImpl implements ChordEngine {
         
         Identifier identifier = requests[0].getIdentifier();
         LinkedList<VoicedChord> existingList = 
-                new LinkedList<VoicedChord>(registry.byIdentifier(identifier.getName()));
+                new LinkedList<VoicedChord>(registry.byIdentifier(identifier));
         List<VoicedChord> newChords = new ArrayList<VoicedChord>();
         
         for(InsertChordRequest request : requests) {
@@ -80,7 +80,7 @@ class ChordEngineImpl implements ChordEngine {
         
         int position = requests[0].getPosition();
         existingList.addAll(position, newChords);
-        registry.put(identifier.getName(), existingList);
+        registry.put(identifier, existingList);
         
         return this;
     }
@@ -88,7 +88,7 @@ class ChordEngineImpl implements ChordEngine {
     @Override
     public final ChordEngineImpl removeChords(RemoveChordRequest request) {
         Identifier identifier = request.getIdentifier();
-        List<VoicedChord> existingList = registry.byIdentifier(identifier.getName());
+        List<VoicedChord> existingList = registry.byIdentifier(identifier);
         List<VoicedChord> newList = new ArrayList<VoicedChord>();
         List<Integer> positions = request.getPositions();
         
@@ -98,7 +98,7 @@ class ChordEngineImpl implements ChordEngine {
             }
         }
         
-        registry.put(identifier.getName(), newList);
+        registry.put(identifier, newList);
         return this;
     }
 

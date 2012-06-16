@@ -4,15 +4,16 @@ import java.util.List;
 
 import music.chord.arrangement.ChordVoicer;
 import music.chord.arrangement.VoicedChord;
+import music.chord.engine.protocol.Identifier;
 import music.chord.grammar.ChordListRegistry;
 
 public class VoiceChordList implements Command {
 
-	private String identifier;
+	private Identifier identifier;
     private ChordVoicer voicer;
     private ChordListRegistry reg;
 
-    public VoiceChordList(String identifier, ChordVoicer voicer, ChordListRegistry reg) {
+    public VoiceChordList(Identifier identifier, ChordVoicer voicer, ChordListRegistry reg) {
 		this.identifier = identifier;
 		this.voicer = voicer;
 		this.reg = reg;

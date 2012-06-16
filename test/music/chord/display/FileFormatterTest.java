@@ -48,7 +48,6 @@ public class FileFormatterTest {
         
         ChordListFormatter formatter = new FileFormatter();
         String result = formatter.format(chordList);
-        System.out.print(result);
         
         assertTrue(result.length() > 0);
     }

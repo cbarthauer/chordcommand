@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import music.chord.arrangement.VoicedChord;
+import music.chord.engine.protocol.Identifier;
 import music.chord.grammar.ChordListRegistry;
 
 public class RemoveChord implements Command {
 	
-	private String identifier;
+	private Identifier identifier;
     private List<Integer> indexList;
     private ChordListRegistry reg;
 
-    public RemoveChord(String identifier, List<Integer> indexList, ChordListRegistry reg) {
+    public RemoveChord(Identifier identifier, List<Integer> indexList, ChordListRegistry reg) {
 	    this.identifier = identifier;
 	    this.indexList = indexList;
 	    this.reg = reg;

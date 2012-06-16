@@ -4,17 +4,18 @@ import java.util.LinkedList;
 import java.util.List;
 
 import music.chord.arrangement.VoicedChord;
+import music.chord.engine.protocol.Identifier;
 import music.chord.grammar.ChordListRegistry;
 
 public class InsertBefore implements Command {
 
-    private String identifier;
+    private Identifier identifier;
     private int insertionIndex;
     private List<VoicedChord> chordsForInsert;
     private ChordListRegistry reg;
 	
 	public InsertBefore(
-	        String identifier,
+	        Identifier identifier,
 	        int insertionIndex,
 	        List<VoicedChord> chordsForInsert, 
 	        ChordListRegistry reg) {

@@ -1,9 +1,12 @@
 package music.chord.command;
 
 import java.io.IOException;
+import java.util.List;
 
 import music.chord.arrangement.BuilderFactory;
 import music.chord.arrangement.ChordDefinitionStructure;
+import music.chord.arrangement.VoicedChord;
+import music.chord.engine.protocol.Identifier;
 import music.chord.grammar.ChordLexer;
 import music.chord.grammar.ChordListRegistry;
 import music.chord.grammar.ChordParser;
@@ -19,13 +22,13 @@ import org.antlr.runtime.tree.CommonTreeNodeStream;
 
 public class Load implements Command {
 
-    private String identifier;
+    private Identifier identifier;
     private ChordDefinitionStructure struct;
     private String fileName;    
     private ChordListRegistry reg;
 
     public Load(
-            String identifier, 
+            Identifier identifier, 
             ChordDefinitionStructure struct, 
             String fileName, 
             ChordListRegistry reg) {
@@ -52,7 +55,8 @@ public class Load implements Command {
             walker.setSeventhBuilder(BuilderFactory.getSeventhBuilder(struct));
             walker.setNinthBuilder(BuilderFactory.getNinthBuilder(struct));
             
-            reg.put(identifier, walker.compilationUnit());
+            List<VoicedChord> chordList = walker.compilationUnit();
+            reg.put(identifier, chordList);
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (RecognitionException e) {

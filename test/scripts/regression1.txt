@@ -1,0 +1,171 @@
+add C, F, Gdom7, C to c1
+display c1
+Line Chord Voicing                       Duration Notes                        Octave
+0    CM    [root, fifth, root, third]    QUARTER  [C(48), G(55), C(60), E(64)] 4     
+1    FM    [root, fifth, root, third]    QUARTER  [F(53), C(60), F(65), A(69)] 4     
+2    Gdom7 [root, fifth, seventh, third] QUARTER  [G(55), D(62), F(65), B(71)] 4     
+3    CM    [root, fifth, root, third]    QUARTER  [C(48), G(55), C(60), E(64)] 4     
+voice all c1
+play c1
+display c1
+Line Chord Voicing                       Duration Notes                        Octave
+0    CM    [root, fifth, root, third]    QUARTER  [C(48), G(55), C(60), E(64)] 4     
+1    FM    [fifth, third, fifth, root]   QUARTER  [C(48), A(57), C(60), F(65)] 4     
+2    Gdom7 [fifth, root, third, seventh] QUARTER  [D(50), G(55), B(59), F(65)] 4     
+3    CM    [root, fifth, root, third]    QUARTER  [C(48), G(55), C(60), E(64)] 4     
+display voicings for c1[0 to 1]
+3: [fifth, third, fifth, root]
+8: [root, third, fifth, root]
+9: [fifth, root, third, fifth]
+20: [root, fifth, root, third]
+32: [root, root, third, fifth]
+32: [root, fifth, third, root]
+find chords where third is C
+Gsus
+Gsus7
+Adim
+Am
+Ahdim7
+Adim7
+Am7
+Am9
+Ab+
+AbM
+Abdom7
+AbM7
+Abdom9
+AbM9
+find chords containing C, G
+Cm
+Csus
+CM
+Cdom7
+Cm7
+Csus7
+CM7
+Dsus7
+Gsus
+Gsus7
+Ahdim7
+Am7
+Am9
+AbM7
+AbM9
+display c1
+Line Chord Voicing                       Duration Notes                        Octave
+0    CM    [root, fifth, root, third]    QUARTER  [C(48), G(55), C(60), E(64)] 4     
+1    FM    [fifth, third, fifth, root]   QUARTER  [C(48), A(57), C(60), F(65)] 4     
+2    Gdom7 [fifth, root, third, seventh] QUARTER  [D(50), G(55), B(59), F(65)] 4     
+3    CM    [root, fifth, root, third]    QUARTER  [C(48), G(55), C(60), E(64)] 4     
+insert Ehdim7 before c1[1]
+display c1
+Line Chord  Voicing                       Duration Notes                         Octave
+0    CM     [root, fifth, root, third]    QUARTER  [C(48), G(55), C(60), E(64)]  4     
+1    Ehdim7 [root, fifth, seventh, third] QUARTER  [E(52), Bb(58), D(62), G(67)] 4     
+2    FM     [fifth, third, fifth, root]   QUARTER  [C(48), A(57), C(60), F(65)]  4     
+3    Gdom7  [fifth, root, third, seventh] QUARTER  [D(50), G(55), B(59), F(65)]  4     
+4    CM     [root, fifth, root, third]    QUARTER  [C(48), G(55), C(60), E(64)]  4     
+voice all c1
+display c1
+Line Chord  Voicing                       Duration Notes                         Octave
+0    CM     [root, fifth, root, third]    QUARTER  [C(48), G(55), C(60), E(64)]  4     
+1    Ehdim7 [root, third, fifth, seventh] QUARTER  [E(52), G(55), Bb(58), D(62)] 4     
+2    FM     [root, third, fifth, root]    QUARTER  [F(53), A(57), C(60), F(65)]  4     
+3    Gdom7  [root, third, fifth, seventh] QUARTER  [G(55), B(59), D(62), F(65)]  4     
+4    CM     [fifth, root, third, fifth]   QUARTER  [G(55), C(60), E(64), G(67)]  4     
+play c1
+play c1
+load "d:\musicspace\chordgrammar\examples\out.txt" as c2
+display c2
+Line Chord  Voicing                       Duration Notes                          Octave
+0    DM7    [root, fifth, seventh, third] QUARTER  [D(50), A(57), C#(61), F#(66)] 4     
+1    Em7    [root, fifth, seventh, third] QUARTER  [E(52), B(59), D(62), G(67)]   4     
+2    Adom7  [fifth, root, third, seventh] QUARTER  [E(52), A(57), C#(61), G(67)]  4     
+3    Bm7    [root, seventh, third, fifth] QUARTER  [B(47), A(57), D(62), F#(66)]  3     
+4    Ddom7  [root, fifth, seventh, third] QUARTER  [D(50), A(57), C(60), F#(66)]  4     
+5    Gm7    [fifth, root, third, seventh] QUARTER  [D(50), G(55), Bb(58), F(65)]  4     
+6    Ehdim7 [root, third, fifth, seventh] QUARTER  [E(52), G(55), Bb(58), D(62)]  4     
+7    FM7    [root, third, fifth, seventh] QUARTER  [F(53), A(57), C(60), E(64)]   4     
+8    Dm7    [third, fifth, seventh, root] QUARTER  [F(53), A(57), C(60), D(62)]   4     
+9    Gdom9  [root, ninth, third, seventh] QUARTER  [G(55), A(57), B(59), F(65)]   4     
+10   Bdim7  [third, seventh, root, fifth] QUARTER  [D(50), Ab(56), B(59), F(65)]  4     
+11   DbM7   [root, fifth, seventh, third] HALF     [Db(49), Ab(56), C(60), F(65)] 4     
+12   CM7    [root, fifth, seventh, third] WHOLE    [C(48), G(55), B(59), E(64)]   4     
+play c2
+play c1 bass
+display c1
+Line Chord  Voicing                       Duration Notes                         Octave
+0    CM     [root, fifth, root, third]    QUARTER  [C(48), G(55), C(60), E(64)]  4     
+1    Ehdim7 [root, third, fifth, seventh] QUARTER  [E(52), G(55), Bb(58), D(62)] 4     
+2    FM     [root, third, fifth, root]    QUARTER  [F(53), A(57), C(60), F(65)]  4     
+3    Gdom7  [root, third, fifth, seventh] QUARTER  [G(55), B(59), D(62), F(65)]  4     
+4    CM     [fifth, root, third, fifth]   QUARTER  [G(55), C(60), E(64), G(67)]  4     
+play c1 bass
+play c1 baritone
+play c1 lead
+play c1 tenor
+remove c1[1]
+display c1
+Line Chord Voicing                       Duration Notes                        Octave
+0    CM    [root, fifth, root, third]    QUARTER  [C(48), G(55), C(60), E(64)] 4     
+1    FM    [root, third, fifth, root]    QUARTER  [F(53), A(57), C(60), F(65)] 4     
+2    Gdom7 [root, third, fifth, seventh] QUARTER  [G(55), B(59), D(62), F(65)] 4     
+3    CM    [fifth, root, third, fifth]   QUARTER  [G(55), C(60), E(64), G(67)] 4     
+save c1 as "d:\musicspace\chordgrammar\examples\out1.txt"
+save c1 as "d:\musicspace\chordgrammar\examples\out1.ly"
+display voicings for c1[2-3]
+line 1:25 mismatched input '-' expecting TO
+display voicings for c1[2 to 3]
+5: [fifth, root, third, fifth]
+12: [root, root, third, fifth]
+14: [root, fifth, root, third]
+17: [fifth, third, fifth, root]
+20: [root, fifth, third, root]
+26: [root, third, fifth, root]
+set voicing [root, root, third, fifth] on c1[3]
+display c1
+Line Chord Voicing                       Duration Notes                        Octave
+0    CM    [root, fifth, root, third]    QUARTER  [C(48), G(55), C(60), E(64)] 4     
+1    FM    [root, third, fifth, root]    QUARTER  [F(53), A(57), C(60), F(65)] 4     
+2    Gdom7 [root, third, fifth, seventh] QUARTER  [G(55), B(59), D(62), F(65)] 4     
+3    CM    [root, root, third, fifth]    QUARTER  [C(48), C(60), E(64), G(67)] 4     
+play c1
+save c1 as "d:\musicspace\chordgrammar\examples\out1.ly"
+set duration whole on c1[3]
+display c1
+Line Chord Voicing                       Duration Notes                        Octave
+0    CM    [root, fifth, root, third]    QUARTER  [C(48), G(55), C(60), E(64)] 4     
+1    FM    [root, third, fifth, root]    QUARTER  [F(53), A(57), C(60), F(65)] 4     
+2    Gdom7 [root, third, fifth, seventh] QUARTER  [G(55), B(59), D(62), F(65)] 4     
+3    CM    [root, root, third, fifth]    WHOLE    [C(48), C(60), E(64), G(67)] 4     
+set octave 3 on c1[0]
+display c1
+Line Chord Voicing                       Duration Notes                        Octave
+0    CM    [root, fifth, root, third]    QUARTER  [C(36), G(43), C(48), E(52)] 3     
+1    FM    [root, third, fifth, root]    QUARTER  [F(53), A(57), C(60), F(65)] 4     
+2    Gdom7 [root, third, fifth, seventh] QUARTER  [G(55), B(59), D(62), F(65)] 4     
+3    CM    [root, root, third, fifth]    WHOLE    [C(48), C(60), E(64), G(67)] 4     
+voice all c1
+display c1
+Line Chord Voicing                       Duration Notes                        Octave
+0    CM    [root, fifth, root, third]    QUARTER  [C(36), G(43), C(48), E(52)] 3     
+1    FM    [fifth, root, third, fifth]   QUARTER  [C(48), F(53), A(57), C(60)] 4     
+2    Gdom7 [fifth, seventh, root, third] QUARTER  [D(50), F(53), G(55), B(59)] 4     
+3    CM    [root, third, fifth, root]    WHOLE    [C(48), E(52), G(55), C(60)] 4     
+set voicing [root, root, third, fifth] on c1[0]
+display c1
+Line Chord Voicing                       Duration Notes                        Octave
+0    CM    [root, root, third, fifth]    QUARTER  [C(36), C(48), E(52), G(55)] 3     
+1    FM    [fifth, root, third, fifth]   QUARTER  [C(48), F(53), A(57), C(60)] 4     
+2    Gdom7 [fifth, seventh, root, third] QUARTER  [D(50), F(53), G(55), B(59)] 4     
+3    CM    [root, third, fifth, root]    WHOLE    [C(48), E(52), G(55), C(60)] 4     
+voice all c1
+display c1
+Line Chord Voicing                       Duration Notes                        Octave
+0    CM    [root, root, third, fifth]    QUARTER  [C(36), C(48), E(52), G(55)] 3     
+1    FM    [fifth, root, third, fifth]   QUARTER  [C(48), F(53), A(57), C(60)] 4     
+2    Gdom7 [fifth, seventh, root, third] QUARTER  [D(50), F(53), G(55), B(59)] 4     
+3    CM    [root, third, fifth, root]    WHOLE    [C(48), E(52), G(55), C(60)] 4     
+play c1
+play c1
+quit

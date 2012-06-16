@@ -46,6 +46,8 @@ options {
   import music.chord.command.VoicingComparisonList;
   
   import music.chord.display.VerboseFormatter;
+  
+  import music.chord.engine.protocol.Identifier;
 }
 
 @lexer::header {
@@ -224,19 +226,19 @@ command
 add 
   : ADD newList=chordList TO IDENTIFIER {      
       for(VoicedChord chord : $newList.value) {
-          commandList.add(new AddChord($IDENTIFIER.text, chord, reg));
+          commandList.add(new AddChord(new Identifier($IDENTIFIER.text), chord, reg));
       }
   }	
   ;
 
 display
   : DISPLAY IDENTIFIER {
-    commandList.add(new Display(reg.byIdentifier($IDENTIFIER.text), new VerboseFormatter()));
+    commandList.add(new Display(reg.byIdentifier(new Identifier($IDENTIFIER.text)), new VerboseFormatter()));
   }
   | DISPLAY VOICINGS FOR IDENTIFIER START_LIST startIndex=INT TO endIndex=INT END_LIST {
     commandList.add(
         new VoicingComparisonList(
-            reg.byIdentifier($IDENTIFIER.text), 
+            reg.byIdentifier(new Identifier($IDENTIFIER.text)), 
             Integer.parseInt($startIndex.text), 
             Integer.parseInt($endIndex.text), 
             voicer
@@ -273,7 +275,7 @@ insert
   : INSERT newList=chordList BEFORE IDENTIFIER START_LIST INT END_LIST {
         commandList.add(
             new InsertBefore(
-                $IDENTIFIER.text,
+                new Identifier($IDENTIFIER.text),
                 Integer.parseInt($INT.text),
                 $newList.value, 
                 reg));
@@ -284,7 +286,7 @@ load
   : LOAD fileName=STRING AS IDENTIFIER {
       commandList.add(
         new Load(
-          $IDENTIFIER.text, 
+          new Identifier($IDENTIFIER.text), 
           struct, 
           $fileName.text.replaceAll("\"", ""),
           reg));
@@ -292,11 +294,11 @@ load
   ;
 
 play
-  : PLAY IDENTIFIER {commandList.add(new Play(reg.byIdentifier($IDENTIFIER.text), player));}
+  : PLAY IDENTIFIER {commandList.add(new Play(reg.byIdentifier(new Identifier($IDENTIFIER.text)), player));}
   | PLAY IDENTIFIER voicePart {
       commandList.add(
           new PlayVoicePart(
-              reg.byIdentifier($IDENTIFIER.text), 
+              reg.byIdentifier(new Identifier($IDENTIFIER.text)), 
               $voicePart.value, 
               voicePartPlayer));
   }
@@ -310,7 +312,7 @@ remove
   : REMOVE IDENTIFIER START_LIST range END_LIST {        
       commandList.add(
           new RemoveChord( 
-              $IDENTIFIER.text,
+              new Identifier($IDENTIFIER.text),
               $range.value,
               reg));
     }
@@ -323,13 +325,13 @@ save
       if(outFile.endsWith(".ly")) {
           commandList.add(
               new WriteLilyPondFile(
-                  reg.byIdentifier($IDENTIFIER.text),
+                  reg.byIdentifier(new Identifier($IDENTIFIER.text)),
                   outFile));
       }
       else {
 	      commandList.add(
 	          new Save(
-	              reg.byIdentifier($IDENTIFIER.text), 
+	              reg.byIdentifier(new Identifier($IDENTIFIER.text)), 
 	              outFile));
 	  }
   }
@@ -339,35 +341,35 @@ set
   : SET VOICING list=chordMemberList ON IDENTIFIER START_LIST range END_LIST {
       for(Integer i : $range.value) {
 	      VoicedChord chord = 
-	          derivedBuilder.setChord(reg.getChord($IDENTIFIER.text, i))
+	          derivedBuilder.setChord(reg.getChord(new Identifier($IDENTIFIER.text), i))
 	              .setVoicing($list.voicing)
 	              .buildVoicedChord();
-	      reg.set($IDENTIFIER.text, i, chord);
+	      reg.set(new Identifier($IDENTIFIER.text), i, chord);
       } 
   }
   | SET DURATION NOTE_LENGTH ON IDENTIFIER START_LIST range END_LIST {
       for(Integer i : $range.value) {
 		  VoicedChord chord = 
-		      derivedBuilder.setChord(reg.getChord($IDENTIFIER.text, i))
+		      derivedBuilder.setChord(reg.getChord(new Identifier($IDENTIFIER.text), i))
 	              .setDuration(Duration.durationFromName($NOTE_LENGTH.text))
 	              .buildVoicedChord();
-		  reg.set($IDENTIFIER.text, i, chord);
+		  reg.set(new Identifier($IDENTIFIER.text), i, chord);
       }
   }
   | SET 'octave' octave=INT ON IDENTIFIER START_LIST range END_LIST {
       for(Integer i : $range.value) {
           VoicedChord chord = 
-              derivedBuilder.setChord(reg.getChord($IDENTIFIER.text, i))
+              derivedBuilder.setChord(reg.getChord(new Identifier($IDENTIFIER.text), i))
                   .setOctave(Integer.parseInt($octave.text))
                   .buildVoicedChord();
-          reg.set($IDENTIFIER.text, i, chord);
+          reg.set(new Identifier($IDENTIFIER.text), i, chord);
       }
   }
   ;
 
 voice
   : VOICE ALL IDENTIFIER {
-      commandList.add(new VoiceChordList($IDENTIFIER.text, voicer, reg));
+      commandList.add(new VoiceChordList(new Identifier($IDENTIFIER.text), voicer, reg));
   }
   ;
     
@@ -397,7 +399,7 @@ chordList returns [List<VoicedChord> value]
       } 
     (',' subsequent=chord {value.add($subsequent.chord);})*
   | IDENTIFIER START_LIST range END_LIST {
-        List<VoicedChord> existingList = reg.byIdentifier($IDENTIFIER.text);
+        List<VoicedChord> existingList = reg.byIdentifier(new Identifier($IDENTIFIER.text));
         for(Integer i : $range.value) {
           value.add(existingList.get(i));
         }
