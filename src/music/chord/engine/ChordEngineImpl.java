@@ -1,11 +1,13 @@
 package music.chord.engine;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import music.chord.arrangement.BuilderFactory;
 import music.chord.arrangement.ChordDefinitionStructure;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.VoicedChordBuilder;
@@ -14,8 +16,20 @@ import music.chord.base.ChordType;
 import music.chord.engine.protocol.AddChordRequest;
 import music.chord.engine.protocol.Identifier;
 import music.chord.engine.protocol.InsertChordRequest;
+import music.chord.engine.protocol.LoadRequest;
 import music.chord.engine.protocol.RemoveChordRequest;
+import music.chord.grammar.ChordLexer;
 import music.chord.grammar.ChordListRegistry;
+import music.chord.grammar.ChordParser;
+import music.chord.grammar.ChordParser.compilationUnit_return;
+import music.chord.grammar.ChordWalker;
+
+import org.antlr.runtime.ANTLRFileStream;
+import org.antlr.runtime.CharStream;
+import org.antlr.runtime.CommonTokenStream;
+import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.TokenStream;
+import org.antlr.runtime.tree.CommonTreeNodeStream;
 
 class ChordEngineImpl implements ChordEngine {
 
@@ -58,6 +72,11 @@ class ChordEngineImpl implements ChordEngine {
     }
 
     @Override
+    public ChordListRegistry getRegistry() {
+        return this.registry;
+    }
+
+    @Override
     public final ChordEngineImpl insertChords(InsertChordRequest... requests) {
         if(requests.length == 0) {
             throw new IllegalArgumentException("Parameter 'requests' cannot be zero-length.");
@@ -86,6 +105,33 @@ class ChordEngineImpl implements ChordEngine {
     }
 
     @Override
+    public final ChordEngineImpl load(LoadRequest request) {
+        try {
+            CharStream charStream = new ANTLRFileStream(request.getFileName());
+            ChordLexer lexer = new ChordLexer(charStream);
+            TokenStream tokenStream = new CommonTokenStream(lexer);
+            ChordParser parser = new ChordParser(tokenStream);
+            compilationUnit_return compilationUnit = parser.compilationUnit();
+            CommonTreeNodeStream nodeStream = new CommonTreeNodeStream(compilationUnit.getTree());
+            
+            ChordWalker walker = new ChordWalker(nodeStream);
+            walker.setChordDefinitionStructure(struct);
+            walker.setTriadBuilder(BuilderFactory.getTriadBuilder(struct));
+            walker.setSeventhBuilder(BuilderFactory.getSeventhBuilder(struct));
+            walker.setNinthBuilder(BuilderFactory.getNinthBuilder(struct));
+            
+            List<VoicedChord> chordList = walker.compilationUnit();
+            registry.put(request.getIdentifier(), chordList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (RecognitionException e) {
+            e.printStackTrace();
+        }  
+        
+        return this;
+    }
+
+    @Override
     public final ChordEngineImpl removeChords(RemoveChordRequest request) {
         Identifier identifier = request.getIdentifier();
         List<VoicedChord> existingList = registry.byIdentifier(identifier);
@@ -100,11 +146,6 @@ class ChordEngineImpl implements ChordEngine {
         
         registry.put(identifier, newList);
         return this;
-    }
-
-    @Override
-    public ChordListRegistry getRegistry() {
-        return this.registry;
     }
 
 }

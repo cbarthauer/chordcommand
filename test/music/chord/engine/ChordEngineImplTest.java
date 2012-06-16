@@ -1,14 +1,18 @@
 package music.chord.engine;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.util.List;
 
 import music.chord.arrangement.BuilderFactory;
 import music.chord.arrangement.ChordDefinitionStructure;
+import music.chord.arrangement.VoicedChord;
 import music.chord.base.Quality;
 import music.chord.engine.protocol.AddChordRequest;
 import music.chord.engine.protocol.Identifier;
+import music.chord.engine.protocol.LoadRequest;
 import music.chord.engine.protocol.RequestBuilder;
 import music.chord.grammar.ChordDefinitionStructureFactory;
 
@@ -70,6 +74,14 @@ public class ChordEngineImplTest {
         assertEquals("Gdom7", engine.byIdentifier(id).get(4).getSymbol());
     }
 
+    @Test
+    public void load() {
+        LoadRequest request = builder.loadRequest("examples/out.txt");
+        engine.load(request);
+        List<VoicedChord> chordList = engine.byIdentifier(id);
+        assertTrue(!chordList.isEmpty());
+    }
+    
     @Test
     public void removeChords() {
         engine.addChords(addRequestList)

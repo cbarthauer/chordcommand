@@ -294,12 +294,11 @@ insert
 
 load
   : LOAD fileName=STRING AS IDENTIFIER {
+      RequestBuilder reqBuilder = new RequestBuilder(new Identifier($IDENTIFIER.text));
       commandList.add(
-        new Load(
-          new Identifier($IDENTIFIER.text), 
-          struct, 
-          $fileName.text.replaceAll("\"", ""),
-          reg));
+          new Load(
+              engine, 
+              reqBuilder.loadRequest($fileName.text.replaceAll("\"", ""))));
   }
   ;
 

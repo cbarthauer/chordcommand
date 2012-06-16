@@ -7,6 +7,7 @@ import music.chord.arrangement.VoicedChord;
 import music.chord.base.ChordMember;
 import music.chord.base.NoteName;
 import music.chord.base.Quality;
+import music.chord.engine.protocol.LoadRequest;
 
 public final class RequestBuilder {
 
@@ -61,10 +62,15 @@ public final class RequestBuilder {
         return requests;
     }
 
+    public LoadRequest loadRequest(String fileName) {
+        LoadRequest request = new LoadRequestImpl(fileName, identifier);
+        return request;
+    }
+    
     public final RemoveChordRequest removeRequest(Integer... position) {
         return removeRequest(Arrays.asList(position));
     }
-    
+
     public final RemoveChordRequest removeRequest(List<Integer> positionList) {
         return new RemoveChordRequestImpl(identifier, positionList);
     }
