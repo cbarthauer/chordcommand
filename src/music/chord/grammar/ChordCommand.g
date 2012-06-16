@@ -240,13 +240,13 @@ display
   : DISPLAY IDENTIFIER {
     commandList.add(
         new Display(
-            reg.byIdentifier(new Identifier($IDENTIFIER.text)), 
+            engine.byIdentifier(new Identifier($IDENTIFIER.text)), 
             new VerboseFormatter()));
   }
   | DISPLAY VOICINGS FOR IDENTIFIER START_LIST startIndex=INT TO endIndex=INT END_LIST {
     commandList.add(
         new VoicingComparisonList(
-            reg.byIdentifier(new Identifier($IDENTIFIER.text)), 
+            engine.byIdentifier(new Identifier($IDENTIFIER.text)), 
             Integer.parseInt($startIndex.text), 
             Integer.parseInt($endIndex.text), 
             voicer
@@ -281,12 +281,14 @@ noteNameList returns [List<NoteName> value]
   
 insert
   : INSERT newList=chordList BEFORE IDENTIFIER START_LIST INT END_LIST {
+        RequestBuilder reqBuilder = new RequestBuilder(
+            new Identifier($IDENTIFIER.text), 
+            Integer.parseInt($INT.text));
+            
         commandList.add(
             new InsertBefore(
-                new Identifier($IDENTIFIER.text),
-                Integer.parseInt($INT.text),
-                $newList.value, 
-                reg));
+                engine,
+                reqBuilder.insertRequests($newList.value)));
     }
   ;
 
@@ -302,11 +304,14 @@ load
   ;
 
 play
-  : PLAY IDENTIFIER {commandList.add(new Play(reg.byIdentifier(new Identifier($IDENTIFIER.text)), player));}
+  : PLAY IDENTIFIER {commandList.add(
+      new Play(
+          engine.byIdentifier(new Identifier($IDENTIFIER.text)), 
+          player));}
   | PLAY IDENTIFIER voicePart {
       commandList.add(
           new PlayVoicePart(
-              reg.byIdentifier(new Identifier($IDENTIFIER.text)), 
+              engine.byIdentifier(new Identifier($IDENTIFIER.text)), 
               $voicePart.value, 
               voicePartPlayer));
   }
@@ -333,13 +338,13 @@ save
       if(outFile.endsWith(".ly")) {
           commandList.add(
               new WriteLilyPondFile(
-                  reg.byIdentifier(new Identifier($IDENTIFIER.text)),
+                  engine.byIdentifier(new Identifier($IDENTIFIER.text)),
                   outFile));
       }
       else {
 	      commandList.add(
 	          new Save(
-	              reg.byIdentifier(new Identifier($IDENTIFIER.text)), 
+	              engine.byIdentifier(new Identifier($IDENTIFIER.text)), 
 	              outFile));
 	  }
   }
@@ -407,7 +412,7 @@ chordList returns [List<VoicedChord> value]
       } 
     (',' subsequent=chord {value.add($subsequent.chord);})*
   | IDENTIFIER START_LIST range END_LIST {
-        List<VoicedChord> existingList = reg.byIdentifier(new Identifier($IDENTIFIER.text));
+        List<VoicedChord> existingList = engine.byIdentifier(new Identifier($IDENTIFIER.text));
         for(Integer i : $range.value) {
           value.add(existingList.get(i));
         }

@@ -33,5 +33,14 @@ public class RequestBuilderTest {
         assertEquals(requests.length, 1);
         assertEquals(requests[0].getNoteName(), NoteName.forSymbol("C"));
     }
+    
+    @Test
+    public void insertRequests() {
+        List<VoicedChord> chordList = new ArrayList<VoicedChord>();
+        chordList.add(helper.getChord("C", ChordType.TRIAD, Quality.MAJOR_TRIAD));
+        InsertChordRequest[] requests = reqBuilder.insertRequests(chordList);
+        assertEquals(requests.length, 1);
+        assertEquals(requests[0].getNoteName(), NoteName.forSymbol("C"));
+    }
 
 }

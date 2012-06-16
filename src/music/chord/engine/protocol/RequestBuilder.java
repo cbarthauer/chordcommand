@@ -14,8 +14,12 @@ public final class RequestBuilder {
     private int insertPosition;
 
     public RequestBuilder(Identifier identifier) {
+        this(identifier, 0);
+    }
+    
+    public RequestBuilder(Identifier identifier, int insertPosition) {
         this.identifier = identifier;
-        this.insertPosition = 0;
+        this.insertPosition = insertPosition;
     }
 
     public final AddChordRequest addRequest(String noteSymbol, Quality quality) {
@@ -42,6 +46,19 @@ public final class RequestBuilder {
         
         NoteName noteName = NoteName.forSymbol(noteSymbol);
         return new InsertChordRequestImpl(identifier, noteName, quality, insertPosition);
+    }
+
+    public final InsertChordRequest[] insertRequests(List<VoicedChord> chordList) {
+        InsertChordRequest[] requests = new InsertChordRequest[chordList.size()];
+        
+        for(int i = 0; i < requests.length; i++) {
+            VoicedChord chord = chordList.get(i);
+            requests[i] = insertRequest(
+                chord.noteNameFromChordMember(ChordMember.ROOT).getSymbol(),
+                chord.getQuality());
+        }
+        
+        return requests;
     }
 
     public final RemoveChordRequest removeRequest(Integer... position) {
