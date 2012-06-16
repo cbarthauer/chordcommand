@@ -322,13 +322,10 @@ quit
   ;
             
 remove
-  : REMOVE IDENTIFIER START_LIST range END_LIST {        
-      commandList.add(
-          new RemoveChord( 
-              new Identifier($IDENTIFIER.text),
-              $range.value,
-              reg));
-    }
+  : REMOVE IDENTIFIER START_LIST range END_LIST {      
+      RequestBuilder builder = new RequestBuilder(new Identifier($IDENTIFIER.text));  
+      commandList.add(new RemoveChord(engine, builder.removeRequest($range.value)));
+  }
   ;
   
 save

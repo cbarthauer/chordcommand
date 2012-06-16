@@ -62,7 +62,11 @@ public final class RequestBuilder {
     }
 
     public final RemoveChordRequest removeRequest(Integer... position) {
-        return new RemoveChordRequestImpl(identifier, Arrays.asList(position));
+        return removeRequest(Arrays.asList(position));
+    }
+    
+    public final RemoveChordRequest removeRequest(List<Integer> positionList) {
+        return new RemoveChordRequestImpl(identifier, positionList);
     }
 
     public final void setInsertPosition(int insertPosition) {

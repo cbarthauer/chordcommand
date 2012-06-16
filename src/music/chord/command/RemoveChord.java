@@ -1,36 +1,21 @@
 package music.chord.command;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import music.chord.arrangement.VoicedChord;
-import music.chord.engine.protocol.Identifier;
-import music.chord.grammar.ChordListRegistry;
+import music.chord.engine.ChordEngine;
+import music.chord.engine.protocol.RemoveChordRequest;
 
 public class RemoveChord implements Command {
 	
-	private Identifier identifier;
-    private List<Integer> indexList;
-    private ChordListRegistry reg;
+    private ChordEngine engine;
+    private RemoveChordRequest request;
 
-    public RemoveChord(Identifier identifier, List<Integer> indexList, ChordListRegistry reg) {
-	    this.identifier = identifier;
-	    this.indexList = indexList;
-	    this.reg = reg;
+    public RemoveChord(ChordEngine engine, RemoveChordRequest request) {
+	    this.engine = engine;
+	    this.request = request;
 	}
 	
 	@Override
 	public void execute() {
-	    List<VoicedChord> existingList = reg.byIdentifier(identifier);
-		List<VoicedChord> newList = new ArrayList<VoicedChord>();
-		
-		for(int i = 0; i < existingList.size(); i++) {
-		    if(!indexList.contains(i)) {
-		        newList.add(existingList.get(i));
-		    }
-		}
-		
-		reg.put(identifier, newList);
+	    engine.removeChords(request);
 	}
 
 }
