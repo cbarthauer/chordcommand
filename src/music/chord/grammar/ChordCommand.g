@@ -29,7 +29,7 @@ options {
   import music.chord.base.Quality;
   import music.chord.base.VoicePart;
   
-  import music.chord.command.AddChord;
+  import music.chord.command.AddChords;
   import music.chord.command.Command;
   import music.chord.command.Display;
   import music.chord.command.FindChordsByChordMember;
@@ -47,7 +47,10 @@ options {
   
   import music.chord.display.VerboseFormatter;
   
+  import music.chord.engine.ChordEngine;
+  import music.chord.engine.protocol.AddChordRequest;
   import music.chord.engine.protocol.Identifier;
+  import music.chord.engine.protocol.RequestBuilder;
 }
 
 @lexer::header {
@@ -55,6 +58,7 @@ options {
 }
 
 @members {
+  ChordEngine engine;
   List<Command> commandList = new ArrayList<Command>();
   VoicedChordBuilder triadBuilder;  
   VoicedChordBuilder seventhBuilder;
@@ -72,8 +76,9 @@ options {
     this.chordFinder = new ChordFinder(struct);
   }
   
-  public void setChordListRegistry(ChordListRegistry reg) {
-    this.reg = reg;
+  public void setChordEngine(ChordEngine engine) {
+    this.engine = engine;
+    this.reg = engine.getRegistry();
   }
   
   public void setChordVoicer(ChordVoicer voicer) {
@@ -225,15 +230,18 @@ command
   
 add 
   : ADD newList=chordList TO IDENTIFIER {      
-      for(VoicedChord chord : $newList.value) {
-          commandList.add(new AddChord(new Identifier($IDENTIFIER.text), chord, reg));
-      }
+      RequestBuilder reqBuilder = new RequestBuilder(new Identifier($IDENTIFIER.text));
+      AddChordRequest[] requests = reqBuilder.addRequests($newList.value);
+      commandList.add(new AddChords(engine, requests));
   }	
   ;
 
 display
   : DISPLAY IDENTIFIER {
-    commandList.add(new Display(reg.byIdentifier(new Identifier($IDENTIFIER.text)), new VerboseFormatter()));
+    commandList.add(
+        new Display(
+            reg.byIdentifier(new Identifier($IDENTIFIER.text)), 
+            new VerboseFormatter()));
   }
   | DISPLAY VOICINGS FOR IDENTIFIER START_LIST startIndex=INT TO endIndex=INT END_LIST {
     commandList.add(

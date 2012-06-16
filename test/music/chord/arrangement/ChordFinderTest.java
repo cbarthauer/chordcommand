@@ -27,13 +27,7 @@ public class ChordFinderTest {
     @Test
     @Ignore
     public void testFindByChordMember() {
-        List<VoicedChord> chordList = finder.find(NoteName.forSymbol("Bb"), ChordMember.NINTH);
-        
-        for(VoicedChord chord : chordList) {
-            System.out.println(
-                    chord.noteNameFromChordMember(ChordMember.ROOT) + " " + chord.getSymbol());
-        }
-        
+        List<VoicedChord> chordList = finder.find(NoteName.forSymbol("Bb"), ChordMember.NINTH);        
         assertTrue("Found " + chordList.size() + " chords.", chordList.size() > 0);
     }
     
@@ -41,12 +35,7 @@ public class ChordFinderTest {
     public void testFindByNoteList() {
         List<NoteName> noteList = new ArrayList<NoteName>();
         noteList.add(NoteName.forSymbol("F#"));
-        List<VoicedChord> chordList = finder.find(noteList);
-        
-        for(VoicedChord chord : chordList) {
-            System.out.println(chord.getSymbol());
-        }
-        
+        List<VoicedChord> chordList = finder.find(noteList);        
         assertTrue("Found " + chordList.size() + " chords.", chordList.size() > 0);
     }
 

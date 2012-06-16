@@ -3,6 +3,7 @@ package music.chord;
 import music.chord.arrangement.ChordFinderTest;
 import music.chord.display.FileFormatterTest;
 import music.chord.engine.ChordEngineImplTest;
+import music.chord.engine.protocol.RequestBuilderTest;
 import music.chord.grammar.ChordListRegistryTest;
 
 import org.junit.runner.RunWith;
@@ -14,7 +15,8 @@ import org.junit.runners.Suite.SuiteClasses;
     ChordFinderTest.class, 
     FileFormatterTest.class,
     ChordEngineImplTest.class,
-    ChordListRegistryTest.class
+    ChordListRegistryTest.class,
+    RequestBuilderTest.class
 })
 public class AllTests {
 

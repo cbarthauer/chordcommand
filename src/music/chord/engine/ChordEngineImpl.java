@@ -102,4 +102,9 @@ class ChordEngineImpl implements ChordEngine {
         return this;
     }
 
+    @Override
+    public ChordListRegistry getRegistry() {
+        return this.registry;
+    }
+
 }
