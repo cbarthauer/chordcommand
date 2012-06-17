@@ -10,6 +10,7 @@
   
   <!-- Properties for SQL Server -->
   <properties>
+  	  <sonar.host.url>http://localhost:9000</sonar.host.url>
 	  <sonar.dynamicAnalysis>false</sonar.dynamicAnalysis>
 	  <sonar.jdbc.driverClassName>net.sourceforge.jtds.jdbc.Driver</sonar.jdbc.driverClassName>
 	  <sonar.jdbc.username>sonar</sonar.jdbc.username>

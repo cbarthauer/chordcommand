@@ -1,5 +1,6 @@
 package music.chord.grammar;
 
+import java.util.Arrays;
 import java.util.List;
 
 import music.chord.arrangement.Voicing;
@@ -7,8 +8,8 @@ import music.chord.arrangement.VoicingImpl;
 import music.chord.arrangement.VoicingValidator;
 import music.chord.base.ChordMember;
 
-class VoicingFactory {
-    static Voicing instanceFromChordMemberList(
+public class VoicingFactory {
+    public static Voicing instanceFromChordMemberList(
             List<ChordMember> chordMemberList) {
         
         Voicing voicing = null;
@@ -30,6 +31,10 @@ class VoicingFactory {
         return voicing;
     }
 
+    public static Voicing instanceFromChordMemberList(ChordMember... members) {
+        return instanceFromChordMemberList(Arrays.asList(members));
+    }
+    
     private VoicingFactory() {
         //Hide constructor in static factory.
     }

@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import music.chord.arrangement.VoicedChord;
+import music.chord.arrangement.Voicing;
 import music.chord.base.ChordMember;
 import music.chord.base.NoteName;
 import music.chord.base.Quality;
@@ -13,6 +14,7 @@ public final class RequestBuilder {
 
     private Identifier identifier;
     private int insertPosition;
+    private Voicing voicing;
 
     public RequestBuilder(Identifier identifier) {
         this(identifier, 0);
@@ -21,6 +23,7 @@ public final class RequestBuilder {
     public RequestBuilder(Identifier identifier, int insertPosition) {
         this.identifier = identifier;
         this.insertPosition = insertPosition;
+        this.voicing = null;
     }
 
     public final AddChordRequest addRequest(String noteSymbol, Quality quality) {
@@ -77,6 +80,18 @@ public final class RequestBuilder {
 
     public final void setInsertPosition(int insertPosition) {
         this.insertPosition = insertPosition;
+    }
+
+    public void setVoicing(Voicing voicing) {
+        this.voicing = voicing;
+    }
+
+    public VoicingRequest voicingRequest(Integer... positions) {
+        return voicingRequest(Arrays.asList(positions));
+    }
+    
+    public VoicingRequest voicingRequest(List<Integer> positions) {
+        return new VoicingRequestImpl(identifier, positions, voicing);
     }
 
 }

@@ -8,6 +8,7 @@ import music.chord.engine.protocol.Identifier;
 import music.chord.engine.protocol.InsertChordRequest;
 import music.chord.engine.protocol.LoadRequest;
 import music.chord.engine.protocol.RemoveChordRequest;
+import music.chord.engine.protocol.VoicingRequest;
 import music.chord.grammar.ChordListRegistry;
 
 public interface ChordEngine {
@@ -18,4 +19,5 @@ public interface ChordEngine {
     public List<VoicedChord> byIdentifier(Identifier id);
     public ChordEngine load(LoadRequest request);
     public ChordListRegistry getRegistry();
+    public ChordEngine setVoicings(VoicingRequest request);
 }

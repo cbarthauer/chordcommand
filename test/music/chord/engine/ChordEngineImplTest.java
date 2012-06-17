@@ -1,6 +1,7 @@
 package music.chord.engine;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -9,12 +10,15 @@ import java.util.List;
 import music.chord.arrangement.BuilderFactory;
 import music.chord.arrangement.ChordDefinitionStructure;
 import music.chord.arrangement.VoicedChord;
+import music.chord.arrangement.Voicing;
+import music.chord.base.ChordMember;
 import music.chord.base.Quality;
 import music.chord.engine.protocol.AddChordRequest;
 import music.chord.engine.protocol.Identifier;
 import music.chord.engine.protocol.LoadRequest;
 import music.chord.engine.protocol.RequestBuilder;
 import music.chord.grammar.ChordDefinitionStructureFactory;
+import music.chord.grammar.VoicingFactory;
 
 import org.antlr.runtime.RecognitionException;
 import org.junit.Before;
@@ -65,8 +69,8 @@ public class ChordEngineImplTest {
         
         engine.addChords(addRequestList)
             .insertChords(
-                    builder.insertRequest("Eb", Quality.MINOR_SEVENTH),
-                    builder.insertRequest("F#", Quality.MINOR_SEVENTH));
+                builder.insertRequest("Eb", Quality.MINOR_SEVENTH),
+                builder.insertRequest("F#", Quality.MINOR_SEVENTH));
         
         assertEquals("Dm", engine.byIdentifier(id).get(1).getSymbol());
         assertEquals("Ebm7", engine.byIdentifier(id).get(2).getSymbol());
@@ -91,4 +95,23 @@ public class ChordEngineImplTest {
         assertEquals("Gdom7", engine.byIdentifier(id).get(1).getSymbol());
     }
 
+    @Test
+    public void setVoicings() {
+        Voicing voicing = VoicingFactory.instanceFromChordMemberList(
+            ChordMember.THIRD, 
+            ChordMember.FIFTH, 
+            ChordMember.ROOT, 
+            ChordMember.FIFTH);
+        builder.setVoicing(voicing);
+        
+        engine.addChords(addRequestList)
+            .setVoicings(builder.voicingRequest(0, 2));
+        
+        List<VoicedChord> chordList = engine.byIdentifier(id);
+        
+        assertEquals(chordList.get(0).getVoicing(), voicing);
+        assertNotSame(chordList.get(1).getVoicing(), voicing);
+        assertEquals(chordList.get(2).getVoicing(), voicing);
+        assertNotSame(chordList.get(3).getVoicing(), voicing);
+    }
 }

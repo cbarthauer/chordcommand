@@ -9,6 +9,7 @@ import java.util.Map;
 
 import music.chord.arrangement.BuilderFactory;
 import music.chord.arrangement.ChordDefinitionStructure;
+import music.chord.arrangement.DerivedChordBuilder;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.VoicedChordBuilder;
 import music.chord.base.ChordSpec;
@@ -18,6 +19,7 @@ import music.chord.engine.protocol.Identifier;
 import music.chord.engine.protocol.InsertChordRequest;
 import music.chord.engine.protocol.LoadRequest;
 import music.chord.engine.protocol.RemoveChordRequest;
+import music.chord.engine.protocol.VoicingRequest;
 import music.chord.grammar.ChordLexer;
 import music.chord.grammar.ChordListRegistry;
 import music.chord.grammar.ChordParser;
@@ -34,6 +36,7 @@ import org.antlr.runtime.tree.CommonTreeNodeStream;
 class ChordEngineImpl implements ChordEngine {
 
     private Map<ChordType, VoicedChordBuilder> builderMap;
+    private DerivedChordBuilder derivedBuilder;
     private ChordListRegistry registry;
     private ChordDefinitionStructure struct;
     
@@ -47,6 +50,7 @@ class ChordEngineImpl implements ChordEngine {
         builderMap.put(ChordType.TRIAD, triadBuilder);
         builderMap.put(ChordType.SEVENTH, seventhBuilder);
         builderMap.put(ChordType.NINTH, ninthBuilder);
+        this.derivedBuilder = new DerivedChordBuilder();
         registry = new ChordListRegistry();
         this.struct = struct;
     }
@@ -145,6 +149,21 @@ class ChordEngineImpl implements ChordEngine {
         }
         
         registry.put(identifier, newList);
+        return this;
+    }
+
+    @Override
+    public ChordEngineImpl setVoicings(VoicingRequest request) {
+        Identifier identifier = request.getIdentifier();
+        
+        for(Integer index : request.getPositions()) {
+            VoicedChord chord = 
+                derivedBuilder.setChord(registry.getChord(identifier, index))
+                    .setVoicing(request.getVoicing())
+                    .buildVoicedChord();
+            registry.set(identifier, index, chord);
+        }
+        
         return this;
     }
 
