@@ -10,7 +10,6 @@ import music.chord.base.NoteName;
 import music.chord.grammar.ChordDefinitionStructureFactory;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class ChordFinderTest {
@@ -25,7 +24,6 @@ public class ChordFinderTest {
     }
 
     @Test
-    @Ignore
     public void testFindByChordMember() {
         List<VoicedChord> chordList = finder.find(NoteName.forSymbol("Bb"), ChordMember.NINTH);        
         assertTrue("Found " + chordList.size() + " chords.", chordList.size() > 0);

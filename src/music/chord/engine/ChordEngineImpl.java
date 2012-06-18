@@ -19,6 +19,7 @@ import music.chord.engine.protocol.DurationRequest;
 import music.chord.engine.protocol.Identifier;
 import music.chord.engine.protocol.InsertChordRequest;
 import music.chord.engine.protocol.LoadRequest;
+import music.chord.engine.protocol.OctaveRequest;
 import music.chord.engine.protocol.RemoveChordRequest;
 import music.chord.engine.protocol.VoicingRequest;
 import music.chord.grammar.ChordLexer;
@@ -176,6 +177,21 @@ class ChordEngineImpl implements ChordEngine {
             VoicedChord chord = 
                 derivedBuilder.setChord(registry.getChord(identifier, index))
                     .setVoicing(request.getVoicing())
+                    .buildVoicedChord();
+            registry.set(identifier, index, chord);
+        }
+        
+        return this;
+    }
+
+    @Override
+    public ChordEngineImpl setOctaves(OctaveRequest request) {
+        Identifier identifier = request.getIdentifier();
+        
+        for(Integer index : request.getPositions()) {
+            VoicedChord chord = 
+                derivedBuilder.setChord(registry.getChord(identifier, index))
+                    .setOctave(request.getOctave())
                     .buildVoicedChord();
             registry.set(identifier, index, chord);
         }

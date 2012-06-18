@@ -17,6 +17,7 @@ public final class RequestBuilder {
     private int insertPosition;
     private Voicing voicing;
     private Duration duration;
+    private int octave;
 
     public RequestBuilder(Identifier identifier) {
         this(identifier, 0);
@@ -106,5 +107,17 @@ public final class RequestBuilder {
 
     public VoicingRequest voicingRequest(List<Integer> positions) {
         return new VoicingRequestImpl(identifier, positions, voicing);
+    }
+
+    public void setOctave(int octave) {
+        this.octave = octave;
+    }
+
+    public OctaveRequest octaveRequest(Integer... positions) {
+        return octaveRequest(Arrays.asList(positions));
+    }
+    
+    public OctaveRequest octaveRequest(List<Integer> positions) {
+        return new OctaveRequestImpl(identifier, positions, octave);
     }
 }

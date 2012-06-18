@@ -358,13 +358,9 @@ set
       engine.setDurations(builder.durationRequest($range.value));
   }
   | SET 'octave' octave=INT ON IDENTIFIER START_LIST range END_LIST {
-      for(Integer i : $range.value) {
-          VoicedChord chord = 
-              derivedBuilder.setChord(reg.getChord(new Identifier($IDENTIFIER.text), i))
-                  .setOctave(Integer.parseInt($octave.text))
-                  .buildVoicedChord();
-          reg.set(new Identifier($IDENTIFIER.text), i, chord);
-      }
+      RequestBuilder builder = new RequestBuilder(new Identifier($IDENTIFIER.text));
+      builder.setOctave(Integer.parseInt($octave.text));
+      engine.setOctaves(builder.octaveRequest($range.value));
   }
   ;
 

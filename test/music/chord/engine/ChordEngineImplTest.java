@@ -128,4 +128,17 @@ public class ChordEngineImplTest {
         assertEquals(Duration.QUARTER, chordList.get(2).getDuration());
         assertEquals(Duration.HALF, chordList.get(3).getDuration());
     }
+    
+    @Test
+    public void setOctaves() {
+        builder.setOctave(3);
+        engine.addChords(addRequestList)
+            .setOctaves(builder.octaveRequest(0, 3));
+        List<VoicedChord> chordList = engine.byIdentifier(id);
+        
+        assertEquals(3, chordList.get(0).getOctave());
+        assertEquals(4, chordList.get(1).getOctave());
+        assertEquals(4, chordList.get(2).getOctave());
+        assertEquals(3, chordList.get(3).getOctave());
+    }
 }
