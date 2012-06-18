@@ -6,6 +6,7 @@ import java.util.List;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.Voicing;
 import music.chord.base.ChordMember;
+import music.chord.base.Duration;
 import music.chord.base.NoteName;
 import music.chord.base.Quality;
 import music.chord.engine.protocol.LoadRequest;
@@ -15,6 +16,7 @@ public final class RequestBuilder {
     private Identifier identifier;
     private int insertPosition;
     private Voicing voicing;
+    private Duration duration;
 
     public RequestBuilder(Identifier identifier) {
         this(identifier, 0);
@@ -44,6 +46,14 @@ public final class RequestBuilder {
         return requests;
     }
     
+    public DurationRequest durationRequest(Integer... positions) {
+        return durationRequest(Arrays.asList(positions));
+    }
+
+    public DurationRequest durationRequest(List<Integer> positions) {
+        return new DurationRequestImpl(identifier, positions, duration);
+    }
+
     public final InsertChordRequest insertRequest(
             String noteSymbol,
             Quality quality) {
@@ -51,7 +61,7 @@ public final class RequestBuilder {
         NoteName noteName = NoteName.forSymbol(noteSymbol);
         return new InsertChordRequestImpl(identifier, noteName, quality, insertPosition);
     }
-
+    
     public final InsertChordRequest[] insertRequests(List<VoicedChord> chordList) {
         InsertChordRequest[] requests = new InsertChordRequest[chordList.size()];
         
@@ -69,7 +79,7 @@ public final class RequestBuilder {
         LoadRequest request = new LoadRequestImpl(fileName, identifier);
         return request;
     }
-    
+
     public final RemoveChordRequest removeRequest(Integer... position) {
         return removeRequest(Arrays.asList(position));
     }
@@ -78,6 +88,10 @@ public final class RequestBuilder {
         return new RemoveChordRequestImpl(identifier, positionList);
     }
 
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+    
     public final void setInsertPosition(int insertPosition) {
         this.insertPosition = insertPosition;
     }
@@ -89,9 +103,8 @@ public final class RequestBuilder {
     public VoicingRequest voicingRequest(Integer... positions) {
         return voicingRequest(Arrays.asList(positions));
     }
-    
+
     public VoicingRequest voicingRequest(List<Integer> positions) {
         return new VoicingRequestImpl(identifier, positions, voicing);
     }
-
 }

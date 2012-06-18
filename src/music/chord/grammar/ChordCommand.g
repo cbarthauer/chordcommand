@@ -353,13 +353,9 @@ set
       engine.setVoicings(builder.voicingRequest($range.value));
   }
   | SET DURATION NOTE_LENGTH ON IDENTIFIER START_LIST range END_LIST {
-      for(Integer i : $range.value) {
-		  VoicedChord chord = 
-		      derivedBuilder.setChord(reg.getChord(new Identifier($IDENTIFIER.text), i))
-	              .setDuration(Duration.durationFromName($NOTE_LENGTH.text))
-	              .buildVoicedChord();
-		  reg.set(new Identifier($IDENTIFIER.text), i, chord);
-      }
+      RequestBuilder builder = new RequestBuilder(new Identifier($IDENTIFIER.text));
+      builder.setDuration(Duration.durationFromName($NOTE_LENGTH.text));
+      engine.setDurations(builder.durationRequest($range.value));
   }
   | SET 'octave' octave=INT ON IDENTIFIER START_LIST range END_LIST {
       for(Integer i : $range.value) {

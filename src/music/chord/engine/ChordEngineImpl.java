@@ -15,6 +15,7 @@ import music.chord.arrangement.VoicedChordBuilder;
 import music.chord.base.ChordSpec;
 import music.chord.base.ChordType;
 import music.chord.engine.protocol.AddChordRequest;
+import music.chord.engine.protocol.DurationRequest;
 import music.chord.engine.protocol.Identifier;
 import music.chord.engine.protocol.InsertChordRequest;
 import music.chord.engine.protocol.LoadRequest;
@@ -149,6 +150,21 @@ class ChordEngineImpl implements ChordEngine {
         }
         
         registry.put(identifier, newList);
+        return this;
+    }
+
+    @Override
+    public ChordEngineImpl setDurations(DurationRequest request) {
+        Identifier identifier = request.getIdentifier();
+        
+        for(Integer index : request.getPositions()) {
+            VoicedChord chord = 
+                derivedBuilder.setChord(registry.getChord(identifier, index))
+                    .setDuration(request.getDuration())
+                    .buildVoicedChord();
+            registry.set(identifier, index, chord);
+        }
+        
         return this;
     }
 

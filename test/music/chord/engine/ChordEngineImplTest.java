@@ -12,6 +12,7 @@ import music.chord.arrangement.ChordDefinitionStructure;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.Voicing;
 import music.chord.base.ChordMember;
+import music.chord.base.Duration;
 import music.chord.base.Quality;
 import music.chord.engine.protocol.AddChordRequest;
 import music.chord.engine.protocol.Identifier;
@@ -113,5 +114,18 @@ public class ChordEngineImplTest {
         assertNotSame(chordList.get(1).getVoicing(), voicing);
         assertEquals(chordList.get(2).getVoicing(), voicing);
         assertNotSame(chordList.get(3).getVoicing(), voicing);
+    }
+    
+    @Test
+    public void setDurations() {
+        builder.setDuration(Duration.HALF);
+        engine.addChords(addRequestList)
+            .setDurations(builder.durationRequest(1, 3));
+        List<VoicedChord> chordList = engine.byIdentifier(id);
+        
+        assertEquals(Duration.QUARTER, chordList.get(0).getDuration());
+        assertEquals(Duration.HALF, chordList.get(1).getDuration());
+        assertEquals(Duration.QUARTER, chordList.get(2).getDuration());
+        assertEquals(Duration.HALF, chordList.get(3).getDuration());
     }
 }
