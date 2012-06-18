@@ -81,10 +81,18 @@ public final class RequestBuilder {
         return request;
     }
 
+    public OctaveRequest octaveRequest(Integer... positions) {
+        return octaveRequest(Arrays.asList(positions));
+    }
+
+    public OctaveRequest octaveRequest(List<Integer> positions) {
+        return new OctaveRequestImpl(identifier, positions, octave);
+    }
+
     public final RemoveChordRequest removeRequest(Integer... position) {
         return removeRequest(Arrays.asList(position));
     }
-
+    
     public final RemoveChordRequest removeRequest(List<Integer> positionList) {
         return new RemoveChordRequestImpl(identifier, positionList);
     }
@@ -92,32 +100,28 @@ public final class RequestBuilder {
     public void setDuration(Duration duration) {
         this.duration = duration;
     }
-    
+
     public final void setInsertPosition(int insertPosition) {
         this.insertPosition = insertPosition;
-    }
-
-    public void setVoicing(Voicing voicing) {
-        this.voicing = voicing;
-    }
-
-    public VoicingRequest voicingRequest(Integer... positions) {
-        return voicingRequest(Arrays.asList(positions));
-    }
-
-    public VoicingRequest voicingRequest(List<Integer> positions) {
-        return new VoicingRequestImpl(identifier, positions, voicing);
     }
 
     public void setOctave(int octave) {
         this.octave = octave;
     }
 
-    public OctaveRequest octaveRequest(Integer... positions) {
-        return octaveRequest(Arrays.asList(positions));
+    public void setVoicing(Voicing voicing) {
+        this.voicing = voicing;
+    }
+
+    public VoiceAllRequest voiceAllRequest() {
+        return new VoiceAllRequestImpl(identifier);
     }
     
-    public OctaveRequest octaveRequest(List<Integer> positions) {
-        return new OctaveRequestImpl(identifier, positions, octave);
+    public VoicingRequest voicingRequest(Integer... positions) {
+        return voicingRequest(Arrays.asList(positions));
+    }
+
+    public VoicingRequest voicingRequest(List<Integer> positions) {
+        return new VoicingRequestImpl(identifier, positions, voicing);
     }
 }

@@ -9,6 +9,7 @@ import java.util.Map;
 
 import music.chord.arrangement.BuilderFactory;
 import music.chord.arrangement.ChordDefinitionStructure;
+import music.chord.arrangement.ChordVoicer;
 import music.chord.arrangement.DerivedChordBuilder;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.VoicedChordBuilder;
@@ -21,6 +22,7 @@ import music.chord.engine.protocol.InsertChordRequest;
 import music.chord.engine.protocol.LoadRequest;
 import music.chord.engine.protocol.OctaveRequest;
 import music.chord.engine.protocol.RemoveChordRequest;
+import music.chord.engine.protocol.VoiceAllRequest;
 import music.chord.engine.protocol.VoicingRequest;
 import music.chord.grammar.ChordLexer;
 import music.chord.grammar.ChordListRegistry;
@@ -41,11 +43,13 @@ class ChordEngineImpl implements ChordEngine {
     private DerivedChordBuilder derivedBuilder;
     private ChordListRegistry registry;
     private ChordDefinitionStructure struct;
+    private ChordVoicer voicer;
     
     public ChordEngineImpl(
             VoicedChordBuilder triadBuilder,
             VoicedChordBuilder seventhBuilder,
             VoicedChordBuilder ninthBuilder,
+            ChordVoicer voicer,
             ChordDefinitionStructure struct) {
     
         builderMap = new HashMap<ChordType, VoicedChordBuilder>();
@@ -54,6 +58,7 @@ class ChordEngineImpl implements ChordEngine {
         builderMap.put(ChordType.NINTH, ninthBuilder);
         this.derivedBuilder = new DerivedChordBuilder();
         registry = new ChordListRegistry();
+        this.voicer = voicer;
         this.struct = struct;
     }
     
@@ -155,7 +160,7 @@ class ChordEngineImpl implements ChordEngine {
     }
 
     @Override
-    public ChordEngineImpl setDurations(DurationRequest request) {
+    public final ChordEngineImpl setDurations(DurationRequest request) {
         Identifier identifier = request.getIdentifier();
         
         for(Integer index : request.getPositions()) {
@@ -170,7 +175,7 @@ class ChordEngineImpl implements ChordEngine {
     }
 
     @Override
-    public ChordEngineImpl setVoicings(VoicingRequest request) {
+    public final ChordEngineImpl setVoicings(VoicingRequest request) {
         Identifier identifier = request.getIdentifier();
         
         for(Integer index : request.getPositions()) {
@@ -185,7 +190,7 @@ class ChordEngineImpl implements ChordEngine {
     }
 
     @Override
-    public ChordEngineImpl setOctaves(OctaveRequest request) {
+    public final ChordEngineImpl setOctaves(OctaveRequest request) {
         Identifier identifier = request.getIdentifier();
         
         for(Integer index : request.getPositions()) {
@@ -196,6 +201,15 @@ class ChordEngineImpl implements ChordEngine {
             registry.set(identifier, index, chord);
         }
         
+        return this;
+    }
+
+    @Override
+    public final ChordEngineImpl voiceAll(VoiceAllRequest request) {
+        Identifier identifier = request.getIdentifier();
+        List<VoicedChord> chordList = 
+            voicer.voice(registry.byIdentifier(identifier));
+        registry.put(identifier, chordList);
         return this;
     }
 

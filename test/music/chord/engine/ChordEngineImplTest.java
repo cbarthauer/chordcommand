@@ -9,6 +9,7 @@ import java.util.List;
 
 import music.chord.arrangement.BuilderFactory;
 import music.chord.arrangement.ChordDefinitionStructure;
+import music.chord.arrangement.ChordVoicerFactory;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.Voicing;
 import music.chord.base.ChordMember;
@@ -46,6 +47,7 @@ public class ChordEngineImplTest {
             BuilderFactory.getTriadBuilder(struct),
             BuilderFactory.getSeventhBuilder(struct),
             BuilderFactory.getNinthBuilder(struct),
+            ChordVoicerFactory.getInstance(struct),
             struct);
         
         id = new Identifier("default");
@@ -140,5 +142,13 @@ public class ChordEngineImplTest {
         assertEquals(4, chordList.get(1).getOctave());
         assertEquals(4, chordList.get(2).getOctave());
         assertEquals(3, chordList.get(3).getOctave());
+    }
+    
+    @Test
+    public void voiceAll() {
+        engine.addChords(addRequestList)
+            .voiceAll(builder.voiceAllRequest());
+        List<VoicedChord> chordList = engine.byIdentifier(id);
+        assertNotSame(chordList.get(2).getVoicing(), chordList.get(3).getVoicing());
     }
 }

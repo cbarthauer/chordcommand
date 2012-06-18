@@ -366,7 +366,8 @@ set
 
 voice
   : VOICE ALL IDENTIFIER {
-      commandList.add(new VoiceChordList(new Identifier($IDENTIFIER.text), voicer, reg));
+      RequestBuilder builder = new RequestBuilder(new Identifier($IDENTIFIER.text));
+      commandList.add(new VoiceChordList(engine, builder.voiceAllRequest()));
   }
   ;
     

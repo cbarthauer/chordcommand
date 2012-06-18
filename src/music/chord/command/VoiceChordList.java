@@ -1,28 +1,21 @@
 package music.chord.command;
 
-import java.util.List;
-
-import music.chord.arrangement.ChordVoicer;
-import music.chord.arrangement.VoicedChord;
-import music.chord.engine.protocol.Identifier;
-import music.chord.grammar.ChordListRegistry;
+import music.chord.engine.ChordEngine;
+import music.chord.engine.protocol.VoiceAllRequest;
 
 public class VoiceChordList implements Command {
 
-	private Identifier identifier;
-    private ChordVoicer voicer;
-    private ChordListRegistry reg;
+    private ChordEngine engine;
+    private VoiceAllRequest request;
 
-    public VoiceChordList(Identifier identifier, ChordVoicer voicer, ChordListRegistry reg) {
-		this.identifier = identifier;
-		this.voicer = voicer;
-		this.reg = reg;
+    public VoiceChordList(ChordEngine engine, VoiceAllRequest request) {
+		this.engine = engine;
+		this.request = request;
 	}
 	
 	@Override
 	public void execute() {
-		List<VoicedChord> chordList = voicer.voice(reg.byIdentifier(identifier));
-		reg.put(identifier, chordList);
+		engine.voiceAll(request);
 	}
 
 }

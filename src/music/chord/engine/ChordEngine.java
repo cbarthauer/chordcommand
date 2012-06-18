@@ -10,6 +10,7 @@ import music.chord.engine.protocol.InsertChordRequest;
 import music.chord.engine.protocol.LoadRequest;
 import music.chord.engine.protocol.OctaveRequest;
 import music.chord.engine.protocol.RemoveChordRequest;
+import music.chord.engine.protocol.VoiceAllRequest;
 import music.chord.engine.protocol.VoicingRequest;
 import music.chord.grammar.ChordListRegistry;
 
@@ -20,8 +21,10 @@ public interface ChordEngine {
     
     public List<VoicedChord> byIdentifier(Identifier id);
     public ChordEngine load(LoadRequest request);
-    public ChordListRegistry getRegistry();
     public ChordEngine setVoicings(VoicingRequest request);
-    public ChordEngine setDurations(DurationRequest durationRequest);
-    public ChordEngine setOctaves(OctaveRequest octaveRequest);
+    public ChordEngine setDurations(DurationRequest request);
+    public ChordEngine setOctaves(OctaveRequest request);
+    public ChordEngine voiceAll(VoiceAllRequest request);
+    
+    public ChordListRegistry getRegistry();
 }

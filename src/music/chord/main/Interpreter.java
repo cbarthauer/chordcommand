@@ -36,12 +36,12 @@ public class Interpreter {
 		String line = "";
 		ChordDefinitionStructure struct = ChordDefinitionStructureFactory.getInstance(
 		        "D:\\musicspace\\chordgrammar\\definitions\\chords.txt");
-		ChordVoicer voicer = ChordVoicerFactory.getInstance(struct);
 		VoicedChordBuilder triadBuilder = BuilderFactory.getTriadBuilder(struct);
 		VoicedChordBuilder seventhBuilder = BuilderFactory.getSeventhBuilder(struct);
 		VoicedChordBuilder ninthBuilder = BuilderFactory.getNinthBuilder(struct);
+		ChordVoicer voicer = ChordVoicerFactory.getInstance(struct);
 		ChordEngine engine = ChordEngineBuilder.build(
-		        triadBuilder, seventhBuilder, ninthBuilder, struct);
+		        triadBuilder, seventhBuilder, ninthBuilder, voicer, struct);
 		
 		while(true) {
 			line = scanner.nextLine();
