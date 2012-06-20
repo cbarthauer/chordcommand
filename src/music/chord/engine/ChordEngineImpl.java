@@ -15,7 +15,8 @@ import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.VoicedChordBuilder;
 import music.chord.base.ChordSpec;
 import music.chord.base.ChordType;
-import music.chord.engine.protocol.AddChordRequest;
+import music.chord.engine.protocol.ChordPair;
+import music.chord.engine.protocol.ChordRequest;
 import music.chord.engine.protocol.DurationRequest;
 import music.chord.engine.protocol.Identifier;
 import music.chord.engine.protocol.InsertChordRequest;
@@ -61,22 +62,24 @@ class ChordEngineImpl implements ChordEngine {
         this.voicer = voicer;
         this.struct = struct;
     }
-    
+
     @Override
-    public final ChordEngineImpl addChords(AddChordRequest... requests) {
-        for(AddChordRequest request : requests) {
-            VoicedChordBuilder builder = builderMap.get(request.getType());
-            ChordSpec spec = struct.getChordSpec(request.getType(), request.getQuality());
-            VoicedChord chord = builder.setRoot(request.getNoteName())
+    public final ChordEngineImpl addChords(ChordRequest request) {
+        Identifier identifier = request.getIdentifier();
+        
+        for(ChordPair pair : request.getChordPairs()) {
+            VoicedChordBuilder builder = builderMap.get(pair.getType());
+            ChordSpec spec = struct.getChordSpec(pair.getType(), pair.getQuality());
+            VoicedChord chord = builder.setRoot(pair.getRoot())
                 .setChordSpec(spec)
-                .setQuality(request.getQuality())
+                .setQuality(pair.getQuality())
                 .buildVoicedChord();
-            registry.add(request.getIdentifier(), chord);
+            registry.add(identifier, chord);            
         }
         
         return this;
     }
-
+    
     @Override
     public final List<VoicedChord> byIdentifier(Identifier id) {
         return registry.byIdentifier(id);
@@ -88,27 +91,23 @@ class ChordEngineImpl implements ChordEngine {
     }
 
     @Override
-    public final ChordEngineImpl insertChords(InsertChordRequest... requests) {
-        if(requests.length == 0) {
-            throw new IllegalArgumentException("Parameter 'requests' cannot be zero-length.");
-        }
-        
-        Identifier identifier = requests[0].getIdentifier();
+    public final ChordEngineImpl insertChords(InsertChordRequest request) {
+        Identifier identifier = request.getIdentifier();
         LinkedList<VoicedChord> existingList = 
                 new LinkedList<VoicedChord>(registry.byIdentifier(identifier));
         List<VoicedChord> newChords = new ArrayList<VoicedChord>();
         
-        for(InsertChordRequest request : requests) {
-            VoicedChordBuilder builder = builderMap.get(request.getType());
-            ChordSpec spec = struct.getChordSpec(request.getType(), request.getQuality());
-            VoicedChord chord = builder.setRoot(request.getNoteName())
+        for(ChordPair pair : request.getChordPairs()) {
+            VoicedChordBuilder builder = builderMap.get(pair.getType());
+            ChordSpec spec = struct.getChordSpec(pair.getType(), pair.getQuality());
+            VoicedChord chord = builder.setRoot(pair.getRoot())
                 .setChordSpec(spec)
-                .setQuality(request.getQuality())
+                .setQuality(pair.getQuality())
                 .buildVoicedChord();
             newChords.add(chord);
         }
         
-        int position = requests[0].getPosition();
+        int position = request.getPosition();
         existingList.addAll(position, newChords);
         registry.put(identifier, existingList);
         

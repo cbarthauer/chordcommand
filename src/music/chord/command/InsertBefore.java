@@ -6,18 +6,18 @@ import music.chord.engine.protocol.InsertChordRequest;
 public class InsertBefore implements Command {
 
 	private ChordEngine engine;
-    private InsertChordRequest[] requests;
+    private InsertChordRequest request;
 
     public InsertBefore(
 	        ChordEngine engine,
-	        InsertChordRequest... requests) {
+	        InsertChordRequest request) {
 	    this.engine = engine;
-	    this.requests = requests;
+	    this.request = request;
 	}
 	
 	@Override
 	public void execute() {
-	    engine.insertChords(requests);
+	    engine.insertChords(request);
 	}
 
 }

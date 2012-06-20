@@ -1,51 +1,33 @@
 package music.chord.engine.protocol;
 
-import music.chord.base.ChordType;
-import music.chord.base.NoteName;
-import music.chord.base.Quality;
+import java.util.List;
 
 final class InsertChordRequestImpl implements InsertChordRequest {
 
-    private Identifier identifier;
-    private NoteName noteName;
-    private Quality quality;
+    private ChordRequest chordRequest;
     private int position;
 
     public InsertChordRequestImpl(
-            Identifier identifier, 
-            NoteName noteName,
-            Quality quality, 
+            ChordRequest chordRequest, 
             int position) {
 
-        this.identifier = identifier;
-        this.noteName = noteName;
-        this.quality = quality;
+        this.chordRequest = chordRequest;
         this.position = position;
     }
 
     @Override
-    public final Identifier getIdentifier() {
-        return identifier;
+    public List<ChordPair> getChordPairs() {
+        return chordRequest.getChordPairs();
     }
 
     @Override
-    public final NoteName getNoteName() {
-        return noteName;
+    public Identifier getIdentifier() {
+        return chordRequest.getIdentifier();
     }
 
     @Override
-    public final int getPosition() {
+    public int getPosition() {
         return position;
-    }
-
-    @Override
-    public final Quality getQuality() {
-        return quality;
-    }
-
-    @Override
-    public ChordType getType() {
-        return quality.getType();
     }
 
 }

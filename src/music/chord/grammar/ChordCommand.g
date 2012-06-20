@@ -48,7 +48,8 @@ options {
   import music.chord.display.VerboseFormatter;
   
   import music.chord.engine.ChordEngine;
-  import music.chord.engine.protocol.AddChordRequest;
+  import music.chord.engine.protocol.ChordPair;
+  import music.chord.engine.protocol.ChordRequest;
   import music.chord.engine.protocol.Identifier;
   import music.chord.engine.protocol.RequestBuilder;
 }
@@ -103,6 +104,19 @@ options {
   
   public void setVoicePartPlayer(VoicePartPlayer voicePartPlayer) {
     this.voicePartPlayer = voicePartPlayer;
+  }
+  
+  private List<ChordPair> pairsFromChords(List<VoicedChord> chordList) {
+    List<ChordPair> result = new ArrayList<ChordPair>();
+    
+    for(VoicedChord chord : chordList) {
+      result.add(
+        new ChordPair(
+          chord.noteNameFromChordMember(ChordMember.ROOT), 
+          chord.getQuality()));
+    }
+    
+    return result;
   }
   
   private Voicing voicingFromChordMemberList(List<ChordMember> chordMemberList) {
@@ -231,8 +245,8 @@ command
 add 
   : ADD newList=chordList TO IDENTIFIER {      
       RequestBuilder reqBuilder = new RequestBuilder(new Identifier($IDENTIFIER.text));
-      AddChordRequest[] requests = reqBuilder.addRequests($newList.value);
-      commandList.add(new AddChords(engine, requests));
+      ChordRequest request = reqBuilder.chordRequest(pairsFromChords($newList.value));
+      commandList.add(new AddChords(engine, request));
   }	
   ;
 
@@ -281,14 +295,14 @@ noteNameList returns [List<NoteName> value]
   
 insert
   : INSERT newList=chordList BEFORE IDENTIFIER START_LIST INT END_LIST {
-        RequestBuilder reqBuilder = new RequestBuilder(
-            new Identifier($IDENTIFIER.text), 
-            Integer.parseInt($INT.text));
+        RequestBuilder reqBuilder = new RequestBuilder(new Identifier($IDENTIFIER.text));
             
         commandList.add(
             new InsertBefore(
                 engine,
-                reqBuilder.insertRequests($newList.value)));
+                reqBuilder.insertRequest(
+                    Integer.parseInt($INT.text),
+                    pairsFromChords($newList.value))));
     }
   ;
 
@@ -386,10 +400,6 @@ chordMemberList returns [Voicing voicing]
       }
     ;
   
-chord returns [VoicedChord chord]
-    : currentSpec=chordSpec {chord = $currentSpec.chord;}
-    ;
-
 chordList returns [List<VoicedChord> value]
 @init {value = new ArrayList<VoicedChord>();}
   : first=chord {
@@ -404,6 +414,10 @@ chordList returns [List<VoicedChord> value]
       }
   ;
 
+chord returns [VoicedChord chord]
+    : currentSpec=chordSpec {chord = $currentSpec.chord;}
+    ;
+    
 range returns [List<Integer> value]
 @init {$value = new ArrayList<Integer>();}
   : rangeAtom[$value] (',' rangeAtom[$value])*
