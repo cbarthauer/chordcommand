@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import music.chord.arrangement.BuilderFactory;
 import music.chord.arrangement.ChordDefinitionStructure;
+import music.chord.arrangement.ChordFinder;
 import music.chord.arrangement.ChordPlayer;
 import music.chord.arrangement.ChordVoicer;
 import music.chord.arrangement.ChordVoicerFactory;
@@ -50,12 +51,9 @@ public class Interpreter {
 			TokenStream tokenStream = new CommonTokenStream(lexer);
 			ChordCommandParser parser = new ChordCommandParser(tokenStream);
 			parser.setChordEngine(engine);
-			parser.setChordDefinitionStructure(struct);
+			parser.setChordFinder(new ChordFinder(struct));
 			parser.setChordVoicer(voicer);
 			parser.setChordPlayer(new ChordPlayer());
-			parser.setTriadBuilder(triadBuilder);
-			parser.setSeventhBuilder(seventhBuilder);
-			parser.setNinthBuilder(ninthBuilder);
 			parser.setVoicePartPlayer(new VoicePartPlayer());
 			
 			List<Command> commandList = commandListFromParser(parser);

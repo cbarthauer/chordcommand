@@ -9,22 +9,16 @@ options {
 
   import java.util.ArrayList;
   import java.util.List;
-  import java.util.Map;
   
-  import music.chord.arrangement.ChordDefinitionStructure;
   import music.chord.arrangement.ChordFinder;
   import music.chord.arrangement.ChordPlayer;
   import music.chord.arrangement.VoicedChord;
   import music.chord.arrangement.Voicing;
-  import music.chord.arrangement.DerivedChordBuilder;
   import music.chord.arrangement.ChordVoicer;
   import music.chord.arrangement.VoicePartPlayer;
-  import music.chord.arrangement.VoicedChordBuilder;
   
   import music.chord.base.ChordMember;
-  import music.chord.base.ChordType;
   import music.chord.base.Duration;
-  import music.chord.base.Interval;
   import music.chord.base.NoteName;
   import music.chord.base.Quality;
   import music.chord.base.VoicePart;
@@ -65,19 +59,13 @@ options {
 @members {
   ChordEngine engine;
   List<Command> commandList = new ArrayList<Command>();
-  VoicedChordBuilder triadBuilder;  
-  VoicedChordBuilder seventhBuilder;
-  VoicedChordBuilder ninthBuilder;
-  DerivedChordBuilder derivedBuilder = new DerivedChordBuilder();
   ChordPlayer player;
   ChordVoicer voicer;
   VoicePartPlayer voicePartPlayer;
-  ChordDefinitionStructure struct;
   ChordFinder chordFinder;
   
-  public void setChordDefinitionStructure(ChordDefinitionStructure struct) {
-    this.struct = struct;
-    this.chordFinder = new ChordFinder(struct);
+  public void setChordFinder(ChordFinder chordFinder) {
+    this.chordFinder = chordFinder;
   }
   
   public void setChordEngine(ChordEngine engine) {
@@ -90,35 +78,10 @@ options {
     
   public void setChordPlayer(ChordPlayer player) {
     this.player = player;
-  }  
-  
-  public void setNinthBuilder(VoicedChordBuilder ninthBuilder) {
-    this.ninthBuilder = ninthBuilder;
-  }
-  
-  public void setSeventhBuilder(VoicedChordBuilder seventhBuilder) {
-    this.seventhBuilder = seventhBuilder;
-  }
-  
-  public void setTriadBuilder(VoicedChordBuilder triadBuilder) {
-    this.triadBuilder = triadBuilder;
   }
   
   public void setVoicePartPlayer(VoicePartPlayer voicePartPlayer) {
     this.voicePartPlayer = voicePartPlayer;
-  }
-  
-  private List<ChordPair> pairsFromChords(List<VoicedChord> chordList) {
-    List<ChordPair> result = new ArrayList<ChordPair>();
-    
-    for(VoicedChord chord : chordList) {
-      result.add(
-        new ChordPair(
-          chord.noteNameFromChordMember(ChordMember.ROOT), 
-          chord.getQuality()));
-    }
-    
-    return result;
   }
   
   private Voicing voicingFromChordMemberList(List<ChordMember> chordMemberList) {
