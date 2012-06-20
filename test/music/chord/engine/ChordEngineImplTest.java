@@ -7,12 +7,14 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.util.List;
 
+import music.chord.TestHelper;
 import music.chord.arrangement.BuilderFactory;
 import music.chord.arrangement.ChordDefinitionStructure;
 import music.chord.arrangement.ChordVoicerFactory;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.Voicing;
 import music.chord.base.ChordMember;
+import music.chord.base.ChordType;
 import music.chord.base.Duration;
 import music.chord.base.NoteName;
 import music.chord.base.Quality;
@@ -41,6 +43,7 @@ public class ChordEngineImplTest {
     private ChordEngine engine;
     private Identifier id;
     private RequestBuilder builder;
+    private TestHelper helper;
     private ChordRequest request;
     
     @Before
@@ -54,12 +57,13 @@ public class ChordEngineImplTest {
         
         id = new Identifier("default");
         builder = new RequestBuilder(id);
+        helper = new TestHelper();
         
         request = builder.chordRequest(
-            new ChordPair(NoteName.forSymbol("C"), Quality.MAJOR_TRIAD),
-            new ChordPair(NoteName.forSymbol("D"), Quality.MINOR_TRIAD),
-            new ChordPair(NoteName.forSymbol("G"), Quality.DOMINANT_SEVENTH),
-            new ChordPair(NoteName.forSymbol("C"), Quality.MAJOR_TRIAD));
+            helper.getChord("C", ChordType.TRIAD, Quality.MAJOR_TRIAD),
+            helper.getChord("D", ChordType.TRIAD, Quality.MINOR_TRIAD),
+            helper.getChord("G", ChordType.SEVENTH, Quality.DOMINANT_SEVENTH),
+            helper.getChord("C", ChordType.TRIAD, Quality.MAJOR_TRIAD));
     }
     
     @Test
@@ -70,13 +74,21 @@ public class ChordEngineImplTest {
     }
     
     @Test
+    public void createChord() {
+        VoicedChord chord = engine.createChord(
+            new ChordPair(NoteName.forSymbol("C"), Quality.MAJOR_TRIAD));
+        assertEquals(NoteName.forSymbol("C"), chord.noteNameFromChordMember(ChordMember.ROOT));
+        assertEquals(Quality.MAJOR_TRIAD, chord.getQuality());
+    }
+    
+    @Test
     public void insertChords() {
         engine.addChords(request)
             .insertChords(
                 builder.insertRequest(
                     2, 
-                    new ChordPair(NoteName.forSymbol("Eb"), Quality.MINOR_SEVENTH),
-                    new ChordPair(NoteName.forSymbol("F#"), Quality.MINOR_SEVENTH)));
+                    helper.getChord("Eb", ChordType.SEVENTH, Quality.MINOR_SEVENTH),
+                    helper.getChord("F#", ChordType.SEVENTH, Quality.MINOR_SEVENTH)));
         
         assertEquals("Dm", engine.byIdentifier(id).get(1).getSymbol());
         assertEquals("Ebm7", engine.byIdentifier(id).get(2).getSymbol());

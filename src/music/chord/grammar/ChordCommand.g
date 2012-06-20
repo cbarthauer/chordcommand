@@ -51,7 +51,11 @@ options {
   import music.chord.engine.protocol.ChordPair;
   import music.chord.engine.protocol.ChordRequest;
   import music.chord.engine.protocol.Identifier;
+  import music.chord.engine.protocol.InsertChordRequest;
+  import music.chord.engine.protocol.LoadRequest;
+  import music.chord.engine.protocol.RemoveChordRequest;
   import music.chord.engine.protocol.RequestBuilder;
+  import music.chord.engine.protocol.VoiceAllRequest;
 }
 
 @lexer::header {
@@ -65,7 +69,6 @@ options {
   VoicedChordBuilder seventhBuilder;
   VoicedChordBuilder ninthBuilder;
   DerivedChordBuilder derivedBuilder = new DerivedChordBuilder();
-  ChordListRegistry reg;
   ChordPlayer player;
   ChordVoicer voicer;
   VoicePartPlayer voicePartPlayer;
@@ -79,7 +82,6 @@ options {
   
   public void setChordEngine(ChordEngine engine) {
     this.engine = engine;
-    this.reg = engine.getRegistry();
   }
   
   public void setChordVoicer(ChordVoicer voicer) {
@@ -243,9 +245,9 @@ command
   ;
   
 add 
-  : ADD newList=chordList TO IDENTIFIER {      
+  : ADD chords=chordList TO IDENTIFIER {      
       RequestBuilder reqBuilder = new RequestBuilder(new Identifier($IDENTIFIER.text));
-      ChordRequest request = reqBuilder.chordRequest(pairsFromChords($newList.value));
+      ChordRequest request = reqBuilder.chordRequest($chords.value);
       commandList.add(new AddChords(engine, request));
   }	
   ;
@@ -294,25 +296,20 @@ noteNameList returns [List<NoteName> value]
   ;
   
 insert
-  : INSERT newList=chordList BEFORE IDENTIFIER START_LIST INT END_LIST {
-        RequestBuilder reqBuilder = new RequestBuilder(new Identifier($IDENTIFIER.text));
-            
-        commandList.add(
-            new InsertBefore(
-                engine,
-                reqBuilder.insertRequest(
-                    Integer.parseInt($INT.text),
-                    pairsFromChords($newList.value))));
-    }
+  : INSERT chords=chordList BEFORE IDENTIFIER START_LIST INT END_LIST {
+      RequestBuilder reqBuilder = new RequestBuilder(new Identifier($IDENTIFIER.text));
+      InsertChordRequest request = reqBuilder.insertRequest(
+          Integer.parseInt($INT.text),
+          $chords.value);  
+      commandList.add(new InsertBefore(engine, request));
+  }
   ;
 
 load
   : LOAD fileName=STRING AS IDENTIFIER {
       RequestBuilder reqBuilder = new RequestBuilder(new Identifier($IDENTIFIER.text));
-      commandList.add(
-          new Load(
-              engine, 
-              reqBuilder.loadRequest($fileName.text.replaceAll("\"", ""))));
+      LoadRequest request = reqBuilder.loadRequest($fileName.text.replaceAll("\"", "")); 
+      commandList.add(new Load(engine, request));
   }
   ;
 
@@ -337,7 +334,8 @@ quit
 remove
   : REMOVE IDENTIFIER START_LIST range END_LIST {      
       RequestBuilder builder = new RequestBuilder(new Identifier($IDENTIFIER.text));  
-      commandList.add(new RemoveChord(engine, builder.removeRequest($range.value)));
+      RemoveChordRequest request = builder.removeRequest($range.value);
+      commandList.add(new RemoveChord(engine, request));
   }
   ;
   
@@ -381,7 +379,8 @@ set
 voice
   : VOICE ALL IDENTIFIER {
       RequestBuilder builder = new RequestBuilder(new Identifier($IDENTIFIER.text));
-      commandList.add(new VoiceChordList(engine, builder.voiceAllRequest()));
+      VoiceAllRequest request = builder.voiceAllRequest();
+      commandList.add(new VoiceChordList(engine, request));
   }
   ;
     
@@ -402,20 +401,19 @@ chordMemberList returns [Voicing voicing]
   
 chordList returns [List<VoicedChord> value]
 @init {value = new ArrayList<VoicedChord>();}
-  : first=chord {
-        value.add($first.chord);
-      } 
-    (',' subsequent=chord {value.add($subsequent.chord);})*
+  : first=chord { value.add($first.value); } 
+    (',' subsequent=chord {value.add($subsequent.value);})*
   | IDENTIFIER START_LIST range END_LIST {
-        List<VoicedChord> existingList = engine.byIdentifier(new Identifier($IDENTIFIER.text));
-        for(Integer i : $range.value) {
+      List<VoicedChord> existingList = engine.byIdentifier(
+          new Identifier($IDENTIFIER.text));
+      for(Integer i : $range.value) {
           value.add(existingList.get(i));
-        }
       }
+  }
   ;
 
-chord returns [VoicedChord chord]
-    : currentSpec=chordSpec {chord = $currentSpec.chord;}
+chord returns [VoicedChord value]
+    : currentPair=chordSpec {value = engine.createChord($currentPair.value);}
     ;
     
 range returns [List<Integer> value]
@@ -435,31 +433,19 @@ rangeAtom[List<Integer> value]
     }
   ;
         
-chordSpec returns [VoicedChord chord]
-    : NOTE_NAME tquality=triadQuality { chord =
-            triadBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setChordSpec(struct.getChordSpec(ChordType.TRIAD, $tquality.value))
-                .setQuality($tquality.value)
-                .buildVoicedChord();
-         }
-    | NOTE_NAME {chord =
-            triadBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setChordSpec(struct.getChordSpec(ChordType.TRIAD, Quality.MAJOR_TRIAD))
-                .setQuality(Quality.MAJOR_TRIAD)
-                .buildVoicedChord();
-         }
-    | NOTE_NAME squality=seventhQuality {chord =
-            seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setChordSpec(struct.getChordSpec(ChordType.SEVENTH, $squality.value))
-                .setQuality($squality.value)
-                .buildVoicedChord();
-         }
-    | NOTE_NAME nquality=ninthQuality {chord =
-            ninthBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setChordSpec(struct.getChordSpec(ChordType.NINTH, $nquality.value))
-                .setQuality($nquality.value)
-                .buildVoicedChord();
-         }
+chordSpec returns [ChordPair value]
+    : NOTE_NAME tquality=triadQuality { value = 
+        new ChordPair(NoteName.forSymbol($NOTE_NAME.text), $tquality.value);
+    }
+    | NOTE_NAME { value = 
+        new ChordPair(NoteName.forSymbol($NOTE_NAME.text), Quality.MAJOR_TRIAD);
+    }
+    | NOTE_NAME squality=seventhQuality { value = 
+        new ChordPair(NoteName.forSymbol($NOTE_NAME.text), $squality.value);
+    }
+    | NOTE_NAME nquality=ninthQuality { value = 
+        new ChordPair(NoteName.forSymbol($NOTE_NAME.text), $nquality.value);
+    }
     ;
 
 chordMember returns [ChordMember value]

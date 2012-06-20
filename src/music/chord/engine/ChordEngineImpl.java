@@ -13,7 +13,6 @@ import music.chord.arrangement.ChordVoicer;
 import music.chord.arrangement.DerivedChordBuilder;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.VoicedChordBuilder;
-import music.chord.base.ChordSpec;
 import music.chord.base.ChordType;
 import music.chord.engine.protocol.ChordPair;
 import music.chord.engine.protocol.ChordRequest;
@@ -67,13 +66,7 @@ class ChordEngineImpl implements ChordEngine {
     public final ChordEngineImpl addChords(ChordRequest request) {
         Identifier identifier = request.getIdentifier();
         
-        for(ChordPair pair : request.getChordPairs()) {
-            VoicedChordBuilder builder = builderMap.get(pair.getType());
-            ChordSpec spec = struct.getChordSpec(pair.getType(), pair.getQuality());
-            VoicedChord chord = builder.setRoot(pair.getRoot())
-                .setChordSpec(spec)
-                .setQuality(pair.getQuality())
-                .buildVoicedChord();
+        for(VoicedChord chord : request.getChordList()) {
             registry.add(identifier, chord);            
         }
         
@@ -86,31 +79,20 @@ class ChordEngineImpl implements ChordEngine {
     }
 
     @Override
-    public ChordListRegistry getRegistry() {
-        return this.registry;
+    public VoicedChord createChord(ChordPair pair) {
+        VoicedChordBuilder builder = builderMap.get(pair.getType());
+        return builder.setRoot(pair.getRoot())
+            .setChordSpec(struct.getChordSpec(pair.getType(), pair.getQuality()))
+            .setQuality(pair.getQuality())
+            .buildVoicedChord();
     }
 
     @Override
     public final ChordEngineImpl insertChords(InsertChordRequest request) {
-        Identifier identifier = request.getIdentifier();
-        LinkedList<VoicedChord> existingList = 
-                new LinkedList<VoicedChord>(registry.byIdentifier(identifier));
-        List<VoicedChord> newChords = new ArrayList<VoicedChord>();
-        
-        for(ChordPair pair : request.getChordPairs()) {
-            VoicedChordBuilder builder = builderMap.get(pair.getType());
-            ChordSpec spec = struct.getChordSpec(pair.getType(), pair.getQuality());
-            VoicedChord chord = builder.setRoot(pair.getRoot())
-                .setChordSpec(spec)
-                .setQuality(pair.getQuality())
-                .buildVoicedChord();
-            newChords.add(chord);
-        }
-        
-        int position = request.getPosition();
-        existingList.addAll(position, newChords);
-        registry.put(identifier, existingList);
-        
+        Identifier id = request.getIdentifier();
+        LinkedList<VoicedChord> chords = new LinkedList<VoicedChord>(registry.byIdentifier(id));      
+        chords.addAll(request.getPosition(), request.getChordList());
+        registry.put(id, chords);
         return this;
     }
 
@@ -174,13 +156,13 @@ class ChordEngineImpl implements ChordEngine {
     }
 
     @Override
-    public final ChordEngineImpl setVoicings(VoicingRequest request) {
+    public final ChordEngineImpl setOctaves(OctaveRequest request) {
         Identifier identifier = request.getIdentifier();
         
         for(Integer index : request.getPositions()) {
             VoicedChord chord = 
                 derivedBuilder.setChord(registry.getChord(identifier, index))
-                    .setVoicing(request.getVoicing())
+                    .setOctave(request.getOctave())
                     .buildVoicedChord();
             registry.set(identifier, index, chord);
         }
@@ -189,13 +171,13 @@ class ChordEngineImpl implements ChordEngine {
     }
 
     @Override
-    public final ChordEngineImpl setOctaves(OctaveRequest request) {
+    public final ChordEngineImpl setVoicings(VoicingRequest request) {
         Identifier identifier = request.getIdentifier();
         
         for(Integer index : request.getPositions()) {
             VoicedChord chord = 
                 derivedBuilder.setChord(registry.getChord(identifier, index))
-                    .setOctave(request.getOctave())
+                    .setVoicing(request.getVoicing())
                     .buildVoicedChord();
             registry.set(identifier, index, chord);
         }

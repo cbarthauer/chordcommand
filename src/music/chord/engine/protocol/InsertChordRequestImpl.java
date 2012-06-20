@@ -2,6 +2,8 @@ package music.chord.engine.protocol;
 
 import java.util.List;
 
+import music.chord.arrangement.VoicedChord;
+
 final class InsertChordRequestImpl implements InsertChordRequest {
 
     private ChordRequest chordRequest;
@@ -16,8 +18,8 @@ final class InsertChordRequestImpl implements InsertChordRequest {
     }
 
     @Override
-    public List<ChordPair> getChordPairs() {
-        return chordRequest.getChordPairs();
+    public List<VoicedChord> getChordList() {
+        return chordRequest.getChordList();
     }
 
     @Override

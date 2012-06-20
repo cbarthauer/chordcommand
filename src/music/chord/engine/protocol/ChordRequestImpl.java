@@ -3,18 +3,20 @@ package music.chord.engine.protocol;
 import java.util.ArrayList;
 import java.util.List;
 
+import music.chord.arrangement.VoicedChord;
+
 public final class ChordRequestImpl implements ChordRequest {
 
     private Identifier id;
-    private List<ChordPair> chordPairs;
+    private List<VoicedChord> chordList;
 
-    public ChordRequestImpl(Identifier id, List<ChordPair> chordPairs) {
+    public ChordRequestImpl(Identifier id, List<VoicedChord> chordList) {
         this.id = id;
-        this.chordPairs = new ArrayList<ChordPair>(chordPairs);
+        this.chordList = new ArrayList<VoicedChord>(chordList);
     }
 
-    public final List<ChordPair> getChordPairs() {
-        return new ArrayList<ChordPair>(chordPairs);
+    public final List<VoicedChord> getChordList() {
+        return new ArrayList<VoicedChord>(chordList);
     }
 
     public final Identifier getIdentifier() {
