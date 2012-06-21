@@ -1,7 +1,6 @@
 package music.chord.grammar;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,7 @@ public class ChordListRegistryTest {
         reg.add(c1, chord1);
         
         List<VoicedChord> chordList = reg.byIdentifier(c1);
-        assertTrue(chordList.size() == 2);
+        assertEquals(2, chordList.size());
     }
     
     @Test
@@ -47,12 +46,12 @@ public class ChordListRegistryTest {
         reg.put(c1, chordList);
         
         List<VoicedChord> retrievedList = reg.byIdentifier(c1);
-        assertEquals(retrievedList.size(), 1);
+        assertEquals(1, retrievedList.size());
         assertEquals("CM", retrievedList.get(0).getSymbol());
         
         retrievedList = reg.byIdentifier(
                 new Identifier("does not exist"));
-        assertEquals(retrievedList.size(), 0);
+        assertEquals(0, retrievedList.size());
     }
 
     @Test
@@ -61,7 +60,7 @@ public class ChordListRegistryTest {
         reg.add(c1, chord1);
         
         VoicedChord fromReg = reg.getChord(c1, 0);
-        assertTrue(fromReg.getSymbol().equals(chord1.getSymbol()));
+        assertEquals(chord1.getSymbol(), fromReg.getSymbol());
     }
     
     @Test
@@ -72,6 +71,6 @@ public class ChordListRegistryTest {
         VoicedChord chord2 = helper.getChord("D", Quality.DIMINISHED_SEVENTH);
         reg.set(c1, 0, chord2);
         
-        assertTrue(reg.byIdentifier(c1).get(0).getSymbol().equals(chord2.getSymbol()));
+        assertEquals(chord2.getSymbol(), reg.byIdentifier(c1).get(0).getSymbol());
     }    
 }
