@@ -2,7 +2,6 @@ package music.chord.engine.protocol;
 
 import static org.junit.Assert.assertEquals;
 import music.chord.TestHelper;
-import music.chord.base.ChordType;
 import music.chord.base.Quality;
 
 import org.junit.Before;
@@ -25,9 +24,9 @@ public class RequestBuilderTest {
     public void chordRequest() {
         ChordRequest request = 
             reqBuilder.chordRequest(
-                helper.getChord("C", ChordType.TRIAD, Quality.MINOR_TRIAD),
-                helper.getChord("A", ChordType.TRIAD, Quality.MINOR_TRIAD),
-                helper.getChord("B", ChordType.TRIAD, Quality.MINOR_TRIAD));
+                helper.getChord("C", Quality.MINOR_TRIAD),
+                helper.getChord("A", Quality.MINOR_TRIAD),
+                helper.getChord("B", Quality.MINOR_TRIAD));
         assertEquals(3, request.getChordList().size());
     }
     
@@ -35,9 +34,9 @@ public class RequestBuilderTest {
     public void insertRequest() {
         InsertChordRequest request = reqBuilder.insertRequest(
             1,
-            helper.getChord("C", ChordType.TRIAD, Quality.MINOR_TRIAD),
-            helper.getChord("A", ChordType.TRIAD, Quality.MINOR_TRIAD),
-            helper.getChord("B", ChordType.TRIAD, Quality.MINOR_TRIAD));
+            helper.getChord("C", Quality.MINOR_TRIAD),
+            helper.getChord("A", Quality.MINOR_TRIAD),
+            helper.getChord("B", Quality.MINOR_TRIAD));
         assertEquals(3, request.getChordList().size());
         assertEquals(1, request.getPosition());
     }

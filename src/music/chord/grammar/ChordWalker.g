@@ -82,25 +82,25 @@ chord returns [VoicedChord value]
 chordSpec returns [VoicedChord chord]
     : ^(SPEC NOTE_NAME tquality=triadQuality) { chord =
             triadBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setChordSpec(struct.getChordSpec(ChordType.TRIAD, $tquality.value))
+                .setChordSpec(struct.getChordSpec($tquality.value))
                 .setQuality($tquality.value)
                 .buildVoicedChord();
          }
     | ^(SPEC NOTE_NAME) {chord =
             triadBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setChordSpec(struct.getChordSpec(ChordType.TRIAD, Quality.MAJOR_TRIAD))
+                .setChordSpec(struct.getChordSpec(Quality.MAJOR_TRIAD))
                 .setQuality(Quality.MAJOR_TRIAD)
                 .buildVoicedChord();
          }
     | ^(SPEC NOTE_NAME squality=seventhQuality) {chord =
             seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setChordSpec(struct.getChordSpec(ChordType.SEVENTH, $squality.value))
+                .setChordSpec(struct.getChordSpec($squality.value))
                 .setQuality($squality.value)
                 .buildVoicedChord();
          }
     | ^(SPEC NOTE_NAME nquality=ninthQuality) {chord =
             ninthBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setChordSpec(struct.getChordSpec(ChordType.NINTH, $nquality.value))
+                .setChordSpec(struct.getChordSpec($nquality.value))
                 .setQuality($nquality.value)
                 .buildVoicedChord();
          }

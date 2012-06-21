@@ -14,7 +14,6 @@ import music.chord.arrangement.ChordVoicerFactory;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.Voicing;
 import music.chord.base.ChordMember;
-import music.chord.base.ChordType;
 import music.chord.base.Duration;
 import music.chord.base.NoteName;
 import music.chord.base.Quality;
@@ -60,10 +59,10 @@ public class ChordEngineImplTest {
         helper = new TestHelper();
         
         request = builder.chordRequest(
-            helper.getChord("C", ChordType.TRIAD, Quality.MAJOR_TRIAD),
-            helper.getChord("D", ChordType.TRIAD, Quality.MINOR_TRIAD),
-            helper.getChord("G", ChordType.SEVENTH, Quality.DOMINANT_SEVENTH),
-            helper.getChord("C", ChordType.TRIAD, Quality.MAJOR_TRIAD));
+            helper.getChord("C", Quality.MAJOR_TRIAD),
+            helper.getChord("D", Quality.MINOR_TRIAD),
+            helper.getChord("G", Quality.DOMINANT_SEVENTH),
+            helper.getChord("C", Quality.MAJOR_TRIAD));
     }
     
     @Test
@@ -87,8 +86,8 @@ public class ChordEngineImplTest {
             .insertChords(
                 builder.insertRequest(
                     2, 
-                    helper.getChord("Eb", ChordType.SEVENTH, Quality.MINOR_SEVENTH),
-                    helper.getChord("F#", ChordType.SEVENTH, Quality.MINOR_SEVENTH)));
+                    helper.getChord("Eb", Quality.MINOR_SEVENTH),
+                    helper.getChord("F#", Quality.MINOR_SEVENTH)));
         
         assertEquals("Dm", engine.byIdentifier(id).get(1).getSymbol());
         assertEquals("Ebm7", engine.byIdentifier(id).get(2).getSymbol());

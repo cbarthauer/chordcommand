@@ -2,16 +2,15 @@ package music.chord;
 
 import java.io.IOException;
 
-import org.antlr.runtime.RecognitionException;
-
 import music.chord.arrangement.BuilderFactory;
 import music.chord.arrangement.ChordDefinitionStructure;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.VoicedChordBuilder;
-import music.chord.base.ChordType;
 import music.chord.base.NoteName;
 import music.chord.base.Quality;
 import music.chord.grammar.ChordDefinitionStructureFactory;
+
+import org.antlr.runtime.RecognitionException;
 
 public class TestHelper {
     private ChordDefinitionStructure struct;
@@ -22,9 +21,9 @@ public class TestHelper {
         builder = BuilderFactory.getTriadBuilder(struct);        
     }
     
-    public VoicedChord getChord(String root, ChordType type, Quality quality) {
+    public VoicedChord getChord(String root, Quality quality) {
         return builder.setRoot(NoteName.forSymbol(root))
-                .setChordSpec(struct.getChordSpec(type, quality))
+                .setChordSpec(struct.getChordSpec(quality))
                 .setQuality(quality)
                 .buildVoicedChord();
     }

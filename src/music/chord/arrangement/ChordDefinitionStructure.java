@@ -23,11 +23,10 @@ public final class ChordDefinitionStructure {
     }
     
     public final void addQuality(
-            ChordType type, 
             Quality quality, 
             Map<ChordMember, IntervalDirective> dirMap) {
         
-        Map<Quality, ChordSpec> qualityMap = chordMap.get(type);
+        Map<Quality, ChordSpec> qualityMap = chordMap.get(quality.getType());
         
         if(qualityMap == null) {
             qualityMap = new HashMap<Quality, ChordSpec>();
@@ -35,7 +34,7 @@ public final class ChordDefinitionStructure {
         
         qualityMap.put(quality, new ChordSpec(dirMap));
         
-        chordMap.put(type, qualityMap);
+        chordMap.put(quality.getType(), qualityMap);
     }
     
     public final void addVoicing(ChordType type, Voicing voicing) {
@@ -51,8 +50,8 @@ public final class ChordDefinitionStructure {
         allVoicings.add(voicing);
     }
 
-    public final ChordSpec getChordSpec(ChordType type, Quality quality) {
-        return chordMap.get(type).get(quality);
+    public final ChordSpec getChordSpec(Quality quality) {
+        return chordMap.get(quality.getType()).get(quality);
     }
 
     public final List<Voicing> getCongruentVoicings(Voicing voicing) {
@@ -65,10 +64,6 @@ public final class ChordDefinitionStructure {
         }
         
         return result;
-    }
-    
-    public final List<Voicing> getVoicings(String type) {
-        return voicingMap.get(type);
     }
 
     public final Map<Quality, ChordSpec> qualityMapFromType(ChordType type) {
