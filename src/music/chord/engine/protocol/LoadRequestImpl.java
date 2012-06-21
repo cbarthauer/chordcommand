@@ -1,20 +1,20 @@
 package music.chord.engine.protocol;
 
-public class LoadRequestImpl implements LoadRequest {
+final class LoadRequestImpl implements LoadRequest {
 
     private String fileName;
     private Identifier identifier;
 
-    public LoadRequestImpl(String fileName, Identifier identifier) {
+    LoadRequestImpl(String fileName, Identifier identifier) {
         this.fileName = fileName;
         this.identifier = identifier;
     }
 
-    public String getFileName() {
+    public final String getFileName() {
         return fileName;
     }
 
-    public Identifier getIdentifier() {
+    public final Identifier getIdentifier() {
         return identifier;
     }
 

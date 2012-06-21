@@ -9,7 +9,7 @@ final class InsertChordRequestImpl implements InsertChordRequest {
     private ChordRequest chordRequest;
     private int position;
 
-    public InsertChordRequestImpl(
+    InsertChordRequestImpl(
             ChordRequest chordRequest, 
             int position) {
 
@@ -18,17 +18,17 @@ final class InsertChordRequestImpl implements InsertChordRequest {
     }
 
     @Override
-    public List<VoicedChord> getChordList() {
+    public final List<VoicedChord> getChordList() {
         return chordRequest.getChordList();
     }
 
     @Override
-    public Identifier getIdentifier() {
+    public final Identifier getIdentifier() {
         return chordRequest.getIdentifier();
     }
 
     @Override
-    public int getPosition() {
+    public final int getPosition() {
         return position;
     }
 

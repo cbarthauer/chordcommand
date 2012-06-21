@@ -5,7 +5,7 @@ import java.util.List;
 
 import music.chord.base.Duration;
 
-class DurationRequestImpl implements DurationRequest {
+final class DurationRequestImpl implements DurationRequest {
     
     private Identifier id;
     private List<Integer> positions;
@@ -17,15 +17,15 @@ class DurationRequestImpl implements DurationRequest {
         this.duration = duration;
     }
 
-    public Duration getDuration() {
+    public final Duration getDuration() {
         return duration;
     }
 
-    public Identifier getIdentifier() {
+    public final Identifier getIdentifier() {
         return id;
     }
 
-    public List<Integer> getPositions() {
+    public final List<Integer> getPositions() {
         return new ArrayList<Integer>(positions);
     }
 }

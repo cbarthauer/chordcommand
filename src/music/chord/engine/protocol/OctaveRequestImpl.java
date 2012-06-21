@@ -3,7 +3,7 @@ package music.chord.engine.protocol;
 import java.util.ArrayList;
 import java.util.List;
 
-class OctaveRequestImpl implements OctaveRequest {
+final class OctaveRequestImpl implements OctaveRequest {
 
     private Identifier id;
     private ArrayList<Integer> positions;
@@ -16,17 +16,17 @@ class OctaveRequestImpl implements OctaveRequest {
     }
     
     @Override
-    public Identifier getIdentifier() {
+    public final Identifier getIdentifier() {
         return id;
     }
 
     @Override
-    public int getOctave() {
+    public final int getOctave() {
         return octave;
     }
 
     @Override
-    public List<Integer> getPositions() {
+    public final List<Integer> getPositions() {
         return new ArrayList<Integer>(positions);
     }
 

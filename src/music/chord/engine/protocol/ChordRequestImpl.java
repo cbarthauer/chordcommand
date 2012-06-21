@@ -5,12 +5,12 @@ import java.util.List;
 
 import music.chord.arrangement.VoicedChord;
 
-public final class ChordRequestImpl implements ChordRequest {
+final class ChordRequestImpl implements ChordRequest {
 
     private Identifier id;
     private List<VoicedChord> chordList;
 
-    public ChordRequestImpl(Identifier id, List<VoicedChord> chordList) {
+    ChordRequestImpl(Identifier id, List<VoicedChord> chordList) {
         this.id = id;
         this.chordList = new ArrayList<VoicedChord>(chordList);
     }

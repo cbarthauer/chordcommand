@@ -65,27 +65,27 @@ public final class RequestBuilder {
         return new RemoveChordRequestImpl(identifier, positionList);
     }
 
-    public void setDuration(Duration duration) {
+    public final void setDuration(Duration duration) {
         this.duration = duration;
     }
 
-    public void setOctave(int octave) {
+    public final void setOctave(int octave) {
         this.octave = octave;
     }
 
-    public void setVoicing(Voicing voicing) {
+    public final void setVoicing(Voicing voicing) {
         this.voicing = voicing;
     }
     
-    public VoiceAllRequest voiceAllRequest() {
+    public final VoiceAllRequest voiceAllRequest() {
         return new VoiceAllRequestImpl(identifier);
     }
 
-    public VoicingRequest voicingRequest(Integer... positions) {
+    public final VoicingRequest voicingRequest(Integer... positions) {
         return voicingRequest(Arrays.asList(positions));
     }
 
-    public VoicingRequest voicingRequest(List<Integer> positions) {
+    public final VoicingRequest voicingRequest(List<Integer> positions) {
         return new VoicingRequestImpl(identifier, positions, voicing);
     }
 }

@@ -5,7 +5,7 @@ import java.util.List;
 
 import music.chord.arrangement.Voicing;
 
-public class VoicingRequestImpl implements VoicingRequest {
+final class VoicingRequestImpl implements VoicingRequest {
 
     private Identifier id;
     private ArrayList<Integer> positions;
