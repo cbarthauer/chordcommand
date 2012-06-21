@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import music.chord.base.ChordMember;
+import music.chord.base.Constants;
 import music.chord.base.NoteName;
 import music.chord.grammar.ChordDefinitionStructureFactory;
 
@@ -18,8 +19,7 @@ public class ChordFinderTest {
     
     @Before
     public void setUp() throws Exception {
-        struct = ChordDefinitionStructureFactory.getInstance(
-                "D:\\musicspace\\chordgrammar\\definitions\\chords.txt");   
+        struct = ChordDefinitionStructureFactory.getInstance(Constants.getChordDefinitions());   
         finder = new ChordFinder(struct);
     }
 

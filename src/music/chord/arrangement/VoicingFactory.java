@@ -1,11 +1,8 @@
-package music.chord.grammar;
+package music.chord.arrangement;
 
 import java.util.Arrays;
 import java.util.List;
 
-import music.chord.arrangement.Voicing;
-import music.chord.arrangement.VoicingImpl;
-import music.chord.arrangement.VoicingValidator;
 import music.chord.base.ChordMember;
 
 public class VoicingFactory {

@@ -1,8 +1,5 @@
-package music.chord.engine.protocol;
+package music.chord.base;
 
-import music.chord.base.ChordType;
-import music.chord.base.NoteName;
-import music.chord.base.Quality;
 
 public final class ChordPair {
     

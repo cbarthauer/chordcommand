@@ -13,17 +13,18 @@ import music.chord.arrangement.ChordDefinitionStructure;
 import music.chord.arrangement.ChordVoicerFactory;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.Voicing;
+import music.chord.arrangement.VoicingFactory;
 import music.chord.base.ChordMember;
+import music.chord.base.ChordPair;
+import music.chord.base.Constants;
 import music.chord.base.Duration;
 import music.chord.base.NoteName;
 import music.chord.base.Quality;
-import music.chord.engine.protocol.ChordPair;
 import music.chord.engine.protocol.ChordRequest;
 import music.chord.engine.protocol.Identifier;
 import music.chord.engine.protocol.LoadRequest;
 import music.chord.engine.protocol.RequestBuilder;
 import music.chord.grammar.ChordDefinitionStructureFactory;
-import music.chord.grammar.VoicingFactory;
 
 import org.antlr.runtime.RecognitionException;
 import org.junit.Before;
@@ -35,8 +36,7 @@ public class ChordEngineImplTest {
     
     @BeforeClass
     public static void setUpClass() throws IOException, RecognitionException {
-        struct = ChordDefinitionStructureFactory.getInstance(
-                "d:/musicspace/chordgrammar/definitions/chords.txt");
+        struct = ChordDefinitionStructureFactory.getInstance(Constants.getChordDefinitions());
     }
     
     private ChordEngine engine;

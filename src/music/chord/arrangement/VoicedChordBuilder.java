@@ -3,11 +3,11 @@ package music.chord.arrangement;
 import java.util.List;
 
 import music.chord.base.ChordMember;
+import music.chord.base.ChordPair;
 import music.chord.base.Duration;
 import music.chord.base.VoicePart;
 import music.chord.decorator.Chord;
 import music.chord.decorator.ChordImpl;
-import music.chord.engine.protocol.ChordPair;
 
 public final class VoicedChordBuilder implements ChordBuilder {
 

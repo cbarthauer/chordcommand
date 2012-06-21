@@ -3,7 +3,7 @@ package music.chord.engine;
 import java.util.List;
 
 import music.chord.arrangement.VoicedChord;
-import music.chord.engine.protocol.ChordPair;
+import music.chord.base.ChordPair;
 import music.chord.engine.protocol.ChordRequest;
 import music.chord.engine.protocol.DurationRequest;
 import music.chord.engine.protocol.Identifier;

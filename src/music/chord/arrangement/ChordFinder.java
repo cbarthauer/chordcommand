@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import music.chord.base.ChordMember;
+import music.chord.base.ChordPair;
 import music.chord.base.ChordSpec;
 import music.chord.base.ChordType;
 import music.chord.base.NoteName;
 import music.chord.base.Quality;
-import music.chord.engine.protocol.ChordPair;
 
 public class ChordFinder {
     private List<VoicedChord> chordList;

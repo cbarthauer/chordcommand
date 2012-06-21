@@ -15,9 +15,11 @@ options {
   import music.chord.arrangement.VoicedChord;
   import music.chord.arrangement.Voicing;
   import music.chord.arrangement.ChordVoicer;
+  import music.chord.arrangement.VoicingFactory;
   import music.chord.arrangement.VoicePartPlayer;
   
   import music.chord.base.ChordMember;
+  import music.chord.base.ChordPair;
   import music.chord.base.Duration;
   import music.chord.base.NoteName;
   import music.chord.base.Quality;
@@ -42,7 +44,6 @@ options {
   import music.chord.display.VerboseFormatter;
   
   import music.chord.engine.ChordEngine;
-  import music.chord.engine.protocol.ChordPair;
   import music.chord.engine.protocol.ChordRequest;
   import music.chord.engine.protocol.Identifier;
   import music.chord.engine.protocol.InsertChordRequest;

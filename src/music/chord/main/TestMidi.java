@@ -9,6 +9,7 @@ import music.chord.arrangement.ChordPlayer;
 import music.chord.arrangement.ChordVoicer;
 import music.chord.arrangement.ChordVoicerFactory;
 import music.chord.arrangement.VoicedChord;
+import music.chord.base.Constants;
 import music.chord.grammar.ChordDefinitionStructureFactory;
 import music.chord.grammar.ChordLexer;
 import music.chord.grammar.ChordParser;
@@ -46,7 +47,7 @@ public class TestMidi {
 		System.out.println(((CommonTree) compilationUnit.getTree()).toStringTree());
 
 	    ChordDefinitionStructure struct = ChordDefinitionStructureFactory.getInstance(
-	        "D:\\musicspace\\chordgrammar\\definitions\\chords.txt");
+	        Constants.getChordDefinitions());
 	      
 		CommonTreeNodeStream nodeStream = new CommonTreeNodeStream(compilationUnit.getTree());
 		ChordWalker walker = new ChordWalker(nodeStream);

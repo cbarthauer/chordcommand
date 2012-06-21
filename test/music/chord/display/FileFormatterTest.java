@@ -11,11 +11,11 @@ import music.chord.arrangement.ChordDefinitionStructure;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.VoicedChordBuilder;
 import music.chord.base.ChordMember;
+import music.chord.base.ChordPair;
 import music.chord.base.Interval;
 import music.chord.base.IntervalDirective;
 import music.chord.base.NoteName;
 import music.chord.base.Quality;
-import music.chord.engine.protocol.ChordPair;
 
 import org.junit.BeforeClass;
 import org.junit.Test;

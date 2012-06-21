@@ -12,6 +12,7 @@ import music.chord.arrangement.VoicingImpl;
 import music.chord.arrangement.VoicingValidator;
 import music.chord.base.ChordMember;
 import music.chord.base.ChordSpec;
+import music.chord.base.Constants;
 import music.chord.base.Interval;
 import music.chord.base.IntervalDirective;
 import music.chord.base.NoteName;
@@ -35,8 +36,7 @@ public class ChordDefinitionInterpreter {
      * @throws RecognitionException 
      */
     public static void main(String[] args) throws IOException, RecognitionException {
-        CharStream charStream = new ANTLRFileStream(
-                "D:\\musicspace\\chordgrammar\\definitions\\chords.txt");
+        CharStream charStream = new ANTLRFileStream(Constants.getChordDefinitions());
         ChordDefinitionLexer lexer = new ChordDefinitionLexer(charStream);
         TokenStream tokenStream = new CommonTokenStream(lexer);
         ChordDefinitionParser parser = new ChordDefinitionParser(tokenStream);

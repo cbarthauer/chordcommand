@@ -13,6 +13,7 @@ import music.chord.arrangement.ChordVoicer;
 import music.chord.arrangement.ChordVoicerFactory;
 import music.chord.arrangement.VoicePartPlayer;
 import music.chord.arrangement.VoicedChordBuilder;
+import music.chord.base.Constants;
 import music.chord.command.Command;
 import music.chord.engine.ChordEngine;
 import music.chord.engine.ChordEngineBuilder;
@@ -36,7 +37,7 @@ public class Interpreter {
 		Scanner scanner = new Scanner(System.in);
 		String line = "";
 		ChordDefinitionStructure struct = ChordDefinitionStructureFactory.getInstance(
-		        "D:\\musicspace\\chordgrammar\\definitions\\chords.txt");
+		        Constants.getChordDefinitions());
 		VoicedChordBuilder triadBuilder = BuilderFactory.getTriadBuilder(struct);
 		VoicedChordBuilder seventhBuilder = BuilderFactory.getSeventhBuilder(struct);
 		VoicedChordBuilder ninthBuilder = BuilderFactory.getNinthBuilder(struct);
