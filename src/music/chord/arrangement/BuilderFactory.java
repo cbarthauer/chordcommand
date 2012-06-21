@@ -2,7 +2,6 @@ package music.chord.arrangement;
 
 import music.chord.base.ChordMember;
 import music.chord.base.Duration;
-import music.chord.base.Quality;
 import music.chord.base.VoicePart;
 
 public class BuilderFactory {
@@ -17,11 +16,12 @@ public class BuilderFactory {
         ninthVoicing.addChordMember(ChordMember.THIRD);
         
         VoicedChordBuilder ninthBuilder = new VoicedChordBuilder(
-            struct.getChordSpec(Quality.DOMINANT_NINTH),
-            ninthVoicing,
-            defaultOctaveShift,
-            Duration.QUARTER,
-            VoicePart.barbershopDefault());
+            new VoicedChordConfig(
+                ninthVoicing,
+                defaultOctaveShift,
+                Duration.QUARTER,
+                VoicePart.barbershopDefault()),
+            struct);
         return ninthBuilder;
     }   
     
@@ -33,11 +33,12 @@ public class BuilderFactory {
         seventhVoicing.addChordMember(ChordMember.THIRD);
         
         VoicedChordBuilder builder = new VoicedChordBuilder(
-            struct.getChordSpec(Quality.DOMINANT_SEVENTH), 
-            seventhVoicing, 
-            defaultOctaveShift, 
-            Duration.QUARTER,
-            VoicePart.barbershopDefault());
+            new VoicedChordConfig(
+                seventhVoicing, 
+                defaultOctaveShift, 
+                Duration.QUARTER,
+                VoicePart.barbershopDefault()),
+            struct);
         
         return builder;
     }
@@ -50,11 +51,12 @@ public class BuilderFactory {
         triadVoicing.addChordMember(ChordMember.THIRD);
         
         VoicedChordBuilder triadBuilder = new VoicedChordBuilder(
-            struct.getChordSpec(Quality.MAJOR_TRIAD), 
-            triadVoicing,
-            defaultOctaveShift, 
-            Duration.QUARTER, 
-            VoicePart.barbershopDefault());
+            new VoicedChordConfig(
+                triadVoicing,
+                defaultOctaveShift, 
+                Duration.QUARTER, 
+                VoicePart.barbershopDefault()),
+            struct);
       
         return triadBuilder;
     }

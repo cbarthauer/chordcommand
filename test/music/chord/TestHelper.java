@@ -8,6 +8,7 @@ import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.VoicedChordBuilder;
 import music.chord.base.NoteName;
 import music.chord.base.Quality;
+import music.chord.engine.protocol.ChordPair;
 import music.chord.grammar.ChordDefinitionStructureFactory;
 
 import org.antlr.runtime.RecognitionException;
@@ -22,9 +23,7 @@ public class TestHelper {
     }
     
     public VoicedChord getChord(String root, Quality quality) {
-        return builder.setRoot(NoteName.forSymbol(root))
-                .setChordSpec(struct.getChordSpec(quality))
-                .setQuality(quality)
+        return builder.setPair(new ChordPair(NoteName.forSymbol(root), quality))
                 .buildVoicedChord();
     }
 }

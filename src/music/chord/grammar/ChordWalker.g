@@ -27,6 +27,8 @@ options {
   import music.chord.base.Interval;
   import music.chord.base.NoteName;
   import music.chord.base.Quality;
+  
+  import music.chord.engine.protocol.ChordPair;
 }
 
 @members {
@@ -81,27 +83,35 @@ chord returns [VoicedChord value]
 
 chordSpec returns [VoicedChord chord]
     : ^(SPEC NOTE_NAME tquality=triadQuality) { chord =
-            triadBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setChordSpec(struct.getChordSpec($tquality.value))
-                .setQuality($tquality.value)
+            triadBuilder
+                .setPair(
+                    new ChordPair(
+                        NoteName.forSymbol($NOTE_NAME.text), 
+                        $tquality.value))
                 .buildVoicedChord();
          }
     | ^(SPEC NOTE_NAME) {chord =
-            triadBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setChordSpec(struct.getChordSpec(Quality.MAJOR_TRIAD))
-                .setQuality(Quality.MAJOR_TRIAD)
+            triadBuilder
+                .setPair(
+                    new ChordPair(
+                        NoteName.forSymbol($NOTE_NAME.text), 
+                        Quality.MAJOR_TRIAD))
                 .buildVoicedChord();
          }
     | ^(SPEC NOTE_NAME squality=seventhQuality) {chord =
-            seventhBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setChordSpec(struct.getChordSpec($squality.value))
-                .setQuality($squality.value)
+            seventhBuilder
+                .setPair(
+                    new ChordPair(
+                        NoteName.forSymbol($NOTE_NAME.text), 
+                        $squality.value))
                 .buildVoicedChord();
          }
     | ^(SPEC NOTE_NAME nquality=ninthQuality) {chord =
-            ninthBuilder.setRoot(NoteName.forSymbol($NOTE_NAME.text))
-                .setChordSpec(struct.getChordSpec($nquality.value))
-                .setQuality($nquality.value)
+            ninthBuilder
+                .setPair(
+                    new ChordPair(
+                        NoteName.forSymbol($NOTE_NAME.text), 
+                        $nquality.value))
                 .buildVoicedChord();
          }
     ;

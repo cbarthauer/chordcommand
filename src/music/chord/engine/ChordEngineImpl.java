@@ -81,9 +81,7 @@ class ChordEngineImpl implements ChordEngine {
     @Override
     public VoicedChord createChord(ChordPair pair) {
         VoicedChordBuilder builder = builderMap.get(pair.getType());
-        return builder.setRoot(pair.getRoot())
-            .setChordSpec(struct.getChordSpec(pair.getQuality()))
-            .setQuality(pair.getQuality())
+        return builder.setPair(pair)
             .buildVoicedChord();
     }
 

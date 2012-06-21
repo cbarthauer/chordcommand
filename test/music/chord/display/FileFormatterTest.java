@@ -15,6 +15,7 @@ import music.chord.base.Interval;
 import music.chord.base.IntervalDirective;
 import music.chord.base.NoteName;
 import music.chord.base.Quality;
+import music.chord.engine.protocol.ChordPair;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -52,9 +53,7 @@ public class FileFormatterTest {
     }
 
     private VoicedChord majorTriad(NoteName root) {
-        return triadBuilder.setRoot(root)
-                .setChordSpec(struct.getChordSpec(Quality.MAJOR_TRIAD))
-                .setQuality(Quality.MAJOR_TRIAD)
+        return triadBuilder.setPair(new ChordPair(root, Quality.MAJOR_TRIAD))
                 .buildVoicedChord();
     }
 

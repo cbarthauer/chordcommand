@@ -9,6 +9,7 @@ import music.chord.base.ChordSpec;
 import music.chord.base.ChordType;
 import music.chord.base.NoteName;
 import music.chord.base.Quality;
+import music.chord.engine.protocol.ChordPair;
 
 public class ChordFinder {
     private List<VoicedChord> chordList;
@@ -61,9 +62,7 @@ public class ChordFinder {
         
         for(Quality quality : qualityMap.keySet()) {
             chordList.add(
-                builder.setRoot(name)
-                    .setChordSpec(qualityMap.get(quality))
-                    .setQuality(quality)
+                builder.setPair(new ChordPair(name, quality))
                     .buildVoicedChord());
         }
     }

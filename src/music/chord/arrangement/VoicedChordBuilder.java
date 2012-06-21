@@ -1,120 +1,89 @@
 package music.chord.arrangement;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import music.chord.base.ChordSpec;
+import music.chord.base.ChordMember;
 import music.chord.base.Duration;
-import music.chord.base.NoteName;
-import music.chord.base.Quality;
 import music.chord.base.VoicePart;
 import music.chord.decorator.Chord;
 import music.chord.decorator.ChordImpl;
+import music.chord.engine.protocol.ChordPair;
 
-public class VoicedChordBuilder implements ChordBuilder {
+public final class VoicedChordBuilder implements ChordBuilder {
 
-    private ChordSpec currentChordSpec;
-    private ChordSpec defaultChordSpec;
-    private Duration currentDuration;
-    private Duration defaultDuration;
-    private Voicing currentVoicing;
-    private Voicing defaultVoicing;
-    private int currentOctave;
-    private int defaultOctave;
-    private List<VoicePart> currentPartList;
-    private List<VoicePart> defaultPartList;
-    private Quality quality;
-    private NoteName root;
-    
+    private VoicedChordConfig defaultConfig;
+    private VoicedChordConfig currentConfig;
+    private ChordPair pair;
+    private ChordDefinitionStructure struct;
     
     public VoicedChordBuilder(
-            ChordSpec defaultChordSpec,
-            Voicing defaultVoicing,
-            int defaultOctave,
-            Duration defaultDuration,
-            List<VoicePart> defaultPartList) {
+            VoicedChordConfig chordConfig,
+            ChordDefinitionStructure struct) {
         
-        this.defaultChordSpec = defaultChordSpec;
-        this.defaultVoicing = defaultVoicing;
-        this.defaultOctave = defaultOctave;
-        this.defaultDuration = defaultDuration;
-        this.defaultPartList = defaultPartList;
-        
-        this.currentChordSpec = defaultChordSpec;
-        this.currentVoicing = defaultVoicing;
-        this.currentOctave = defaultOctave;
-        this.currentDuration = defaultDuration;
-        this.currentPartList = defaultPartList;
+        this.defaultConfig = chordConfig;
+        this.currentConfig = chordConfig;        
+        this.struct = struct;
     }
     
     @Override
-    public VoicedChord buildVoicedChord() {
+    public final VoicedChord buildVoicedChord() {
         VoicedChord result = 
             new ConcreteChord(
                 buildChord(), 
-                currentVoicing, 
-                currentOctave, 
-                currentDuration, 
-                currentPartList,
-                quality);
+                currentConfig.getVoicing(), 
+                currentConfig.getOctave(), 
+                currentConfig.getDuration(), 
+                currentConfig.getPartList(),
+                pair.getQuality());
         reset();
         return result;
     }
     
-    public VoicedChordBuilder setChord(VoicedChord chord) {
-        this.currentDuration = chord.getDuration();
-        this.currentVoicing = chord.getVoicing();
-        this.currentOctave = chord.getOctave();
-        this.currentPartList = chord.getVoicePartList();
-        this.quality = chord.getQuality();
+    public final VoicedChordBuilder setChord(VoicedChord chord) {
+        currentConfig = new VoicedChordConfig(
+            chord.getVoicing(),
+            chord.getOctave(),
+            chord.getDuration(),
+            chord.getVoicePartList());
+        
+        pair = new ChordPair(
+            chord.noteNameFromChordMember(ChordMember.ROOT), 
+            chord.getQuality());
+        
         return this;
     }
     
-    public VoicedChordBuilder setChordSpec(ChordSpec spec) {
-        this.currentChordSpec = spec;
+    public final VoicedChordBuilder setDuration(Duration duration) {
+        currentConfig = new VoicedChordConfig(duration, currentConfig);
         return this;
     }
     
-    public VoicedChordBuilder setDuration(Duration duration) {
-        this.currentDuration = duration;
+    public final VoicedChordBuilder setOctave(int octave) {
+        currentConfig = new VoicedChordConfig(octave, currentConfig);
         return this;
     }
     
-    public VoicedChordBuilder setOctave(int octave) {
-        this.currentOctave = octave;
+    public final VoicedChordBuilder setPair(ChordPair pair) {
+        this.pair = pair;
         return this;
     }
     
-    public VoicedChordBuilder setQuality(Quality quality) {
-        this.quality = quality;
-        return this;
-    }
-
-    public VoicedChordBuilder setRoot(NoteName root) {
-        this.root = root;
+    public final VoicedChordBuilder setVoicePartList(List<VoicePart> partList) {
+        currentConfig = new VoicedChordConfig(partList, currentConfig);
         return this;
     }
     
-    public VoicedChordBuilder setVoicePartList(List<VoicePart> partList) {
-        partList = new ArrayList<VoicePart>(partList);
-        return this;
-    }
-    
-    public VoicedChordBuilder setVoicing(Voicing voicing) {
-        this.currentVoicing = voicing;
+    public final VoicedChordBuilder setVoicing(Voicing voicing) {
+        currentConfig = new VoicedChordConfig(voicing, currentConfig);
         return this;
     }
     
     private Chord buildChord() {
-        return new ChordImpl(root, currentChordSpec);
+        return new ChordImpl(pair.getRoot(), struct.getChordSpec(pair.getQuality()));
     }
     
     private void reset() {
-        currentChordSpec = defaultChordSpec;
-        currentVoicing = defaultVoicing;
-        currentOctave = defaultOctave;
-        currentDuration = defaultDuration;
-        currentPartList = defaultPartList;
+        currentConfig = defaultConfig;
     }
 
 }
