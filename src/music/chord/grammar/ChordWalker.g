@@ -27,7 +27,7 @@ options {
   import music.chord.base.Duration;
   import music.chord.base.Interval;
   import music.chord.base.NoteName;
-  import music.chord.base.Quality;
+  import music.chord.base.QualityEnum;
 }
 
 @members {
@@ -94,7 +94,7 @@ chordSpec returns [VoicedChord chord]
                 .setPair(
                     new ChordPair(
                         NoteName.forSymbol($NOTE_NAME.text), 
-                        Quality.MAJOR_TRIAD))
+                        QualityEnum.MAJOR_TRIAD))
                 .buildVoicedChord();
          }
     | ^(SPEC NOTE_NAME squality=seventhQuality) {chord =
@@ -136,25 +136,25 @@ chordMember returns [ChordMember value]
     | NINTH {$value = ChordMember.NINTH;}
     ;
     
-triadQuality returns [Quality value]
-    : MAJOR { $value = Quality.MAJOR_TRIAD; }
-    | MINOR { $value = Quality.MINOR_TRIAD; }
-    | AUGMENTED { $value = Quality.AUGMENTED_TRIAD; }
-    | DIMINISHED { $value = Quality.DIMINISHED_TRIAD; }
-    | SUSPENDED { $value = Quality.SUSPENDED_TRIAD; }
+triadQuality returns [QualityEnum value]
+    : MAJOR { $value = QualityEnum.MAJOR_TRIAD; }
+    | MINOR { $value = QualityEnum.MINOR_TRIAD; }
+    | AUGMENTED { $value = QualityEnum.AUGMENTED_TRIAD; }
+    | DIMINISHED { $value = QualityEnum.DIMINISHED_TRIAD; }
+    | SUSPENDED { $value = QualityEnum.SUSPENDED_TRIAD; }
     ;
     
-seventhQuality returns [Quality value]
-    : DOMINANT_SEVEN { $value = Quality.DOMINANT_SEVENTH; }
-    | MINOR_SEVEN { $value = Quality.MINOR_SEVENTH; }
-    | MAJOR_SEVEN { $value = Quality.MAJOR_SEVENTH; }
-    | DIMINISHED_SEVEN { $value = Quality.DIMINISHED_SEVENTH; }
-    | HALF_DIMINISHED_SEVEN { $value = Quality.HALF_DIMINISHED_SEVENTH; }
-    | SUSPENDED_SEVEN { $value = Quality.SUSPENDED_SEVENTH; }
+seventhQuality returns [QualityEnum value]
+    : DOMINANT_SEVEN { $value = QualityEnum.DOMINANT_SEVENTH; }
+    | MINOR_SEVEN { $value = QualityEnum.MINOR_SEVENTH; }
+    | MAJOR_SEVEN { $value = QualityEnum.MAJOR_SEVENTH; }
+    | DIMINISHED_SEVEN { $value = QualityEnum.DIMINISHED_SEVENTH; }
+    | HALF_DIMINISHED_SEVEN { $value = QualityEnum.HALF_DIMINISHED_SEVENTH; }
+    | SUSPENDED_SEVEN { $value = QualityEnum.SUSPENDED_SEVENTH; }
     ;
     
-ninthQuality returns [Quality value]
-    : DOMINANT_NINE { $value = Quality.DOMINANT_NINTH; }
-    | MINOR_NINE { $value = Quality.MINOR_NINTH; }
-    | MAJOR_NINE { $value = Quality.MAJOR_NINTH; }
+ninthQuality returns [QualityEnum value]
+    : DOMINANT_NINE { $value = QualityEnum.DOMINANT_NINTH; }
+    | MINOR_NINE { $value = QualityEnum.MINOR_NINTH; }
+    | MAJOR_NINE { $value = QualityEnum.MAJOR_NINTH; }
     ;

@@ -9,27 +9,27 @@ import music.chord.base.ChordMember;
 import music.chord.base.ChordSpec;
 import music.chord.base.ChordType;
 import music.chord.base.IntervalDirective;
-import music.chord.base.Quality;
+import music.chord.base.QualityEnum;
 
 public final class ChordDefinitionStructure {
-    private Map<ChordType, Map<Quality, ChordSpec>> chordMap;
+    private Map<ChordType, Map<QualityEnum, ChordSpec>> chordMap;
     private Map<ChordType, List<Voicing>> voicingMap;
     private List<Voicing> allVoicings;
     
     public ChordDefinitionStructure() {
-        chordMap = new HashMap<ChordType, Map<Quality, ChordSpec>>();
+        chordMap = new HashMap<ChordType, Map<QualityEnum, ChordSpec>>();
         voicingMap = new HashMap<ChordType, List<Voicing>>();
         allVoicings = new ArrayList<Voicing>();
     }
     
     public final void addQuality(
-            Quality quality, 
+            QualityEnum quality, 
             Map<ChordMember, IntervalDirective> dirMap) {
         
-        Map<Quality, ChordSpec> qualityMap = chordMap.get(quality.getType());
+        Map<QualityEnum, ChordSpec> qualityMap = chordMap.get(quality.getType());
         
         if(qualityMap == null) {
-            qualityMap = new HashMap<Quality, ChordSpec>();
+            qualityMap = new HashMap<QualityEnum, ChordSpec>();
         }
         
         qualityMap.put(quality, new ChordSpec(dirMap));
@@ -50,7 +50,7 @@ public final class ChordDefinitionStructure {
         allVoicings.add(voicing);
     }
 
-    public final ChordSpec getChordSpec(Quality quality) {
+    public final ChordSpec getChordSpec(QualityEnum quality) {
         return chordMap.get(quality.getType()).get(quality);
     }
 
@@ -66,8 +66,8 @@ public final class ChordDefinitionStructure {
         return result;
     }
 
-    public final Map<Quality, ChordSpec> qualityMapFromType(ChordType type) {
-        return new HashMap<Quality, ChordSpec>(chordMap.get(type));
+    public final Map<QualityEnum, ChordSpec> qualityMapFromType(ChordType type) {
+        return new HashMap<QualityEnum, ChordSpec>(chordMap.get(type));
     }
 
     public final String toString() {

@@ -4,14 +4,14 @@ package music.chord.base;
 public final class ChordPair {
     
     private NoteName root;
-    private Quality quality;
+    private QualityEnum quality;
 
-    public ChordPair(NoteName root, Quality quality) {
+    public ChordPair(NoteName root, QualityEnum quality) {
         this.root = root;
         this.quality = quality;
     }
     
-    public final Quality getQuality() {
+    public final QualityEnum getQuality() {
         return quality;
     }
 

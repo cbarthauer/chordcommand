@@ -20,7 +20,7 @@ options {
     import music.chord.base.ChordType;
     import music.chord.base.Interval;
     import music.chord.base.IntervalDirective;
-    import music.chord.base.Quality;
+    import music.chord.base.QualityEnum;
 }
 
 @lexer::header {
@@ -102,7 +102,7 @@ chordStructure:
       dir1=intervalDirective {dirMap.putAll($dir1.value);}
       (',' dir2=intervalDirective {dirMap.putAll($dir2.value);})*
     END_LIST
-    { struct.addQuality(Quality.forName($NAME.text + "_" + currentType), dirMap); }
+    { struct.addQuality(QualityEnum.forName($NAME.text + "_" + currentType), dirMap); }
   ;
   
 intervalDirective returns [Map<ChordMember, IntervalDirective> value]

@@ -15,7 +15,7 @@ import music.chord.base.ChordPair;
 import music.chord.base.Interval;
 import music.chord.base.IntervalDirective;
 import music.chord.base.NoteName;
-import music.chord.base.Quality;
+import music.chord.base.QualityEnum;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -33,7 +33,7 @@ public class FileFormatterTest {
         dirMap.put(ChordMember.FIFTH, new IntervalDirective(Interval.PERFECT_FIFTH));
         
         struct = new ChordDefinitionStructure();
-        struct.addQuality(Quality.MAJOR_TRIAD, dirMap);
+        struct.addQuality(QualityEnum.MAJOR_TRIAD, dirMap);
         
         triadBuilder = BuilderFactory.getTriadBuilder(struct);
     }
@@ -53,7 +53,7 @@ public class FileFormatterTest {
     }
 
     private VoicedChord majorTriad(NoteName root) {
-        return triadBuilder.setPair(new ChordPair(root, Quality.MAJOR_TRIAD))
+        return triadBuilder.setPair(new ChordPair(root, QualityEnum.MAJOR_TRIAD))
                 .buildVoicedChord();
     }
 

@@ -3,7 +3,7 @@ package music.chord.base;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum Quality {
+public enum QualityEnum {
     MAJOR_TRIAD("M", ChordType.TRIAD),
     MINOR_TRIAD("m", ChordType.TRIAD),
     AUGMENTED_TRIAD("+", ChordType.TRIAD),
@@ -20,24 +20,24 @@ public enum Quality {
     MINOR_NINTH("m9", ChordType.NINTH),
     MAJOR_NINTH("M9", ChordType.NINTH);
     
-    private static final Map<String, Quality> nameMap;
+    private static final Map<String, QualityEnum> nameMap;
     
     static {
-        nameMap = new HashMap<String, Quality>();
+        nameMap = new HashMap<String, QualityEnum>();
         
-        for(Quality quality : Quality.values()) {
+        for(QualityEnum quality : QualityEnum.values()) {
             nameMap.put(quality.name(), quality);
         }
     }
 
-    public static Quality forName(String name) {
+    public static QualityEnum forName(String name) {
         return nameMap.get(name.toUpperCase());
     }
     
     private String symbol;
     private ChordType type;
 
-    private Quality(String symbol, ChordType type) {
+    private QualityEnum(String symbol, ChordType type) {
         this.symbol = symbol;
         this.type = type;
     }

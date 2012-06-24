@@ -8,7 +8,7 @@ import java.util.Map;
 import music.chord.base.ChordMember;
 import music.chord.base.Duration;
 import music.chord.base.NoteName;
-import music.chord.base.Quality;
+import music.chord.base.QualityEnum;
 import music.chord.base.VoicePart;
 import music.chord.decorator.Chord;
 
@@ -21,7 +21,7 @@ final class ConcreteChord implements Chord, VoicedChord {
     private int octave;
     private Map<VoicePart, Note> voicePartMap;
     private List<VoicePart> partList;
-    private Quality quality;
+    private QualityEnum quality;
     private Chord chord;
 
 	ConcreteChord(
@@ -30,7 +30,7 @@ final class ConcreteChord implements Chord, VoicedChord {
 	        int octave, 
 	        Duration duration, 
 	        List<VoicePart> partList,
-	        Quality quality) {
+	        QualityEnum quality) {
 	    
 	    if(quality == null) throw new IllegalArgumentException("Quality can't be null.");
 	    
@@ -82,7 +82,7 @@ final class ConcreteChord implements Chord, VoicedChord {
     }
 	
 	@Override
-    public Quality getQuality() {
+    public QualityEnum getQuality() {
         return quality;
     }
 	

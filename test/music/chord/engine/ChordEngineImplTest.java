@@ -19,7 +19,7 @@ import music.chord.base.ChordPair;
 import music.chord.base.Constants;
 import music.chord.base.Duration;
 import music.chord.base.NoteName;
-import music.chord.base.Quality;
+import music.chord.base.QualityEnum;
 import music.chord.engine.protocol.ChordRequest;
 import music.chord.engine.protocol.Identifier;
 import music.chord.engine.protocol.LoadRequest;
@@ -59,10 +59,10 @@ public class ChordEngineImplTest {
         helper = new TestHelper();
         
         request = builder.chordRequest(
-            helper.getChord("C", Quality.MAJOR_TRIAD),
-            helper.getChord("D", Quality.MINOR_TRIAD),
-            helper.getChord("G", Quality.DOMINANT_SEVENTH),
-            helper.getChord("C", Quality.MAJOR_TRIAD));
+            helper.getChord("C", QualityEnum.MAJOR_TRIAD),
+            helper.getChord("D", QualityEnum.MINOR_TRIAD),
+            helper.getChord("G", QualityEnum.DOMINANT_SEVENTH),
+            helper.getChord("C", QualityEnum.MAJOR_TRIAD));
     }
     
     @Test
@@ -75,9 +75,9 @@ public class ChordEngineImplTest {
     @Test
     public void createChord() {
         VoicedChord chord = engine.createChord(
-            new ChordPair(NoteName.forSymbol("C"), Quality.MAJOR_TRIAD));
+            new ChordPair(NoteName.forSymbol("C"), QualityEnum.MAJOR_TRIAD));
         assertEquals(NoteName.forSymbol("C"), chord.noteNameFromChordMember(ChordMember.ROOT));
-        assertEquals(Quality.MAJOR_TRIAD, chord.getQuality());
+        assertEquals(QualityEnum.MAJOR_TRIAD, chord.getQuality());
     }
     
     @Test
@@ -86,8 +86,8 @@ public class ChordEngineImplTest {
             .insertChords(
                 builder.insertRequest(
                     2, 
-                    helper.getChord("Eb", Quality.MINOR_SEVENTH),
-                    helper.getChord("F#", Quality.MINOR_SEVENTH)));
+                    helper.getChord("Eb", QualityEnum.MINOR_SEVENTH),
+                    helper.getChord("F#", QualityEnum.MINOR_SEVENTH)));
         
         assertEquals("Dm", engine.byIdentifier(id).get(1).getSymbol());
         assertEquals("Ebm7", engine.byIdentifier(id).get(2).getSymbol());

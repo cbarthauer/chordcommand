@@ -9,7 +9,7 @@ import music.chord.base.ChordPair;
 import music.chord.base.ChordSpec;
 import music.chord.base.ChordType;
 import music.chord.base.NoteName;
-import music.chord.base.Quality;
+import music.chord.base.QualityEnum;
 
 public class ChordFinder {
     private List<VoicedChord> chordList;
@@ -58,9 +58,9 @@ public class ChordFinder {
             String typeName,
             VoicedChordBuilder builder) {
 
-        Map<Quality, ChordSpec> qualityMap = struct.qualityMapFromType(ChordType.forName(typeName));
+        Map<QualityEnum, ChordSpec> qualityMap = struct.qualityMapFromType(ChordType.forName(typeName));
         
-        for(Quality quality : qualityMap.keySet()) {
+        for(QualityEnum quality : qualityMap.keySet()) {
             chordList.add(
                 builder.setPair(new ChordPair(name, quality))
                     .buildVoicedChord());

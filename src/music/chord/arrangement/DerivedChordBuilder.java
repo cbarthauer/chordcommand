@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import music.chord.base.Duration;
-import music.chord.base.Quality;
+import music.chord.base.QualityEnum;
 import music.chord.base.VoicePart;
 
 public class DerivedChordBuilder implements ChordBuilder {
@@ -14,7 +14,7 @@ public class DerivedChordBuilder implements ChordBuilder {
 	private Voicing voicing;
     private int octave;
     private List<VoicePart> partList;
-    private Quality quality;
+    private QualityEnum quality;
 
 	@Override
 	public VoicedChord buildVoicedChord() {

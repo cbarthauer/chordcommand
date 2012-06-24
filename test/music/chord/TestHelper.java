@@ -9,7 +9,7 @@ import music.chord.arrangement.VoicedChordBuilder;
 import music.chord.base.ChordPair;
 import music.chord.base.Constants;
 import music.chord.base.NoteName;
-import music.chord.base.Quality;
+import music.chord.base.QualityEnum;
 import music.chord.grammar.ChordDefinitionStructureFactory;
 
 import org.antlr.runtime.RecognitionException;
@@ -23,7 +23,7 @@ public class TestHelper {
         builder = BuilderFactory.getTriadBuilder(struct);        
     }
     
-    public VoicedChord getChord(String root, Quality quality) {
+    public VoicedChord getChord(String root, QualityEnum quality) {
         return builder.setPair(new ChordPair(NoteName.forSymbol(root), quality))
                 .buildVoicedChord();
     }
