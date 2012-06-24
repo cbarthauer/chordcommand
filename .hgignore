@@ -11,3 +11,5 @@ syntax: regexp
 ^target$
 syntax: regexp
 ^checklist\.txt$
+syntax: regexp
+^reports$
