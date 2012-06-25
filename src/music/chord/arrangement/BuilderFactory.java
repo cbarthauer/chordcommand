@@ -21,7 +21,7 @@ public class BuilderFactory {
                 defaultOctaveShift,
                 Duration.QUARTER,
                 VoicePart.barbershopDefault()),
-            struct);
+                struct);
         return ninthBuilder;
     }   
     
@@ -38,7 +38,7 @@ public class BuilderFactory {
                 defaultOctaveShift, 
                 Duration.QUARTER,
                 VoicePart.barbershopDefault()),
-            struct);
+                struct);
         
         return builder;
     }
@@ -56,7 +56,7 @@ public class BuilderFactory {
                 defaultOctaveShift, 
                 Duration.QUARTER, 
                 VoicePart.barbershopDefault()),
-            struct);
+                struct);
       
         return triadBuilder;
     }

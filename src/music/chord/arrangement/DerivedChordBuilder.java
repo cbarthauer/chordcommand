@@ -27,7 +27,7 @@ public class DerivedChordBuilder implements ChordBuilder {
 		this.voicing = chord.getVoicing();
 		this.octave = chord.getOctave();
 		this.partList = chord.getVoicePartList();
-		this.quality = chord.getQuality();
+		this.quality = chord.getQualityEnum();
 		return this;
 	}
 	

@@ -105,7 +105,6 @@ class ChordEngineImpl implements ChordEngine {
             CommonTreeNodeStream nodeStream = new CommonTreeNodeStream(compilationUnit.getTree());
             
             ChordWalker walker = new ChordWalker(nodeStream);
-            walker.setChordDefinitionStructure(struct);
             walker.setTriadBuilder(BuilderFactory.getTriadBuilder(struct));
             walker.setSeventhBuilder(BuilderFactory.getSeventhBuilder(struct));
             walker.setNinthBuilder(BuilderFactory.getNinthBuilder(struct));

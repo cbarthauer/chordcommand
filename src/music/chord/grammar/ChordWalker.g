@@ -13,7 +13,6 @@ options {
   import java.util.ArrayList;
   import java.util.List;
   
-  import music.chord.arrangement.ChordDefinitionStructure;
   import music.chord.arrangement.ChordPlayer;
   import music.chord.arrangement.VoicedChord;
   import music.chord.arrangement.Voicing;
@@ -36,11 +35,6 @@ options {
   VoicedChordBuilder triadBuilder;
   VoicedChordBuilder seventhBuilder; 
   VoicedChordBuilder ninthBuilder;
-  ChordDefinitionStructure struct;
-  
-  public void setChordDefinitionStructure(ChordDefinitionStructure struct) {
-    this.struct = struct;
-  }
   
   public void setNinthBuilder(VoicedChordBuilder ninthBuilder) {
     this.ninthBuilder = ninthBuilder;

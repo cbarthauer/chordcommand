@@ -82,7 +82,7 @@ final class ConcreteChord implements Chord, VoicedChord {
     }
 	
 	@Override
-    public QualityEnum getQuality() {
+    public QualityEnum getQualityEnum() {
         return quality;
     }
 	

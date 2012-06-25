@@ -35,6 +35,7 @@ public final class VoicedChordBuilder implements ChordBuilder {
                 currentConfig.getDuration(), 
                 currentConfig.getPartList(),
                 pair.getQuality());
+        
         reset();
         return result;
     }
@@ -48,7 +49,7 @@ public final class VoicedChordBuilder implements ChordBuilder {
         
         pair = new ChordPair(
             chord.noteNameFromChordMember(ChordMember.ROOT), 
-            chord.getQuality());
+            chord.getQualityEnum());
         
         return this;
     }

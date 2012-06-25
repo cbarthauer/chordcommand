@@ -77,7 +77,7 @@ public class ChordEngineImplTest {
         VoicedChord chord = engine.createChord(
             new ChordPair(NoteName.forSymbol("C"), QualityEnum.MAJOR_TRIAD));
         assertEquals(NoteName.forSymbol("C"), chord.noteNameFromChordMember(ChordMember.ROOT));
-        assertEquals(QualityEnum.MAJOR_TRIAD, chord.getQuality());
+        assertEquals(QualityEnum.MAJOR_TRIAD, chord.getQualityEnum());
     }
     
     @Test
