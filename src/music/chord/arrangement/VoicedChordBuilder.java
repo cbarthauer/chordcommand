@@ -34,7 +34,7 @@ public final class VoicedChordBuilder implements ChordBuilder {
                 currentConfig.getOctave(), 
                 currentConfig.getDuration(), 
                 currentConfig.getPartList(),
-                pair.getQuality());
+                pair.getQualityEnum());
         
         reset();
         return result;
@@ -80,7 +80,7 @@ public final class VoicedChordBuilder implements ChordBuilder {
     }
     
     private Chord buildChord() {
-        return new ChordImpl(pair.getRoot(), struct.getChordSpec(pair.getQuality()));
+        return new ChordImpl(pair.getRoot(), struct.getChordSpec(pair.getQualityEnum()));
     }
     
     private void reset() {

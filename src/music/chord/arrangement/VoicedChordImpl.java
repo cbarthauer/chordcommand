@@ -80,6 +80,11 @@ public final class VoicedChordImpl implements VoicedChord {
     }
 
     @Override
+    public Quality getQuality() {
+        return quality;
+    }
+
+    @Override
     public final QualityEnum getQualityEnum() {
         return QualityEnum.forName(quality.getName());
     }
@@ -109,7 +114,7 @@ public final class VoicedChordImpl implements VoicedChord {
     public final Note noteFromVoicePart(VoicePart part) {
         return voicePartMap.get(part);
     }
-
+    
     @Override
     public final NoteName noteNameFromChordMember(ChordMember chordMember) {
         return quality.getNoteName(root, chordMember);
@@ -131,7 +136,7 @@ public final class VoicedChordImpl implements VoicedChord {
         
         return result;
     }
-    
+
     private List<NoteName> noteNames(List<Note> noteList) {
         List<NoteName> result = new ArrayList<NoteName>();
         

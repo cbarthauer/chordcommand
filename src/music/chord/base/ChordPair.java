@@ -11,7 +11,7 @@ public final class ChordPair {
         this.quality = quality;
     }
     
-    public final QualityEnum getQuality() {
+    public final QualityEnum getQualityEnum() {
         return quality;
     }
 

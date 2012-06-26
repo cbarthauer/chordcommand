@@ -8,6 +8,7 @@ import java.util.Map;
 import music.chord.base.ChordMember;
 import music.chord.base.Duration;
 import music.chord.base.NoteName;
+import music.chord.base.Quality;
 import music.chord.base.QualityEnum;
 import music.chord.base.VoicePart;
 import music.chord.decorator.Chord;
@@ -82,10 +83,16 @@ final class ConcreteChord implements Chord, VoicedChord {
     }
 	
 	@Override
+    public Quality getQuality() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+	
+	@Override
     public QualityEnum getQualityEnum() {
         return quality;
     }
-	
+
 	@Override
     public final String getSymbol() {
         return noteNameFromChordMember(ChordMember.ROOT) + quality.getSymbol();
@@ -97,7 +104,7 @@ final class ConcreteChord implements Chord, VoicedChord {
 		return Math.round(ppq * conversionFactor);
 	}
 
-	@Override
+    @Override
     public final List<VoicePart> getVoicePartList() {
         return new ArrayList<VoicePart>(partList);
     }
