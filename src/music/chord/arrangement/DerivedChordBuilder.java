@@ -7,7 +7,7 @@ import music.chord.base.Duration;
 import music.chord.base.QualityEnum;
 import music.chord.base.VoicePart;
 
-public class DerivedChordBuilder implements ChordBuilder {
+public class DerivedChordBuilder {
 
 	private VoicedChord chord;
 	private Duration duration;
@@ -16,7 +16,6 @@ public class DerivedChordBuilder implements ChordBuilder {
     private List<VoicePart> partList;
     private QualityEnum quality;
 
-	@Override
 	public VoicedChord buildVoicedChord() {
 		return new ConcreteChord(chord, voicing, octave, duration, partList, quality);
 	}
