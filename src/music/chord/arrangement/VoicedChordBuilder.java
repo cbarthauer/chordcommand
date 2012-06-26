@@ -2,89 +2,16 @@ package music.chord.arrangement;
 
 import java.util.List;
 
-import music.chord.base.ChordMember;
 import music.chord.base.ChordPair;
 import music.chord.base.Duration;
 import music.chord.base.VoicePart;
-import music.chord.decorator.Chord;
-import music.chord.decorator.ChordImpl;
 
-public final class VoicedChordBuilder implements ChordBuilder {
-
-    private VoicedChordConfig defaultConfig;
-    private VoicedChordConfig currentConfig;
-    private ChordPair pair;
-    private ChordDefinitionStructure struct;
-    
-    public VoicedChordBuilder(
-            VoicedChordConfig chordConfig,
-            ChordDefinitionStructure struct) {
-        
-        this.defaultConfig = chordConfig;
-        this.currentConfig = chordConfig;        
-        this.struct = struct;
-    }
-    
-    @Override
-    public final VoicedChord buildVoicedChord() {
-        VoicedChord result = 
-            new ConcreteChord(
-                buildChord(), 
-                currentConfig.getVoicing(), 
-                currentConfig.getOctave(), 
-                currentConfig.getDuration(), 
-                currentConfig.getPartList(),
-                pair.getQualityEnum());
-        
-        reset();
-        return result;
-    }
-    
-    public final VoicedChordBuilder setChord(VoicedChord chord) {
-        currentConfig = new VoicedChordConfig(
-            chord.getVoicing(),
-            chord.getOctave(),
-            chord.getDuration(),
-            chord.getVoicePartList());
-        
-        pair = new ChordPair(
-            chord.noteNameFromChordMember(ChordMember.ROOT), 
-            chord.getQualityEnum());
-        
-        return this;
-    }
-    
-    public final VoicedChordBuilder setDuration(Duration duration) {
-        currentConfig = new VoicedChordConfig(duration, currentConfig);
-        return this;
-    }
-    
-    public final VoicedChordBuilder setOctave(int octave) {
-        currentConfig = new VoicedChordConfig(octave, currentConfig);
-        return this;
-    }
-    
-    public final VoicedChordBuilder setPair(ChordPair pair) {
-        this.pair = pair;
-        return this;
-    }
-    
-    public final VoicedChordBuilder setVoicePartList(List<VoicePart> partList) {
-        currentConfig = new VoicedChordConfig(partList, currentConfig);
-        return this;
-    }
-    
-    public final VoicedChordBuilder setVoicing(Voicing voicing) {
-        currentConfig = new VoicedChordConfig(voicing, currentConfig);
-        return this;
-    }
-    
-    private Chord buildChord() {
-        return new ChordImpl(pair.getRoot(), struct.getChordSpec(pair.getQualityEnum()));
-    }
-    
-    private void reset() {
-        currentConfig = defaultConfig;
-    }
-
+public interface VoicedChordBuilder {
+    public VoicedChord buildVoicedChord();
+    public VoicedChordBuilder setChord(VoicedChord chord);
+    public VoicedChordBuilder setDuration(Duration duration);
+    public VoicedChordBuilder setOctave(int octave);
+    public VoicedChordBuilder setPair(ChordPair pair);
+    public VoicedChordBuilder setVoicePartList(List<VoicePart> partList);
+    public VoicedChordBuilder setVoicing(Voicing voicing);
 }

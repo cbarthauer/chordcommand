@@ -3,12 +3,13 @@ package music.chord.arrangement;
 import java.util.List;
 
 import music.chord.base.ChordMember;
+import music.chord.base.ChordPair;
 import music.chord.base.Duration;
 import music.chord.base.NoteName;
 import music.chord.base.Quality;
 import music.chord.base.VoicePart;
 
-public final class QualityVoicedChordBuilder implements ChordBuilder {
+public final class QualityVoicedChordBuilder implements VoicedChordBuilder {
 
     private VoicedChordConfig defaultConfig;
     private VoicedChordConfig currentConfig;
@@ -36,6 +37,7 @@ public final class QualityVoicedChordBuilder implements ChordBuilder {
         return result;
     }
     
+    @Override
     public final QualityVoicedChordBuilder setChord(VoicedChord chord) {
         currentConfig = new VoicedChordConfig(
             chord.getVoicing(),
@@ -48,26 +50,35 @@ public final class QualityVoicedChordBuilder implements ChordBuilder {
         return this;
     }
     
+    @Override
     public final QualityVoicedChordBuilder setDuration(Duration duration) {
         currentConfig = new VoicedChordConfig(duration, currentConfig);
         return this;
     }
     
+    @Override
     public final QualityVoicedChordBuilder setOctave(int octave) {
         currentConfig = new VoicedChordConfig(octave, currentConfig);
         return this;
     }
     
+    @Override
+    public final VoicedChordBuilder setPair(ChordPair pair) {
+        throw new RuntimeException("setPair() not implemented.");
+    }
+    
+    @Override
     public final QualityVoicedChordBuilder setVoicePartList(List<VoicePart> partList) {
         currentConfig = new VoicedChordConfig(partList, currentConfig);
         return this;
     }
     
+    @Override
     public final QualityVoicedChordBuilder setVoicing(Voicing voicing) {
         currentConfig = new VoicedChordConfig(voicing, currentConfig);
         return this;
     }
-    
+
     private void reset() {
         currentConfig = defaultConfig;
     }
