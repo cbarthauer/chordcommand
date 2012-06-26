@@ -17,6 +17,8 @@ public class BuilderFactory {
         
         VoicedChordBuilder ninthBuilder = new VoicedChordBuilderImpl(
             new VoicedChordConfig(
+                null,
+                null,
                 ninthVoicing,
                 defaultOctaveShift,
                 Duration.QUARTER,
@@ -34,6 +36,8 @@ public class BuilderFactory {
         
         VoicedChordBuilder builder = new VoicedChordBuilderImpl(
             new VoicedChordConfig(
+                null,
+                null,
                 seventhVoicing, 
                 defaultOctaveShift, 
                 Duration.QUARTER,
@@ -52,6 +56,8 @@ public class BuilderFactory {
         
         VoicedChordBuilder triadBuilder = new VoicedChordBuilderImpl(
             new VoicedChordConfig(
+                null,
+                null,
                 triadVoicing,
                 defaultOctaveShift, 
                 Duration.QUARTER, 

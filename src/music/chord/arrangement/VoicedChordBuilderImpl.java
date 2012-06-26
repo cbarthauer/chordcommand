@@ -43,6 +43,8 @@ public final class VoicedChordBuilderImpl implements VoicedChordBuilder {
     @Override
     public final VoicedChordBuilder setChord(VoicedChord chord) {
         currentConfig = new VoicedChordConfig(
+            null,
+            null,
             chord.getVoicing(),
             chord.getOctave(),
             chord.getDuration(),

@@ -5,17 +5,12 @@ import java.util.List;
 import music.chord.base.ChordMember;
 import music.chord.base.ChordPair;
 import music.chord.base.Duration;
-import music.chord.base.NoteName;
-import music.chord.base.Quality;
 import music.chord.base.VoicePart;
 
 public final class QualityVoicedChordBuilder implements VoicedChordBuilder {
 
     private VoicedChordConfig defaultConfig;
-    private VoicedChordConfig currentConfig;
-    private NoteName root;
-    private Quality quality;
-    
+    private VoicedChordConfig currentConfig;    
     
     public QualityVoicedChordBuilder(VoicedChordConfig chordConfig) {
         this.defaultConfig = chordConfig;
@@ -26,8 +21,8 @@ public final class QualityVoicedChordBuilder implements VoicedChordBuilder {
     public final VoicedChord buildVoicedChord() {        
         VoicedChord result =
             new VoicedChordImpl(
-                root,
-                quality,
+                currentConfig.getRoot(),
+                currentConfig.getQuality(),
                 currentConfig.getVoicing(),
                 currentConfig.getOctave(),
                 currentConfig.getDuration(),
@@ -40,13 +35,13 @@ public final class QualityVoicedChordBuilder implements VoicedChordBuilder {
     @Override
     public final QualityVoicedChordBuilder setChord(VoicedChord chord) {
         currentConfig = new VoicedChordConfig(
+            chord.noteNameFromChordMember(ChordMember.ROOT),
+            chord.getQuality(),
             chord.getVoicing(),
             chord.getOctave(),
             chord.getDuration(),
             chord.getVoicePartList());
         
-        root = chord.noteNameFromChordMember(ChordMember.ROOT);
-        quality = chord.getQuality();
         return this;
     }
     
