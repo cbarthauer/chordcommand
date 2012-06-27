@@ -7,9 +7,9 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-public class QualityRegistryTest {
+public class QualityRegistryImplTest {
 
-    private QualityRegistry registry;
+    private QualityRegistryImpl registry;
     private QualityImpl majorTriad;
     private QualityImpl minorTriad;
     private QualityImpl augmentedTriad;
@@ -18,7 +18,7 @@ public class QualityRegistryTest {
 
     @Before
     public void setUp() throws Exception {
-        registry = new QualityRegistry();
+        registry = new QualityRegistryImpl();
         IntervallicStructureBuilder builder = new IntervallicStructureBuilder();
         
         majorTriad = new QualityImpl(

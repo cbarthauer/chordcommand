@@ -22,6 +22,7 @@ options {
     import music.chord.base.IntervallicStructureBuilder;
     import music.chord.base.QualityBuilder;
     import music.chord.base.QualityRegistry;
+    import music.chord.base.QualityRegistryImpl;
 }
 
 @lexer::header {
@@ -30,7 +31,7 @@ options {
 
 @members {
     ChordType currentType;
-    QualityRegistry registry = new QualityRegistry();
+    QualityRegistryImpl registry = new QualityRegistryImpl();
 }
 
 //Whitespace

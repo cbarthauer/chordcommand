@@ -1,62 +1,32 @@
 package music.chord.base;
 
-public final class QualityRegistryFactory {
-    private static IntervallicStructureBuilder builder;
-    
-    static {
-        builder = new IntervallicStructureBuilder();
-    }
-    
-    public static QualityRegistry getInstance(String fileName) {
-        QualityRegistry registry = new QualityRegistry();
-        
-        registry.addQuality(
-            createQuality(
-                "MAJOR_TRIAD", 
-                QualitySymbol.MAJOR_TRIAD,
-                ChordType.TRIAD,
-                builder.add(ChordMember.THIRD, new IntervalDirective(Interval.MAJOR_THIRD))
-                    .add(ChordMember.FIFTH, new IntervalDirective(Interval.PERFECT_FIFTH))
-                    .build()));
-        
-        registry.addQuality(
-            createQuality(
-                "MINOR_TRIAD", 
-                QualitySymbol.MINOR_TRIAD, 
-                ChordType.TRIAD, 
-                builder.add(ChordMember.THIRD, new IntervalDirective(Interval.MINOR_THIRD))
-                    .add(ChordMember.FIFTH, new IntervalDirective(Interval.PERFECT_FIFTH))
-                    .build()));
+import java.io.IOException;
 
-        registry.addQuality(
-            createQuality(
-                "AUGMENTED_TRIAD", 
-                QualitySymbol.AUGMENTED_TRIAD, 
-                ChordType.TRIAD, 
-                builder.add(ChordMember.THIRD, new IntervalDirective(Interval.MAJOR_THIRD))
-                    .add(ChordMember.FIFTH, new IntervalDirective(Interval.AUGMENTED_FIFTH))
-                    .build()));
-    
-        registry.addQuality(
-            createQuality(
-                "DOMINANT_SEVENTH", 
-                QualitySymbol.DOMINANT_SEVENTH,
-                ChordType.SEVENTH,
-                builder.add(ChordMember.THIRD, new IntervalDirective(Interval.MAJOR_THIRD))
-                    .add(ChordMember.FIFTH, new IntervalDirective(Interval.PERFECT_FIFTH))
-                    .add(ChordMember.SEVENTH, new IntervalDirective(Interval.MINOR_SEVENTH))
-                    .build()));
+import music.chord.grammar.ChordQualityDefinitionLexer;
+import music.chord.grammar.ChordQualityDefinitionParser;
+
+import org.antlr.runtime.ANTLRFileStream;
+import org.antlr.runtime.CharStream;
+import org.antlr.runtime.CommonTokenStream;
+import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.TokenStream;
+
+public final class QualityRegistryFactory {    
+    public static QualityRegistry getInstance(String fileName) {
+        QualityRegistry registry = null;
         
-        registry.addQuality(
-            createQuality(
-                "DOMINANT_NINTH", 
-                QualitySymbol.DOMINANT_NINTH,
-                ChordType.NINTH,
-                builder.add(ChordMember.THIRD, new IntervalDirective(Interval.MAJOR_THIRD))
-                    .add(ChordMember.FIFTH, new IntervalDirective(Interval.PERFECT_FIFTH))
-                    .add(ChordMember.SEVENTH, new IntervalDirective(Interval.MINOR_SEVENTH))
-                    .add(ChordMember.NINTH, new IntervalDirective(Interval.MAJOR_NINTH))
-                    .build()));
+        try {
+            CharStream charStream = new ANTLRFileStream(fileName);
+            ChordQualityDefinitionLexer lexer = new ChordQualityDefinitionLexer(charStream);
+            TokenStream tokenStream = new CommonTokenStream(lexer);
+            ChordQualityDefinitionParser parser = new ChordQualityDefinitionParser(tokenStream);
+            registry = parser.program();
+        }
+        catch(IOException e) {
+            throw new RuntimeException(e);
+        } catch (RecognitionException e) {
+            throw new RuntimeException(e);
+        }
         
         return registry;
     }

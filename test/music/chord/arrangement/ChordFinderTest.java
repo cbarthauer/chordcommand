@@ -20,17 +20,21 @@ public class ChordFinderTest {
     @Before
     public void setUp() throws Exception {
         struct = ChordDefinitionStructureFactory.getInstance(Constants.getChordDefinitions());   
-        finder = new ChordFinder(struct);
+        finder = new ChordFinderImpl(
+                BuilderFactory.getTriadBuilder(struct),
+                BuilderFactory.getSeventhBuilder(struct),
+                BuilderFactory.getNinthBuilder(struct),
+                struct);
     }
 
     @Test
-    public void testFindByChordMember() {
+    public void findByChordMember() {
         List<VoicedChord> chordList = finder.find(NoteName.forSymbol("Bb"), ChordMember.NINTH);        
         assertTrue("Found " + chordList.size() + " chords.", chordList.size() > 0);
     }
     
     @Test
-    public void testFindByNoteList() {
+    public void findByNoteList() {
         List<NoteName> noteList = new ArrayList<NoteName>();
         noteList.add(NoteName.forSymbol("F#"));
         List<VoicedChord> chordList = finder.find(noteList);        

@@ -7,13 +7,15 @@ import java.util.Scanner;
 
 import music.chord.arrangement.BuilderFactory;
 import music.chord.arrangement.ChordDefinitionStructure;
-import music.chord.arrangement.ChordFinder;
+import music.chord.arrangement.ChordFinderImpl;
 import music.chord.arrangement.ChordPlayer;
 import music.chord.arrangement.ChordVoicer;
 import music.chord.arrangement.ChordVoicerFactory;
 import music.chord.arrangement.VoicePartPlayer;
 import music.chord.arrangement.VoicedChordBuilder;
 import music.chord.base.Constants;
+import music.chord.base.QualityRegistry;
+import music.chord.base.QualityRegistryFactory;
 import music.chord.command.Command;
 import music.chord.engine.ChordEngine;
 import music.chord.engine.ChordEngineBuilder;
@@ -38,6 +40,10 @@ public class Interpreter {
 		String line = "";
 		ChordDefinitionStructure struct = ChordDefinitionStructureFactory.getInstance(
 		        Constants.getChordDefinitions());
+		QualityRegistry registry = QualityRegistryFactory.getInstance(
+		        Constants.getChordDefinitions());
+		System.err.println("Interpreter.main() - registry: " + registry);
+		
 		VoicedChordBuilder triadBuilder = BuilderFactory.getTriadBuilder(struct);
 		VoicedChordBuilder seventhBuilder = BuilderFactory.getSeventhBuilder(struct);
 		VoicedChordBuilder ninthBuilder = BuilderFactory.getNinthBuilder(struct);
@@ -52,7 +58,12 @@ public class Interpreter {
 			TokenStream tokenStream = new CommonTokenStream(lexer);
 			ChordCommandParser parser = new ChordCommandParser(tokenStream);
 			parser.setChordEngine(engine);
-			parser.setChordFinder(new ChordFinder(struct));
+			parser.setChordFinder(
+			        new ChordFinderImpl(
+			                triadBuilder,
+			                seventhBuilder,
+			                ninthBuilder,
+			                struct));
 			parser.setChordVoicer(voicer);
 			parser.setChordPlayer(new ChordPlayer());
 			parser.setVoicePartPlayer(new VoicePartPlayer());
