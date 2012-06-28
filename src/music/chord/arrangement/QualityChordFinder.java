@@ -1,31 +1,34 @@
 package music.chord.arrangement;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import music.chord.base.ChordMember;
 import music.chord.base.ChordType;
 import music.chord.base.NoteName;
 import music.chord.base.Quality;
-import music.chord.base.QualityRegistry;
 
 public final class QualityChordFinder implements ChordFinder {
 
     private List<VoicedChord> chordList;
+    private Map<ChordType, VoicedChordBuilder> builderMap;
+    private List<Quality> qualities;
     
     public QualityChordFinder(
             VoicedChordBuilder triadBuilder,
             VoicedChordBuilder seventhBuilder,
             VoicedChordBuilder ninthBuilder,            
-            QualityRegistry registry) {
+            List<Quality> qualities) {
         
-        chordList = new ArrayList<VoicedChord>();
+        builderMap = new HashMap<ChordType, VoicedChordBuilder>();
+        builderMap.put(ChordType.TRIAD, triadBuilder);
+        builderMap.put(ChordType.SEVENTH, seventhBuilder);
+        builderMap.put(ChordType.NINTH, ninthBuilder);
         
-        for(NoteName noteName : NoteName.all()) {
-            addChords(noteName, registry.all(ChordType.TRIAD), triadBuilder);
-            addChords(noteName, registry.all(ChordType.SEVENTH), seventhBuilder);
-            addChords(noteName, registry.all(ChordType.NINTH), ninthBuilder);
-        }
+        this.qualities = new ArrayList<Quality>(qualities);
+        chordList = initChordList();
     }
     
     @Override
@@ -54,17 +57,20 @@ public final class QualityChordFinder implements ChordFinder {
         return result;
     }
 
-    private void addChords(
-            NoteName noteName, 
-            List<Quality> qualities,
-            VoicedChordBuilder builder) {
+    private List<VoicedChord> initChordList() {   
+        List<VoicedChord> result = new ArrayList<VoicedChord>();
         
-        for(Quality quality : qualities) {
-            chordList.add(
-                builder.setRoot(noteName)
-                    .setQuality(quality)
-                    .buildVoicedChord());
+        for(NoteName noteName : NoteName.all()) {
+            for(Quality quality : qualities) {
+                VoicedChordBuilder builder = builderMap.get(quality.getType());
+                result.add(
+                    builder.setRoot(noteName)
+                        .setQuality(quality)
+                        .buildVoicedChord());
+            }
         }
+        
+        return result;
     }
 
 }

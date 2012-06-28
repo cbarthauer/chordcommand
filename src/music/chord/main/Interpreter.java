@@ -7,13 +7,15 @@ import java.util.Scanner;
 
 import music.chord.arrangement.BuilderFactory;
 import music.chord.arrangement.ChordDefinitionStructure;
-import music.chord.arrangement.ChordFinderImpl;
+import music.chord.arrangement.ChordFinder;
 import music.chord.arrangement.ChordPlayer;
 import music.chord.arrangement.ChordVoicer;
 import music.chord.arrangement.ChordVoicerFactory;
+import music.chord.arrangement.QualityChordFinder;
 import music.chord.arrangement.VoicePartPlayer;
 import music.chord.arrangement.VoicedChordBuilder;
 import music.chord.base.Constants;
+import music.chord.base.NoteName;
 import music.chord.base.QualityRegistry;
 import music.chord.base.QualityRegistryFactory;
 import music.chord.command.Command;
@@ -40,9 +42,8 @@ public class Interpreter {
 		String line = "";
 		ChordDefinitionStructure struct = ChordDefinitionStructureFactory.getInstance(
 		        Constants.getChordDefinitions());
-		QualityRegistry registry = QualityRegistryFactory.getInstance(
+		QualityRegistry qualities = QualityRegistryFactory.getInstance(
 		        Constants.getChordDefinitions());
-		System.err.println("Interpreter.main() - registry: " + registry);
 		
 		VoicedChordBuilder triadBuilder = BuilderFactory.getTriadBuilder(struct);
 		VoicedChordBuilder seventhBuilder = BuilderFactory.getSeventhBuilder(struct);
@@ -51,6 +52,18 @@ public class Interpreter {
 		ChordEngine engine = ChordEngineBuilder.build(
 		        triadBuilder, seventhBuilder, ninthBuilder, voicer, struct);
 		
+		ChordFinder finder = new QualityChordFinder(
+                BuilderFactory.getTriadBuilder(
+                    NoteName.forSymbol("C"),
+                    qualities.forName("MAJOR_TRIAD")),
+                BuilderFactory.getSeventhBuilder(
+                    NoteName.forSymbol("C"),
+                    qualities.forName("DOMINANT_SEVENTH")),
+                BuilderFactory.getNinthBuilder(
+                    NoteName.forSymbol("C"),
+                    qualities.forName("DOMINANT_NINTH")),
+                qualities.all());		
+		
 		while(true) {
 			line = scanner.nextLine();
 			CharStream charStream = new ANTLRStringStream(line);
@@ -58,12 +71,7 @@ public class Interpreter {
 			TokenStream tokenStream = new CommonTokenStream(lexer);
 			ChordCommandParser parser = new ChordCommandParser(tokenStream);
 			parser.setChordEngine(engine);
-			parser.setChordFinder(
-			        new ChordFinderImpl(
-			                triadBuilder,
-			                seventhBuilder,
-			                ninthBuilder,
-			                struct));
+			parser.setChordFinder(finder);
 			parser.setChordVoicer(voicer);
 			parser.setChordPlayer(new ChordPlayer());
 			parser.setVoicePartPlayer(new VoicePartPlayer());

@@ -6,14 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import music.chord.base.ChordMember;
-import music.chord.base.ChordType;
 import music.chord.base.Constants;
-import music.chord.base.Interval;
-import music.chord.base.IntervalDirective;
-import music.chord.base.IntervallicStructureBuilder;
 import music.chord.base.NoteName;
+import music.chord.base.QualityRegistry;
 import music.chord.base.QualityRegistryFactory;
-import music.chord.base.QualitySymbol;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,40 +20,20 @@ public class QualityChordFinderTest {
 
     @Before
     public void setUp() throws Exception {
-        IntervallicStructureBuilder struct = new IntervallicStructureBuilder();
+        QualityRegistry qualities = QualityRegistryFactory.getInstance(
+                Constants.getChordDefinitions());
         
         finder = new QualityChordFinder(
                 BuilderFactory.getTriadBuilder(
                     NoteName.forSymbol("C"),
-                    QualityRegistryFactory.createQuality(
-                        "Triad", 
-                        QualitySymbol.MAJOR_TRIAD, 
-                        ChordType.TRIAD, 
-                        struct.add(ChordMember.THIRD, new IntervalDirective(Interval.MAJOR_THIRD))
-                            .add(ChordMember.FIFTH, new IntervalDirective(Interval.PERFECT_FIFTH))
-                            .build())),
+                    qualities.forName("MAJOR_TRIAD")),
                 BuilderFactory.getSeventhBuilder(
                     NoteName.forSymbol("C"),
-                    QualityRegistryFactory.createQuality(
-                        "Seventh", 
-                        QualitySymbol.DOMINANT_SEVENTH, 
-                        ChordType.SEVENTH, 
-                        struct.add(ChordMember.THIRD, new IntervalDirective(Interval.MAJOR_THIRD))
-                            .add(ChordMember.FIFTH, new IntervalDirective(Interval.PERFECT_FIFTH))
-                            .add(ChordMember.SEVENTH, new IntervalDirective(Interval.MINOR_SEVENTH))
-                            .build())),
+                    qualities.forName("DOMINANT_SEVENTH")),
                 BuilderFactory.getNinthBuilder(
                     NoteName.forSymbol("C"),
-                    QualityRegistryFactory.createQuality(
-                        "Ninth", 
-                        QualitySymbol.DOMINANT_NINTH, 
-                        ChordType.NINTH, 
-                        struct.add(ChordMember.THIRD, new IntervalDirective(Interval.MAJOR_THIRD))
-                            .add(ChordMember.FIFTH, new IntervalDirective(Interval.PERFECT_FIFTH))
-                            .add(ChordMember.SEVENTH, new IntervalDirective(Interval.MINOR_SEVENTH))
-                            .add(ChordMember.NINTH, new IntervalDirective(Interval.MAJOR_NINTH))
-                            .build())),
-                QualityRegistryFactory.getInstance(Constants.getChordDefinitions()));
+                    qualities.forName("DOMINANT_NINTH")),
+                qualities.all());
     }
 
     @Test
