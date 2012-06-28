@@ -10,13 +10,13 @@ import music.chord.base.ChordType;
 import music.chord.base.NoteName;
 import music.chord.base.Quality;
 
-public final class QualityChordFinder implements ChordFinder {
+public final class ChordFinderImpl implements ChordFinder {
 
     private List<VoicedChord> chordList;
     private Map<ChordType, VoicedChordBuilder> builderMap;
     private List<Quality> qualities;
     
-    public QualityChordFinder(
+    public ChordFinderImpl(
             VoicedChordBuilder triadBuilder,
             VoicedChordBuilder seventhBuilder,
             VoicedChordBuilder ninthBuilder,            

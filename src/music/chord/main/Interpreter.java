@@ -11,7 +11,7 @@ import music.chord.arrangement.ChordFinder;
 import music.chord.arrangement.ChordPlayer;
 import music.chord.arrangement.ChordVoicer;
 import music.chord.arrangement.ChordVoicerFactory;
-import music.chord.arrangement.QualityChordFinder;
+import music.chord.arrangement.ChordFinderImpl;
 import music.chord.arrangement.VoicePartPlayer;
 import music.chord.arrangement.VoicedChordBuilder;
 import music.chord.base.Constants;
@@ -52,7 +52,7 @@ public class Interpreter {
 		ChordEngine engine = ChordEngineBuilder.build(
 		        triadBuilder, seventhBuilder, ninthBuilder, voicer, struct);
 		
-		ChordFinder finder = new QualityChordFinder(
+		ChordFinder finder = new ChordFinderImpl(
                 BuilderFactory.getTriadBuilder(
                     NoteName.forSymbol("C"),
                     qualities.forName("MAJOR_TRIAD")),

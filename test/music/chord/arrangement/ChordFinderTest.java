@@ -14,7 +14,7 @@ import music.chord.base.QualityRegistryFactory;
 import org.junit.Before;
 import org.junit.Test;
 
-public class QualityChordFinderTest {
+public class ChordFinderTest {
 
     private ChordFinder finder;
 
@@ -23,7 +23,7 @@ public class QualityChordFinderTest {
         QualityRegistry qualities = QualityRegistryFactory.getInstance(
                 Constants.getChordDefinitions());
         
-        finder = new QualityChordFinder(
+        finder = new ChordFinderImpl(
                 BuilderFactory.getTriadBuilder(
                     NoteName.forSymbol("C"),
                     qualities.forName("MAJOR_TRIAD")),

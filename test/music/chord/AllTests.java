@@ -1,6 +1,6 @@
 package music.chord;
 
-import music.chord.arrangement.QualityChordFinderTest;
+import music.chord.arrangement.ChordFinderTest;
 import music.chord.arrangement.QualityVoicedChordBuilderTest;
 import music.chord.base.QualityRegistryImplTest;
 import music.chord.display.FileFormatterTest;
@@ -15,9 +15,9 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({ 
     ChordEngineImplTest.class,
+    ChordFinderTest.class,
     ChordListRegistryTest.class,
     FileFormatterTest.class,
-    QualityChordFinderTest.class,
     QualityRegistryImplTest.class,
     QualityVoicedChordBuilderTest.class,
     RequestBuilderTest.class
