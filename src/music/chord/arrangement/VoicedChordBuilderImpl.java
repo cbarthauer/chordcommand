@@ -5,6 +5,8 @@ import java.util.List;
 import music.chord.base.ChordMember;
 import music.chord.base.ChordPair;
 import music.chord.base.Duration;
+import music.chord.base.NoteName;
+import music.chord.base.Quality;
 import music.chord.base.VoicePart;
 import music.chord.decorator.Chord;
 import music.chord.decorator.ChordImpl;
@@ -76,6 +78,16 @@ public final class VoicedChordBuilderImpl implements VoicedChordBuilder {
     }
     
     @Override
+    public final VoicedChordBuilder setQuality(Quality quality) {
+        throw new RuntimeException("Not implemented.");
+    }
+    
+    @Override
+    public final VoicedChordBuilder setRoot(NoteName noteName) {
+        throw new RuntimeException("Not implemented.");
+    }
+    
+    @Override
     public final VoicedChordBuilder setVoicePartList(List<VoicePart> partList) {
         currentConfig = new VoicedChordConfig(partList, currentConfig);
         return this;
@@ -86,11 +98,11 @@ public final class VoicedChordBuilderImpl implements VoicedChordBuilder {
         currentConfig = new VoicedChordConfig(voicing, currentConfig);
         return this;
     }
-    
+
     private Chord buildChord() {
         return new ChordImpl(pair.getRoot(), struct.getChordSpec(pair.getQualityEnum()));
     }
-    
+
     private void reset() {
         currentConfig = defaultConfig;
     }

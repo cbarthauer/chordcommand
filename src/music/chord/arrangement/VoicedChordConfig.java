@@ -17,6 +17,26 @@ final class VoicedChordConfig {
     private Duration duration;
     private List<VoicePart> partList;
     
+    public VoicedChordConfig(NoteName root, VoicedChordConfig config) {
+        this(
+            root, 
+            config.quality, 
+            config.voicing, 
+            config.octave, 
+            config.duration, 
+            config.partList);  
+    }
+
+    public VoicedChordConfig(Quality quality, VoicedChordConfig config) {
+        this(
+            config.root, 
+            quality, 
+            config.voicing, 
+            config.octave, 
+            config.duration, 
+            config.partList);        
+    }
+    
     VoicedChordConfig(Duration duration, VoicedChordConfig config) {
         this(
             config.root, 
@@ -36,7 +56,7 @@ final class VoicedChordConfig {
             config.duration, 
             config.partList);
     }
-    
+
     VoicedChordConfig(List<VoicePart> partList, VoicedChordConfig config) {
         this(
             config.root, 

@@ -5,6 +5,8 @@ import java.util.List;
 import music.chord.base.ChordMember;
 import music.chord.base.ChordPair;
 import music.chord.base.Duration;
+import music.chord.base.NoteName;
+import music.chord.base.Quality;
 import music.chord.base.VoicePart;
 
 public final class QualityVoicedChordBuilder implements VoicedChordBuilder {
@@ -63,11 +65,23 @@ public final class QualityVoicedChordBuilder implements VoicedChordBuilder {
     }
     
     @Override
+    public final VoicedChordBuilder setQuality(Quality quality) {
+        currentConfig = new VoicedChordConfig(quality, currentConfig);
+        return this;
+    }
+    
+    @Override
+    public final VoicedChordBuilder setRoot(NoteName root) {
+        currentConfig = new VoicedChordConfig(root, currentConfig);
+        return this;
+    }
+
+    @Override
     public final QualityVoicedChordBuilder setVoicePartList(List<VoicePart> partList) {
         currentConfig = new VoicedChordConfig(partList, currentConfig);
         return this;
     }
-    
+
     @Override
     public final QualityVoicedChordBuilder setVoicing(Voicing voicing) {
         currentConfig = new VoicedChordConfig(voicing, currentConfig);
