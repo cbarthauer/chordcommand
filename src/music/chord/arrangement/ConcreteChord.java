@@ -84,8 +84,7 @@ final class ConcreteChord implements Chord, VoicedChord {
 	
 	@Override
     public Quality getQuality() {
-        // TODO Auto-generated method stub
-        return null;
+        throw new RuntimeException("Not implemented.");
     }
 	
 	@Override

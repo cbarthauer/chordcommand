@@ -69,6 +69,11 @@ public final class QualityRegistryImpl implements QualityRegistry {
         return nameMap.get(name);
     }
 
+    @Override
+    public final List<Voicing> forQuality(Quality quality) {
+        return voicingMap.get(quality.getType());
+    }
+
     public final String toString() {
         return 
             this.nameMap.toString()
