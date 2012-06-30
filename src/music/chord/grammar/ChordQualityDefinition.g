@@ -12,6 +12,8 @@ options {
     import java.util.List;
     import java.util.Map;
     
+    import music.chord.arrangement.QualityRegistry;
+    import music.chord.arrangement.QualityRegistryImpl;
     import music.chord.arrangement.Voicing;
     import music.chord.arrangement.VoicingFactory;
     
@@ -21,8 +23,6 @@ options {
     import music.chord.base.IntervalDirective;
     import music.chord.base.IntervallicStructureBuilder;
     import music.chord.base.QualityBuilder;
-    import music.chord.base.QualityRegistry;
-    import music.chord.base.QualityRegistryImpl;
 }
 
 @lexer::header {

@@ -2,8 +2,8 @@ package music.chord.engine;
 
 import music.chord.arrangement.ChordVoicer;
 import music.chord.arrangement.DerivedChordBuilder;
+import music.chord.arrangement.QualityRegistry;
 import music.chord.arrangement.VoicedChordBuilder;
-import music.chord.base.QualityRegistry;
 import music.chord.grammar.ChordListRegistry;
 
 public final class ChordEngineBuilder {

@@ -9,10 +9,10 @@ import java.util.Map;
 
 import music.chord.arrangement.ChordVoicer;
 import music.chord.arrangement.DerivedChordBuilder;
+import music.chord.arrangement.QualityRegistry;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.VoicedChordBuilder;
 import music.chord.base.ChordType;
-import music.chord.base.QualityRegistry;
 import music.chord.engine.protocol.ChordRequest;
 import music.chord.engine.protocol.CreateChordRequest;
 import music.chord.engine.protocol.DurationRequest;

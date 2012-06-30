@@ -1,4 +1,4 @@
-package music.chord.base;
+package music.chord.arrangement;
 
 import java.io.IOException;
 

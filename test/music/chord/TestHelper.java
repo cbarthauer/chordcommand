@@ -3,12 +3,12 @@ package music.chord;
 import java.io.IOException;
 
 import music.chord.arrangement.BuilderFactory;
+import music.chord.arrangement.QualityRegistry;
+import music.chord.arrangement.QualityRegistryFactory;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.VoicedChordBuilder;
 import music.chord.base.Constants;
 import music.chord.base.NoteName;
-import music.chord.base.QualityRegistry;
-import music.chord.base.QualityRegistryFactory;
 
 import org.antlr.runtime.RecognitionException;
 

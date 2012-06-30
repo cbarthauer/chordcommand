@@ -2,8 +2,8 @@ package music.chord.main;
 
 import java.io.IOException;
 
+import music.chord.arrangement.QualityRegistry;
 import music.chord.base.Constants;
-import music.chord.base.QualityRegistry;
 import music.chord.grammar.ChordQualityDefinitionLexer;
 import music.chord.grammar.ChordQualityDefinitionParser;
 

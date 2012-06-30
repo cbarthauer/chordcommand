@@ -8,8 +8,6 @@ import java.util.List;
 import music.chord.base.ChordMember;
 import music.chord.base.Constants;
 import music.chord.base.NoteName;
-import music.chord.base.QualityRegistry;
-import music.chord.base.QualityRegistryFactory;
 
 import org.junit.Before;
 import org.junit.Test;

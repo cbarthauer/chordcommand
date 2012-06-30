@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import music.chord.arrangement.BuilderFactory;
+import music.chord.arrangement.QualityRegistry;
+import music.chord.arrangement.QualityRegistryFactory;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.VoicedChordBuilder;
 import music.chord.base.Constants;
 import music.chord.base.NoteName;
-import music.chord.base.QualityRegistry;
-import music.chord.base.QualityRegistryFactory;
 
 import org.junit.BeforeClass;
 import org.junit.Test;

@@ -3,6 +3,7 @@ package music.chord.base;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import music.chord.arrangement.QualityRegistryImpl;
 
 import org.junit.Before;
 import org.junit.Test;

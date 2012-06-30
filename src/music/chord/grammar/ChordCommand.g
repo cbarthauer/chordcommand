@@ -15,6 +15,7 @@ options {
   import music.chord.arrangement.VoicedChord;
   import music.chord.arrangement.Voicing;
   import music.chord.arrangement.ChordVoicer;
+  import music.chord.arrangement.QualityRegistry;
   import music.chord.arrangement.VoicingFactory;
   import music.chord.arrangement.VoicePartPlayer;
   
@@ -22,7 +23,6 @@ options {
   import music.chord.base.Duration;
   import music.chord.base.NoteName;
   import music.chord.base.Quality;
-  import music.chord.base.QualityRegistry;
   import music.chord.base.VoicePart;
   
   import music.chord.command.AddChords;

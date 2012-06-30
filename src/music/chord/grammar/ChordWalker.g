@@ -18,6 +18,7 @@ options {
   import music.chord.arrangement.Voicing;
   import music.chord.arrangement.DerivedChordBuilder;
   import music.chord.arrangement.ChordVoicer;
+  import music.chord.arrangement.QualityRegistry;
   import music.chord.arrangement.VoicedChordBuilder;
   
   import music.chord.base.ChordMember;
@@ -26,7 +27,6 @@ options {
   import music.chord.base.Interval;
   import music.chord.base.NoteName;
   import music.chord.base.Quality;
-  import music.chord.base.QualityRegistry;
 }
 
 @members {
