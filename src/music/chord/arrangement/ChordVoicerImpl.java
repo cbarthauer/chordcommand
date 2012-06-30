@@ -5,12 +5,12 @@ import java.util.List;
 
 import music.chord.base.QualityRegistry;
 
-public final class QualityChordVoicer implements ChordVoicer {
+public final class ChordVoicerImpl implements ChordVoicer {
 
     private VoicingStrategy strategy;
     private QualityRegistry qualities;
 
-    public QualityChordVoicer(
+    public ChordVoicerImpl(
             VoicingStrategy strategy,
             QualityRegistry qualities) {
         

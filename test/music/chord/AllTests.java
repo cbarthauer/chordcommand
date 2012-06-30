@@ -1,8 +1,8 @@
 package music.chord;
 
 import music.chord.arrangement.ChordFinderTest;
+import music.chord.arrangement.ChordVoicerTest;
 import music.chord.arrangement.ClosestVoicingStrategyTest;
-import music.chord.arrangement.QualityChordVoicerTest;
 import music.chord.arrangement.QualityVoicedChordBuilderTest;
 import music.chord.base.QualityRegistryImplTest;
 import music.chord.display.FileFormatterTest;
@@ -19,9 +19,9 @@ import org.junit.runners.Suite.SuiteClasses;
     ChordEngineImplTest.class,
     ChordFinderTest.class,
     ChordListRegistryTest.class,
+    ChordVoicerTest.class,
     ClosestVoicingStrategyTest.class,
     FileFormatterTest.class,
-    QualityChordVoicerTest.class,
     QualityRegistryImplTest.class,
     QualityVoicedChordBuilderTest.class,
     RequestBuilderTest.class

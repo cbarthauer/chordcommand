@@ -12,7 +12,7 @@ import music.chord.base.QualityRegistryFactory;
 import org.junit.Before;
 import org.junit.Test;
 
-public class QualityChordVoicerTest {
+public class ChordVoicerTest {
 
     private ChordVoicer voicer;
     private VoicedChord previousChord;
@@ -23,10 +23,7 @@ public class QualityChordVoicerTest {
         QualityRegistry qualities = QualityRegistryFactory.getInstance(
             Constants.getChordDefinitions());
         
-        voicer = new QualityChordVoicer(
-                new ClosestVoicingStrategy(
-                        new DerivedChordBuilder()),
-                qualities);
+        voicer = ChordVoicerFactory.getInstance(qualities);
         
         VoicedChordBuilder builder = BuilderFactory.getTriadBuilder(
             NoteName.forSymbol("C"),

@@ -4,7 +4,7 @@ import music.chord.base.QualityRegistry;
 
 public final class ChordVoicerFactory {
 	public static ChordVoicer getInstance(QualityRegistry qualities) {
-        return new QualityChordVoicer(
+        return new ChordVoicerImpl(
                 new ClosestVoicingStrategy(new DerivedChordBuilder()),
                 qualities);
     }
