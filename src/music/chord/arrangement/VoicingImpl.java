@@ -7,7 +7,6 @@ import music.chord.base.ChordMember;
 import music.chord.base.Duration;
 import music.chord.base.Interval;
 import music.chord.base.NoteName;
-import music.chord.decorator.Chord;
 
 
 public final class VoicingImpl implements Voicing {
@@ -50,7 +49,7 @@ public final class VoicingImpl implements Voicing {
 	}
 
 	@Override
-    public final List<Note> voice(Chord chord, int octave, Duration duration) {
+    public final List<Note> voice(VoicedChord chord, int octave, Duration duration) {
 		if(chord == null) throw new IllegalArgumentException("Chord cannot be null.");
 		
 		NoteListBuilder builder = new NoteListBuilder();
