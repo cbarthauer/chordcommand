@@ -9,12 +9,12 @@ import music.chord.base.NoteName;
 import music.chord.base.Quality;
 import music.chord.base.VoicePart;
 
-public final class QualityVoicedChordBuilder implements VoicedChordBuilder {
+public final class VoicedChordBuilderImpl implements VoicedChordBuilder {
 
     private VoicedChordConfig defaultConfig;
     private VoicedChordConfig currentConfig;    
     
-    public QualityVoicedChordBuilder(VoicedChordConfig chordConfig) {
+    public VoicedChordBuilderImpl(VoicedChordConfig chordConfig) {
         this.defaultConfig = chordConfig;
         this.currentConfig = chordConfig;
     }
@@ -35,7 +35,7 @@ public final class QualityVoicedChordBuilder implements VoicedChordBuilder {
     }
     
     @Override
-    public final QualityVoicedChordBuilder setChord(VoicedChord chord) {
+    public final VoicedChordBuilderImpl setChord(VoicedChord chord) {
         currentConfig = new VoicedChordConfig(
             chord.noteNameFromChordMember(ChordMember.ROOT),
             chord.getQuality(),
@@ -48,13 +48,13 @@ public final class QualityVoicedChordBuilder implements VoicedChordBuilder {
     }
     
     @Override
-    public final QualityVoicedChordBuilder setDuration(Duration duration) {
+    public final VoicedChordBuilderImpl setDuration(Duration duration) {
         currentConfig = new VoicedChordConfig(duration, currentConfig);
         return this;
     }
     
     @Override
-    public final QualityVoicedChordBuilder setOctave(int octave) {
+    public final VoicedChordBuilderImpl setOctave(int octave) {
         currentConfig = new VoicedChordConfig(octave, currentConfig);
         return this;
     }
@@ -77,13 +77,13 @@ public final class QualityVoicedChordBuilder implements VoicedChordBuilder {
     }
 
     @Override
-    public final QualityVoicedChordBuilder setVoicePartList(List<VoicePart> partList) {
+    public final VoicedChordBuilderImpl setVoicePartList(List<VoicePart> partList) {
         currentConfig = new VoicedChordConfig(partList, currentConfig);
         return this;
     }
 
     @Override
-    public final QualityVoicedChordBuilder setVoicing(Voicing voicing) {
+    public final VoicedChordBuilderImpl setVoicing(Voicing voicing) {
         currentConfig = new VoicedChordConfig(voicing, currentConfig);
         return this;
     }

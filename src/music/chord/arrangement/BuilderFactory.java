@@ -20,7 +20,7 @@ public class BuilderFactory {
         ninthVoicing.addChordMember(ChordMember.NINTH);
         ninthVoicing.addChordMember(ChordMember.THIRD);
         
-        VoicedChordBuilder ninthBuilder = new QualityVoicedChordBuilder(
+        VoicedChordBuilder ninthBuilder = new VoicedChordBuilderImpl(
             new VoicedChordConfig(
                 defaultRoot,
                 defaultQuality,
@@ -42,7 +42,7 @@ public class BuilderFactory {
         seventhVoicing.addChordMember(ChordMember.SEVENTH);
         seventhVoicing.addChordMember(ChordMember.THIRD);
         
-        VoicedChordBuilder builder = new QualityVoicedChordBuilder(
+        VoicedChordBuilder builder = new VoicedChordBuilderImpl(
             new VoicedChordConfig(
                 defaultRoot,
                 defaultQuality,
@@ -64,7 +64,7 @@ public class BuilderFactory {
         triadVoicing.addChordMember(ChordMember.ROOT);
         triadVoicing.addChordMember(ChordMember.THIRD);
         
-        VoicedChordBuilder triadBuilder = new QualityVoicedChordBuilder(
+        VoicedChordBuilder triadBuilder = new VoicedChordBuilderImpl(
             new VoicedChordConfig(
                 defaultRoot,
                 defaultQuality,
