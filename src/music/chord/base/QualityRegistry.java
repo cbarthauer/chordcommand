@@ -10,4 +10,5 @@ public interface QualityRegistry {
     public boolean contains(Quality quality);
     public Quality forName(String name);
     public List<Voicing> forQuality(Quality quality);
+    public List<Voicing> getCongruentVoicings(Voicing voicing);
 }

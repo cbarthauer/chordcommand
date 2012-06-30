@@ -4,65 +4,74 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
 import java.util.List;
 
 import music.chord.TestHelper;
 import music.chord.arrangement.BuilderFactory;
-import music.chord.arrangement.ChordDefinitionStructure;
 import music.chord.arrangement.ChordVoicerFactory;
+import music.chord.arrangement.DerivedChordBuilder;
 import music.chord.arrangement.VoicedChord;
+import music.chord.arrangement.VoicedChordBuilder;
 import music.chord.arrangement.Voicing;
 import music.chord.arrangement.VoicingFactory;
 import music.chord.base.ChordMember;
-import music.chord.base.ChordPair;
 import music.chord.base.Constants;
 import music.chord.base.Duration;
 import music.chord.base.NoteName;
 import music.chord.base.QualityEnum;
+import music.chord.base.QualityRegistry;
+import music.chord.base.QualityRegistryFactory;
 import music.chord.engine.protocol.ChordRequest;
 import music.chord.engine.protocol.Identifier;
 import music.chord.engine.protocol.LoadRequest;
 import music.chord.engine.protocol.RequestBuilder;
-import music.chord.grammar.ChordDefinitionStructureFactory;
+import music.chord.grammar.ChordListRegistry;
 
-import org.antlr.runtime.RecognitionException;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class ChordEngineImplTest {
-    private static ChordDefinitionStructure struct;
-    
-    @BeforeClass
-    public static void setUpClass() throws IOException, RecognitionException {
-        struct = ChordDefinitionStructureFactory.getInstance(Constants.getChordDefinitions());
-    }
-    
+        
     private ChordEngine engine;
     private Identifier id;
     private RequestBuilder builder;
     private TestHelper helper;
     private ChordRequest request;
+    private QualityRegistry qualities;
     
     @Before
     public void setUp() throws Exception {
+        qualities = QualityRegistryFactory.getInstance(
+                Constants.getChordDefinitions());
+        
+        VoicedChordBuilder triadBuilder = BuilderFactory.getTriadBuilder(
+                NoteName.forSymbol("C"),
+                qualities.forName("MAJOR_TRIAD"));
+        VoicedChordBuilder seventhBuilder = BuilderFactory.getSeventhBuilder(
+                NoteName.forSymbol("C"),
+                qualities.forName("DOMINANT_SEVENTH"));
+        VoicedChordBuilder ninthBuilder = BuilderFactory.getNinthBuilder(
+                NoteName.forSymbol("C"),
+                qualities.forName("DOMINANT_NINTH"));
+        
         engine = new ChordEngineImpl(
-            BuilderFactory.getTriadBuilder(struct),
-            BuilderFactory.getSeventhBuilder(struct),
-            BuilderFactory.getNinthBuilder(struct),
-            ChordVoicerFactory.getInstance(struct),
-            struct);
+                triadBuilder,
+                seventhBuilder,
+                ninthBuilder,
+                new DerivedChordBuilder(),
+                new ChordListRegistry(),
+                ChordVoicerFactory.getInstance(qualities),
+                qualities);
         
         id = new Identifier("default");
         builder = new RequestBuilder(id);
         helper = new TestHelper();
         
         request = builder.chordRequest(
-            helper.getChord("C", QualityEnum.MAJOR_TRIAD),
-            helper.getChord("D", QualityEnum.MINOR_TRIAD),
-            helper.getChord("G", QualityEnum.DOMINANT_SEVENTH),
-            helper.getChord("C", QualityEnum.MAJOR_TRIAD));
+            helper.getChord("C", "MAJOR_TRIAD"),
+            helper.getChord("D", "MINOR_TRIAD"),
+            helper.getChord("G", "DOMINANT_SEVENTH"),
+            helper.getChord("C", "MAJOR_TRIAD"));
     }
     
     @Test
@@ -75,7 +84,10 @@ public class ChordEngineImplTest {
     @Test
     public void createChord() {
         VoicedChord chord = engine.createChord(
-            new ChordPair(NoteName.forSymbol("C"), QualityEnum.MAJOR_TRIAD));
+            builder.createChordRequest(
+                NoteName.forSymbol("C"), 
+                qualities.forName("MAJOR_TRIAD")));
+        
         assertEquals(NoteName.forSymbol("C"), chord.noteNameFromChordMember(ChordMember.ROOT));
         assertEquals(QualityEnum.MAJOR_TRIAD, chord.getQualityEnum());
     }
@@ -86,8 +98,8 @@ public class ChordEngineImplTest {
             .insertChords(
                 builder.insertRequest(
                     2, 
-                    helper.getChord("Eb", QualityEnum.MINOR_SEVENTH),
-                    helper.getChord("F#", QualityEnum.MINOR_SEVENTH)));
+                    helper.getChord("Eb", "MINOR_SEVENTH"),
+                    helper.getChord("F#", "MINOR_SEVENTH")));
         
         assertEquals("Dm", engine.byIdentifier(id).get(1).getSymbol());
         assertEquals("Ebm7", engine.byIdentifier(id).get(2).getSymbol());

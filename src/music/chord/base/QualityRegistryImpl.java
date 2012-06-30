@@ -12,11 +12,13 @@ public final class QualityRegistryImpl implements QualityRegistry {
     private Map<String, Quality> nameMap;
     private Map<ChordType, List<Quality>> typeMap;
     private Map<ChordType, List<Voicing>> voicingMap;
+    private List<Voicing> voicingList;
     
     public QualityRegistryImpl() {
         this.nameMap = new HashMap<String, Quality>();
         this.typeMap = new HashMap<ChordType, List<Quality>>();
         this.voicingMap = new HashMap<ChordType, List<Voicing>>();
+        this.voicingList = new ArrayList<Voicing>();
     }
     
     public final void addQuality(Quality quality) {
@@ -35,35 +37,24 @@ public final class QualityRegistryImpl implements QualityRegistry {
     
     public final void addVoicings(ChordType type, List<Voicing> voicings) {
         voicingMap.put(type, new ArrayList<Voicing>(voicings));
+        voicingList.addAll(voicings);
     }
 
-    /* (non-Javadoc)
-     * @see music.chord.base.QualityRegistry#all()
-     */
     @Override
     public final List<Quality> all() {
         return new ArrayList<Quality>(nameMap.values());
     }
 
-    /* (non-Javadoc)
-     * @see music.chord.base.QualityRegistry#all(music.chord.base.ChordType)
-     */
     @Override
     public final List<Quality> all(ChordType type) {
         return typeMap.get(type);
     }
 
-    /* (non-Javadoc)
-     * @see music.chord.base.QualityRegistry#contains(music.chord.base.Quality)
-     */
     @Override
     public final boolean contains(Quality quality) {
         return nameMap.containsValue(quality);
     }
 
-    /* (non-Javadoc)
-     * @see music.chord.base.QualityRegistry#forName(java.lang.String)
-     */
     @Override
     public final Quality forName(String name) {
         return nameMap.get(name);
@@ -72,6 +63,19 @@ public final class QualityRegistryImpl implements QualityRegistry {
     @Override
     public final List<Voicing> forQuality(Quality quality) {
         return voicingMap.get(quality.getType());
+    }
+
+    @Override
+    public final List<Voicing> getCongruentVoicings(Voicing voicing) {
+        List<Voicing> result = new ArrayList<Voicing>();
+        
+        for(Voicing currentVoicing : voicingList) {
+            if(currentVoicing.isCongruentTo(voicing)) {
+                result.add(currentVoicing);
+            }
+        }
+        
+        return result;
     }
 
     public final String toString() {

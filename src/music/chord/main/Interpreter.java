@@ -6,12 +6,11 @@ import java.util.List;
 import java.util.Scanner;
 
 import music.chord.arrangement.BuilderFactory;
-import music.chord.arrangement.ChordDefinitionStructure;
 import music.chord.arrangement.ChordFinder;
+import music.chord.arrangement.ChordFinderImpl;
 import music.chord.arrangement.ChordPlayer;
 import music.chord.arrangement.ChordVoicer;
 import music.chord.arrangement.ChordVoicerFactory;
-import music.chord.arrangement.ChordFinderImpl;
 import music.chord.arrangement.VoicePartPlayer;
 import music.chord.arrangement.VoicedChordBuilder;
 import music.chord.base.Constants;
@@ -23,7 +22,6 @@ import music.chord.engine.ChordEngine;
 import music.chord.engine.ChordEngineBuilder;
 import music.chord.grammar.ChordCommandLexer;
 import music.chord.grammar.ChordCommandParser;
-import music.chord.grammar.ChordDefinitionStructureFactory;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CharStream;
@@ -40,28 +38,28 @@ public class Interpreter {
 	public static void main(String[] args) throws IOException, RecognitionException {
 		Scanner scanner = new Scanner(System.in);
 		String line = "";
-		ChordDefinitionStructure struct = ChordDefinitionStructureFactory.getInstance(
-		        Constants.getChordDefinitions());
 		QualityRegistry qualities = QualityRegistryFactory.getInstance(
 		        Constants.getChordDefinitions());
 		
-		VoicedChordBuilder triadBuilder = BuilderFactory.getTriadBuilder(struct);
-		VoicedChordBuilder seventhBuilder = BuilderFactory.getSeventhBuilder(struct);
-		VoicedChordBuilder ninthBuilder = BuilderFactory.getNinthBuilder(struct);
-		ChordVoicer voicer = ChordVoicerFactory.getInstance(struct);
+		VoicedChordBuilder triadBuilder = BuilderFactory.getTriadBuilder(
+                NoteName.forSymbol("C"),
+                qualities.forName("MAJOR_TRIAD"));
+		VoicedChordBuilder seventhBuilder = BuilderFactory.getSeventhBuilder(
+                NoteName.forSymbol("C"),
+                qualities.forName("DOMINANT_SEVENTH"));
+		VoicedChordBuilder ninthBuilder = BuilderFactory.getNinthBuilder(
+                NoteName.forSymbol("C"),
+                qualities.forName("DOMINANT_NINTH"));
+		
+		ChordVoicer voicer = ChordVoicerFactory.getInstance(qualities);
+		
 		ChordEngine engine = ChordEngineBuilder.build(
-		        triadBuilder, seventhBuilder, ninthBuilder, voicer, struct);
+		        triadBuilder, seventhBuilder, ninthBuilder, voicer, qualities);
 		
 		ChordFinder finder = new ChordFinderImpl(
-                BuilderFactory.getTriadBuilder(
-                    NoteName.forSymbol("C"),
-                    qualities.forName("MAJOR_TRIAD")),
-                BuilderFactory.getSeventhBuilder(
-                    NoteName.forSymbol("C"),
-                    qualities.forName("DOMINANT_SEVENTH")),
-                BuilderFactory.getNinthBuilder(
-                    NoteName.forSymbol("C"),
-                    qualities.forName("DOMINANT_NINTH")),
+                triadBuilder,
+                seventhBuilder,
+                ninthBuilder,
                 qualities.all());		
 		
 		while(true) {
@@ -74,6 +72,7 @@ public class Interpreter {
 			parser.setChordFinder(finder);
 			parser.setChordVoicer(voicer);
 			parser.setChordPlayer(new ChordPlayer());
+			parser.setQualityRegistry(qualities);
 			parser.setVoicePartPlayer(new VoicePartPlayer());
 			
 			List<Command> commandList = commandListFromParser(parser);

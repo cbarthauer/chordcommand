@@ -1,8 +1,10 @@
 package music.chord.engine;
 
-import music.chord.arrangement.ChordDefinitionStructure;
 import music.chord.arrangement.ChordVoicer;
+import music.chord.arrangement.DerivedChordBuilder;
 import music.chord.arrangement.VoicedChordBuilder;
+import music.chord.base.QualityRegistry;
+import music.chord.grammar.ChordListRegistry;
 
 public final class ChordEngineBuilder {
     private ChordEngineBuilder() {
@@ -14,7 +16,15 @@ public final class ChordEngineBuilder {
             VoicedChordBuilder seventhBuilder, 
             VoicedChordBuilder ninthBuilder,
             ChordVoicer voicer,
-            ChordDefinitionStructure struct) {
-        return new ChordEngineImpl(triadBuilder, seventhBuilder, ninthBuilder, voicer, struct);
+            QualityRegistry qualities) {
+        
+        return new ChordEngineImpl(
+                triadBuilder, 
+                seventhBuilder, 
+                ninthBuilder,
+                new DerivedChordBuilder(),
+                new ChordListRegistry(),
+                voicer,
+                qualities);
     }
 }

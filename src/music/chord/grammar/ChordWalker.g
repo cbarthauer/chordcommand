@@ -26,7 +26,8 @@ options {
   import music.chord.base.Duration;
   import music.chord.base.Interval;
   import music.chord.base.NoteName;
-  import music.chord.base.QualityEnum;
+  import music.chord.base.Quality;
+  import music.chord.base.QualityRegistry;
 }
 
 @members {
@@ -35,11 +36,16 @@ options {
   VoicedChordBuilder triadBuilder;
   VoicedChordBuilder seventhBuilder; 
   VoicedChordBuilder ninthBuilder;
+  QualityRegistry qualities;
   
   public void setNinthBuilder(VoicedChordBuilder ninthBuilder) {
     this.ninthBuilder = ninthBuilder;
   }
     
+  public void setQualityRegistry(QualityRegistry qualities) {
+    this.qualities = qualities;
+  }
+  
   public void setSeventhBuilder(VoicedChordBuilder seventhBuilder) {
     this.seventhBuilder = seventhBuilder;
   }
@@ -77,34 +83,26 @@ chord returns [VoicedChord value]
 chordSpec returns [VoicedChord chord]
     : ^(SPEC NOTE_NAME tquality=triadQuality) { chord =
             triadBuilder
-                .setPair(
-                    new ChordPair(
-                        NoteName.forSymbol($NOTE_NAME.text), 
-                        $tquality.value))
+                .setRoot(NoteName.forSymbol($NOTE_NAME.text)) 
+                .setQuality($tquality.value)
                 .buildVoicedChord();
          }
     | ^(SPEC NOTE_NAME) {chord =
             triadBuilder
-                .setPair(
-                    new ChordPair(
-                        NoteName.forSymbol($NOTE_NAME.text), 
-                        QualityEnum.MAJOR_TRIAD))
+                .setRoot(NoteName.forSymbol($NOTE_NAME.text)) 
+                .setQuality(qualities.forName("MAJOR_TRIAD"))
                 .buildVoicedChord();
          }
     | ^(SPEC NOTE_NAME squality=seventhQuality) {chord =
             seventhBuilder
-                .setPair(
-                    new ChordPair(
-                        NoteName.forSymbol($NOTE_NAME.text), 
-                        $squality.value))
+                .setRoot(NoteName.forSymbol($NOTE_NAME.text)) 
+                .setQuality($squality.value)
                 .buildVoicedChord();
          }
     | ^(SPEC NOTE_NAME nquality=ninthQuality) {chord =
             ninthBuilder
-                .setPair(
-                    new ChordPair(
-                        NoteName.forSymbol($NOTE_NAME.text), 
-                        $nquality.value))
+                .setRoot(NoteName.forSymbol($NOTE_NAME.text)) 
+                .setQuality($nquality.value)
                 .buildVoicedChord();
          }
     ;
@@ -130,25 +128,25 @@ chordMember returns [ChordMember value]
     | NINTH {$value = ChordMember.NINTH;}
     ;
     
-triadQuality returns [QualityEnum value]
-    : MAJOR { $value = QualityEnum.MAJOR_TRIAD; }
-    | MINOR { $value = QualityEnum.MINOR_TRIAD; }
-    | AUGMENTED { $value = QualityEnum.AUGMENTED_TRIAD; }
-    | DIMINISHED { $value = QualityEnum.DIMINISHED_TRIAD; }
-    | SUSPENDED { $value = QualityEnum.SUSPENDED_TRIAD; }
+triadQuality returns [Quality value]
+    : MAJOR { $value = qualities.forName("MAJOR_TRIAD"); }
+    | MINOR { $value = qualities.forName("MINOR_TRIAD"); }
+    | AUGMENTED { $value = qualities.forName("AUGMENTED_TRIAD"); }
+    | DIMINISHED { $value = qualities.forName("DIMINISHED_TRIAD"); }
+    | SUSPENDED { $value = qualities.forName("SUSPENDED_TRIAD"); }
     ;
     
-seventhQuality returns [QualityEnum value]
-    : DOMINANT_SEVEN { $value = QualityEnum.DOMINANT_SEVENTH; }
-    | MINOR_SEVEN { $value = QualityEnum.MINOR_SEVENTH; }
-    | MAJOR_SEVEN { $value = QualityEnum.MAJOR_SEVENTH; }
-    | DIMINISHED_SEVEN { $value = QualityEnum.DIMINISHED_SEVENTH; }
-    | HALF_DIMINISHED_SEVEN { $value = QualityEnum.HALF_DIMINISHED_SEVENTH; }
-    | SUSPENDED_SEVEN { $value = QualityEnum.SUSPENDED_SEVENTH; }
+seventhQuality returns [Quality value]
+    : DOMINANT_SEVEN { $value = qualities.forName("DOMINANT_SEVENTH"); }
+    | MINOR_SEVEN { $value = qualities.forName("MINOR_SEVENTH"); }
+    | MAJOR_SEVEN { $value = qualities.forName("MAJOR_SEVENTH"); }
+    | DIMINISHED_SEVEN { $value = qualities.forName("DIMINISHED_SEVENTH"); }
+    | HALF_DIMINISHED_SEVEN { $value = qualities.forName("HALF_DIMINISHED_SEVENTH"); }
+    | SUSPENDED_SEVEN { $value = qualities.forName("SUSPENDED_SEVENTH"); }
     ;
     
-ninthQuality returns [QualityEnum value]
-    : DOMINANT_NINE { $value = QualityEnum.DOMINANT_NINTH; }
-    | MINOR_NINE { $value = QualityEnum.MINOR_NINTH; }
-    | MAJOR_NINE { $value = QualityEnum.MAJOR_NINTH; }
+ninthQuality returns [Quality value]
+    : DOMINANT_NINE { $value = qualities.forName("DOMINANT_NINTH"); }
+    | MINOR_NINE { $value = qualities.forName("MINOR_NINTH"); }
+    | MAJOR_NINE { $value = qualities.forName("MAJOR_NINTH"); }
     ;

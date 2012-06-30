@@ -22,7 +22,8 @@ options {
   import music.chord.base.ChordPair;
   import music.chord.base.Duration;
   import music.chord.base.NoteName;
-  import music.chord.base.QualityEnum;
+  import music.chord.base.Quality;
+  import music.chord.base.QualityRegistry;
   import music.chord.base.VoicePart;
   
   import music.chord.command.AddChords;
@@ -45,6 +46,7 @@ options {
   
   import music.chord.engine.ChordEngine;
   import music.chord.engine.protocol.ChordRequest;
+  import music.chord.engine.protocol.CreateChordRequest;
   import music.chord.engine.protocol.Identifier;
   import music.chord.engine.protocol.InsertChordRequest;
   import music.chord.engine.protocol.LoadRequest;
@@ -64,6 +66,7 @@ options {
   ChordVoicer voicer;
   VoicePartPlayer voicePartPlayer;
   ChordFinder chordFinder;
+  QualityRegistry qualities;
   
   public void setChordFinder(ChordFinder chordFinder) {
     this.chordFinder = chordFinder;
@@ -79,6 +82,10 @@ options {
     
   public void setChordPlayer(ChordPlayer player) {
     this.player = player;
+  }
+  
+  public void setQualityRegistry(QualityRegistry qualities) {
+    this.qualities = qualities;
   }
   
   public void setVoicePartPlayer(VoicePartPlayer voicePartPlayer) {
@@ -377,7 +384,13 @@ chordList returns [List<VoicedChord> value]
   ;
 
 chord returns [VoicedChord value]
-    : currentPair=chordSpec {value = engine.createChord($currentPair.value);}
+    : spec=chordSpec {
+        RequestBuilder builder = new RequestBuilder(new Identifier(""));
+        value = engine.createChord(
+            builder.createChordRequest(
+                $spec.root,
+                $spec.quality));
+    }
     ;
     
 range returns [List<Integer> value]
@@ -397,18 +410,22 @@ rangeAtom[List<Integer> value]
     }
   ;
         
-chordSpec returns [ChordPair value]
-    : NOTE_NAME tquality=triadQuality { value = 
-        new ChordPair(NoteName.forSymbol($NOTE_NAME.text), $tquality.value);
+chordSpec returns [NoteName root, Quality quality]
+    : NOTE_NAME tquality=triadQuality { 
+        $root = NoteName.forSymbol($NOTE_NAME.text);
+        $quality = $tquality.value;
     }
-    | NOTE_NAME { value = 
-        new ChordPair(NoteName.forSymbol($NOTE_NAME.text), QualityEnum.MAJOR_TRIAD);
+    | NOTE_NAME {         
+        $root = NoteName.forSymbol($NOTE_NAME.text);
+        $quality = qualities.forName("MAJOR_TRIAD");
     }
-    | NOTE_NAME squality=seventhQuality { value = 
-        new ChordPair(NoteName.forSymbol($NOTE_NAME.text), $squality.value);
+    | NOTE_NAME squality=seventhQuality { 
+        $root = NoteName.forSymbol($NOTE_NAME.text);
+        $quality = $squality.value;
     }
-    | NOTE_NAME nquality=ninthQuality { value = 
-        new ChordPair(NoteName.forSymbol($NOTE_NAME.text), $nquality.value);
+    | NOTE_NAME nquality=ninthQuality { 
+        $root = NoteName.forSymbol($NOTE_NAME.text);
+        $quality = $nquality.value;
     }
     ;
 
@@ -420,27 +437,27 @@ chordMember returns [ChordMember value]
     | NINTH {$value = ChordMember.NINTH;}
     ;
     
-triadQuality returns [QualityEnum value]
-    : MAJOR { $value = QualityEnum.MAJOR_TRIAD; }
-    | MINOR { $value = QualityEnum.MINOR_TRIAD; }
-    | AUGMENTED { $value = QualityEnum.AUGMENTED_TRIAD; }
-    | DIMINISHED { $value = QualityEnum.DIMINISHED_TRIAD; }
-    | SUSPENDED { $value = QualityEnum.SUSPENDED_TRIAD; }
+triadQuality returns [Quality value]
+    : MAJOR { $value = qualities.forName("MAJOR_TRIAD"); }
+    | MINOR { $value = qualities.forName("MINOR_TRIAD"); }
+    | AUGMENTED { $value = qualities.forName("AUGMENTED_TRIAD"); }
+    | DIMINISHED { $value = qualities.forName("DIMINISHED_TRIAD"); }
+    | SUSPENDED { $value = qualities.forName("SUSPENDED_TRIAD"); }
     ;
     
-seventhQuality returns [QualityEnum value]
-    : DOMINANT_SEVEN { $value = QualityEnum.DOMINANT_SEVENTH; }
-    | MINOR_SEVEN { $value = QualityEnum.MINOR_SEVENTH; }
-    | MAJOR_SEVEN { $value = QualityEnum.MAJOR_SEVENTH; }
-    | DIMINISHED_SEVEN { $value = QualityEnum.DIMINISHED_SEVENTH; }
-    | HALF_DIMINISHED_SEVEN { $value = QualityEnum.HALF_DIMINISHED_SEVENTH; }
-    | SUSPENDED_SEVEN { $value = QualityEnum.SUSPENDED_SEVENTH; }
+seventhQuality returns [Quality value]
+    : DOMINANT_SEVEN { $value = qualities.forName("DOMINANT_SEVENTH"); }
+    | MINOR_SEVEN { $value = qualities.forName("MINOR_SEVENTH"); }
+    | MAJOR_SEVEN { $value = qualities.forName("MAJOR_SEVENTH"); }
+    | DIMINISHED_SEVEN { $value = qualities.forName("DIMINISHED_SEVENTH"); }
+    | HALF_DIMINISHED_SEVEN { $value = qualities.forName("HALF_DIMINISHED_SEVENTH"); }
+    | SUSPENDED_SEVEN { $value = qualities.forName("SUSPENDED_SEVENTH"); }
     ;
     
-ninthQuality returns [QualityEnum value]
-    : DOMINANT_NINE { $value = QualityEnum.DOMINANT_NINTH; }
-    | MINOR_NINE { $value = QualityEnum.MINOR_NINTH; }
-    | MAJOR_NINE { $value = QualityEnum.MAJOR_NINTH; }
+ninthQuality returns [Quality value]
+    : DOMINANT_NINE { $value = qualities.forName("DOMINANT_NINTH"); }
+    | MINOR_NINE { $value = qualities.forName("MINOR_NINTH"); }
+    | MAJOR_NINE { $value = qualities.forName("MAJOR_NINTH"); }
     ;
     
 voicePart returns [VoicePart value]
