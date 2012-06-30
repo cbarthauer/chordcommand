@@ -3,39 +3,29 @@ package music.chord.display;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import music.chord.arrangement.BuilderFactory;
-import music.chord.arrangement.ChordDefinitionStructure;
+import music.chord.arrangement.QualityRegistry;
+import music.chord.arrangement.QualityRegistryFactory;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.VoicedChordBuilder;
-import music.chord.base.ChordMember;
-import music.chord.base.ChordPair;
-import music.chord.base.Interval;
-import music.chord.base.IntervalDirective;
+import music.chord.base.Constants;
 import music.chord.base.NoteName;
-import music.chord.base.Quality;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class FileFormatterTest {
-
-    private static HashMap<ChordMember, IntervalDirective> dirMap;
-    private static ChordDefinitionStructure struct;
     private static VoicedChordBuilder triadBuilder;
+    private static QualityRegistry qualities;
 
     @BeforeClass
     public static void setUp() throws Exception {
-        dirMap = new HashMap<ChordMember, IntervalDirective>();
-        dirMap.put(ChordMember.THIRD, new IntervalDirective(Interval.MAJOR_THIRD));
-        dirMap.put(ChordMember.FIFTH, new IntervalDirective(Interval.PERFECT_FIFTH));
-        
-        struct = new ChordDefinitionStructure();
-        struct.addQuality(Quality.MAJOR_TRIAD, dirMap);
-        
-        triadBuilder = BuilderFactory.getTriadBuilder(struct);
+        qualities = QualityRegistryFactory.getInstance(Constants.getChordDefinitions());
+        triadBuilder = BuilderFactory.getTriadBuilder(
+                NoteName.forSymbol("C"), 
+                qualities.forName("MAJOR_TRIAD"));
     }
 
     @Test
@@ -53,7 +43,8 @@ public class FileFormatterTest {
     }
 
     private VoicedChord majorTriad(NoteName root) {
-        return triadBuilder.setPair(new ChordPair(root, Quality.MAJOR_TRIAD))
+        return triadBuilder.setRoot(root)
+                .setQuality(qualities.forName("MAJOR_TRIAD"))
                 .buildVoicedChord();
     }
 

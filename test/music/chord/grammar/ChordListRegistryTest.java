@@ -7,7 +7,6 @@ import java.util.List;
 
 import music.chord.TestHelper;
 import music.chord.arrangement.VoicedChord;
-import music.chord.base.Quality;
 import music.chord.engine.protocol.Identifier;
 
 import org.junit.Before;
@@ -28,7 +27,7 @@ public class ChordListRegistryTest {
 
     @Test
     public void add() {
-        VoicedChord chord1 = helper.getChord("C", Quality.MAJOR_TRIAD);
+        VoicedChord chord1 = helper.getChord("C", "MAJOR_TRIAD");
         reg.add(c1, chord1);
         reg.add(c1, chord1);
         
@@ -38,7 +37,7 @@ public class ChordListRegistryTest {
     
     @Test
     public void byIdentifier() {
-        VoicedChord chord1 = helper.getChord("C", Quality.MAJOR_TRIAD);
+        VoicedChord chord1 = helper.getChord("C", "MAJOR_TRIAD");
             
         List<VoicedChord> chordList = new ArrayList<VoicedChord>();
         chordList.add(chord1);
@@ -56,7 +55,7 @@ public class ChordListRegistryTest {
 
     @Test
     public void getChord() {
-        VoicedChord chord1 = helper.getChord("C", Quality.MAJOR_TRIAD);
+        VoicedChord chord1 = helper.getChord("C", "MAJOR_TRIAD");
         reg.add(c1, chord1);
         
         VoicedChord fromReg = reg.getChord(c1, 0);
@@ -65,10 +64,10 @@ public class ChordListRegistryTest {
     
     @Test
     public void set() {
-        VoicedChord chord1 = helper.getChord("C", Quality.MAJOR_TRIAD);
+        VoicedChord chord1 = helper.getChord("C", "MAJOR_TRIAD");
         reg.add(c1, chord1);
         
-        VoicedChord chord2 = helper.getChord("D", Quality.DIMINISHED_SEVENTH);
+        VoicedChord chord2 = helper.getChord("D", "DIMINISHED_SEVENTH");
         reg.set(c1, 0, chord2);
         
         assertEquals(chord2.getSymbol(), reg.byIdentifier(c1).get(0).getSymbol());

@@ -1,4 +1,4 @@
-grammar ChordDefinition;
+grammar ChordQualityDefinition;
 
 options {
   language = Java;
@@ -12,7 +12,8 @@ options {
     import java.util.List;
     import java.util.Map;
     
-    import music.chord.arrangement.ChordDefinitionStructure;
+    import music.chord.arrangement.QualityRegistry;
+    import music.chord.arrangement.QualityRegistryImpl;
     import music.chord.arrangement.Voicing;
     import music.chord.arrangement.VoicingFactory;
     
@@ -20,7 +21,8 @@ options {
     import music.chord.base.ChordType;
     import music.chord.base.Interval;
     import music.chord.base.IntervalDirective;
-    import music.chord.base.Quality;
+    import music.chord.base.IntervallicStructureBuilder;
+    import music.chord.base.QualityBuilder;
 }
 
 @lexer::header {
@@ -28,8 +30,8 @@ options {
 }
 
 @members {
-    ChordDefinitionStructure struct = new ChordDefinitionStructure();
     ChordType currentType;
+    QualityRegistryImpl registry = new QualityRegistryImpl();
 }
 
 //Whitespace
@@ -79,43 +81,52 @@ VOICINGS: 'Voicings';
 NAME: ('a'..'z' | 'A'..'Z' | '_')+ 
   ;
     
-program returns [ChordDefinitionStructure chordDefinitionStructure]
-  : definition+ EOF { chordDefinitionStructure = struct; }
+program returns [QualityRegistry value]
+@init { value = registry; }
+  : definition+ EOF 
   ;
 
 definition:
   DEFINE name1=NAME { currentType = ChordType.forName($name1.text); }
   BEGIN
     chordStructure+
-    voicingList
+    voicingList { registry.addVoicings(currentType, $voicingList.value); }
   END NAME
   ;
   
 
-chordStructure: 
-  QUALITY ':' NAME
+chordStructure 
+@init { 
+  QualityBuilder qualityBuilder = new QualityBuilder();
+  IntervallicStructureBuilder structBuilder = new IntervallicStructureBuilder(); 
+}
+@after {
+  qualityBuilder.setType(currentType);
+  qualityBuilder.setIntervallicStructure(structBuilder.build());
+  registry.addQuality(qualityBuilder.build());
+}
+  : QUALITY ':' NAME { qualityBuilder.setName($NAME.text + "_" + currentType.name()); }
   INTERVALLIC STRUCTURE ':'
     START_LIST 
-      { Map<ChordMember, IntervalDirective> dirMap 
-          = new HashMap<ChordMember, IntervalDirective>(); }
       ROOT ','
-      dir1=intervalDirective {dirMap.putAll($dir1.value);}
-      (',' dir2=intervalDirective {dirMap.putAll($dir2.value);})*
+      dir1=intervalDirective {structBuilder.add($dir1.member, $dir1.directive);}
+      (',' dir2=intervalDirective {structBuilder.add($dir2.member, $dir2.directive);})*
     END_LIST
-    { struct.addQuality(Quality.forName($NAME.text + "_" + currentType), dirMap); }
   ;
   
-intervalDirective returns [Map<ChordMember, IntervalDirective> value]
+intervalDirective returns [ChordMember member, IntervalDirective directive]
   : DIRECTION_UP currentInterval=interval TO currentMember=chordMember { 
-      value = new HashMap<ChordMember, IntervalDirective>(); 
-      value.put($currentMember.value, new IntervalDirective($currentInterval.value)); }
+      $member = $currentMember.value;
+      $directive = new IntervalDirective($currentInterval.value); 
+  }
   ;
 
-voicingList: 
-  VOICINGS ':'
+voicingList returns [List<Voicing> value]
+@init { value = new ArrayList<Voicing>(); } 
+  : VOICINGS ':'
   START_LIST
-    voicing1=voicing { struct.addVoicing(currentType, $voicing1.value); }
-    (',' voicing2=voicing { struct.addVoicing(currentType, $voicing2.value); })*
+    voicing1=voicing { value.add($voicing1.value); }
+    (',' voicing2=voicing { value.add($voicing2.value); })*
   END_LIST
   ;
   

@@ -7,15 +7,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import music.chord.arrangement.BuilderFactory;
-import music.chord.arrangement.ChordDefinitionStructure;
 import music.chord.arrangement.ChordVoicer;
 import music.chord.arrangement.DerivedChordBuilder;
+import music.chord.arrangement.QualityRegistry;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.VoicedChordBuilder;
-import music.chord.base.ChordPair;
 import music.chord.base.ChordType;
 import music.chord.engine.protocol.ChordRequest;
+import music.chord.engine.protocol.CreateChordRequest;
 import music.chord.engine.protocol.DurationRequest;
 import music.chord.engine.protocol.Identifier;
 import music.chord.engine.protocol.InsertChordRequest;
@@ -42,24 +41,26 @@ class ChordEngineImpl implements ChordEngine {
     private Map<ChordType, VoicedChordBuilder> builderMap;
     private DerivedChordBuilder derivedBuilder;
     private ChordListRegistry registry;
-    private ChordDefinitionStructure struct;
     private ChordVoicer voicer;
+    private QualityRegistry qualities;
     
     public ChordEngineImpl(
             VoicedChordBuilder triadBuilder,
             VoicedChordBuilder seventhBuilder,
             VoicedChordBuilder ninthBuilder,
+            DerivedChordBuilder derivedBuilder,
+            ChordListRegistry registry,
             ChordVoicer voicer,
-            ChordDefinitionStructure struct) {
+            QualityRegistry qualities) {
     
         builderMap = new HashMap<ChordType, VoicedChordBuilder>();
         builderMap.put(ChordType.TRIAD, triadBuilder);
         builderMap.put(ChordType.SEVENTH, seventhBuilder);
         builderMap.put(ChordType.NINTH, ninthBuilder);
-        this.derivedBuilder = new DerivedChordBuilder();
-        registry = new ChordListRegistry();
+        this.derivedBuilder = derivedBuilder;
+        this.registry = registry;
         this.voicer = voicer;
-        this.struct = struct;
+        this.qualities = qualities;
     }
 
     @Override
@@ -79,9 +80,10 @@ class ChordEngineImpl implements ChordEngine {
     }
 
     @Override
-    public VoicedChord createChord(ChordPair pair) {
-        VoicedChordBuilder builder = builderMap.get(pair.getType());
-        return builder.setPair(pair)
+    public VoicedChord createChord(CreateChordRequest request) {
+        VoicedChordBuilder builder = builderMap.get(request.getType());
+        return builder.setRoot(request.getRoot())
+            .setQuality(request.getQuality())
             .buildVoicedChord();
     }
 
@@ -105,10 +107,10 @@ class ChordEngineImpl implements ChordEngine {
             CommonTreeNodeStream nodeStream = new CommonTreeNodeStream(compilationUnit.getTree());
             
             ChordWalker walker = new ChordWalker(nodeStream);
-            walker.setChordDefinitionStructure(struct);
-            walker.setTriadBuilder(BuilderFactory.getTriadBuilder(struct));
-            walker.setSeventhBuilder(BuilderFactory.getSeventhBuilder(struct));
-            walker.setNinthBuilder(BuilderFactory.getNinthBuilder(struct));
+            walker.setTriadBuilder(builderMap.get(ChordType.TRIAD));
+            walker.setSeventhBuilder(builderMap.get(ChordType.SEVENTH));
+            walker.setNinthBuilder(builderMap.get(ChordType.NINTH));
+            walker.setQualityRegistry(qualities);
             
             List<VoicedChord> chordList = walker.compilationUnit();
             registry.put(request.getIdentifier(), chordList);

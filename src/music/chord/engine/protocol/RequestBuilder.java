@@ -6,6 +6,9 @@ import java.util.List;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.Voicing;
 import music.chord.base.Duration;
+import music.chord.base.NoteName;
+import music.chord.base.Quality;
+import music.chord.engine.CreateChordRequestImpl;
 
 public final class RequestBuilder {
 
@@ -18,24 +21,26 @@ public final class RequestBuilder {
         this.identifier = identifier;
     }
     
-    public final ChordRequest chordRequest(VoicedChord... chords) {
-        return chordRequest(Arrays.asList(chords));
-    }
-    
     public final ChordRequest chordRequest(List<VoicedChord> chordList) {
         return new ChordRequestImpl(identifier, chordList);
     }
     
+    public final ChordRequest chordRequest(VoicedChord... chords) {
+        return chordRequest(Arrays.asList(chords));
+    }
+    
+    public CreateChordRequest createChordRequest(NoteName root,
+            Quality quality) {
+        
+        return new CreateChordRequestImpl(root, quality);
+    }
+
     public final DurationRequest durationRequest(Integer... positions) {
         return durationRequest(Arrays.asList(positions));
     }
 
     public final DurationRequest durationRequest(List<Integer> positions) {
         return new DurationRequestImpl(identifier, positions, duration);
-    }
-
-    public final InsertChordRequest insertRequest(int position, VoicedChord... chords) {
-        return insertRequest(position, Arrays.asList(chords));
     }
     
     public final InsertChordRequest insertRequest(int position, List<VoicedChord> chordList) {
@@ -44,6 +49,10 @@ public final class RequestBuilder {
             position);
     }
     
+    public final InsertChordRequest insertRequest(int position, VoicedChord... chords) {
+        return insertRequest(position, Arrays.asList(chords));
+    }
+
     public final LoadRequest loadRequest(String fileName) {
         LoadRequest request = new LoadRequestImpl(fileName, identifier);
         return request;
@@ -52,11 +61,11 @@ public final class RequestBuilder {
     public final OctaveRequest octaveRequest(Integer... positions) {
         return octaveRequest(Arrays.asList(positions));
     }
-
+    
     public final OctaveRequest octaveRequest(List<Integer> positions) {
         return new OctaveRequestImpl(identifier, positions, octave);
     }
-    
+
     public final RemoveChordRequest removeRequest(Integer... position) {
         return removeRequest(Arrays.asList(position));
     }
@@ -72,11 +81,11 @@ public final class RequestBuilder {
     public final void setOctave(int octave) {
         this.octave = octave;
     }
-
+    
     public final void setVoicing(Voicing voicing) {
         this.voicing = voicing;
     }
-    
+
     public final VoiceAllRequest voiceAllRequest() {
         return new VoiceAllRequestImpl(identifier);
     }

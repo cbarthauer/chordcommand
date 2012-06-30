@@ -13,3 +13,5 @@ syntax: regexp
 ^checklist\.txt$
 syntax: regexp
 ^reports$
+syntax: regexp
+\.grn$

@@ -2,7 +2,6 @@ package music.chord.grammar;
 
 import java.util.List;
 
-import music.chord.arrangement.ChordDefinitionStructure;
 import music.chord.arrangement.VoicedChordBuilder;
 import music.chord.arrangement.Voicing;
 import music.chord.arrangement.VoicingFactory;
@@ -21,7 +20,6 @@ public abstract class AbstractTreeParser extends TreeParser {
         super(input, state);
     }
 
-    public abstract void setChordDefinitionStructure(ChordDefinitionStructure struct);
     public abstract void setNinthBuilder(VoicedChordBuilder ninthBuilder);
     public abstract void setSeventhBuilder(VoicedChordBuilder seventhBuilder);
     public abstract void setTriadBuilder(VoicedChordBuilder triadBuilder);

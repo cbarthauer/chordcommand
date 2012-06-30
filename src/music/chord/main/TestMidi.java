@@ -4,13 +4,15 @@ import java.io.IOException;
 import java.util.List;
 
 import music.chord.arrangement.BuilderFactory;
-import music.chord.arrangement.ChordDefinitionStructure;
 import music.chord.arrangement.ChordPlayer;
 import music.chord.arrangement.ChordVoicer;
 import music.chord.arrangement.ChordVoicerFactory;
+import music.chord.arrangement.QualityRegistry;
+import music.chord.arrangement.QualityRegistryFactory;
 import music.chord.arrangement.VoicedChord;
+import music.chord.arrangement.VoicedChordBuilder;
 import music.chord.base.Constants;
-import music.chord.grammar.ChordDefinitionStructureFactory;
+import music.chord.base.NoteName;
 import music.chord.grammar.ChordLexer;
 import music.chord.grammar.ChordParser;
 import music.chord.grammar.ChordParser.compilationUnit_return;
@@ -46,21 +48,28 @@ public class TestMidi {
 		compilationUnit_return compilationUnit = parser.compilationUnit();
 		System.out.println(((CommonTree) compilationUnit.getTree()).toStringTree());
 
-	    ChordDefinitionStructure struct = ChordDefinitionStructureFactory.getInstance(
-	        Constants.getChordDefinitions());
-	      
+        QualityRegistry qualities = QualityRegistryFactory.getInstance(
+                Constants.getChordDefinitions());
+        
+        VoicedChordBuilder triadBuilder = BuilderFactory.getTriadBuilder(
+                NoteName.forSymbol("C"),
+                qualities.forName("MAJOR_TRIAD"));
+        VoicedChordBuilder seventhBuilder = BuilderFactory.getSeventhBuilder(
+                NoteName.forSymbol("C"),
+                qualities.forName("DOMINANT_SEVENTH"));
+        VoicedChordBuilder ninthBuilder = BuilderFactory.getNinthBuilder(
+                NoteName.forSymbol("C"),
+                qualities.forName("DOMINANT_NINTH"));
+	    
 		CommonTreeNodeStream nodeStream = new CommonTreeNodeStream(compilationUnit.getTree());
 		ChordWalker walker = new ChordWalker(nodeStream);
-		walker.setChordDefinitionStructure(struct);
-		walker.setTriadBuilder(BuilderFactory.getTriadBuilder(struct));
-		walker.setSeventhBuilder(BuilderFactory.getSeventhBuilder(struct));
-		walker.setNinthBuilder(BuilderFactory.getNinthBuilder(struct));
+		walker.setQualityRegistry(qualities);
+		walker.setTriadBuilder(triadBuilder);
+		walker.setSeventhBuilder(seventhBuilder);
+		walker.setNinthBuilder(ninthBuilder);
 		
-		List<VoicedChord> chordList = walker.compilationUnit();
-		
-
-		ChordVoicer voicer = ChordVoicerFactory.getInstance(struct);
-		
+		List<VoicedChord> chordList = walker.compilationUnit();		
+		ChordVoicer voicer = ChordVoicerFactory.getInstance(qualities);
 		List<VoicedChord> voicedChordList = voicer.voice(chordList);
 		ChordPlayer player = new ChordPlayer();
 		player.play(voicedChordList);
