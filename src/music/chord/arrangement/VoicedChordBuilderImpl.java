@@ -3,7 +3,6 @@ package music.chord.arrangement;
 import java.util.List;
 
 import music.chord.base.ChordMember;
-import music.chord.base.ChordPair;
 import music.chord.base.Duration;
 import music.chord.base.NoteName;
 import music.chord.base.Quality;
@@ -57,11 +56,6 @@ public final class VoicedChordBuilderImpl implements VoicedChordBuilder {
     public final VoicedChordBuilderImpl setOctave(int octave) {
         currentConfig = new VoicedChordConfig(octave, currentConfig);
         return this;
-    }
-    
-    @Override
-    public final VoicedChordBuilder setPair(ChordPair pair) {
-        throw new RuntimeException("setPair() not implemented.");
     }
     
     @Override
