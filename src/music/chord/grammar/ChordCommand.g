@@ -19,7 +19,6 @@ options {
   import music.chord.arrangement.VoicePartPlayer;
   
   import music.chord.base.ChordMember;
-  import music.chord.base.ChordPair;
   import music.chord.base.Duration;
   import music.chord.base.NoteName;
   import music.chord.base.Quality;

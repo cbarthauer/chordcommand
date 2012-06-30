@@ -3,7 +3,8 @@ package music.chord.base;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum QualityEnum {
+@Deprecated
+enum QualityEnum {
     MAJOR_TRIAD("M", ChordType.TRIAD),
     MINOR_TRIAD("m", ChordType.TRIAD),
     AUGMENTED_TRIAD("+", ChordType.TRIAD),

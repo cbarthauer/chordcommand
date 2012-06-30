@@ -18,7 +18,6 @@ import music.chord.base.ChordMember;
 import music.chord.base.Constants;
 import music.chord.base.Duration;
 import music.chord.base.NoteName;
-import music.chord.base.QualityEnum;
 import music.chord.base.QualityRegistry;
 import music.chord.base.QualityRegistryFactory;
 import music.chord.engine.protocol.ChordRequest;
@@ -89,7 +88,7 @@ public class ChordEngineImplTest {
                 qualities.forName("MAJOR_TRIAD")));
         
         assertEquals(NoteName.forSymbol("C"), chord.noteNameFromChordMember(ChordMember.ROOT));
-        assertEquals(QualityEnum.MAJOR_TRIAD, chord.getQualityEnum());
+        assertEquals(qualities.forName("MAJOR_TRIAD"), chord.getQuality());
     }
     
     @Test

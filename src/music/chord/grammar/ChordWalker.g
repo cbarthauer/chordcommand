@@ -21,7 +21,6 @@ options {
   import music.chord.arrangement.VoicedChordBuilder;
   
   import music.chord.base.ChordMember;
-  import music.chord.base.ChordPair;
   import music.chord.base.ChordType;
   import music.chord.base.Duration;
   import music.chord.base.Interval;

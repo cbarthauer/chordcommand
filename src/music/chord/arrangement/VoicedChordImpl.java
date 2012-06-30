@@ -9,7 +9,6 @@ import music.chord.base.ChordMember;
 import music.chord.base.Duration;
 import music.chord.base.NoteName;
 import music.chord.base.Quality;
-import music.chord.base.QualityEnum;
 import music.chord.base.VoicePart;
 
 public final class VoicedChordImpl implements VoicedChord {
@@ -82,11 +81,6 @@ public final class VoicedChordImpl implements VoicedChord {
     @Override
     public Quality getQuality() {
         return quality;
-    }
-
-    @Override
-    public final QualityEnum getQualityEnum() {
-        return QualityEnum.forName(quality.getName());
     }
 
     @Override
