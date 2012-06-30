@@ -12,14 +12,6 @@ import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.TokenStream;
 
 public final class QualityRegistryFactory {    
-    public static Quality createQuality(
-            String name, 
-            QualitySymbol symbol, 
-            ChordType type, 
-            IntervallicStructure struct) {
-        return new QualityImpl(name, symbol, type, struct);
-    }
-    
     public static QualityRegistry getInstance(String fileName) {
         QualityRegistry registry = null;
         
