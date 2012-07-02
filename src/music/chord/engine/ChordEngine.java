@@ -11,7 +11,6 @@ import music.chord.engine.protocol.InsertChordRequest;
 import music.chord.engine.protocol.LoadRequest;
 import music.chord.engine.protocol.OctaveRequest;
 import music.chord.engine.protocol.RemoveChordRequest;
-import music.chord.engine.protocol.VoiceAllRequest;
 import music.chord.engine.protocol.VoicingRequest;
 
 public interface ChordEngine {
@@ -25,5 +24,5 @@ public interface ChordEngine {
     public ChordEngine setVoicings(VoicingRequest request);
     public ChordEngine setDurations(DurationRequest request);
     public ChordEngine setOctaves(OctaveRequest request);
-    public ChordEngine voiceAll(VoiceAllRequest request);
+    public List<VoicedChord> voiceAll(List<VoicedChord> chordList);
 }

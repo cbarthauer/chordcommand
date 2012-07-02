@@ -171,9 +171,8 @@ public class ChordEngineImplTest {
     
     @Test
     public void voiceAll() {
-        engine.addChords(request)
-            .voiceAll(builder.voiceAllRequest());
-        List<VoicedChord> chordList = engine.byIdentifier(id);
+        List<VoicedChord> chordList = engine.addChords(request)
+            .voiceAll(engine.byIdentifier(id));
         assertNotSame(chordList.get(2).getVoicing(), chordList.get(3).getVoicing());
     }
 }

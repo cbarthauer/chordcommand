@@ -21,7 +21,6 @@ import music.chord.engine.protocol.InsertChordRequest;
 import music.chord.engine.protocol.LoadRequest;
 import music.chord.engine.protocol.OctaveRequest;
 import music.chord.engine.protocol.RemoveChordRequest;
-import music.chord.engine.protocol.VoiceAllRequest;
 import music.chord.engine.protocol.VoicingRequest;
 import music.chord.grammar.ChordLexer;
 import music.chord.grammar.ChordListRegistry;
@@ -80,7 +79,7 @@ class ChordEngineImpl implements ChordEngine {
     }
 
     @Override
-    public VoicedChord createChord(CreateChordRequest request) {
+    public final VoicedChord createChord(CreateChordRequest request) {
         VoicedChordBuilder builder = builderMap.get(request.getType());
         return builder.setRoot(request.getRoot())
             .setQuality(request.getQuality())
@@ -186,12 +185,8 @@ class ChordEngineImpl implements ChordEngine {
     }
 
     @Override
-    public final ChordEngineImpl voiceAll(VoiceAllRequest request) {
-        Identifier identifier = request.getIdentifier();
-        List<VoicedChord> chordList = 
-            voicer.voice(registry.byIdentifier(identifier));
-        registry.put(identifier, chordList);
-        return this;
+    public final List<VoicedChord> voiceAll(List<VoicedChord> chordList) {
+        return voicer.voice(chordList);
     }
 
 }

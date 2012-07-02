@@ -38,7 +38,7 @@ options {
   import music.chord.command.Quit;
   import music.chord.command.RemoveChord;
   import music.chord.command.Save;
-  import music.chord.command.VoiceChordList;
+//  import music.chord.command.VoiceChordList;
   import music.chord.command.VoicingComparisonList;
   
   import music.chord.display.VerboseFormatter;
@@ -141,7 +141,7 @@ LEAD : 'lead';
 TENOR : 'tenor';
 
 //Keywords.
-ADD : 'add';
+CREATE : 'create';
 REMOVE : 'remove';
 INSERT : 'insert';
 ALL : 'all';
@@ -195,13 +195,15 @@ WS
 //Lists
 START_LIST : '[';
 END_LIST : ']';
+START_ARGS : '(';
+END_ARGS : ')';
 
 program returns [List<Command> result]
   : command+ EOF { result = commandList; }
   ;
   
 command
-  : add
+  : create
   | display
   | find
   | insert
@@ -214,8 +216,8 @@ command
   | voice
   ;
   
-add 
-  : ADD chords=chordList TO IDENTIFIER {      
+create 
+  : CREATE IDENTIFIER AS START_LIST chords=chordList END_LIST  {      
       RequestBuilder reqBuilder = new RequestBuilder(new Identifier($IDENTIFIER.text));
       ChordRequest request = reqBuilder.chordRequest($chords.value);
       commandList.add(new AddChords(engine, request));
@@ -284,14 +286,15 @@ load
   ;
 
 play
-  : PLAY IDENTIFIER {commandList.add(
-      new Play(
-          engine.byIdentifier(new Identifier($IDENTIFIER.text)), 
-          player));}
-  | PLAY IDENTIFIER voicePart {
+  : PLAY START_ARGS chordList END_ARGS {
+      commandList.add(
+          new Play(
+              $chordList.value, 
+              player));}
+  | PLAY START_ARGS voicePart ',' chordList END_ARGS  {
       commandList.add(
           new PlayVoicePart(
-              engine.byIdentifier(new Identifier($IDENTIFIER.text)), 
+              $chordList.value, 
               $voicePart.value, 
               voicePartPlayer));
   }
@@ -345,14 +348,6 @@ set
       engine.setOctaves(builder.octaveRequest($range.value));
   }
   ;
-
-voice
-  : VOICE ALL IDENTIFIER {
-      RequestBuilder builder = new RequestBuilder(new Identifier($IDENTIFIER.text));
-      VoiceAllRequest request = builder.voiceAllRequest();
-      commandList.add(new VoiceChordList(engine, request));
-  }
-  ;
     
 chordMemberList returns [Voicing voicing]
     : START_LIST { List<ChordMember> chordMemberList = new ArrayList<ChordMember>(); }
@@ -371,17 +366,30 @@ chordMemberList returns [Voicing voicing]
   
 chordList returns [List<VoicedChord> value]
 @init {value = new ArrayList<VoicedChord>();}
-  : first=chord { value.add($first.value); } 
-    (',' subsequent=chord {value.add($subsequent.value);})*
+  : first=chordAtom { value.addAll($first.value); } 
+    (',' subsequent=chordAtom {value.addAll($subsequent.value);})*
+  ;
+  
+chordAtom returns [List<VoicedChord> value]
+@init {value = new ArrayList<VoicedChord>();}
+  : chord {value.add($chord.value);}
+  | IDENTIFIER {value.addAll(engine.byIdentifier(new Identifier($IDENTIFIER.text)));}
   | IDENTIFIER START_LIST range END_LIST {
       List<VoicedChord> existingList = engine.byIdentifier(
           new Identifier($IDENTIFIER.text));
       for(Integer i : $range.value) {
           value.add(existingList.get(i));
-      }
+      }  
   }
+  | voice {value.addAll($voice.value);}
   ;
 
+voice returns [List<VoicedChord> value]
+  : VOICE START_ARGS chordList END_ARGS {
+      value = engine.voiceAll($chordList.value);
+  }
+  ;
+  
 chord returns [VoicedChord value]
     : spec=chordSpec {
         RequestBuilder builder = new RequestBuilder(new Identifier(""));
