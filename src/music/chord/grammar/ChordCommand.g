@@ -32,13 +32,11 @@ options {
   import music.chord.command.FindChordsContainingNoteNames;
   import music.chord.command.InsertBefore;
   import music.chord.command.WriteLilyPondFile;
-  import music.chord.command.Load;
   import music.chord.command.Play;
   import music.chord.command.PlayVoicePart;
   import music.chord.command.Quit;
   import music.chord.command.RemoveChord;
   import music.chord.command.Save;
-//  import music.chord.command.VoiceChordList;
   import music.chord.command.VoicingComparisonList;
   
   import music.chord.display.VerboseFormatter;
@@ -179,7 +177,7 @@ SET : 'set';
 //Miscellaneous Tokens.
 INT : '0'..'9'+;
 
-STRING : '"' ('a'..'z' | 'A'..'Z' | '0'..'9' | '\\' | '.' | ':')+ '"';
+STRING : '"' ('a'..'z' | 'A'..'Z' | '0'..'9' | '\\' | '.' | ':' | '_')+ '"';
 
 IDENTIFIER : 'a'..'z' ('a'..'z' | 'A'..'Z' | '0'..'9')*;
 
@@ -217,7 +215,7 @@ command
   ;
   
 create 
-  : CREATE IDENTIFIER AS START_LIST chords=chordList END_LIST  {      
+  : CREATE START_ARGS IDENTIFIER ',' chords=chordList END_ARGS  {      
       RequestBuilder reqBuilder = new RequestBuilder(new Identifier($IDENTIFIER.text));
       ChordRequest request = reqBuilder.chordRequest($chords.value);
       commandList.add(new AddChords(engine, request));
@@ -225,10 +223,10 @@ create
   ;
 
 display
-  : DISPLAY IDENTIFIER {
+  : DISPLAY START_ARGS chordList END_ARGS {
     commandList.add(
         new Display(
-            engine.byIdentifier(new Identifier($IDENTIFIER.text)), 
+            $chordList.value, 
             new VerboseFormatter()));
   }
   | DISPLAY VOICINGS FOR IDENTIFIER START_LIST startIndex=INT TO endIndex=INT END_LIST {
@@ -277,11 +275,9 @@ insert
   }
   ;
 
-load
-  : LOAD fileName=STRING AS IDENTIFIER {
-      RequestBuilder reqBuilder = new RequestBuilder(new Identifier($IDENTIFIER.text));
-      LoadRequest request = reqBuilder.loadRequest($fileName.text.replaceAll("\"", "")); 
-      commandList.add(new Load(engine, request));
+load returns [List<VoicedChord> value]
+  : LOAD START_ARGS fileName=STRING END_ARGS {
+      value = engine.load($fileName.text.replaceAll("\"", ""));
   }
   ;
 
@@ -313,24 +309,30 @@ remove
   ;
   
 save
-  : SAVE IDENTIFIER AS fileName=STRING {
+  : SAVE START_ARGS fileName=STRING ',' chordList END_ARGS {
       String outFile = $fileName.text.replaceAll("\"", "");
       
       if(outFile.endsWith(".ly")) {
           commandList.add(
               new WriteLilyPondFile(
-                  engine.byIdentifier(new Identifier($IDENTIFIER.text)),
+                  $chordList.value,
                   outFile));
       }
       else {
 	      commandList.add(
 	          new Save(
-	              engine.byIdentifier(new Identifier($IDENTIFIER.text)), 
+	              $chordList.value, 
 	              outFile));
 	  }
   }
   ;
 
+voice returns [List<VoicedChord> value]
+  : VOICE START_ARGS chordList END_ARGS {
+      value = engine.voiceAll($chordList.value);
+  }
+  ;
+  
 set
   : SET VOICING list=chordMemberList ON IDENTIFIER START_LIST range END_LIST {
       RequestBuilder builder = new RequestBuilder(new Identifier($IDENTIFIER.text));
@@ -381,13 +383,8 @@ chordAtom returns [List<VoicedChord> value]
           value.add(existingList.get(i));
       }  
   }
+  | load {value.addAll($load.value);}
   | voice {value.addAll($voice.value);}
-  ;
-
-voice returns [List<VoicedChord> value]
-  : VOICE START_ARGS chordList END_ARGS {
-      value = engine.voiceAll($chordList.value);
-  }
   ;
   
 chord returns [VoicedChord value]

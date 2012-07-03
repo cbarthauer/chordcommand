@@ -18,7 +18,6 @@ import music.chord.engine.protocol.CreateChordRequest;
 import music.chord.engine.protocol.DurationRequest;
 import music.chord.engine.protocol.Identifier;
 import music.chord.engine.protocol.InsertChordRequest;
-import music.chord.engine.protocol.LoadRequest;
 import music.chord.engine.protocol.OctaveRequest;
 import music.chord.engine.protocol.RemoveChordRequest;
 import music.chord.engine.protocol.VoicingRequest;
@@ -96,9 +95,11 @@ class ChordEngineImpl implements ChordEngine {
     }
 
     @Override
-    public final ChordEngineImpl load(LoadRequest request) {
+    public final List<VoicedChord> load(String fileName) {
+        List<VoicedChord> chordList = new ArrayList<VoicedChord>();
+        
         try {
-            CharStream charStream = new ANTLRFileStream(request.getFileName());
+            CharStream charStream = new ANTLRFileStream(fileName);
             ChordLexer lexer = new ChordLexer(charStream);
             TokenStream tokenStream = new CommonTokenStream(lexer);
             ChordParser parser = new ChordParser(tokenStream);
@@ -111,15 +112,14 @@ class ChordEngineImpl implements ChordEngine {
             walker.setNinthBuilder(builderMap.get(ChordType.NINTH));
             walker.setQualityRegistry(qualities);
             
-            List<VoicedChord> chordList = walker.compilationUnit();
-            registry.put(request.getIdentifier(), chordList);
+            chordList = walker.compilationUnit();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (RecognitionException e) {
             e.printStackTrace();
         }  
         
-        return this;
+        return chordList;
     }
 
     @Override

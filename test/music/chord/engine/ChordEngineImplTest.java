@@ -22,7 +22,6 @@ import music.chord.base.Duration;
 import music.chord.base.NoteName;
 import music.chord.engine.protocol.ChordRequest;
 import music.chord.engine.protocol.Identifier;
-import music.chord.engine.protocol.LoadRequest;
 import music.chord.engine.protocol.RequestBuilder;
 import music.chord.grammar.ChordListRegistry;
 
@@ -108,9 +107,7 @@ public class ChordEngineImplTest {
 
     @Test
     public void load() {
-        LoadRequest request = builder.loadRequest("examples/out.txt");
-        engine.load(request);
-        List<VoicedChord> chordList = engine.byIdentifier(id);
+        List<VoicedChord> chordList = engine.load("examples/out.txt");
         assertTrue(!chordList.isEmpty());
     }
     
