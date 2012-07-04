@@ -4,12 +4,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import music.chord.TestHelper;
 import music.chord.arrangement.BuilderFactory;
+import music.chord.arrangement.ChordFinder;
+import music.chord.arrangement.ChordFinderImpl;
 import music.chord.arrangement.ChordVoicerFactory;
-import music.chord.arrangement.DerivedChordBuilder;
 import music.chord.arrangement.QualityRegistry;
 import music.chord.arrangement.QualityRegistryFactory;
 import music.chord.arrangement.VoicedChord;
@@ -23,12 +25,13 @@ import music.chord.base.NoteName;
 import music.chord.engine.protocol.ChordRequest;
 import music.chord.engine.protocol.Identifier;
 import music.chord.engine.protocol.RequestBuilder;
-import music.chord.grammar.ChordListRegistry;
+import music.chord.engine.protocol.filter.ChordMemberFilter;
+import music.chord.engine.protocol.filter.EqualsFilter;
 
 import org.junit.Before;
 import org.junit.Test;
 
-public class ChordEngineImplTest {
+public class ChordEngineTest {
         
     private ChordEngine engine;
     private Identifier id;
@@ -52,13 +55,18 @@ public class ChordEngineImplTest {
                 NoteName.forSymbol("C"),
                 qualities.forName("DOMINANT_NINTH"));
         
-        engine = new ChordEngineImpl(
+        ChordFinder finder = new ChordFinderImpl(
                 triadBuilder,
                 seventhBuilder,
                 ninthBuilder,
-                new DerivedChordBuilder(),
-                new ChordListRegistry(),
+                qualities.all());
+        
+        engine = ChordEngineBuilder.build(
+                triadBuilder,
+                seventhBuilder,
+                ninthBuilder,
                 ChordVoicerFactory.getInstance(qualities),
+                finder,
                 qualities);
         
         id = new Identifier("default");
@@ -88,6 +96,26 @@ public class ChordEngineImplTest {
         
         assertEquals(NoteName.forSymbol("C"), chord.noteNameFromChordMember(ChordMember.ROOT));
         assertEquals(qualities.forName("MAJOR_TRIAD"), chord.getQuality());
+    }
+    
+    @Test
+    public void chordsContaining() {
+        List<NoteName> noteNameList = new ArrayList<NoteName>();
+        noteNameList.add(NoteName.forSymbol("C"));
+        noteNameList.add(NoteName.forSymbol("E"));
+        noteNameList.add(NoteName.forSymbol("G"));
+        noteNameList.add(NoteName.forSymbol("Bb"));
+        
+        List<VoicedChord> chords = engine.chordsContaining(noteNameList);
+        assertEquals(1, chords.size());
+        assertTrue(chords.get(0).containsNoteNames(noteNameList));
+    }
+    
+    @Test
+    public void chordsByFilter() {
+        ChordMemberFilter filter = new EqualsFilter(ChordMember.SEVENTH, NoteName.forSymbol("C"));
+        List<VoicedChord> chordList = engine.chordsByFilter(filter);
+        assertTrue(chordList.size() > 0);
     }
     
     @Test

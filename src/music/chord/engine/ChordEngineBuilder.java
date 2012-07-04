@@ -1,5 +1,6 @@
 package music.chord.engine;
 
+import music.chord.arrangement.ChordFinder;
 import music.chord.arrangement.ChordVoicer;
 import music.chord.arrangement.DerivedChordBuilder;
 import music.chord.arrangement.QualityRegistry;
@@ -16,6 +17,7 @@ public final class ChordEngineBuilder {
             VoicedChordBuilder seventhBuilder, 
             VoicedChordBuilder ninthBuilder,
             ChordVoicer voicer,
+            ChordFinder finder,
             QualityRegistry qualities) {
         
         return new ChordEngineImpl(
@@ -25,6 +27,7 @@ public final class ChordEngineBuilder {
                 new DerivedChordBuilder(),
                 new ChordListRegistry(),
                 voicer,
+                finder,
                 qualities);
     }
 }

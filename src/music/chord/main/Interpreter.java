@@ -31,57 +31,62 @@ import org.antlr.runtime.TokenStream;
 
 public class Interpreter {
     /**
-	 * @param args
-	 * @throws IOException 
-	 * @throws RecognitionException 
-	 */
-	public static void main(String[] args) throws IOException, RecognitionException {
-		Scanner scanner = new Scanner(System.in);
-		String line = "";
-		QualityRegistry qualities = QualityRegistryFactory.getInstance(
-		        Constants.getChordDefinitions());
-		
-		VoicedChordBuilder triadBuilder = BuilderFactory.getTriadBuilder(
+     * @param args
+     * @throws IOException 
+     * @throws RecognitionException 
+     */
+    public static void main(String[] args) throws IOException, RecognitionException {
+        Scanner scanner = new Scanner(System.in);
+        String line = "";
+        QualityRegistry qualities = QualityRegistryFactory.getInstance(
+                Constants.getChordDefinitions());
+        
+        VoicedChordBuilder triadBuilder = BuilderFactory.getTriadBuilder(
                 NoteName.forSymbol("C"),
                 qualities.forName("MAJOR_TRIAD"));
-		VoicedChordBuilder seventhBuilder = BuilderFactory.getSeventhBuilder(
+        VoicedChordBuilder seventhBuilder = BuilderFactory.getSeventhBuilder(
                 NoteName.forSymbol("C"),
                 qualities.forName("DOMINANT_SEVENTH"));
-		VoicedChordBuilder ninthBuilder = BuilderFactory.getNinthBuilder(
+        VoicedChordBuilder ninthBuilder = BuilderFactory.getNinthBuilder(
                 NoteName.forSymbol("C"),
                 qualities.forName("DOMINANT_NINTH"));
-		
-		ChordVoicer voicer = ChordVoicerFactory.getInstance(qualities);
-		
-		ChordEngine engine = ChordEngineBuilder.build(
-		        triadBuilder, seventhBuilder, ninthBuilder, voicer, qualities);
-		
-		ChordFinder finder = new ChordFinderImpl(
+        
+        ChordVoicer voicer = ChordVoicerFactory.getInstance(qualities);
+
+        ChordFinder finder = new ChordFinderImpl(
                 triadBuilder,
                 seventhBuilder,
                 ninthBuilder,
-                qualities.all());		
-		
-		while(true) {
-			line = scanner.nextLine();
-			CharStream charStream = new ANTLRStringStream(line);
-			ChordCommandLexer lexer = new ChordCommandLexer(charStream);
-			TokenStream tokenStream = new CommonTokenStream(lexer);
-			ChordCommandParser parser = new ChordCommandParser(tokenStream);
-			parser.setChordEngine(engine);
-			parser.setChordFinder(finder);
-			parser.setChordVoicer(voicer);
-			parser.setChordPlayer(new ChordPlayer());
-			parser.setQualityRegistry(qualities);
-			parser.setVoicePartPlayer(new VoicePartPlayer());
-			
-			List<Command> commandList = commandListFromParser(parser);
-			
-			for(Command command : commandList) {
-				command.execute();
-			}
-		}
-	}
+                qualities.all());
+        
+        ChordEngine engine = ChordEngineBuilder.build(
+                triadBuilder, 
+                seventhBuilder, 
+                ninthBuilder, 
+                voicer, 
+                finder, 
+                qualities);        
+        
+        while(true) {
+            line = scanner.nextLine();
+            CharStream charStream = new ANTLRStringStream(line);
+            ChordCommandLexer lexer = new ChordCommandLexer(charStream);
+            TokenStream tokenStream = new CommonTokenStream(lexer);
+            ChordCommandParser parser = new ChordCommandParser(tokenStream);
+            parser.setChordEngine(engine);
+            parser.setChordFinder(finder);
+            parser.setChordVoicer(voicer);
+            parser.setChordPlayer(new ChordPlayer());
+            parser.setQualityRegistry(qualities);
+            parser.setVoicePartPlayer(new VoicePartPlayer());
+            
+            List<Command> commandList = commandListFromParser(parser);
+            
+            for(Command command : commandList) {
+                command.execute();
+            }
+        }
+    }
 
     private static List<Command> commandListFromParser(ChordCommandParser parser) 
             throws RecognitionException {

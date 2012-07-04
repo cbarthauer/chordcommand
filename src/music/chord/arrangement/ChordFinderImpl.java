@@ -9,6 +9,7 @@ import music.chord.base.ChordMember;
 import music.chord.base.ChordType;
 import music.chord.base.NoteName;
 import music.chord.base.Quality;
+import music.chord.engine.protocol.filter.ChordMemberFilter;
 
 public final class ChordFinderImpl implements ChordFinder {
 
@@ -31,6 +32,19 @@ public final class ChordFinderImpl implements ChordFinder {
         chordList = initChordList();
     }
     
+    @Override
+    public final List<VoicedChord> find(ChordMemberFilter filter) {
+        List<VoicedChord> result = new ArrayList<VoicedChord>();
+        
+        for(VoicedChord chord : chordList) {
+            if(filter.filter(chord)) {
+                result.add(chord);
+            }
+        }
+        
+        return result;
+    }
+
     @Override
     public final List<VoicedChord> find(List<NoteName> noteNameList) {
         List<VoicedChord> result = new ArrayList<VoicedChord>();

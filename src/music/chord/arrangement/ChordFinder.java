@@ -4,11 +4,10 @@ import java.util.List;
 
 import music.chord.base.ChordMember;
 import music.chord.base.NoteName;
+import music.chord.engine.protocol.filter.ChordMemberFilter;
 
 public interface ChordFinder {
-
-    public List<VoicedChord> find(NoteName note, ChordMember member);
-
+    public List<VoicedChord> find(ChordMemberFilter filter);
     public List<VoicedChord> find(List<NoteName> noteList);
-
+    public List<VoicedChord> find(NoteName note, ChordMember member);
 }

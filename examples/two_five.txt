@@ -1,0 +1,32 @@
+progression: {
+  Dm7: {
+    voicing: [root, fifth, seventh, third],
+    octave: 4,
+    duration: QUARTER
+  },
+  Gdom7: {
+    voicing: [fifth, root, third, seventh],
+    octave: 4,
+    duration: QUARTER
+  },
+  Em7: {
+    voicing: [root, third, fifth, seventh],
+    octave: 4,
+    duration: QUARTER
+  },
+  Adom7: {
+    voicing: [fifth, seventh, root, third],
+    octave: 4,
+    duration: QUARTER
+  },
+  F#m7: {
+    voicing: [fifth, root, third, seventh],
+    octave: 4,
+    duration: QUARTER
+  },
+  Bdom7: {
+    voicing: [third, fifth, seventh, root],
+    octave: 4,
+    duration: QUARTER
+  }
+}

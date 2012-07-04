@@ -90,7 +90,8 @@ Begin
     [fifth, seventh, root, third],
     [fifth, root, third, seventh],
     [fifth, third, seventh, root],
-    [third, fifth, seventh, root]]
+    [third, fifth, seventh, root],
+    [third, root, fifth, seventh]]
 End Seventh
 
 Define Ninth

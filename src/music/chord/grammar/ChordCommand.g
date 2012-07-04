@@ -50,6 +50,8 @@ options {
   import music.chord.engine.protocol.RemoveChordRequest;
   import music.chord.engine.protocol.RequestBuilder;
   import music.chord.engine.protocol.VoiceAllRequest;
+  import music.chord.engine.protocol.filter.ChordMemberFilter;
+  import music.chord.engine.protocol.filter.EqualsFilter;
 }
 
 @lexer::header {
@@ -148,6 +150,8 @@ DURATION : 'duration';
 BEFORE : 'before';
 FIND : 'find';
 CHORDS : 'chords';
+CHORDS_BY_FILTER : 'chordsByFilter';
+CHORDS_CONTAINING : 'chordsContaining';
 WHERE : 'where';
 IS : 'is';
 CONTAINING : 'containing';
@@ -201,9 +205,10 @@ program returns [List<Command> result]
   ;
   
 command
-  : create
+  : chordsByFilter
+  | chordsContaining
+  | create
   | display
-  | find
   | insert
   | load
   | play
@@ -213,15 +218,33 @@ command
   | set
   | voice
   ;
+
+chordsByFilter returns [List<VoicedChord> value]
+  : CHORDS_BY_FILTER START_ARGS filter END_ARGS {
+      value = engine.chordsByFilter($filter.value);
+  }
+  ;
+
+filter returns [ChordMemberFilter value]
+  : chordMember '=' NOTE_NAME {
+      value = new EqualsFilter($chordMember.value, NoteName.forSymbol($NOTE_NAME.text));
+  }
+  ;
   
+chordsContaining returns [List<VoicedChord> value]
+  : CHORDS_CONTAINING START_ARGS noteNameList END_ARGS {
+      value = engine.chordsContaining($noteNameList.value);
+  }
+  ;
+
 create 
   : CREATE START_ARGS IDENTIFIER ',' chords=chordList END_ARGS  {      
       RequestBuilder reqBuilder = new RequestBuilder(new Identifier($IDENTIFIER.text));
       ChordRequest request = reqBuilder.chordRequest($chords.value);
       commandList.add(new AddChords(engine, request));
-  }	
+  } 
   ;
-
+    
 display
   : DISPLAY START_ARGS chordList END_ARGS {
     commandList.add(
@@ -237,24 +260,6 @@ display
             Integer.parseInt($endIndex.text), 
             voicer
         ));}
-  ;
-
-find
-  : FIND CHORDS WHERE member=chordMember IS NOTE_NAME {
-      commandList.add(
-          new FindChordsByChordMember(
-              NoteName.forSymbol($NOTE_NAME.text), 
-              $member.value,
-              chordFinder
-          ));
-  }
-  | FIND CHORDS CONTAINING noteNameList {
-      commandList.add(
-          new FindChordsContainingNoteNames(
-              $noteNameList.value, 
-              chordFinder
-          ));
-  }
   ;
 
 noteNameList returns [List<NoteName> value]
@@ -326,12 +331,6 @@ save
 	  }
   }
   ;
-
-voice returns [List<VoicedChord> value]
-  : VOICE START_ARGS chordList END_ARGS {
-      value = engine.voiceAll($chordList.value);
-  }
-  ;
   
 set
   : SET VOICING list=chordMemberList ON IDENTIFIER START_LIST range END_LIST {
@@ -350,7 +349,13 @@ set
       engine.setOctaves(builder.octaveRequest($range.value));
   }
   ;
-    
+
+voice returns [List<VoicedChord> value]
+  : VOICE START_ARGS chordList END_ARGS {
+      value = engine.voiceAll($chordList.value);
+  }
+  ;
+      
 chordMemberList returns [Voicing voicing]
     : START_LIST { List<ChordMember> chordMemberList = new ArrayList<ChordMember>(); }
       member1=chordMember 
@@ -375,6 +380,8 @@ chordList returns [List<VoicedChord> value]
 chordAtom returns [List<VoicedChord> value]
 @init {value = new ArrayList<VoicedChord>();}
   : chord {value.add($chord.value);}
+  | chordsByFilter {value.addAll($chordsByFilter.value);}
+  | chordsContaining {value.addAll($chordsContaining.value);}
   | IDENTIFIER {value.addAll(engine.byIdentifier(new Identifier($IDENTIFIER.text)));}
   | IDENTIFIER START_LIST range END_LIST {
       List<VoicedChord> existingList = engine.byIdentifier(

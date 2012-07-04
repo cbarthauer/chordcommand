@@ -6,7 +6,7 @@ import music.chord.arrangement.ClosestVoicingStrategyTest;
 import music.chord.arrangement.VoicedChordBuilderTest;
 import music.chord.base.QualityRegistryImplTest;
 import music.chord.display.FileFormatterTest;
-import music.chord.engine.ChordEngineImplTest;
+import music.chord.engine.ChordEngineTest;
 import music.chord.engine.protocol.RequestBuilderTest;
 import music.chord.grammar.ChordListRegistryTest;
 
@@ -16,7 +16,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({ 
-    ChordEngineImplTest.class,
+    ChordEngineTest.class,
     ChordFinderTest.class,
     ChordListRegistryTest.class,
     ChordVoicerTest.class,

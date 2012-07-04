@@ -7,12 +7,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import music.chord.arrangement.ChordFinder;
 import music.chord.arrangement.ChordVoicer;
 import music.chord.arrangement.DerivedChordBuilder;
 import music.chord.arrangement.QualityRegistry;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.VoicedChordBuilder;
 import music.chord.base.ChordType;
+import music.chord.base.NoteName;
 import music.chord.engine.protocol.ChordRequest;
 import music.chord.engine.protocol.CreateChordRequest;
 import music.chord.engine.protocol.DurationRequest;
@@ -21,6 +23,7 @@ import music.chord.engine.protocol.InsertChordRequest;
 import music.chord.engine.protocol.OctaveRequest;
 import music.chord.engine.protocol.RemoveChordRequest;
 import music.chord.engine.protocol.VoicingRequest;
+import music.chord.engine.protocol.filter.ChordMemberFilter;
 import music.chord.grammar.ChordLexer;
 import music.chord.grammar.ChordListRegistry;
 import music.chord.grammar.ChordParser;
@@ -40,7 +43,8 @@ class ChordEngineImpl implements ChordEngine {
     private DerivedChordBuilder derivedBuilder;
     private ChordListRegistry registry;
     private ChordVoicer voicer;
-    private QualityRegistry qualities;
+    private ChordFinder finder;
+    private QualityRegistry qualities;    
     
     public ChordEngineImpl(
             VoicedChordBuilder triadBuilder,
@@ -49,6 +53,7 @@ class ChordEngineImpl implements ChordEngine {
             DerivedChordBuilder derivedBuilder,
             ChordListRegistry registry,
             ChordVoicer voicer,
+            ChordFinder finder,
             QualityRegistry qualities) {
     
         builderMap = new HashMap<ChordType, VoicedChordBuilder>();
@@ -58,6 +63,7 @@ class ChordEngineImpl implements ChordEngine {
         this.derivedBuilder = derivedBuilder;
         this.registry = registry;
         this.voicer = voicer;
+        this.finder = finder;
         this.qualities = qualities;
     }
 
@@ -75,6 +81,16 @@ class ChordEngineImpl implements ChordEngine {
     @Override
     public final List<VoicedChord> byIdentifier(Identifier id) {
         return registry.byIdentifier(id);
+    }
+
+    @Override
+    public final List<VoicedChord> chordsByFilter(ChordMemberFilter filter) {
+        return finder.find(filter);
+    }
+
+    @Override
+    public final List<VoicedChord> chordsContaining(List<NoteName> noteList) {
+        return finder.find(noteList);
     }
 
     @Override
