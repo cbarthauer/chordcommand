@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import music.chord.base.ChordMember;
 import music.chord.base.ChordType;
 import music.chord.base.NoteName;
 import music.chord.base.Quality;
@@ -51,19 +50,6 @@ public final class ChordFinderImpl implements ChordFinder {
         
         for(VoicedChord chord : chordList) {
             if(chord.containsNoteNames(noteNameList)) {
-                result.add(chord);
-            }
-        }
-        
-        return result;
-    }
-
-    @Override
-    public final List<VoicedChord> find(NoteName note, ChordMember member) {
-        List<VoicedChord> result = new ArrayList<VoicedChord>();
-        
-        for(VoicedChord chord : chordList) {
-            if(chord.noteNameFromChordMember(member).equals(note)) {
                 result.add(chord);
             }
         }

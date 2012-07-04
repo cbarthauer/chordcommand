@@ -28,8 +28,6 @@ options {
   import music.chord.command.AddChords;
   import music.chord.command.Command;
   import music.chord.command.Display;
-  import music.chord.command.FindChordsByChordMember;
-  import music.chord.command.FindChordsContainingNoteNames;
   import music.chord.command.InsertBefore;
   import music.chord.command.WriteLilyPondFile;
   import music.chord.command.Play;
