@@ -53,11 +53,6 @@ public final class RequestBuilder {
         return insertRequest(position, Arrays.asList(chords));
     }
 
-    public final LoadRequest loadRequest(String fileName) {
-        LoadRequest request = new LoadRequestImpl(fileName, identifier);
-        return request;
-    }
-
     public final OctaveRequest octaveRequest(Integer... positions) {
         return octaveRequest(Arrays.asList(positions));
     }

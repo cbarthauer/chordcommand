@@ -44,7 +44,6 @@ options {
   import music.chord.engine.protocol.CreateChordRequest;
   import music.chord.engine.protocol.Identifier;
   import music.chord.engine.protocol.InsertChordRequest;
-  import music.chord.engine.protocol.LoadRequest;
   import music.chord.engine.protocol.RemoveChordRequest;
   import music.chord.engine.protocol.RequestBuilder;
   import music.chord.engine.protocol.VoiceAllRequest;
