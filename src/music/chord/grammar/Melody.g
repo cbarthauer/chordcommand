@@ -22,8 +22,8 @@ ACCIDENTAL
     ;
     
 //Directions
-UP: '/';
-DOWN: '\\';
+DIRECTION_UP: '/';
+DIRECTION_DOWN: '\\';
 
 //Durations
 SIXTEENTH: 's';
@@ -53,8 +53,8 @@ WS
     ;
     
 direction
-  : UP
-  | DOWN
+  : DIRECTION_UP
+  | DIRECTION_DOWN
   ;
   
 duration
