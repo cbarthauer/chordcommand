@@ -62,3 +62,7 @@ Examples
 ### Play a list of chords loaded from a file:
 
     play(load("examples\chords.txt")) 
+    
+### Play just the bass part from a list of chords:
+
+    play(bass, voice(C, CM7, Cdom7, C#dim7, Dm7, D#dim7, Em7, Adom7, DM7, GM7, Adom7, EbM7, DM7))
