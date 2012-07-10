@@ -10,22 +10,31 @@
  ******************************************************************************/
 package music.chord.command;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import music.chord.arrangement.VoicedChord;
 import music.chord.engine.ChordEngine;
-import music.chord.engine.protocol.ChordRequest;
+import music.chord.engine.protocol.RequestBuilder;
 
-public class AddChords implements Command {
+public class CreateChordList implements Command {
 
-	private ChordRequest request;
-	private ChordEngine engine;
+	private RequestBuilder builder;
+    private List<VoicedChord> chordList;
+    private ChordEngine engine;
 
-	public AddChords(ChordEngine engine, ChordRequest request) {
-		this.request = request;
+    public CreateChordList(
+            RequestBuilder builder, 
+            List<VoicedChord> chordList, 
+            ChordEngine engine) {
+		this.builder = builder;
+		this.chordList = new ArrayList<VoicedChord>(chordList);
 		this.engine = engine;
 	}
 	
 	@Override
 	public void execute() {
-	    engine.addChords(request);
+	    engine.createChordList(builder.chordRequest(chordList));
 	}
 
 }

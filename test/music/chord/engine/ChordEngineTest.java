@@ -92,17 +92,32 @@ public class ChordEngineTest {
     
     @Test
     public void addChords() {      
-        engine.addChords(request);
+        engine.createChordList(request);
         List<VoicedChord> chordList = engine.byIdentifier(id);
         assertEquals(4, chordList.size());
     }
     
     @Test
+    public void byIdentifier() {
+        engine.createChordList(request);
+        List<Integer> indexes = new ArrayList<Integer>();
+        indexes.add(1);
+        indexes.add(3);
+        List<VoicedChord> chordList = engine.byIdentifier(id, indexes);
+        assertEquals(2, chordList.size());
+        assertEquals(
+                NoteName.forSymbol("D"), 
+                chordList.get(0).noteNameFromChordMember(ChordMember.ROOT));
+        assertEquals(
+                NoteName.forSymbol("C"), 
+                chordList.get(1).noteNameFromChordMember(ChordMember.ROOT));
+    }
+    
+    @Test
     public void createChord() {
         VoicedChord chord = engine.createChord(
-            builder.createChordRequest(
-                NoteName.forSymbol("C"), 
-                qualities.forName("MAJOR_TRIAD")));
+            NoteName.forSymbol("C"), 
+            qualities.forName("MAJOR_TRIAD"));
         
         assertEquals(NoteName.forSymbol("C"), chord.noteNameFromChordMember(ChordMember.ROOT));
         assertEquals(qualities.forName("MAJOR_TRIAD"), chord.getQuality());
@@ -130,7 +145,7 @@ public class ChordEngineTest {
     
     @Test
     public void insertChords() {
-        engine.addChords(request)
+        engine.createChordList(request)
             .insertChords(
                 builder.insertRequest(
                     2, 
@@ -151,7 +166,7 @@ public class ChordEngineTest {
     
     @Test
     public void removeChords() {
-        engine.addChords(request)
+        engine.createChordList(request)
             .removeChords(builder.removeRequest(0, 3));
         
         assertEquals("Dm", engine.byIdentifier(id).get(0).getSymbol());
@@ -167,7 +182,7 @@ public class ChordEngineTest {
             ChordMember.FIFTH);
         builder.setVoicing(voicing);
         
-        engine.addChords(request)
+        engine.createChordList(request)
             .setVoicings(builder.voicingRequest(0, 2));
         
         List<VoicedChord> chordList = engine.byIdentifier(id);
@@ -181,7 +196,7 @@ public class ChordEngineTest {
     @Test
     public void setDurations() {
         builder.setDuration(Duration.HALF);
-        engine.addChords(request)
+        engine.createChordList(request)
             .setDurations(builder.durationRequest(1, 3));
         List<VoicedChord> chordList = engine.byIdentifier(id);
         
@@ -194,7 +209,7 @@ public class ChordEngineTest {
     @Test
     public void setOctaves() {
         builder.setOctave(3);
-        engine.addChords(request)
+        engine.createChordList(request)
             .setOctaves(builder.octaveRequest(0, 3));
         List<VoicedChord> chordList = engine.byIdentifier(id);
         
@@ -206,7 +221,7 @@ public class ChordEngineTest {
     
     @Test
     public void voiceAll() {
-        List<VoicedChord> chordList = engine.addChords(request)
+        List<VoicedChord> chordList = engine.createChordList(request)
             .voiceAll(engine.byIdentifier(id));
         assertNotSame(chordList.get(2).getVoicing(), chordList.get(3).getVoicing());
     }

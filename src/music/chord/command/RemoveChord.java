@@ -10,22 +10,27 @@
  ******************************************************************************/
 package music.chord.command;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import music.chord.engine.ChordEngine;
-import music.chord.engine.protocol.RemoveChordRequest;
+import music.chord.engine.protocol.RequestBuilder;
 
 public class RemoveChord implements Command {
-	
-    private ChordEngine engine;
-    private RemoveChordRequest request;
 
-    public RemoveChord(ChordEngine engine, RemoveChordRequest request) {
+    private RequestBuilder builder;
+    private List<Integer> range;
+    private ChordEngine engine;
+
+    public RemoveChord(RequestBuilder builder, List<Integer> range, ChordEngine engine) {
+        this.builder = builder;
+        this.range = new ArrayList<Integer>(range);
 	    this.engine = engine;
-	    this.request = request;
 	}
 	
 	@Override
 	public void execute() {
-	    engine.removeChords(request);
+	    engine.removeChords(builder.removeRequest(range));
 	}
 
 }

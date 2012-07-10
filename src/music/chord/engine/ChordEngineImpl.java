@@ -25,8 +25,8 @@ import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.VoicedChordBuilder;
 import music.chord.base.ChordType;
 import music.chord.base.NoteName;
+import music.chord.base.Quality;
 import music.chord.engine.protocol.ChordRequest;
-import music.chord.engine.protocol.CreateChordRequest;
 import music.chord.engine.protocol.DurationRequest;
 import music.chord.engine.protocol.Identifier;
 import music.chord.engine.protocol.InsertChordRequest;
@@ -78,19 +78,20 @@ class ChordEngineImpl implements ChordEngine {
     }
 
     @Override
-    public final ChordEngineImpl addChords(ChordRequest request) {
-        Identifier identifier = request.getIdentifier();
-        
-        for(VoicedChord chord : request.getChordList()) {
-            registry.add(identifier, chord);            
-        }
-        
-        return this;
+    public final List<VoicedChord> byIdentifier(Identifier id) {
+        return registry.byIdentifier(id);
     }
     
     @Override
-    public final List<VoicedChord> byIdentifier(Identifier id) {
-        return registry.byIdentifier(id);
+    public final List<VoicedChord> byIdentifier(Identifier id, List<Integer> indexes) {
+        List<VoicedChord> result = new ArrayList<VoicedChord>();
+        List<VoicedChord> existingList = byIdentifier(id);
+        
+        for(Integer index : indexes) {
+            result.add(existingList.get(index));
+        }
+        
+        return result;
     }
 
     @Override
@@ -104,11 +105,17 @@ class ChordEngineImpl implements ChordEngine {
     }
 
     @Override
-    public final VoicedChord createChord(CreateChordRequest request) {
-        VoicedChordBuilder builder = builderMap.get(request.getType());
-        return builder.setRoot(request.getRoot())
-            .setQuality(request.getQuality())
+    public final VoicedChord createChord(NoteName root, Quality quality) {
+        VoicedChordBuilder builder = builderMap.get(quality.getType());
+        return builder.setRoot(root)
+            .setQuality(quality)
             .buildVoicedChord();
+    }
+
+    @Override
+    public final ChordEngineImpl createChordList(ChordRequest request) {
+        registry.put(request.getIdentifier(), request.getChordList());
+        return this;
     }
 
     @Override

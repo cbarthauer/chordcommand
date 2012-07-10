@@ -35,8 +35,8 @@ options {
   import music.chord.base.Quality;
   import music.chord.base.VoicePart;
   
-  import music.chord.command.AddChords;
   import music.chord.command.Command;
+  import music.chord.command.CreateChordList;
   import music.chord.command.Display;
   import music.chord.command.InsertBefore;
   import music.chord.command.WriteLilyPondFile;
@@ -245,10 +245,12 @@ chordsContaining returns [List<VoicedChord> value]
   ;
 
 create 
-  : CREATE START_ARGS IDENTIFIER ',' chords=chordList END_ARGS  {      
-      RequestBuilder reqBuilder = new RequestBuilder(new Identifier($IDENTIFIER.text));
-      ChordRequest request = reqBuilder.chordRequest($chords.value);
-      commandList.add(new AddChords(engine, request));
+  : CREATE START_ARGS IDENTIFIER ',' chords=chordList END_ARGS  {
+      commandList.add(
+          new CreateChordList(
+             new RequestBuilder(new Identifier($IDENTIFIER.text)), 
+             $chords.value, 
+             engine));
   } 
   ;
     
@@ -278,12 +280,13 @@ noteNameList returns [List<NoteName> value]
   ;
   
 insert
-  : INSERT chords=chordList BEFORE IDENTIFIER START_LIST INT END_LIST {
-      RequestBuilder reqBuilder = new RequestBuilder(new Identifier($IDENTIFIER.text));
-      InsertChordRequest request = reqBuilder.insertRequest(
-          Integer.parseInt($INT.text),
-          $chords.value);  
-      commandList.add(new InsertBefore(engine, request));
+  : INSERT START_ARGS IDENTIFIER START_LIST INT END_LIST ',' chords=chordList END_ARGS  { 
+      commandList.add(
+          new InsertBefore(
+              new RequestBuilder(new Identifier($IDENTIFIER.text)), 
+              Integer.parseInt($INT.text), 
+              $chords.value,
+              engine));
   }
   ;
 
@@ -313,10 +316,12 @@ quit
   ;
             
 remove
-  : REMOVE IDENTIFIER START_LIST range END_LIST {      
-      RequestBuilder builder = new RequestBuilder(new Identifier($IDENTIFIER.text));  
-      RemoveChordRequest request = builder.removeRequest($range.value);
-      commandList.add(new RemoveChord(engine, request));
+  : REMOVE START_ARGS IDENTIFIER START_LIST range END_LIST END_ARGS {
+      commandList.add(
+          new RemoveChord(
+              new RequestBuilder(new Identifier($IDENTIFIER.text)), 
+              $range.value, 
+              engine));
   }
   ;
   
@@ -386,28 +391,39 @@ chordList returns [List<VoicedChord> value]
   
 chordAtom returns [List<VoicedChord> value]
 @init {value = new ArrayList<VoicedChord>();}
-  : chord {value.add($chord.value);}
-  | chordsByFilter {value.addAll($chordsByFilter.value);}
-  | chordsContaining {value.addAll($chordsContaining.value);}
-  | IDENTIFIER {value.addAll(engine.byIdentifier(new Identifier($IDENTIFIER.text)));}
-  | IDENTIFIER START_LIST range END_LIST {
-      List<VoicedChord> existingList = engine.byIdentifier(
-          new Identifier($IDENTIFIER.text));
-      for(Integer i : $range.value) {
-          value.add(existingList.get(i));
-      }  
+  : chord {
+      value.add($chord.value);
   }
-  | load {value.addAll($load.value);}
-  | voice {value.addAll($voice.value);}
+  | chordsByFilter {
+      value.addAll($chordsByFilter.value);
+  }
+  | chordsContaining {
+      value.addAll($chordsContaining.value);
+  }
+  | IDENTIFIER {
+      value.addAll(
+          engine.byIdentifier(
+              new Identifier($IDENTIFIER.text)));
+  }
+  | IDENTIFIER START_LIST range END_LIST {
+      value.addAll(
+          engine.byIdentifier(
+              new Identifier($IDENTIFIER.text), 
+              $range.value));
+  }
+  | load {
+      value.addAll($load.value);
+  }
+  | voice {
+      value.addAll($voice.value);
+  }
   ;
   
 chord returns [VoicedChord value]
     : spec=chordSpec {
-        RequestBuilder builder = new RequestBuilder(new Identifier(""));
         value = engine.createChord(
-            builder.createChordRequest(
-                $spec.root,
-                $spec.quality));
+            $spec.root,
+            $spec.quality);
     }
     ;
     

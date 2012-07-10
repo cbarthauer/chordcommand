@@ -10,24 +10,34 @@
  ******************************************************************************/
 package music.chord.command;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import music.chord.arrangement.VoicedChord;
 import music.chord.engine.ChordEngine;
-import music.chord.engine.protocol.InsertChordRequest;
+import music.chord.engine.protocol.RequestBuilder;
 
-public class InsertBefore implements Command {
+public final class InsertBefore implements Command {
 
-	private ChordEngine engine;
-    private InsertChordRequest request;
+    private RequestBuilder builder;
+    private Integer position;
+    private List<VoicedChord> chordList;
+    private ChordEngine engine;
 
     public InsertBefore(
-	        ChordEngine engine,
-	        InsertChordRequest request) {
+	        RequestBuilder builder,
+	        Integer position,
+	        List<VoicedChord> chordList,
+	        ChordEngine engine) {
+        this.builder = builder;
+        this.position = position;
+        this.chordList = new ArrayList<VoicedChord>(chordList);
 	    this.engine = engine;
-	    this.request = request;
 	}
 	
 	@Override
-	public void execute() {
-	    engine.insertChords(request);
+	public final void execute() {
+	    engine.insertChords(builder.insertRequest(position, chordList));
 	}
 
 }
