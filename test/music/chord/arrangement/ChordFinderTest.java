@@ -18,8 +18,6 @@ import java.util.List;
 import music.chord.base.ChordMember;
 import music.chord.base.Constants;
 import music.chord.base.NoteName;
-import music.chord.engine.protocol.filter.ChordMemberFilter;
-import music.chord.engine.protocol.filter.EqualsFilter;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import music.chord.arrangement.ChordFinder;
+import music.chord.arrangement.ChordMemberFilter;
 import music.chord.arrangement.ChordVoicer;
 import music.chord.arrangement.DerivedChordBuilder;
 import music.chord.arrangement.QualityRegistry;
@@ -33,7 +34,6 @@ import music.chord.engine.protocol.InsertChordRequest;
 import music.chord.engine.protocol.OctaveRequest;
 import music.chord.engine.protocol.RemoveChordRequest;
 import music.chord.engine.protocol.VoicingRequest;
-import music.chord.engine.protocol.filter.ChordMemberFilter;
 import music.chord.grammar.ChordLexer;
 import music.chord.grammar.ChordListRegistry;
 import music.chord.grammar.ChordParser;

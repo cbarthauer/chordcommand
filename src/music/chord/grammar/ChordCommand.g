@@ -21,13 +21,15 @@ options {
   import java.util.List;
   
   import music.chord.arrangement.ChordFinder;
+  import music.chord.arrangement.ChordMemberFilter;
   import music.chord.arrangement.ChordPlayer;
-  import music.chord.arrangement.VoicedChord;
-  import music.chord.arrangement.Voicing;
   import music.chord.arrangement.ChordVoicer;
+  import music.chord.arrangement.EqualsFilter;  
   import music.chord.arrangement.QualityRegistry;
-  import music.chord.arrangement.VoicingFactory;
+  import music.chord.arrangement.VoicedChord;
   import music.chord.arrangement.VoicePartPlayer;
+  import music.chord.arrangement.Voicing;
+  import music.chord.arrangement.VoicingFactory;
   
   import music.chord.base.ChordMember;
   import music.chord.base.Duration;
@@ -57,8 +59,6 @@ options {
   import music.chord.engine.protocol.RemoveChordRequest;
   import music.chord.engine.protocol.RequestBuilder;
   import music.chord.engine.protocol.VoiceAllRequest;
-  import music.chord.engine.protocol.filter.ChordMemberFilter;
-  import music.chord.engine.protocol.filter.EqualsFilter;
 }
 
 @lexer::header {

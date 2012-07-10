@@ -18,7 +18,6 @@ import java.util.Map;
 import music.chord.base.ChordType;
 import music.chord.base.NoteName;
 import music.chord.base.Quality;
-import music.chord.engine.protocol.filter.ChordMemberFilter;
 
 public final class ChordFinderImpl implements ChordFinder {
 

@@ -12,6 +12,7 @@ package music.chord.engine;
 
 import java.util.List;
 
+import music.chord.arrangement.ChordMemberFilter;
 import music.chord.arrangement.VoicedChord;
 import music.chord.base.NoteName;
 import music.chord.base.Quality;
@@ -22,7 +23,6 @@ import music.chord.engine.protocol.InsertChordRequest;
 import music.chord.engine.protocol.OctaveRequest;
 import music.chord.engine.protocol.RemoveChordRequest;
 import music.chord.engine.protocol.VoicingRequest;
-import music.chord.engine.protocol.filter.ChordMemberFilter;
 
 public interface ChordEngine {
     public ChordEngine createChordList(ChordRequest request);

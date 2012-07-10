@@ -8,12 +8,10 @@
  * Contributors:
  *     Chris Barthauer - initial API and implementation
  ******************************************************************************/
-package music.chord.engine.protocol.filter;
+package music.chord.arrangement;
 
-import music.chord.arrangement.VoicedChord;
 import music.chord.base.ChordMember;
 import music.chord.base.NoteName;
-import music.chord.engine.protocol.filter.ChordMemberFilter;
 
 public final class EqualsFilter implements ChordMemberFilter {
 

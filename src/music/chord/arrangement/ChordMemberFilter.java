@@ -8,9 +8,8 @@
  * Contributors:
  *     Chris Barthauer - initial API and implementation
  ******************************************************************************/
-package music.chord.engine.protocol.filter;
+package music.chord.arrangement;
 
-import music.chord.arrangement.VoicedChord;
 
 public interface ChordMemberFilter {
     public boolean filter(VoicedChord chord);

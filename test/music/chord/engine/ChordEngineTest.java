@@ -21,7 +21,9 @@ import music.chord.TestHelper;
 import music.chord.arrangement.BuilderFactory;
 import music.chord.arrangement.ChordFinder;
 import music.chord.arrangement.ChordFinderImpl;
+import music.chord.arrangement.ChordMemberFilter;
 import music.chord.arrangement.ChordVoicerFactory;
+import music.chord.arrangement.EqualsFilter;
 import music.chord.arrangement.QualityRegistry;
 import music.chord.arrangement.QualityRegistryFactory;
 import music.chord.arrangement.VoicedChord;
@@ -35,8 +37,6 @@ import music.chord.base.NoteName;
 import music.chord.engine.protocol.ChordRequest;
 import music.chord.engine.protocol.Identifier;
 import music.chord.engine.protocol.RequestBuilder;
-import music.chord.engine.protocol.filter.ChordMemberFilter;
-import music.chord.engine.protocol.filter.EqualsFilter;
 
 import org.junit.Before;
 import org.junit.Test;
