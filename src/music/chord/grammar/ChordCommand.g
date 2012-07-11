@@ -20,7 +20,6 @@ options {
   import java.util.ArrayList;
   import java.util.List;
   
-  import music.chord.arrangement.ChordFinder;
   import music.chord.arrangement.ChordMemberFilter;
   import music.chord.arrangement.ChordPlayer;
   import music.chord.arrangement.ChordVoicer;
@@ -71,12 +70,7 @@ options {
   ChordPlayer player;
   ChordVoicer voicer;
   VoicePartPlayer voicePartPlayer;
-  ChordFinder chordFinder;
   QualityRegistry qualities;
-  
-  public void setChordFinder(ChordFinder chordFinder) {
-    this.chordFinder = chordFinder;
-  }
   
   public void setChordEngine(ChordEngine engine) {
     this.engine = engine;
