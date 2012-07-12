@@ -22,7 +22,6 @@ options {
   
   import music.chord.arrangement.ChordMemberFilter;
   import music.chord.arrangement.ChordPlayer;
-  import music.chord.arrangement.ChordVoicer;
   import music.chord.arrangement.EqualsFilter;  
   import music.chord.arrangement.QualityRegistry;
   import music.chord.arrangement.VoicedChord;
@@ -68,16 +67,11 @@ options {
   ChordEngine engine;
   List<Command> commandList = new ArrayList<Command>();
   ChordPlayer player;
-  ChordVoicer voicer;
   VoicePartPlayer voicePartPlayer;
   QualityRegistry qualities;
   
   public void setChordEngine(ChordEngine engine) {
     this.engine = engine;
-  }
-  
-  public void setChordVoicer(ChordVoicer voicer) {
-    this.voicer = voicer;
   }
     
   public void setChordPlayer(ChordPlayer player) {
@@ -258,11 +252,13 @@ display
   | DISPLAY VOICINGS FOR IDENTIFIER START_LIST startIndex=INT TO endIndex=INT END_LIST {
     commandList.add(
         new VoicingComparisonList(
-            engine.byIdentifier(new Identifier($IDENTIFIER.text)), 
-            Integer.parseInt($startIndex.text), 
-            Integer.parseInt($endIndex.text), 
-            voicer
-        ));}
+            engine.compareVoicings(
+                engine.byIdentifier(
+                    new Identifier($IDENTIFIER.text), 
+                    Integer.parseInt($startIndex.text)),
+                engine.byIdentifier(
+                    new Identifier($IDENTIFIER.text), 
+                    Integer.parseInt($endIndex.text)))));}
   ;
 
 noteNameList returns [List<NoteName> value]

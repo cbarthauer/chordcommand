@@ -29,6 +29,7 @@ import music.chord.arrangement.QualityRegistryFactory;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.VoicedChordBuilder;
 import music.chord.arrangement.Voicing;
+import music.chord.arrangement.VoicingComparison;
 import music.chord.arrangement.VoicingFactory;
 import music.chord.base.ChordMember;
 import music.chord.base.Constants;
@@ -141,6 +142,18 @@ public class ChordEngineTest {
         ChordMemberFilter filter = new EqualsFilter(ChordMember.SEVENTH, NoteName.forSymbol("C"));
         List<VoicedChord> chordList = engine.chordsByFilter(filter);
         assertTrue(chordList.size() > 0);
+    }
+    
+    @Test
+    public void compareVoicings() {
+        VoicedChord first = engine.createChord(
+                NoteName.forSymbol("C"), 
+                qualities.forName("MAJOR_TRIAD"));
+        VoicedChord second = engine.createChord(
+                NoteName.forSymbol("F"), 
+                qualities.forName("MAJOR_TRIAD"));
+        List<VoicingComparison> comparisonList = engine.compareVoicings(first, second);
+        assertTrue(comparisonList.size() > 0);
     }
     
     @Test

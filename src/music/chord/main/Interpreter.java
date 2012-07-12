@@ -84,7 +84,6 @@ public class Interpreter {
             TokenStream tokenStream = new CommonTokenStream(lexer);
             ChordCommandParser parser = new ChordCommandParser(tokenStream);
             parser.setChordEngine(engine);
-            parser.setChordVoicer(voicer);
             parser.setChordPlayer(new ChordPlayer());
             parser.setQualityRegistry(qualities);
             parser.setVoicePartPlayer(new VoicePartPlayer());

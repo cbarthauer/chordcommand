@@ -24,6 +24,7 @@ import music.chord.arrangement.DerivedChordBuilder;
 import music.chord.arrangement.QualityRegistry;
 import music.chord.arrangement.VoicedChord;
 import music.chord.arrangement.VoicedChordBuilder;
+import music.chord.arrangement.VoicingComparison;
 import music.chord.base.ChordType;
 import music.chord.base.NoteName;
 import music.chord.base.Quality;
@@ -83,6 +84,11 @@ class ChordEngineImpl implements ChordEngine {
     }
     
     @Override
+    public final VoicedChord byIdentifier(Identifier id, int index) {
+        return byIdentifier(id).get(index);
+    }
+
+    @Override
     public final List<VoicedChord> byIdentifier(Identifier id, List<Integer> indexes) {
         List<VoicedChord> result = new ArrayList<VoicedChord>();
         List<VoicedChord> existingList = byIdentifier(id);
@@ -102,6 +108,13 @@ class ChordEngineImpl implements ChordEngine {
     @Override
     public final List<VoicedChord> chordsContaining(List<NoteName> noteList) {
         return finder.find(noteList);
+    }
+
+    @Override
+    public final List<VoicingComparison> compareVoicings(
+            VoicedChord first,
+            VoicedChord second) {
+        return voicer.voicingComparisonList(first, second);
     }
 
     @Override

@@ -14,6 +14,7 @@ import java.util.List;
 
 import music.chord.arrangement.ChordMemberFilter;
 import music.chord.arrangement.VoicedChord;
+import music.chord.arrangement.VoicingComparison;
 import music.chord.base.NoteName;
 import music.chord.base.Quality;
 import music.chord.engine.protocol.ChordRequest;
@@ -25,18 +26,26 @@ import music.chord.engine.protocol.RemoveChordRequest;
 import music.chord.engine.protocol.VoicingRequest;
 
 public interface ChordEngine {
+    //Create
+    public VoicedChord createChord(NoteName root, Quality quality);
     public ChordEngine createChordList(ChordRequest request);
+    
+    //Read
     public List<VoicedChord> byIdentifier(Identifier id);
+    public VoicedChord byIdentifier(Identifier id, int index);
     public List<VoicedChord> byIdentifier(Identifier id, List<Integer> indexes);
     public List<VoicedChord> chordsByFilter(ChordMemberFilter filter);
     public List<VoicedChord> chordsContaining(List<NoteName> noteNameList);
-    
-    public VoicedChord createChord(NoteName root, Quality quality);
-    public ChordEngine insertChords(InsertChordRequest request);
+    public List<VoicingComparison> compareVoicings(VoicedChord first, VoicedChord second);
     public List<VoicedChord> load(String fileName);
-    public ChordEngine removeChords(RemoveChordRequest request);
+    
+    //Update
+    public ChordEngine insertChords(InsertChordRequest request);
     public ChordEngine setDurations(DurationRequest request);
     public ChordEngine setOctaves(OctaveRequest request);
     public ChordEngine setVoicings(VoicingRequest request);
     public List<VoicedChord> voiceAll(List<VoicedChord> chordList);
+    
+    //Delete
+    public ChordEngine removeChords(RemoveChordRequest request); 
 }
