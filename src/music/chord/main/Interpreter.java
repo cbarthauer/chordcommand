@@ -27,6 +27,7 @@ import music.chord.arrangement.VoicePartPlayer;
 import music.chord.arrangement.VoicedChordBuilder;
 import music.chord.base.Constants;
 import music.chord.base.NoteName;
+import music.chord.base.impl.NoteNameBuilderImpl;
 import music.chord.command.Command;
 import music.chord.engine.ChordEngine;
 import music.chord.engine.ChordEngineBuilder;
@@ -50,6 +51,8 @@ public class Interpreter {
         String line = "";
         QualityRegistry qualities = QualityRegistryFactory.getInstance(
                 Constants.getChordDefinitions());
+        
+        NoteName.setNoteNameBuilder(new NoteNameBuilderImpl());
         
         VoicedChordBuilder triadBuilder = BuilderFactory.getTriadBuilder(
                 NoteName.forSymbol("C"),

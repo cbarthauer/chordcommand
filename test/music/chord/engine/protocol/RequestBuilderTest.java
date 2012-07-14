@@ -11,12 +11,13 @@
 package music.chord.engine.protocol;
 
 import static org.junit.Assert.assertEquals;
+import music.chord.AbstractTest;
 import music.chord.TestHelper;
 
 import org.junit.Before;
 import org.junit.Test;
 
-public class RequestBuilderTest {
+public class RequestBuilderTest extends AbstractTest {
 
     private Identifier id;
     private RequestBuilder reqBuilder;

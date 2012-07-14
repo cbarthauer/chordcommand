@@ -15,6 +15,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 
+import music.chord.AbstractTest;
 import music.chord.TestHelper;
 import music.chord.arrangement.VoicedChord;
 import music.chord.engine.protocol.Identifier;
@@ -22,7 +23,7 @@ import music.chord.engine.protocol.Identifier;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ChordListRegistryTest {
+public class ChordListRegistryTest extends AbstractTest {
 
     private ChordListRegistry reg;
     private Identifier c1;

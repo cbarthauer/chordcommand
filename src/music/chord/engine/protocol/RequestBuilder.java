@@ -18,7 +18,6 @@ import music.chord.arrangement.Voicing;
 import music.chord.base.Duration;
 import music.chord.base.NoteName;
 import music.chord.base.Quality;
-import music.chord.engine.CreateChordRequestImpl;
 
 public final class RequestBuilder {
 

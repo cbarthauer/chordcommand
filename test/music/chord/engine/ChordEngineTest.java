@@ -17,6 +17,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
+import music.chord.AbstractTest;
 import music.chord.TestHelper;
 import music.chord.arrangement.BuilderFactory;
 import music.chord.arrangement.ChordFinder;
@@ -42,7 +43,7 @@ import music.chord.engine.protocol.RequestBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ChordEngineTest {
+public class ChordEngineTest extends AbstractTest {
         
     private ChordEngine engine;
     private Identifier id;

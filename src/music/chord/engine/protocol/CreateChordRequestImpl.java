@@ -8,7 +8,7 @@
  * Contributors:
  *     Chris Barthauer - initial API and implementation
  ******************************************************************************/
-package music.chord.engine;
+package music.chord.engine.protocol;
 
 import music.chord.base.ChordType;
 import music.chord.base.NoteName;

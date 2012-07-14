@@ -11,6 +11,7 @@
 package music.chord.arrangement;
 
 import static org.junit.Assert.assertEquals;
+import music.chord.AbstractTest;
 import music.chord.base.ChordMember;
 import music.chord.base.Constants;
 import music.chord.base.NoteName;
@@ -18,7 +19,7 @@ import music.chord.base.NoteName;
 import org.junit.Before;
 import org.junit.Test;
 
-public class VoicedChordBuilderTest {
+public class VoicedChordBuilderTest extends AbstractTest {
 
     private QualityRegistry qualities;
     private VoicedChordBuilder chordBuilder;

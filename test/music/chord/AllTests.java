@@ -14,6 +14,7 @@ import music.chord.arrangement.ChordFinderTest;
 import music.chord.arrangement.ChordVoicerTest;
 import music.chord.arrangement.ClosestVoicingStrategyTest;
 import music.chord.arrangement.VoicedChordBuilderTest;
+import music.chord.base.NoteNameTest;
 import music.chord.base.QualityRegistryImplTest;
 import music.chord.display.FileFormatterTest;
 import music.chord.engine.ChordEngineTest;
@@ -32,6 +33,7 @@ import org.junit.runners.Suite.SuiteClasses;
     ChordVoicerTest.class,
     ClosestVoicingStrategyTest.class,
     FileFormatterTest.class,
+    NoteNameTest.class,
     QualityRegistryImplTest.class,
     RequestBuilderTest.class,
     VoicedChordBuilderTest.class,
