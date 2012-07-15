@@ -23,4 +23,8 @@ public class NoteNameTest extends AbstractTest {
         assertEquals("C", note.getSymbol());
     }
 
+    @Test(expected=SymbolNotFoundException.class)
+    public void forSymbolNotFound() {
+        NoteName.forSymbol("asdf");
+    }
 }

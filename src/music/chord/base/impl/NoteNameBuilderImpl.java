@@ -7,6 +7,7 @@ import java.util.Map;
 
 import music.chord.base.NoteName;
 import music.chord.base.NoteNameBuilder;
+import music.chord.base.SymbolNotFoundException;
 
 public class NoteNameBuilderImpl implements NoteNameBuilder {
     private static class NoteNameList {
@@ -46,7 +47,14 @@ public class NoteNameBuilderImpl implements NoteNameBuilder {
 
     @Override
     public final NoteName forSymbol(String symbol) {
-        return new NoteNameImpl(SymbolMap.get(symbol));
+        NoteNameEnum noteNameEnum = SymbolMap.get(symbol);
+        
+        if(noteNameEnum != null) {
+            return new NoteNameImpl(noteNameEnum);
+        }
+        else {
+            throw new SymbolNotFoundException(symbol);
+        }
     }
 
 }

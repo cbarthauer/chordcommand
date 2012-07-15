@@ -48,11 +48,6 @@ public final class NoteNameImpl extends NoteName {
     }
 
     @Override
-    public final int getDiatonicIndex() {
-        return noteEnum.getDiatonicIndex();
-    }
-
-    @Override
     public final String getSymbol() {
         return noteEnum.getSymbol();
     }
@@ -60,11 +55,6 @@ public final class NoteNameImpl extends NoteName {
     @Override
     public final int hashCode() {
         return MapOperation.hashCode(this);
-    }
-
-    @Override
-    public final String name() {
-        return noteEnum.name();
     }
     
     @Override
