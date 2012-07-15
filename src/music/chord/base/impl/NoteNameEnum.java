@@ -8,7 +8,7 @@
  * Contributors:
  *     Chris Barthauer - initial API and implementation
  ******************************************************************************/
-package music.chord.base;
+package music.chord.base.impl;
 
 import java.util.HashMap;
 import java.util.Map;

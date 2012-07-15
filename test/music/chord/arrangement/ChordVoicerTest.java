@@ -14,13 +14,14 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import music.chord.AbstractTest;
 import music.chord.base.Constants;
 import music.chord.base.NoteName;
 
 import org.junit.Before;
 import org.junit.Test;
 
-public class ChordVoicerTest {
+public class ChordVoicerTest extends AbstractTest {
 
     private ChordVoicer voicer;
     private VoicedChord previousChord;

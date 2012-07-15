@@ -15,6 +15,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
+import music.chord.AbstractTest;
 import music.chord.base.ChordMember;
 import music.chord.base.Constants;
 import music.chord.base.NoteName;
@@ -22,7 +23,7 @@ import music.chord.base.NoteName;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ChordFinderTest {
+public class ChordFinderTest extends AbstractTest {
 
     private ChordFinder finder;
 
