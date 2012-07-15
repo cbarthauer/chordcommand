@@ -1,8 +1,10 @@
-create mel1 as \M2 \M2 /M2 /M2 PU PU
-play E4:mel1
-display mel1
+create(mel1, {q \M2 q})
+create(mel3, {q \M2 q \M2 q /M2 q /M2 q PU q PU h})
+play F4:{q /M3 q}
+play E4:mel3
+display mel3
 display E4:mel1 
-create mel2 as mel1 /M2 mel1 \P4 mel1 \m2 mel1 /A4 /m2 \P4 retrograde(mel1) /M3 inversion(mel1) \D5 retro-inversion(mel1)
+create(mel2, {mel1 /M2 mel1 \P4 mel1 \m2 mel1 /A4 q /m2 q \P4 retrograde(mel1) /M3 inversion(mel1) \D5 retro-inversion(mel1)}
 create dur1 as q, q, q, q, q, q, h
 apply dur1 to mel1
 play Bb:mel2
