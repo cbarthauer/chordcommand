@@ -74,7 +74,7 @@ public final class VoicingImpl implements Voicing {
 		
 		builder.shiftUp(octave);	
 		
-		return builder.getNoteList();
+		return builder.build();
 	}
 
     private int placeAbove(int upper, int lower) {

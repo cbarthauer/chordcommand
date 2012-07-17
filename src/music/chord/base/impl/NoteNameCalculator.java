@@ -46,14 +46,6 @@ class NoteNameCalculator {
         finalNoteEnum = tmpEnum;
     }
 
-    private int previousDiatonicIndex(int beginningIndex) {
-        int diatonicIndex =
-            beginningIndex == 1
-            ? Interval.PERFECT_OCTAVE.getDiatonicSteps()
-            : beginningIndex - 1;
-        return diatonicIndex;
-    }
-
     private int nextDiatonicIndex(int beginningIndex) {
         int diatonicIndex = 
             beginningIndex == Interval.PERFECT_OCTAVE.getDiatonicSteps()
@@ -66,6 +58,41 @@ class NoteNameCalculator {
     private NoteNameEnum nextDiatonicNoteNameEnum() {
         int diatonicIndex = nextDiatonicIndex(finalNoteEnum.getDiatonicIndex());        
         return NoteNameEnum.forDiatonicIndex(diatonicIndex);
+    }
+
+    private int previousDiatonicIndex(int beginningIndex) {
+        int diatonicIndex =
+            beginningIndex == 1
+            ? Interval.PERFECT_OCTAVE.getDiatonicSteps()
+            : beginningIndex - 1;
+        return diatonicIndex;
+    }
+
+    private NoteNameEnum previousDiatonicNoteNameEnum() {
+        int diatonicIndex = previousDiatonicIndex(finalNoteEnum.getDiatonicIndex());        
+        return NoteNameEnum.forDiatonicIndex(diatonicIndex);
+    }
+
+    NoteNameCalculator downChromaticBy(int halfSteps) {
+        finalChromaticIndex = initialNoteEnum.getChromaticIndex() - halfSteps;
+        
+        if(finalChromaticIndex < 1) {
+            finalChromaticIndex = 
+                    Math.abs(finalChromaticIndex) % Interval.PERFECT_OCTAVE.getHalfSteps();
+            finalChromaticIndex = Interval.PERFECT_OCTAVE.getHalfSteps() - finalChromaticIndex;
+        }
+        
+        return this;
+    }
+    
+    NoteNameCalculator downDiatonicBy(int diatonicSteps) {
+        finalNoteEnum = initialNoteEnum;
+        
+        for(int i = 0; i < diatonicSteps; i++) {
+            finalNoteEnum = previousDiatonicNoteNameEnum();
+        }
+        
+        return this;
     }
 
     NoteNameEnum result() {
@@ -82,7 +109,7 @@ class NoteNameCalculator {
         
         return this;
     }
-    
+
     NoteNameCalculator upDiatonicBy(int diatonicSteps) {
         finalNoteEnum = initialNoteEnum;
         

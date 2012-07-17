@@ -38,25 +38,34 @@ public final class NoteNameImpl extends NoteName {
     }
     
     @Override
+    public final NoteName down(Interval interval) {
+        NoteNameEnum noteEnum = calculator.downChromaticBy(interval.getHalfSteps())
+            .downDiatonicBy(interval.getDiatonicSteps())
+            .result();
+        NoteNameImpl noteName = new NoteNameImpl(noteEnum);
+        return noteName;
+    }
+
+    @Override
     public final boolean equals(Object obj) {
         return MapOperation.equals(this, obj);
     }
-
+    
     @Override
     public final int getChromaticIndex() {
         return noteEnum.getChromaticIndex();
     }
-
+    
     @Override
     public final String getSymbol() {
         return noteEnum.getSymbol();
     }
-    
+
     @Override
     public final int hashCode() {
         return MapOperation.hashCode(this);
     }
-    
+
     @Override
     public final String toString() {
         return noteEnum.getSymbol();

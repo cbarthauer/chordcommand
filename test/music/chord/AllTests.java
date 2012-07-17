@@ -13,9 +13,12 @@ package music.chord;
 import music.chord.arrangement.ChordFinderTest;
 import music.chord.arrangement.ChordVoicerTest;
 import music.chord.arrangement.ClosestVoicingStrategyTest;
+import music.chord.arrangement.MelodicIntervalTest;
+import music.chord.arrangement.MelodyPlayerTest;
 import music.chord.arrangement.VoicedChordBuilderTest;
 import music.chord.base.NoteNameTest;
 import music.chord.base.QualityRegistryImplTest;
+import music.chord.base.impl.NoteNameCalculatorTest;
 import music.chord.display.FileFormatterTest;
 import music.chord.engine.ChordEngineTest;
 import music.chord.engine.protocol.RequestBuilderTest;
@@ -33,6 +36,9 @@ import org.junit.runners.Suite.SuiteClasses;
     ChordVoicerTest.class,
     ClosestVoicingStrategyTest.class,
     FileFormatterTest.class,
+    MelodicIntervalTest.class,
+    MelodyPlayerTest.class,
+    NoteNameCalculatorTest.class,
     NoteNameTest.class,
     QualityRegistryImplTest.class,
     RequestBuilderTest.class,

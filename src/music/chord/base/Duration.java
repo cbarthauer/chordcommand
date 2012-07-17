@@ -17,7 +17,7 @@ public enum Duration {
 	HALF(2f),
 	WHOLE(4f);
 
-	public static Duration durationFromName(String name) {
+	public static Duration forName(String name) {
 		Duration result = null;
 		
 		for(Duration duration : Duration.values()) {

@@ -42,20 +42,6 @@ public abstract class NoteName {
 	}
 	
 	/**
-	 * Specify which NoteNameBuilder should be used as the NoteName
-	 * factory.
-	 * 
-	 * <p>This method must be invoked at least once per program execution
-	 * before calling either all() or forSymbol().</p>
-	 * 
-	 * @param builder The instance of NoteNameBuilder which will be
-	 * used as the NoteName factory
-	 */
-	public static void setNoteNameBuilder(NoteNameBuilder builder) {
-	    NoteName.builder = builder;
-	}
-	
-	/**
 	 * Returns the NoteName corresponding to the given symbol.
 	 * 
      * <p>The system must invoke {@link #setNoteNameBuilder(NoteNameBuilder) 
@@ -73,7 +59,22 @@ public abstract class NoteName {
 	public static NoteName forSymbol(String symbol) {
 	    return builder.forSymbol(symbol);
 	}
-
+	
+	/**
+	 * Specify which NoteNameBuilder should be used as the NoteName
+	 * factory.
+	 * 
+	 * <p>This method must be invoked at least once per program execution
+	 * before calling either all() or forSymbol().</p>
+	 * 
+	 * @param builder The instance of NoteNameBuilder which will be
+	 * used as the NoteName factory
+	 */
+	public static void setNoteNameBuilder(NoteNameBuilder builder) {
+	    NoteName.builder = builder;
+	}
+	
+	
 	/**
 	 * Returns the int value representing the position of this NoteName 
 	 * in the chromatic scale.
@@ -108,9 +109,8 @@ public abstract class NoteName {
 	 * @return String representation of this NoteName
 	 */
 	public abstract String getSymbol();
-	
-	
-	/**
+
+    /**
 	 * Returns the NoteName occurring at the specified interval
 	 * away from this NoteName in the ascending direction.
 	 * 
@@ -124,4 +124,19 @@ public abstract class NoteName {
 	 * above this NoteName 
 	 */
 	public abstract NoteName up(Interval interval);
+
+    /**
+     * Returns the NoteName occurring at the specified interval
+     * away from this NoteName in the descending direction.
+     * 
+     * <p>There are no pre-conditions or post-conditions for this
+     * method, nor are there side effects of invoking it.</p>
+     * 
+     * @param interval Desired distance from this NoteName in the
+     * descending direction
+     * 
+     * @return NoteName which occurs at the specified interval
+     * below this NoteName 
+     */
+    public abstract NoteName down(Interval interval);
 }

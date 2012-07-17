@@ -126,7 +126,7 @@ chordAttr[DerivedChordBuilder builder]
     | ^(OCTAVE INT) 
         {$builder.setOctave(Integer.parseInt($INT.text));}
     | ^(DURATION NOTE_LENGTH) 
-        {$builder.setDuration(Duration.durationFromName($NOTE_LENGTH.text));}
+        {$builder.setDuration(Duration.forName($NOTE_LENGTH.text));}
     ;
     
 chordMember returns [ChordMember value]

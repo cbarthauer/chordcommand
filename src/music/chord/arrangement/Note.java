@@ -22,7 +22,7 @@ public class Note implements Comparable<Note> {
     private int octave;
 
     Note(NoteName noteName, Integer midiNumber, Duration duration) {
-		this.noteName = noteName;
+        this.noteName = noteName;
 		this.midiNumber = midiNumber;
 		this.duration = duration;
 	}

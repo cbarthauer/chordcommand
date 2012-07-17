@@ -12,6 +12,9 @@ package music.chord.base;
 
 public enum Interval {
 //	                   chromaticHalfSteps diatonicSteps
+    PERFECT_UNISON(    0,                 0),
+    MINOR_SECOND(      1,                 1),
+    MAJOR_SECOND(      2,                 1),
 	MINOR_THIRD(       3,                 2),
 	MAJOR_THIRD(       4,                 2),
 	PERFECT_FOURTH(    5,                 3),
@@ -25,6 +28,19 @@ public enum Interval {
 	PERFECT_OCTAVE(    12,                7), 
 	MAJOR_NINTH(       2,                 8);
 	
+    public static Interval forName(String name) {
+        Interval result = null;
+        
+        for(Interval interval : Interval.values()) {
+            if(interval.name().equalsIgnoreCase(name)) {
+                result = interval;
+                break;
+            }
+        }
+        
+        return result;
+    }
+    
 	private int halfSteps;
 	private int diatonicSteps;
 

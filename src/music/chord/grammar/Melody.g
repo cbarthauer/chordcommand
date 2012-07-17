@@ -6,6 +6,9 @@ options {
 
 @header {
   package music.chord.grammar;
+  
+  import music.chord.base.Duration;
+  import music.chord.base.Interval;
 }
 
 @lexer::header {
@@ -37,9 +40,14 @@ PERFECT_UNISON: 'PU';
 MINOR_SECOND: 'm2';
 MAJOR_SECOND: 'M2';
 
+//Keywords
+PLAY: 'play';
+
 //Miscellaneous
 OPEN_BRACE: '{';
 CLOSE_BRACE: '}';
+START_ARGS: '(';
+END_ARGS: ')';
 
 INT : '0'..'9'+;
 
@@ -57,18 +65,18 @@ direction
   | DIRECTION_DOWN
   ;
   
-duration
-  : SIXTEENTH
-  | EIGHTH
-  | QUARTER
-  | HALF
-  | WHOLE
+duration returns [Duration duration]
+  : SIXTEENTH {duration = Duration.forName($SIXTEENTH.text);}
+  | EIGHTH {duration = Duration.forName($EIGHTH.text);}
+  | QUARTER {duration = Duration.forName($QUARTER.text);}
+  | HALF {duration = Duration.forName($HALF.text);}
+  | WHOLE {duration = Duration.forName($WHOLE.text);}
   ;
 
-interval
-  : PERFECT_UNISON
-  | MINOR_SECOND
-  | MAJOR_SECOND
+interval returns [Interval interval]
+  : PERFECT_UNISON {interval = Interval.forName($PERFECT_UNISON.text);}
+  | MINOR_SECOND {interval = Interval.forName($MINOR_SECOND.text);}
+  | MAJOR_SECOND {interval = Interval.forName($MAJOR_SECOND.text);}
   ;
 
 melodicInterval
@@ -84,4 +92,8 @@ motif
   : OPEN_BRACE
     duration melodicInterval duration (melodicInterval duration)*
   CLOSE_BRACE
+  ;
+  
+play
+  : PLAY START_ARGS melody END_ARGS
   ;

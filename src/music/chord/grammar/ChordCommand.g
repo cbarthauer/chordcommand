@@ -342,7 +342,7 @@ set
   }
   | SET DURATION NOTE_LENGTH ON IDENTIFIER START_LIST range END_LIST {
       RequestBuilder builder = new RequestBuilder(new Identifier($IDENTIFIER.text));
-      builder.setDuration(Duration.durationFromName($NOTE_LENGTH.text));
+      builder.setDuration(Duration.forName($NOTE_LENGTH.text));
       engine.setDurations(builder.durationRequest($range.value));
   }
   | SET 'octave' octave=INT ON IDENTIFIER START_LIST range END_LIST {

@@ -59,7 +59,11 @@ public class VoicePartPlayer {
         
         int midiNumber = note.getMidiNumber();        
         track.add(noteEvent(ShortMessage.NOTE_ON, midiNumber, startTick));
-        track.add(noteEvent(ShortMessage.NOTE_OFF, midiNumber, endTick(startTick, note.getTicks(PPQ_VALUE))));
+        track.add(
+                noteEvent(
+                        ShortMessage.NOTE_OFF, 
+                        midiNumber, 
+                        endTick(startTick, note.getTicks(PPQ_VALUE))));
 
         return track;
     }
@@ -70,7 +74,8 @@ public class VoicePartPlayer {
     }
 
 
-    private MidiEvent noteEvent(int midiMessage, int midiNumber, int tick) throws InvalidMidiDataException {
+    private MidiEvent noteEvent(int midiMessage, int midiNumber, int tick) 
+            throws InvalidMidiDataException {
         ShortMessage message = new ShortMessage();
         message.setMessage(midiMessage, DEFAULT_CHANNEL, midiNumber, DEFAULT_VELOCITY);
         MidiEvent noteEvent = new MidiEvent(message, tick);
@@ -78,7 +83,8 @@ public class VoicePartPlayer {
     }
 
 
-    private Sequence sequenceFromNoteList(List<Note> noteList) throws InvalidMidiDataException {
+    private Sequence sequenceFromNoteList(List<Note> noteList) 
+            throws InvalidMidiDataException {
         Sequence sequence = new Sequence(Sequence.PPQ, PPQ_VALUE);
         Track track = sequence.createTrack();
         
