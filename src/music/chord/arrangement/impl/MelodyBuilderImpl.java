@@ -27,13 +27,13 @@ public final class MelodyBuilderImpl implements MelodyBuilder {
     }
     
     @Override
-    public final MelodyBuilder add(Direction direction, Interval interval) {
+    public final MelodyBuilderImpl add(Direction direction, Interval interval) {
         intervalList.add(new MelodicIntervalImpl(direction, interval));
         return this;
     }
 
     @Override
-    public final MelodyBuilder add(Duration duration) {
+    public final MelodyBuilderImpl add(Duration duration) {
         durationList.add(duration);
         return this;
     }
@@ -54,7 +54,7 @@ public final class MelodyBuilderImpl implements MelodyBuilder {
     }
 
     @Override
-    public final MelodyBuilder start(NoteName noteName, int octave) {
+    public final MelodyBuilderImpl start(NoteName noteName, int octave) {
         this.startingNoteName = noteName;
         this.startingOctave = octave;
         return this;
