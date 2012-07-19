@@ -62,17 +62,11 @@ public class MelodyPlayerTest {
         
         melody2 =
             builder.start(NoteName.forSymbol("D"), 4)
-                .add(Duration.EIGHTH)
-                .add(Direction.DOWN, Interval.MINOR_SECOND)
-                .add(Duration.EIGHTH)
-                .add(Direction.DOWN, Interval.MAJOR_SECOND)
-                .add(Duration.EIGHTH)
-                .add(Direction.UP, Interval.MAJOR_SECOND)
-                .add(Duration.EIGHTH)
-                .add(Direction.UP, Interval.MINOR_SECOND)
-                .add(Duration.EIGHTH)
-                .add(Direction.REPEAT, Interval.PERFECT_UNISON)
-                .add(Duration.EIGHTH)
+                .add(Duration.QUARTER)
+                .add(Direction.DOWN, Interval.PERFECT_FOURTH)
+                .add(Duration.QUARTER)
+                .add(Direction.UP, Interval.PERFECT_FOURTH)
+                .add(Duration.QUARTER)
                 .add(Direction.REPEAT, Interval.PERFECT_UNISON)
                 .add(Duration.QUARTER)
                 .build();
