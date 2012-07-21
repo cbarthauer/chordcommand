@@ -95,14 +95,14 @@ public final class MelodyPlayerImpl implements MelodyPlayer {
     }
 
     @Override
-    public final MelodyPlayer add(List<Note> noteList) {
-        this.notes.add(new ArrayList<Note>(noteList));
+    public final MelodyPlayerImpl add(List<Note> noteList) {
+        notes.add(new ArrayList<Note>(noteList));
         return this;
     }
 
     
     @Override
-    public MelodyPlayer add(Melody melody) {
+    public final MelodyPlayerImpl add(Melody melody) {
         notes.add(melody.getNoteList());
         return this;
     }

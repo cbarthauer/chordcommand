@@ -1,0 +1,5 @@
+//Smurfs
+play(Bb5:{q /P4 e. \P4 s /M2 e \M3 e \m3 q /P4 e. \m3 s \M3 e /M3 e \M2 h})
+
+//Imperial March
+play(C3:{q PU q PU q \M3 e. /P5 s \m3 q \M3 e. /P5 s \m3 h})

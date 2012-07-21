@@ -13,8 +13,11 @@ package music.chord.base;
 public enum Duration {
 	SIXTEENTH(.25f),
 	EIGHTH(.5f),
+	DOTTED_EIGHTH(.75f),
 	QUARTER(1f),
+	DOTTED_QUARTER(1.5f),
 	HALF(2f),
+	DOTTED_HALF(3f),
 	WHOLE(4f);
 
 	public static Duration forName(String name) {

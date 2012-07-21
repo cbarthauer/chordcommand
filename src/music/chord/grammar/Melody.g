@@ -41,8 +41,11 @@ DIRECTION_DOWN: '\\';
 //Durations
 SIXTEENTH: 's';
 EIGHTH: 'e';
+DOTTED_EIGHTH: 'e.';
 QUARTER: 'q';
+DOTTED_QUARTER: 'q.';
 HALF: 'h';
+DOTTED_HALF: 'h.';
 WHOLE: 'w';
 
 //Intervals
@@ -89,8 +92,11 @@ direction returns [Direction value]
 duration returns [Duration value]
   : SIXTEENTH {value = Duration.SIXTEENTH;}
   | EIGHTH {value = Duration.EIGHTH;}
+  | DOTTED_EIGHTH {value = Duration.DOTTED_EIGHTH;}
   | QUARTER {value = Duration.QUARTER;}
+  | DOTTED_QUARTER {value = Duration.DOTTED_QUARTER;}
   | HALF {value = Duration.HALF;}
+  | DOTTED_HALF {value = Duration.DOTTED_HALF;}
   | WHOLE {value = Duration.WHOLE;}
   ;
 
